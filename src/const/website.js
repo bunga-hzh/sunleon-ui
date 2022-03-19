@@ -1,7 +1,7 @@
 export default {
-  title: 'sunleon 快速开发框架',
-  subtitle: 'sunleon',
-  copyright: 'Copyright © 2021 pig4cloud.com. All rights reserved.',
+  title: '人事全生命周期平台',
+  subtitle: '',
+  copyright: 'Copyright © 2022 po-hoo.com. All rights reserved.',
   isFirstPage: true,// 配置首页不可关闭
   key: 'sunleon', // 配置主键,目前用于存储
   whiteList: ['/login', '/404', '/401', '/lock'], // 配置无权限可以访问的页面

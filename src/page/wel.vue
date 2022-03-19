@@ -1,185 +1,164 @@
 <template>
-  <div>
-    <basic-container>
-      <div class="banner-text">
-        <span>
-          <a href="https://avue.top/#/pay" target="_blank">
-            <img src="https://img.shields.io/badge/Avue-2.6.15-green.svg" alt="Build Status">
-          </a>
-          <img src="https://img.shields.io/badge/Spring%20Boot-2.5.2.RELEASE-yellowgreen.svg" alt="Downloads">
-          <img src="https://img.shields.io/badge/Spring%20Cloud-2020.0.3-blue.svg" alt="Coverage Status">
-        </span>
-        <br>
-
-        <span>
-          <el-collapse v-model="activeNames">
-            <el-collapse-item  name="1">
-              <div>基于Spring Cloud Gateway</div>
-              <div>基于Spring Cloud 2020.0.3</div>
-              <div>基于Spring Boot 2.5.2.RELEASE</div>
-              <div>基于Spring Cloud Alibaba 2021</div>
-            </el-collapse-item>
-            <el-collapse-item  name="2">
-              <div>基于Spring Security OAuth实现鉴权体系；</div>
-              <div>深度定制，支持全流程的登录授权，Server Resource</div>
-            </el-collapse-item>
-            <el-collapse-item  name="3">
-              <div>支持docker部署</div>
-              <div>支持Rancher2 + Kubernetes部署</div>
-              <div>支持企业Paas Rainbond 部署</div>
-            </el-collapse-item>
-            <el-collapse-item  name="4">
-              <div>基于开源LCN 分布式事务解决方案深度定制</div>
-              <div>完美兼容2.X，优化集群部署，提升性能</div>
-            </el-collapse-item>
-            <el-collapse-item  name="5">
-              <div>扩展Spring Cache无缝兼容</div>
-              <div>支持开发过程无感知</div>
-            </el-collapse-item>
-            <el-collapse-item  name="6">
-              <div>基于activiti5.22整合OAuth2</div>
-              <div>支持在线流程设计</div>
-            </el-collapse-item>
-            <el-collapse-item name="7">
-              <div>支持数据库存储SCG路由信息</div>
-              <div>支持前端动态编辑</div>
-            </el-collapse-item>
-            <el-collapse-item  name="8">
-              <div>单点登录</div>
-              <div>扩展SBA支持服务监听事件redis保存</div>
-              <div>扩展Turbine,定制展示UI</div>
-              <div>扩展ResourceServer完全屏蔽实现细节开发更简单</div>
-            </el-collapse-item>
-          </el-collapse>
-        </span>
+  <div class="home_container">
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-card shadow="hover">
+          <p class="title">待办事项&nbsp;&nbsp;(<span>{{dbnum}}</span>)</p>
+          <li v-for="(item, index) in upcomingList" :key="item.id">
+            <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
+          </li>
+          <li v-if="upcomingList.length < 7">......</li>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card shadow="hover">
+          <p class="title">通知公告&nbsp;&nbsp;(<span>{{tznum}}</span>)</p>
+          <li v-for="(item, index) in notifyList" :key="item.id">
+            <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
+          </li>
+          <li v-if="notifyList.length < 7">......</li>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-card shadow="hover" class="fast_icon">
+      <div class="icon_box">
+        <a href="#" class="icon" v-for="item in iconList" :key="item.id">
+          <img :src="item.icon" />
+          <span>{{ item.title }}</span>
+        </a>
       </div>
-
-    </basic-container>
+    </el-card>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
-  name: 'Wel',
+  name: "Wel",
   data() {
     return {
-      activeNames: ['1', '2', '3', '4'],
-      DATA: [],
-      text: '',
-      actor: '',
-      count: 0,
-      isText: false
-    }
+      dbnum: 5,
+      tznum: 3,
+      upcomingList: [
+        { id: 1, title: "招聘审核" },
+        { id: 2, title: "合同审核" },
+        { id: 3, title: "个人信息填报" },
+      ],
+      notifyList: [
+        { id: 1, title: "招聘竞聘通知" },
+        { id: 2, title: "关于行政管理中心2022年寒假值班时间安排的通知" },
+        { id: 3, title: " 教职工培训通知" },
+      ],
+      iconList: [
+        {
+          id: 1,
+          title: "组织架构",
+          icon: "https://s1.ax1x.com/2022/03/12/b7AS91.png",
+        },
+        {
+          id: 2,
+          title: "教职工信息管理",
+          icon: "https://s1.ax1x.com/2022/03/12/b7EgoQ.png",
+        },
+        {
+          id: 3,
+          title: "招聘竞聘管理",
+          icon: "https://s1.ax1x.com/2022/03/12/b7EoLT.png",
+        },
+        {
+          id: 4,
+          title: "绩效考核管理",
+          icon: "https://s1.ax1x.com/2022/03/12/b7VSOK.png",
+        },
+        {
+          id: 5,
+          title: "教师研修管理",
+          icon: "https://s1.ax1x.com/2022/03/12/b7VkYd.png",
+        },
+        {
+          id: 6,
+          title: "薪酬福利管理",
+          icon: "https://s1.ax1x.com/2022/03/12/b7VDh9.png",
+        },
+        {
+          id: 7,
+          title: "合同管理",
+          icon: "https://s1.ax1x.com/2022/03/12/b7ZiuV.png",
+        },
+        {
+          id: 8,
+          title: "自助服务",
+          icon: "https://s1.ax1x.com/2022/03/12/b7ZmC9.png",
+        },
+      ],
+    };
   },
-  computed: {
-    ...mapGetters(['website'])
-  },
-  methods: {
-    getData() {
-      if (this.count < this.DATA.length - 1) {
-        this.count++
-      } else {
-        this.count = 0
-      }
-      this.isText = true
-      this.actor = this.DATA[this.count]
-    },
-    setData() {
-      let num = 0
-      let count = 0
-      let active = false
-      const timeoutstart = 5000
-      const timeoutend = 1000
-      const timespeed = 10
-      setInterval(() => {
-        if (this.isText) {
-          if (count == this.actor.length) {
-            active = true
-          } else {
-            active = false
-          }
-          if (active) {
-            num--
-            this.text = this.actor.substr(0, num)
-            if (num == 0) {
-              this.isText = false
-              setTimeout(() => {
-                count = 0
-                this.getData()
-              }, timeoutend)
-            }
-          } else {
-            num++
-            this.text = this.actor.substr(0, num)
-            if (num == this.actor.length) {
-              this.isText = false
-              setTimeout(() => {
-                this.isText = true
-                count = this.actor.length
-              }, timeoutstart)
-            }
-          }
-        }
-      }, timespeed)
-    }
-  }
-}
+};
 </script>
 
 <style scoped="scoped" lang="scss">
-  .el-collapse-item__header {
-    display: block !important;
-  }
+.home_container {
+  .el-row {
+    padding: 20px;
 
-  .wel-contailer {
-    position: relative;
-  }
-
-  .banner-text {
-    position: relative;
-    padding: 0 20px;
-    font-size: 20px;
-    text-align: center;
-    color: #333;
-  }
-
-  .banner-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.8;
-    display: none;
-  }
-
-  .actor {
-    height: 250px;
-    overflow: hidden;
-    font-size: 18px;
-    color: #333;
-  }
-
-  .actor:after {
-    content: '';
-    width: 3px;
-    height: 25px;
-    vertical-align: -5px;
-    margin-left: 5px;
-    background-color: #333;
-    display: inline-block;
-    animation: blink 0.4s infinite alternate;
-  }
-
-  .typeing:after {
-    animation: none;
-  }
-
-  @keyframes blink {
-    to {
-      opacity: 0;
+    .el-card {
+      padding: 0;
+      height: 350px;
+      .title {
+        text-align: center;
+        font-size: 16px;
+        font-family: Medium;
+        font-weight: bold;
+        span{
+          color: rgb(255, 102, 102);
+        }
+      }
+      li {
+        font-size: 14px;
+        font-family: Base;
+        list-style: none;
+        margin: 20px 0;
+        color: rgba(0, 0, 0, 0.44);
+        a {
+          color: rgba(0, 0, 0, 0.44);
+        }
+        a:hover {
+          color: #409eff;
+        }
+      }
     }
   }
+  .fast_icon {
+    margin: 0 20px;
+
+    .icon_box {
+      width: 800px;
+      margin: 0 auto;
+      .icon {
+        display: inline-block;
+        width: 100px;
+        height: 80px;
+        // border: #409eff solid 1px;
+        margin: 50px;
+
+        img {
+          display: block;
+          width: 50%;
+          height: 50px;
+          margin: 0 auto;
+        }
+        span {
+          display: inline-block;
+          width: 100%;
+          height: 30px;
+          text-align: center;
+          font-size: 12px;
+          font-family: Extra Small;
+        }
+      }
+      .icon:hover {
+        color: #409eff;
+      }
+    }
+  }
+}
 </style>

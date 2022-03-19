@@ -1,5 +1,6 @@
 <template>
   <div class="avue-logo">
+<!--    <img src="/img/logo.png" alt="" width="40px" height="50px">-->
     <transition name="fade">
       <span v-if="keyCollapse" key="0" class="avue-logo_subtitle" @click="goIndex">
         {{website.subtitle}}
