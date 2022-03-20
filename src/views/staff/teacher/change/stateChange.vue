@@ -162,7 +162,7 @@ export default {
             searchslot: true,
           },
           {
-            label: "状态",
+            label: "在职状态",
             prop: "status",
             search: true,
             searchSpan: 6,

@@ -2,6 +2,7 @@ export const tableOption = {
   "align": "center",
   "index": true,
   "border": true,
+  "searchLabelWidth": 90,
   "column": [{
     "prop": "postType",
     "span": 12,

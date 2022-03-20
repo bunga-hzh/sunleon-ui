@@ -3,11 +3,13 @@
 <!--    <img src="/img/logo.png" alt="" width="40px" height="50px">-->
     <transition name="fade">
       <span v-if="keyCollapse" key="0" class="avue-logo_subtitle" @click="goIndex">
+        <img src="../../../public/img/logo.png"alt="logo">
         {{website.subtitle}}
       </span>
     </transition>
     <transition-group name="fade">
       <span v-if="!keyCollapse" key="1" class="avue-logo_title" @click="goIndex">
+        <img src="../../../public/img/logo.png" alt="logo">
         {{ website.title }}
       </span>
     </transition-group>
@@ -54,6 +56,13 @@ export default {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
   color: rgba(255, 255, 255, 0.8);
   z-index: 1024;
+  img{
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left;
+    width: 50px;
+    height: 45px;
+  }
   &_title {
     display: block;
     text-align: center;
