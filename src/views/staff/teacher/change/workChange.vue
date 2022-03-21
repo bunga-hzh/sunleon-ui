@@ -2,11 +2,16 @@
   <div class="engage_container">
     <basic-container>
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="试用期不合格" name="1">
+        <el-tab-pane
+          v-for="item in tabList"
+          :key="item.id"
+          :label="item.label"
+          :name="item.id"
+        >
           <avue-crud
-            :option="option1"
+            :option="option"
             :search.sync="search"
-            :data="data1"
+            :data="data"
             :page.sync="page"
           >
             <template slot="depSearch">
@@ -31,160 +36,58 @@
                 </el-option>
               </el-select>
             </template>
-          </avue-crud>
-        </el-tab-pane>
-        <el-tab-pane label="实习期不合格" name="2">
-          <avue-crud
-            :option="option2"
-            :search.sync="search"
-            :data="data2"
-            :page.sync="page"
-          >
-            <template slot="depSearch">
-              <el-select v-model="depValue" placeholder="请选择">
-                <el-option
-                  v-for="item in depList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
+            <template slot="menuLeft" v-if="item.id == 4">
+              <el-button
+                type="primary"
+                icon="el-icon-finished"
+                @click="batchRenew"
+                >批量续签</el-button
+              >
+              <!-- 批量续签对话框 -->
+              <el-dialog
+                title="批量续签"
+                :visible.sync="dialogVisible"
+                width="50%"
+              >
+                <!-- 日期选择器 -->
+                <el-date-picker
+                  v-model="period"
+                  type="daterange"
+                  align="right"
+                  unlink-panels
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions"
                 >
-                </el-option>
-              </el-select>
-            </template>
-            <template slot="statusSearch">
-              <el-select v-model="statusValue" placeholder="请选择">
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
+                </el-date-picker>
+                <!-- 表格 -->
+                <el-table
+                  v-if="period"
+                  :data="periodTableData"
+                  border
+                  style="width: 100%; margin-top: 20px"
                 >
-                </el-option>
-              </el-select>
-            </template>
-          </avue-crud>
-        </el-tab-pane>
-        <el-tab-pane label="转正" name="3">
-          <avue-crud
-            :option="option3"
-            :search.sync="search"
-            :data="data3"
-            :page.sync="page"
-          >
-            <template slot="depSearch">
-              <el-select v-model="depValue" placeholder="请选择">
-                <el-option
-                  v-for="item in depList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-            <template slot="statusSearch">
-              <el-select v-model="statusValue" placeholder="请选择">
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-          </avue-crud>
-        </el-tab-pane>
-        <el-tab-pane label="合同续签" name="4">
-          <avue-crud
-            :option="option4"
-            :search.sync="search"
-            :data="data4"
-            :page.sync="page"
-          >
-            <template slot="depSearch">
-              <el-select v-model="depValue" placeholder="请选择">
-                <el-option
-                  v-for="item in depList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-            <template slot="statusSearch">
-              <el-select v-model="statusValue" placeholder="请选择">
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-          </avue-crud>
-        </el-tab-pane>
-        <el-tab-pane label="转岗" name="5">
-          <avue-crud
-            :option="option5"
-            :search.sync="search"
-            :data="data5"
-            :page.sync="page"
-          >
-            <template slot="depSearch">
-              <el-select v-model="depValue" placeholder="请选择">
-                <el-option
-                  v-for="item in depList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-            <template slot="statusSearch">
-              <el-select v-model="statusValue" placeholder="请选择">
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-          </avue-crud>
-        </el-tab-pane>
-        <el-tab-pane label="自定义" name="6">
-          <avue-crud
-            :option="option6"
-            :search.sync="search"
-            :data="data6"
-            :page.sync="page"
-          >
-            <template slot="depSearch">
-              <el-select v-model="depValue" placeholder="请选择">
-                <el-option
-                  v-for="item in depList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-            <template slot="statusSearch">
-              <el-select v-model="statusValue" placeholder="请选择">
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
+                  <el-table-column prop="name" label="姓名"> </el-table-column>
+                  <el-table-column prop="dep" label="部门"> </el-table-column>
+                  <el-table-column prop="status" label="状态">
+                  </el-table-column>
+                  <el-table-column prop="period" label="续签时间段">
+                  </el-table-column>
+                  <el-table-column prop="salary" label="薪资">
+                  </el-table-column>
+                  <el-table-column prop="job" label="岗位"> </el-table-column>
+                </el-table>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="dialogVisible = false"
+                    >确 定</el-button
+                  >
+                </span>
+                <template slot="title">
+                  <div id="div_box">aaa</div>
+                </template>
+              </el-dialog>
             </template>
           </avue-crud>
         </el-tab-pane>
@@ -194,317 +97,66 @@
 </template>
 
 <script>
+import {
+  dataList,
+  optionList,
+  depList,
+  statusList,
+  tabList,
+  pickerOptions,
+  periodTableData
+} from "@/const/crud/staff/teacher/change/workChange";
+
 export default {
   name: "TableEngage",
   data() {
     return {
+      // 表格数据
+      data: [],
+      // 表格配置对象
+      option: {},
+      // 标签页集合
+      tabList: tabList,
+      // 数据源集合
+      dataList: dataList,
+      // 表格配置对象集合
+      optionList: optionList,
+      pickerOptions: pickerOptions,
       activeName: "1",
       page: {
         total: 1000,
         currentPage: 1,
         pageSize: 10,
       },
-      // 数据源
-      data1: [
-        {
-          name: "张三",
-          dep: "未知",
-          status: "在职人员",
-          time: "2022/02/02",
-          reason: "无",
-        },
-      ],
-      data2: [
-        {
-          name: "张三",
-          dep: "未知",
-          status: "在职人员",
-          time: "2022/02/02",
-          reason: "无",
-        },
-      ],
-      data3: [
-        {
-          name: "张三",
-          dep: "未知",
-          status: "在职人员",
-          time: '2022/02/02',
-          illu: '无'
-        },
-      ],
-      data4: [
-        {
-          name: "张三",
-          dep: "未知",
-          status: "在职人员",
-          period: "2021/02/02-2022/02/02",
-          salary: "10000",
-          job: "教师",
-        },
-      ],
-      data5: [
-        {
-          name: "张三",
-          dep: "未知",
-          status: "在职人员",
-          period: "2021/02/02-2022/02/02",
-          salary: "10000",
-          old_job: "岗位1",
-          new_job: "岗位2",
-        },
-      ],
-      data6: [
-        {
-          name: "张三",
-          dep: "未知",
-          status: "在职人员",
-          time: '2022/02/02',
-          illu: '无'
-        },
-      ],
-      option1: {
-        border: true,
-        searchMenuSpan: 4,
-        menu: false,
-        column: [
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-            searchSpan: 6,
-          },
-          {
-            label: "部门",
-            prop: "dep",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "状态",
-            prop: "status",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "时间",
-            prop: "time",
-          },
-          {
-            label: "原因",
-            prop: "reason",
-          },
-        ],
-      },
-      option2: {
-        border: true,
-        searchMenuSpan: 4,
-        menu: false,
-        column: [
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-            searchSpan: 6,
-          },
-          {
-            label: "部门",
-            prop: "dep",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "状态",
-            prop: "status",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "时间",
-            prop: "time",
-          },
-          {
-            label: "原因",
-            prop: "reason",
-          },
-        ],
-      },
-      option3: {
-        border: true,
-        searchMenuSpan: 4,
-        menu: false,
-        column: [
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-            searchSpan: 6,
-          },
-          {
-            label: "部门",
-            prop: "dep",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "状态",
-            prop: "status",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "日期",
-            prop: "time",
-          },
-          {
-            label: "说明",
-            prop: "illu",
-          },
-        ],
-      },
-      option4: {
-        border: true,
-        searchMenuSpan: 4,
-        menu: false,
-        column: [
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-            searchSpan: 6,
-          },
-          {
-            label: "部门",
-            prop: "dep",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "状态",
-            prop: "status",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "续签时间段",
-            prop: "period",
-          },
-          {
-            label: "薪资",
-            prop: "salary",
-          },
-          {
-            label: "岗位",
-            prop: "job",
-          },
-        ],
-      },
-      option5: {
-        border: true,
-        searchMenuSpan: 4,
-        menu: false,
-        column: [
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-            searchSpan: 6,
-          },
-          {
-            label: "部门",
-            prop: "dep",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "状态",
-            prop: "status",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "转岗时间段",
-            prop: "period",
-          },
-          {
-            label: "薪资",
-            prop: "salary",
-          },
-          {
-            label: "原岗位",
-            prop: "old_job",
-          },
-          {
-            label: "新岗位",
-            prop: "new_job",
-          },
-        ],
-      },
-      option6: {
-        border: true,
-        searchMenuSpan: 4,
-        menu: false,
-        column: [
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-            searchSpan: 6,
-          },
-          {
-            label: "部门",
-            prop: "dep",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "状态",
-            prop: "status",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "时间",
-            prop: "time",
-          },
-          {
-            label: "说明",
-            prop: "illu",
-          },
-        ],
-      },
       // 搜索的表单对象
       search: {},
-      depList: [
-        { id: 1, name: "部门1" },
-        { id: 2, name: "部门2" },
-        { id: 3, name: "部门3" },
-        { id: 4, name: "部门4" },
-        { id: 5, name: "部门5" },
-        { id: 6, name: "部门6" },
-        { id: 7, name: "部门7" },
-      ],
+      // 部门下拉框数据集合
+      depList: depList,
       depValue: "",
-      statusList: [
-        { id: 1, name: "事业编制" },
-        { id: 2, name: "非事业编制" },
-      ],
+      // 状态下拉集合
+      statusList: statusList,
       statusValue: "",
+      // 控制对话框的显示与隐藏
+      dialogVisible: false,
+      // 时间段
+      period: "",
+      // 按时间段筛选的表格数据
+      periodTableData: periodTableData
     };
   },
   methods: {
-    handleClick() {},
+    handleClick(val) {
+      this.option = this.optionList[val.index];
+      this.data = this.dataList[val.index];
+    },
+    // 批量续签
+    batchRenew() {
+      this.dialogVisible = true;
+    },
+  },
+  created() {
+    this.option = this.optionList[0];
+    this.data = this.dataList[0];
   },
 };
 </script>

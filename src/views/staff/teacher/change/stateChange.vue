@@ -61,7 +61,7 @@ import {
   dataList,
   depList,
   statusChangeList,
-  statusList
+  statusList,
 } from "@/const/crud/staff/teacher/change/stateChange";
 
 export default {
@@ -93,7 +93,7 @@ export default {
       statusChangeList: statusChangeList,
       depValue: "",
       statusValue: "",
-      statusChangeValue: ''
+      statusChangeValue: "",
     };
   },
   methods: {
