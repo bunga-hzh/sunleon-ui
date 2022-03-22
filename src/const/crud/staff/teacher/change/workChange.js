@@ -87,6 +87,7 @@ export const dataList = [
     name: "张三",
     dep: "未知",
     status: "在职人员",
+    maturity_time: '2022/02/02',
     period: "2021/02/02-2022/02/02",
     salary: "10000",
     job: "教师",
@@ -109,6 +110,7 @@ export const dataList = [
   }, ],
 ]
 export const optionList = [{
+    align: 'center',
     border: true,
     searchMenuSpan: 4,
     menu: false,
@@ -126,7 +128,7 @@ export const optionList = [{
         searchslot: true,
       },
       {
-        label: "状态",
+        label: "在职状态",
         prop: "status",
         search: true,
         searchSpan: 6,
@@ -143,6 +145,7 @@ export const optionList = [{
     ],
   },
   {
+    align: 'center',
     border: true,
     searchMenuSpan: 4,
     menu: false,
@@ -160,7 +163,7 @@ export const optionList = [{
         searchslot: true,
       },
       {
-        label: "状态",
+        label: "在职状态",
         prop: "status",
         search: true,
         searchSpan: 6,
@@ -177,6 +180,7 @@ export const optionList = [{
     ],
   },
   {
+    align: 'center',
     border: true,
     searchMenuSpan: 4,
     menu: false,
@@ -194,7 +198,7 @@ export const optionList = [{
         searchslot: true,
       },
       {
-        label: "状态",
+        label: "在职状态",
         prop: "status",
         search: true,
         searchSpan: 6,
@@ -211,14 +215,17 @@ export const optionList = [{
     ],
   },
   {
+    align: 'center',
     border: true,
     searchMenuSpan: 4,
     menu: false,
+    labelWidth: 150,
     column: [{
         label: "姓名",
         prop: "name",
         search: true,
         searchSpan: 6,
+        formslot: true
       },
       {
         label: "部门",
@@ -226,13 +233,20 @@ export const optionList = [{
         search: true,
         searchSpan: 6,
         searchslot: true,
+        addDisabled: true
       },
       {
-        label: "状态",
+        label: "在职状态",
         prop: "status",
         search: true,
         searchSpan: 6,
         searchslot: true,
+        addDisabled: true
+      },
+      {
+        label: "合同到期时间",
+        prop: "maturity_time",
+        addDisabled: true
       },
       {
         label: "续签时间段",
@@ -241,14 +255,17 @@ export const optionList = [{
       {
         label: "薪资",
         prop: "salary",
+        slot: true
       },
       {
-        label: "岗位",
+        label: "岗位名称",
         prop: "job",
+        slot: true
       },
     ],
   },
   {
+    align: 'center',
     border: true,
     searchMenuSpan: 4,
     menu: false,
@@ -266,7 +283,7 @@ export const optionList = [{
         searchslot: true,
       },
       {
-        label: "状态",
+        label: "在职状态",
         prop: "status",
         search: true,
         searchSpan: 6,
@@ -281,16 +298,17 @@ export const optionList = [{
         prop: "salary",
       },
       {
-        label: "原岗位",
+        label: "原岗位名称",
         prop: "old_job",
       },
       {
-        label: "新岗位",
+        label: "新岗位名称",
         prop: "new_job",
       },
     ],
   },
   {
+    align: 'center',
     border: true,
     searchMenuSpan: 4,
     menu: false,
@@ -308,7 +326,7 @@ export const optionList = [{
         searchslot: true,
       },
       {
-        label: "状态",
+        label: "在职状态",
         prop: "status",
         search: true,
         searchSpan: 6,
@@ -353,10 +371,64 @@ export const pickerOptions = {
   }]
 }
 export const periodTableData = [{
-  name: "张三",
-  dep: "未知",
-  status: "在职人员",
-  period: "2021/02/02-2022/02/02",
-  salary: "10000",
-  job: "教师",
-}]
+    name: "张三",
+    dep: "未知",
+    status: "在职人员",
+    period: "2021/02/02-2022/02/02",
+    salary: "10000",
+    job: "教师",
+  },
+  {
+    name: "李四",
+    dep: "未知",
+    status: "在职人员",
+    period: "2021/02/02-2022/02/02",
+    salary: "800",
+    job: "教师",
+  }
+]
+
+export const selectRenewalPickerOptions = {
+  disabledDate(time) {
+    return time.getTime() > Date.now();
+  },
+  shortcuts: [{
+    text: '一年',
+    onClick(picker) {
+      const date = new Date();
+      date.setTime(date.getTime() + 3600 * 1000 * 24 * 365);
+      picker.$emit('pick', date);
+    }
+  }, {
+    text: '两年',
+    onClick(picker) {
+      const date = new Date();
+      date.setTime(date.getTime() + 3600 * 1000 * 24 * 365 * 2);
+      picker.$emit('pick', date);
+    }
+  }, {
+    text: '三年',
+    onClick(picker) {
+      const date = new Date();
+      date.setTime(date.getTime() + 3600 * 1000 * 24 * 365 * 3);
+      picker.$emit('pick', date);
+    }
+  }]
+}
+
+export const jobOptions = [{
+    value: '选项1',
+    label: '岗位1'
+  }, {
+    value: '选项2',
+    label: '岗位2'
+  }, {
+    value: '选项3',
+    label: '岗位3'
+  }, {
+    value: '选项4',
+    label: '岗位4'
+  }, {
+    value: '选项5',
+    label: '岗位5'
+  }]

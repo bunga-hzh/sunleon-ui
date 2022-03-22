@@ -7,56 +7,34 @@
         :data="data"
         :page.sync="page"
       >
-        <template slot="depSearch">
-          <el-select v-model="depValue" placeholder="请选择">
-            <el-option
-              v-for="item in depList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
+        <template slot="zyzgzs_details" slot-scope="scpoe">
+          <el-button type="text" @click="view(scpoe.row, 'zy')">查看</el-button>
         </template>
-        <template slot="bz_typeSearch">
-          <el-select v-model="bzValue" placeholder="请选择">
-            <el-option
-              v-for="item in bzList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-        </template>
-        <template slot="ry_typeSearch">
-          <el-select v-model="ryValue" placeholder="请选择">
-            <el-option
-              v-for="item in ryList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-        </template>
-        <template slot="js_typeSearch">
-          <el-select v-model="jsValue" placeholder="请选择">
-            <el-option
-              v-for="item in jsList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
+        <template slot="dqzzgzbj_details" slot-scope="scpoe">
+          <el-button type="text" @click="view(scpoe.row, 'dq')">查看</el-button>
         </template>
       </avue-crud>
     </basic-container>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%">
+      <avue-crud :option="childOption" :data="childData"></avue-crud>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import {
+  data,
+  option,
+  childOption,
+  childData,
+} from "@/const/crud/staff/personnel/info";
+
 export default {
   name: "TableEngage",
   data() {
@@ -67,99 +45,30 @@ export default {
         pageSize: 10,
       },
       // 数据源
-      data: [
-        {
-          jobId: 1,
-          name: "张三",
-          dep: "未知",
-          bz_type: "事业编制",
-          ry_type: "在职人员",
-          js_type: "外聘教师",
-          time: "2022/02/02",
-        },
-      ],
-      option: {
-        editBtn:false,
-        border: true,
-        searchMenuSpan: 4,
-        column: [
-          {
-            label: "工号",
-            prop: "jobId",
-            search: true,
-            searchSpan: 7,
-          },
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-            searchSpan: 7,
-          },
-          {
-            label: "所属部门",
-            prop: "dep",
-            search: true,
-            searchSpan: 7,
-            searchslot: true,
-          },
-          {
-            label: "编制",
-            prop: "bz_type",
-            search: true,
-            searchSpan: 7,
-            searchslot: true,
-          },
-          {
-            label: "人员类型",
-            prop: "ry_type",
-            search: true,
-            searchSpan: 7,
-            searchslot: true,
-          },
-          {
-            label: "教师类型",
-            prop: "js_type",
-            search: true,
-            searchSpan: 6,
-            searchslot: true,
-          },
-          {
-            label: "入职日期",
-            prop: "time",
-          },
-        ],
-      },
+      data: data,
+      // crud配置对象
+      option: option,
       // 搜索的表单对象
       search: {},
-      depList: [
-        { id: 1, name: "部门1" },
-        { id: 2, name: "部门2" },
-        { id: 3, name: "部门3" },
-        { id: 4, name: "部门4" },
-        { id: 5, name: "部门5" },
-        { id: 6, name: "部门6" },
-        { id: 7, name: "部门7" },
-      ],
-      depValue: "",
-      bzList: [
-        { id: 1, name: "事业编制" },
-        { id: 2, name: "非事业编制" },
-      ],
-      bzValue: "",
-      ryList: [
-        { id: 1, name: "在职人员" },
-        { id: 2, name: "离校人员" },
-        { id: 3, name: "退休人员" },
-      ],
-      ryValue: "",
-      jsList: [
-        { id: 1, name: "外聘教师" },
-        { id: 2, name: "非外聘教师" },
-      ],
-      jsValue: "",
+      // 控制对话框的显示与隐藏
+      dialogVisible: false,
+      childOption: childOption[0],
+      childData: childData[0],
     };
   },
-  methods: {},
+  methods: {
+    view(row,type) {
+      if(type === 'zy'){
+        this.childOption = childOption[0]
+        this.childData = childData[0]
+      }
+      if(type === 'dq'){
+        this.childOption = childOption[1]
+        this.childData = childData[1]
+      }
+      this.dialogVisible = true;
+    },
+  },
 };
 </script>
 

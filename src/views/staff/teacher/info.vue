@@ -47,6 +47,7 @@
         <el-tabs v-model="activeName" type="card">
           <el-tab-pane label="人员基本情况" name="1">
             <el-collapse accordion>
+              <!-- 基本信息 -->
               <el-row>
                 <el-col :span="6">
                   <el-form-item label="教职工编号" label-width="90px">
@@ -195,6 +196,21 @@
                 </el-col>
                 <el-col :span="6">
                   <el-form-item label="发证单位（子集）" label-width="130px">
+                    <el-input v-model="form"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="教师职称">
+                    <el-input v-model="form"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="所属教研组" label-width="100px">
+                    <el-input v-model="form"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="银行卡号" label-width="90px">
                     <el-input v-model="form"></el-input>
                   </el-form-item>
                 </el-col>
@@ -1363,6 +1379,8 @@
 </template>
 
 <script>
+import { data, option } from '@/const/crud/staff/teacher/info'
+
 export default {
   name: "TableEngage",
   data() {
@@ -1413,66 +1431,8 @@ export default {
         pageSize: 10,
       },
       // 数据源
-      data: [
-        {
-          user: "zhangsan",
-          name: "张三",
-          sex: "男",
-          dep: "党委组织部",
-          identity: "教工",
-          cardId: "111111111111111111",
-          phone: "13888888888",
-          status: "在职员工",
-          a: "在职员工",
-          b: "在职员工",
-          c: "在职员工",
-        },
-      ],
-      option: {
-        addBtn: false,
-        border: true,
-        searchMenuSpan: 4,
-        viewBtn: true,
-        delBtn: false,
-        column: [
-          {
-            label: "账号",
-            prop: "user",
-          },
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-          },
-          {
-            label: "性别",
-            prop: "sex",
-          },
-          {
-            label: "组织机构",
-            prop: "dep",
-            search: true,
-          },
-          {
-            label: "身份类型",
-            prop: "identity",
-          },
-          {
-            label: "身份证号",
-            prop: "cardId",
-            width: 180,
-          },
-          {
-            label: "手机号",
-            prop: "phone",
-          },
-          {
-            label: "状态",
-            prop: "status",
-            search: true,
-          },
-        ],
-      },
+      data: data,
+      option: option,
       // 搜索的表单对象
       search: {},
       tableData: [],

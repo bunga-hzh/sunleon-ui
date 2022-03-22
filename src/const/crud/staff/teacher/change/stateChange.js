@@ -90,6 +90,7 @@ export const tabList = [{
 ]
 // 表格配置对象
 export const optionList = [{
+    align: 'center',
     border: true,
     searchMenuSpan: 4,
     menu: false,
@@ -160,11 +161,11 @@ export const optionList = [{
       },
       {
         label: "异动状态",
-        prop: "statusChange", 
+        prop: "statusChange",
       },
       {
         label: "异动时间段",
-        prop: "time", 
+        prop: "time",
       },
       {
         label: "原因",
@@ -503,41 +504,128 @@ export const dataList = [
   }, ],
 ]
 // 异动下拉数据
-export const statusChangeList = [
-  { id: 1, name: "异动状态" },
-  { id: 2, name: "其他" },
-  { id: 3, name: "退休" },
-  { id: 4, name: "辞职" },
-  { id: 5, name: "合同终止" },
-  { id: 6, name: "外借（含挂职锻炼）" },
-  { id: 7, name: "内退" },
-  { id: 8, name: "参军" },
-  { id: 9, name: "停薪留职" },
-  { id: 10, name: "转当公" },
-  { id: 11, name: "自费留学" },
-  { id: 12, name: "从全民所有制单位转出" },
-  { id: 13, name: "从集体所有制单位转出" },
-  { id: 14, name: "开除" },
-  { id: 15, name: "辞退" },
-  { id: 16, name: "解聘" },
-  { id: 17, name: "调离" },
-  { id: 18, name: "合同制终止和解除合同" },
-  { id: 19, name: "死亡" },
-  { id: 20, name: "其他减员" },
-  { id: 21, name: "长并病假" },
+export const statusChangeList = [{
+    id: 1,
+    name: "异动状态"
+  },
+  {
+    id: 2,
+    name: "其他"
+  },
+  {
+    id: 3,
+    name: "退休"
+  },
+  {
+    id: 4,
+    name: "辞职"
+  },
+  {
+    id: 5,
+    name: "合同终止"
+  },
+  {
+    id: 6,
+    name: "外借（含挂职锻炼）"
+  },
+  {
+    id: 7,
+    name: "内退"
+  },
+  {
+    id: 8,
+    name: "参军"
+  },
+  {
+    id: 9,
+    name: "停薪留职"
+  },
+  {
+    id: 10,
+    name: "转当公"
+  },
+  {
+    id: 11,
+    name: "自费留学"
+  },
+  {
+    id: 12,
+    name: "从全民所有制单位转出"
+  },
+  {
+    id: 13,
+    name: "从集体所有制单位转出"
+  },
+  {
+    id: 14,
+    name: "开除"
+  },
+  {
+    id: 15,
+    name: "辞退"
+  },
+  {
+    id: 16,
+    name: "解聘"
+  },
+  {
+    id: 17,
+    name: "调离"
+  },
+  {
+    id: 18,
+    name: "合同制终止和解除合同"
+  },
+  {
+    id: 19,
+    name: "死亡"
+  },
+  {
+    id: 20,
+    name: "其他减员"
+  },
+  {
+    id: 21,
+    name: "长并病假"
+  },
 ]
 // 部门下拉集合
-export const depList = [
-  { id: 1, name: "部门1" },
-  { id: 2, name: "部门2" },
-  { id: 3, name: "部门3" },
-  { id: 4, name: "部门4" },
-  { id: 5, name: "部门5" },
-  { id: 6, name: "部门6" },
-  { id: 7, name: "部门7" },
+export const depList = [{
+    id: 1,
+    name: "部门1"
+  },
+  {
+    id: 2,
+    name: "部门2"
+  },
+  {
+    id: 3,
+    name: "部门3"
+  },
+  {
+    id: 4,
+    name: "部门4"
+  },
+  {
+    id: 5,
+    name: "部门5"
+  },
+  {
+    id: 6,
+    name: "部门6"
+  },
+  {
+    id: 7,
+    name: "部门7"
+  },
 ]
 // 状态下拉集合
-export const statusList = [
-  { id: 1, name: "事业编制" },
-  { id: 2, name: "非事业编制" },
+export const statusList = [{
+    id: 1,
+    name: "事业编制"
+  },
+  {
+    id: 2,
+    name: "非事业编制"
+  },
 ]
