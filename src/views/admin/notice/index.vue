@@ -1,17 +1,22 @@
 <template>
   <div class="notice_container">
     <basic-container>
-      <avue-crud :data="data" :option="option" :search.sync="search">
+      <avue-crud
+        :data="data"
+        :option="option"
+        :search.sync="search"
+        :page.sync="page_notice"
+      >
         <template slot="menu">
           <el-button type="text">撤稿</el-button>
           <el-button type="text">查看</el-button>
         </template>
         <template slot="menuLeft">
           <el-button type="primary" @click="openDialog">添加</el-button>
+          <!-- 添加对话框 -->
         </template>
       </avue-crud>
     </basic-container>
-    <!-- 添加对话框 -->
     <el-dialog
       title="新增"
       @open="createEditer"
@@ -64,11 +69,13 @@
           <el-row :gutter="20">
             <el-col :span="20">
               <el-select
+                ref="select"
                 size="small"
                 style="width: 100%"
                 v-model="form.uids"
                 multiple
                 placeholder="请选择指定用户"
+                clearable
               >
                 <el-option
                   v-for="item in selectUserOptions"
@@ -111,7 +118,8 @@
       :visible.sync="dialogVisible_select"
       width="80%"
       class="avue-dialog"
-      @close="getSelectUids"
+      @open="clearSelectData"
+      @close="clearCheck"
     >
       <el-row :gutter="20">
         <el-col :span="17">
@@ -120,6 +128,7 @@
             :option="selectUserOption"
             :search.sync="selectUserSearch"
             :data="selectUserData"
+            :page.sync="page_user"
             @row-click="handleRowClick"
             @selection-change="selectionChange"
           >
@@ -148,9 +157,7 @@
       </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible_select = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible_select = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="getSelectUids">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -158,6 +165,16 @@
 
 <script>
 import E from "wangeditor";
+import {
+  data,
+  option,
+  rules,
+  selectUserOption,
+  selectUserData,
+  depOptions,
+  selectOption,
+  selectUserOptions,
+} from "@/const/crud/admin/notice";
 
 export default {
   name: "Notice",
@@ -180,178 +197,40 @@ export default {
       search: {
         title: "",
       },
-      data: [
-        {
-          title: "测试",
-          notice_type: "通知公告",
-          publisher: "张三",
-          priority: "高",
-          notice_obj: "全体用户",
-          pub_status: "已发布",
-          pub_time: "2022-03-26 11:51:10",
-          revoke_time: "",
-        },
-        {
-          title: "测试",
-          notice_type: "通知公告",
-          publisher: "张三",
-          priority: "高",
-          notice_obj: "全体用户",
-          pub_status: "已发布",
-          pub_time: "2022-03-26 11:51:10",
-          revoke_time: "",
-        },
-      ],
-      option: {
-        addBtn: false,
-        delBtn: false,
-        editBtn: false,
-        align: "center",
-        searchMenuSpan: 4,
-        border: true,
-        column: [
-          {
-            label: "标题",
-            prop: "title",
-            search: true,
-          },
-          {
-            label: "消息类型",
-            prop: "notice_type",
-          },
-          {
-            label: "发布人",
-            prop: "publisher",
-          },
-          {
-            label: "优先级",
-            prop: "priority",
-          },
-          {
-            label: "通告对象",
-            prop: "notice_obj",
-          },
-          {
-            label: "发布状态",
-            prop: "pub_status",
-          },
-          {
-            label: "发布时间",
-            prop: "pub_time",
-            width: 150,
-          },
-          {
-            label: "撤销时间",
-            prop: "revoke_time",
-            width: 150,
-          },
-        ],
-      },
-      rules: {
-        type: [{ required: true, message: "选择消息类型" }],
-        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
-        summary: [{ required: true, message: "请输入摘要", trigger: "blur" }],
-        up_by_time: [{ required: true, message: "请选择结束时间" }],
-        user_type: [{ required: true, message: "请选择结束用户" }],
-        user_type: [{ required: true, message: "请选择指定用户" }],
-      },
-      selectUserOption: {
-        searchMenuSpan: 6,
-        addBtn: false,
-        border: true,
-        menu: false,
-        selection: true,
-        column: [
-          {
-            label: "教职工号",
-            prop: "uid",
-            search: true,
-          },
-          {
-            label: "姓名",
-            prop: "name",
-            search: true,
-          },
-          {
-            label: "部门",
-            prop: "dep",
-            search: true,
-            searchslot: true,
-          },
-        ],
-      },
-      selectUserData: [
-        {
-          uid: "123",
-          name: "张三",
-          dep: "部门一",
-        },
-        {
-          uid: "456",
-          name: "李四",
-          dep: "部门一",
-        },
-        {
-          uid: "789",
-          name: "王五",
-          dep: "部门一",
-        },
-      ],
+      data: data,
+      option: option,
+      rules: rules,
+      selectUserOption: selectUserOption,
+      selectUserData: selectUserData,
       selectUserSearch: {
         uid: undefined,
         name: undefined,
         dep: undefined,
       },
-      depOptions: [
-        {
-          id: "1",
-          depName: "部门一",
-        },
-        {
-          id: "2",
-          depName: "部门二",
-        },
-        {
-          id: "3",
-          depName: "部门三",
-        },
-      ],
-      selectOption: {
-        menuWidth: 100,
-        addBtn: false,
-        columnBtn: false,
-        refreshBtn: false,
-        editBtn: false,
-        border: true,
-        column: [
-          {
-            label: "姓名",
-            prop: "name",
-          },
-        ],
-      },
+      depOptions: depOptions,
+      selectOption: selectOption,
       selectData: [],
       selectList: [],
       isEdit: true,
-      selectUserOptions: [
-        {
-          uid: 123,
-          name: "张三",
-        },
-        {
-          uid: 456,
-          name: "李四",
-        },
-        {
-          uid: 789,
-          name: "王五",
-        },
-      ],
+      selectUserOptions: [],
+      page_notice: {
+        total: 1000,
+        currentPage: 1,
+        pageSize: 10,
+      },
+      page_user: {
+        total: 1000,
+        currentPage: 1,
+        pageSize: 10,
+      },
     };
   },
   methods: {
     openDialog() {
       this.dialogVisible_add = true;
+      this.$nextTick(() => {
+        this.$refs.form.resetFields();
+      });
     },
     // 提交
     submit() {
@@ -360,6 +239,7 @@ export default {
     selectUser() {
       this.dialogVisible_select = true;
       this.selectData = [];
+      this.selectUserOptions = selectUserOptions;
     },
     selectionChange(row) {
       console.log(row);
@@ -378,17 +258,12 @@ export default {
       console.log(row);
     },
     getSelectUids() {
-      console.log(this.selectData);
+      this.dialogVisible_select = false;
+      const uids = [];
       this.selectData.forEach((item) => {
-        const obj = {};
-        obj.uid = item.uid;
-        obj.name = item.name;
-        console.log("aaa");
-        console.log(obj);
-        this.form.uids.push(obj);
-        console.log(this.form.uids[0]);
-        // debugger;
+        uids.push(item.uid);
       });
+      this.form.uids = uids;
     },
     createEditer() {
       this.$nextTick(() => {
@@ -398,6 +273,12 @@ export default {
           this.isEdit = false;
         }
       });
+    },
+    clearSelectData() {
+      this.selectData = [];
+    },
+    clearCheck() {
+      this.$refs.crud.toggleSelection();
     },
   },
 };
