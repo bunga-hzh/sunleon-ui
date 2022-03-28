@@ -3,7 +3,10 @@
     <el-row :gutter="20">
       <el-col :span="12">
         <el-card shadow="hover">
-          <p class="title">待办事项&nbsp;&nbsp;(<span>{{dbnum}}</span>)</p>
+          <p class="title">
+            待办事项&nbsp;&nbsp;(<span>{{ dbnum }}</span
+            >)
+          </p>
           <li v-for="(item, index) in upcomingList" :key="item.id">
             <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
@@ -12,7 +15,10 @@
       </el-col>
       <el-col :span="12">
         <el-card shadow="hover">
-          <p class="title">通知公告&nbsp;&nbsp;(<span>{{tznum}}</span>)</p>
+          <p class="title">
+            通知公告&nbsp;&nbsp;(<span>{{ tznum }}</span
+            >)
+          </p>
           <li v-for="(item, index) in notifyList" :key="item.id">
             <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
@@ -108,7 +114,7 @@ export default {
         font-size: 16px;
         font-family: Medium;
         font-weight: bold;
-        span{
+        span {
           color: rgb(255, 102, 102);
         }
       }

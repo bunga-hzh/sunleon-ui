@@ -4,7 +4,6 @@ export const data = [{
 
 export const option = {
   menuWidth: 80,
-  searchLabelWidth: 150,
   align: 'center',
   editBtn: false,
   border: true,
