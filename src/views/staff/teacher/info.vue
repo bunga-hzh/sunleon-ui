@@ -6,7 +6,6 @@
         :search.sync="search"
         :data="data"
         :page.sync="page"
-        :before-open="beforeOpen"
       >
         <template slot="menuLeft">
           <el-button
@@ -23,6 +22,22 @@
             >导入</el-button
           >
         </template>
+        <template slot="menu" slot-scope="scope">
+          <el-button
+            type="text"
+            icon="el-icon-edit"
+            size="small"
+            @click="viewRow(scope.row)"
+            >查看</el-button
+          >
+          <el-button
+            type="text"
+            icon="el-icon-edit"
+            size="small"
+            @click="editRow(scope.row)"
+            >编辑</el-button
+          >
+        </template>
       </avue-crud>
     </basic-container>
     <!-- 添加对话框 -->
@@ -31,7 +46,6 @@
       :visible.sync="dialogVisible_add"
       width="60%"
       :fullscreen="dialogFull"
-      @open="openDialog"
       @close="clearForm('primary')"
     >
       <template slot="title">
@@ -1959,6 +1973,235 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
+    <el-dialog title="查看" :visible.sync="dialogVisible_view" width="60%">
+      <el-tabs v-model="activeName" type="card">
+        <el-tab-pane label="人员基本情况" name="1">
+          <el-row>
+            <el-descriptions title="基本信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">工号</template>
+                1111111111111
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">姓名</template>
+                张三
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">曾用名</template>
+                法外狂徒
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">性别</template>
+                男
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">出生日期</template>
+                2022/03/03
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">出生地</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">身份证号</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">籍贯</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">民族</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">政治面貌</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">健康状况</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">婚姻状况</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">身份证件照</template>
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row>
+            <el-descriptions title="教育经历" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">毕业院校</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">学位</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">专业</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">学历上传附件</template>
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row>
+            <el-descriptions title="联系方式" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">联系电话</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">电子邮箱</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">家庭联系人</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">家庭住址</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">户籍类别</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">户口详细地址</template>
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row>
+            <el-descriptions title="职称信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">教师职称</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">所属教研组</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">当前状态</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">合同类型</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">银行卡号</template>
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row>
+            <el-descriptions title="其他个人信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">居住证起始时间</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否落户</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">居住证有效期</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">护照号/通行证号</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">发证单位</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">护照号/通行证号有效期</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">入党日期</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">备注</template>
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">因公/因私护照上传附件</template>
+              </el-descriptions-item>
+            </el-descriptions>
+            <el-collapse accordion>
+              <el-collapse-item title="学历及学位子集">
+                <div>
+                  <!-- 学历及学位子集 -->
+                  <el-table
+                    :data="xl_tableData"
+                    style="width: 100%"
+                    align="center"
+                    border
+                    :header-cell-style="{ textAlign: 'center' }"
+                  >
+                    <el-table-column label="学历" prop="xlm"> </el-table-column>
+                    <el-table-column label="入学时间" prop="rxsj">
+                    </el-table-column>
+                    <el-table-column label="学习形式" prop="xxxsm">
+                    </el-table-column>
+                    <el-table-column label="学制" prop="xz"> </el-table-column>
+                    <el-table-column label="毕业时间" prop="bysj">
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </el-collapse-item>
+              <el-collapse-item title="个人履历子集（校外）">
+                <el-table
+                  :data="ll_tableData"
+                  style="width: 100%"
+                  border
+                  :header-cell-style="{ textAlign: 'center' }"
+                >
+                  <el-table-column label="超始时间" prop="qssj">
+                  </el-table-column>
+                  <el-table-column label="终止时间" prop="zzsj">
+                  </el-table-column>
+                  <el-table-column label="所在单位" prop="szdw">
+                  </el-table-column>
+                  <el-table-column label="职务" prop="zw"> </el-table-column>
+                  <el-table-column label="单位所在省份" prop="dwszsf">
+                  </el-table-column>
+                </el-table>
+              </el-collapse-item>
+              <el-collapse-item title="政治面貌及党籍情况子集">
+                <el-table
+                  :data="zz_tableData"
+                  style="width: 100%"
+                  border
+                  :header-cell-style="{ textAlign: 'center' }"
+                >
+                  <el-table-column label="政治面貌" prop="zzmmm">
+                  </el-table-column>
+                  <el-table-column label="参加党派时间" prop="cjrq">
+                  </el-table-column>
+                  <el-table-column label="介绍人" prop="jsr"> </el-table-column>
+                  <el-table-column label="转正时间" prop="zzrq">
+                  </el-table-column>
+                </el-table>
+              </el-collapse-item>
+              <el-collapse-item title="家属子集">
+                <el-table
+                  :data="js_tableData"
+                  style="width: 100%"
+                  border
+                  :header-cell-style="{ textAlign: 'center' }"
+                >
+                  <el-table-column label="称谓" prop="cw"> </el-table-column>
+                  <el-table-column label="姓名" prop="xm"> </el-table-column>
+                  <el-table-column label="出生年月" prop="csny">
+                  </el-table-column>
+                  <el-table-column label="政治面貌" prop="zzmmm">
+                  </el-table-column>
+                  <el-table-column label="工作单位及职务" prop="dwmc">
+                  </el-table-column>
+                  <el-table-column label="联系方式" prop="lxfs">
+                  </el-table-column>
+                </el-table>
+              </el-collapse-item>
+            </el-collapse>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="任职信息" name="2"></el-tab-pane>
+        <el-tab-pane label="教师发展信息" name="3"></el-tab-pane>
+        <el-tab-pane label="绩效考核信息" name="4"></el-tab-pane>
+        <el-tab-pane label="薪酬福利信息" name="5"></el-tab-pane>
+        <el-tab-pane label="其他信息" name="6"></el-tab-pane>
+      </el-tabs>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible_view = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible_view = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -2000,7 +2243,11 @@ import {
 } from "@/const/crud/staff/teacher/info";
 import {
   getInfo,
-  addInfo,
+  addJbxxInfo,
+  addJyjlInfo,
+  addlxfslInfo,
+  addZcxxlInfo,
+  addQtgrxxInfo,
   queryInfoById,
   putInfo,
 } from "@/api/staff/teacher/info";
@@ -2012,8 +2259,10 @@ export default {
       // 标签页激活项
       activeName: "1",
       fileList: [],
+
       // 控制弹窗全屏
       dialogFull: false,
+
       // 控制 添加 对话框的显示与隐藏
       dialogVisible_add: false,
       // 控制 查看 对话框的显示与隐藏
@@ -2052,6 +2301,7 @@ export default {
       dialogVisible_jypx: false,
       // 控制 添加 教师资格证子集 对话框的显示与隐藏
       dialogVisible_jszgz: false,
+
       page: {
         total: 1000,
         currentPage: 1,
@@ -2060,8 +2310,10 @@ export default {
       // 数据源
       data: data,
       option: option,
+
       // 搜索的表单对象
       search: {},
+
       // 选择器配置对象
       hjlbOptions: hjlbOptions,
       jkzkOptions: jkzkOptions,
@@ -2069,6 +2321,7 @@ export default {
       dqztOptions: dqztOptions,
       htlxOptions: htlxOptions,
       pickerOptions: pickerOptions,
+
       // 上传地址
       sfzAction: "",
       xlAction: "",
@@ -2138,23 +2391,28 @@ export default {
     this.getInfoList();
   },
   methods: {
-    // 更新当前行的信息
-    rowUpdata(row, index, done, loading) {
-      console.log("aaaa");
-      console.log(row);
-      console.log(index);
-    },
     // 获取表格数据
     async getInfoList() {
-      const { data: res } = await getInfo();
+      const { data: res } = await getInfo(this.page);
       if (res.code !== 0) return this.$notify.error("获取表格数据失败！");
       this.data = res.data;
+      this.page.total = this.data.total;
     },
-    // 查看
     // 添加
     add() {
       this.dialogVisible_add = true;
+      this.activeName = "1";
     },
+    // 查看行信息
+    viewRow(row) {
+      console.log(row);
+      this.dialogVisible_view = true;
+    },
+    // 编辑行行信息
+    editRow(row) {
+      console.log(row);
+    },
+
     // 添加（学历及学位子集）
     add_xl() {
       this.dialogVisible_xl = true;
@@ -2220,18 +2478,6 @@ export default {
     },
     add_jszgz() {
       this.dialogVisible_jszgz = true;
-    },
-    beforeOpen(done, type) {
-      if (["view"].includes(type)) {
-        // 查看逻辑
-        this.dialogVisible_view = true;
-        return;
-      }
-      done();
-    },
-    // 打开添加对话框
-    openDialog() {
-      this.activeName = "1";
     },
     // 清空表单
     clearForm(info) {

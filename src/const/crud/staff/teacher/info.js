@@ -31,8 +31,9 @@ export const option = {
   addBtn: false,
   border: true,
   searchMenuSpan: 4,
-  viewBtn: true,
+  viewBtn: false,
   delBtn: false,
+  editBtn: false,
   column: [{
       label: "账号",
       prop: "user",
