@@ -220,3 +220,242 @@ export const htlxOptions = [{
     type: '无固定'
   },
 ]
+export const pickerOptions = {
+  shortcuts: [{
+    text: '最近一周',
+    onClick(picker) {
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+      picker.$emit('pick', [start, end]);
+    }
+  }, {
+    text: '最近一个月',
+    onClick(picker) {
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+      picker.$emit('pick', [start, end]);
+    }
+  }, {
+    text: '最近三个月',
+    onClick(picker) {
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      picker.$emit('pick', [start, end]);
+    }
+  }]
+}
+// 基本信息表单
+export const jbxx_form = {
+  gh: undefined,
+  xm: undefined,
+  cymgh: undefined,
+  xbm: "1",
+  csrq: undefined,
+  csd: undefined,
+  sfzjh: undefined,
+  jg: undefined,
+  mzm: undefined,
+  zzmmm: undefined,
+  sfzsc: undefined,
+}
+// 教育经历表单
+export const jyjl_form = {
+  shxwm: undefined,
+  sxzymc: undefined,
+  byyx: undefined,
+  xlsc: undefined,
+}
+// 联系方式表单
+export const lxfs_form = {
+  lxdh: undefined,
+  dzyx: undefined,
+  jtlxr: undefined,
+  jtzz: undefined,
+  hjlb: undefined,
+  hkxxdz: undefined,
+}
+// 职称信息表单
+export const zcxx_form = {
+  jszc: undefined,
+  ssjyz: undefined,
+  dqztm: undefined,
+  htlx: undefined,
+  yhkh: undefined,
+}
+// 其他个人信息表单
+export const qt_form = {
+  jjzqssj: undefined,
+  sflu: "2",
+  jjzyxq: undefined,
+  hzhtxzh: undefined,
+  hzhtxzhyxq: undefined,
+  fzdw: undefined,
+  rdrq: undefined,
+  bz: undefined,
+}
+// 任职信息表单
+export const rzxx_form = {
+  xnzw: undefined,
+  cjgzsj: undefined,
+  jrbdwgzsj: undefined,
+  rznx: undefined,
+  jyz: undefined,
+  gl: undefined,
+  sjgznx: undefined,
+  jl: undefined,
+  jrgwlbm: undefined,
+  ygxs: undefined,
+  rylb: undefined,
+  rylply: undefined,
+  sxqx: undefined,
+  xxzgbmm: undefined,
+  jysj: undefined,
+}
+// 教师发展信息表单
+export const jsfzxx_form = {
+  sxzh: undefined,
+  jszgzsc: undefined,
+}
+// 薪酬福利信息表单
+export const xcflxx_form = {
+  tygzbs: undefined,
+  gwjd: undefined,
+  xj: undefined,
+  gwdjm: undefined,
+  gwdjm: undefined,
+  xjdjfj: undefined,
+}
+// 子表表单
+export const xl_form = {
+  xl: undefined,
+  rxsj: undefined,
+  xxxsm: undefined,
+  xz: undefined,
+  bysj: undefined,
+}
+export const ll_form = {
+  qssj: undefined,
+  zzsj: undefined,
+  szdw: undefined,
+  zw: undefined,
+  dwszsf: undefined,
+}
+export const zz_form = {
+  zzmmm: undefined,
+  cjrq: undefined,
+  jsr: undefined,
+  zzrq: undefined,
+}
+export const js_form = {
+  cw: undefined,
+  xm: undefined,
+  csny: undefined,
+  zzmmm: undefined,
+  dwmc: undefined,
+  lxfs: undefined,
+}
+export const zy_form = {
+  zygz: undefined,
+  zydj: undefined,
+  bzjg: undefined,
+  zyzgzsbh: undefined,
+  zsbfrq: undefined,
+}
+export const xnzw_form = {
+  xxzgbmm: undefined,
+  zwmc: undefined,
+  rzfsm: undefined,
+  rmzwh: undefined,
+  zwjbm: undefined,
+  rzrq: undefined,
+}
+export const zyjszw_form = {
+  zyjszgmc: undefined,
+  qdzgtjm: undefined,
+  hdzgsj: undefined,
+  rzzgmcm: undefined,
+  scprsj: undefined,
+  prqsrq: undefined,
+  przzrq: undefined,
+  prqkm: undefined,
+  scdzzj: undefined,
+}
+export const grjsdj_form = {
+  grjsdjmc: undefined,
+  grjszwmc: undefined,
+  qdjszwsj: undefined,
+  pzjszwdwmc: undefined,
+  zsbh: undefined,
+  grgzm: undefined,
+  szdczj: undefined,
+}
+export const shjz_form = {
+  shjzqsrq: undefined,
+  shjzzzrq: undefined,
+  rzzz: undefined,
+  zzlx: undefined,
+  jzzw: undefined,
+  sfqc: undefined,
+}
+export const fwxy_form = {
+  qssj: undefined,
+  zzsj: undefined,
+  sy: undefined,
+  zje: undefined,
+  bz: undefined,
+}
+export const jypx_form = {
+  xxqssj: undefined,
+  xxzzsj: undefined,
+  pxbmc: undefined,
+  pxxs: undefined,
+  pxlb: undefined,
+  zbdw: undefined,
+  cjcgcj: undefined,
+  sfxlxwjs: undefined,
+}
+export const jszgz_form = {
+  jszgzzlm: undefined,
+  jszgzhm: undefined,
+  xjxkm: undefined,
+}
+export const cf_form = {
+  cflb: undefined,
+  ccmc: undefined,
+  ccrq: undefined,
+  ccyy: undefined,
+  cccxrq: undefined,
+  jcjgzjjyd: undefined,
+}
+export const jl_form = {
+  hjlbm: undefined,
+  jlmc: undefined,
+  hjrq: undefined,
+  bjdw: undefined,
+}
+export const zzkc_form = {
+  kcsy: undefined,
+  khrq: undefined,
+  bz: undefined,
+}
+export const jsrzqk_form = {
+  nd: undefined,
+  khfs: undefined,
+  khdj: undefined,
+  tjryrs: undefined,
+  tjryzmc: undefined,
+  qxzyjsrys: undefined,
+  qxzyjsrymc: undefined,
+  bz: undefined,
+}
+export const hz_form = {
+  hzzjzldm: undefined,
+  hzhtxzh: undefined,
+  qfdd: undefined,
+  qfrq: undefined,
+  qfjg: undefined,
+  zjyxq: undefined,
+}
