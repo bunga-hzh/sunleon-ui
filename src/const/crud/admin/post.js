@@ -31,7 +31,21 @@ export const tableOption = {
     "rules": [{"message": "名称必须填写", "required": true}],
     "required": true,
     "maxlength": 150
-  }, {"prop": "personNum", "span": 12, "type": "input", "label": "人数"}, {
+  }, {"prop": "personNum", "span": 12, "type": "input", "label": "标配人数"}
+    , {
+      label: '所属部门',
+      prop: 'deptId',
+      formslot: true,
+      slot: true,
+      span: 24,
+      hide: true,
+      dataType:"number",
+      rules: [{
+        required: true,
+        message: '请选择部门',
+        trigger: 'change'
+      }]
+    }, {
     "prop": "duty",
     "span": 24,
     "type": "textarea",

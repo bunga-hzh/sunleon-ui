@@ -22,7 +22,6 @@
                        :data="tableData"
                        :permission="permissionList"
                        :table-loading="tableLoading"
-                       :before-open="handleOpenBefore"
                        :option="tableOption"
                        @on-load="getList"
                        @search-change="searchChange"
@@ -32,22 +31,18 @@
                        @row-update="handleUpdate"
                        @row-save="handleSave"
                        @row-del="rowDel">
-
-
             </avue-crud>
         </basic-container>
     </div>
 </template>
 
 <script>
-    import {fetchList, getObj, addObj, putObj, delObj} from '@/api/admin/post'
-    import {tableOption} from '@/const/crud/admin/post'
+    import {fetchList, getObj, addObj, putObj, delObj} from '@/api/staff/zzjgpunish'
+    import {tableOption} from '@/const/crud/staff/zzjgpunish'
     import {mapGetters} from 'vuex'
-    import {fetchTree} from "@/api/admin/dept";
-    import {deptRoleList} from "@/api/admin/role";
 
     export default {
-        name: 'syspost',
+        name: 'zzjgpunish',
         data() {
             return {
                 searchForm: {},
@@ -65,9 +60,9 @@
             ...mapGetters(['permissions']),
             permissionList() {
                 return {
-                    addBtn: this.vaildData(this.permissions.admin_syspost_add, false),
-                    delBtn: this.vaildData(this.permissions.admin_syspost_del, false),
-                    editBtn: this.vaildData(this.permissions.admin_syspost_edit, false)
+                    addBtn: this.vaildData(this.permissions.staff_zzjgpunish_add, false),
+                    delBtn: this.vaildData(this.permissions.staff_zzjgpunish_del, false),
+                    editBtn: this.vaildData(this.permissions.staff_zzjgpunish_edit, false)
                 };
             }
         },
@@ -97,14 +92,6 @@
                     this.getList(this.page)
                 })
             },
-          handleOpenBefore(show, type) {
-            window.boxType = type
-            // 查询部门树
-            fetchTree().then(response => {
-              this.treeDeptData = response.data.data
-            })
-            show()
-          },
             handleUpdate: function (row, index, done,loading) {
                 putObj(row).then(data => {
                     this.$message.success('修改成功')
