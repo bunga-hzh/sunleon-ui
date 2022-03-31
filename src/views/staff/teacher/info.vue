@@ -24,7 +24,7 @@
             <el-option
               v-for="item in zzztOptions"
               :key="item.id"
-              :label="item.status"
+              :label="item.label"
               :value="item.id"
             >
             </el-option>
@@ -70,7 +70,7 @@
       :visible.sync="dialogVisible_add"
       width="60%"
       :fullscreen="dialogFull"
-      @close="clearForm('primary')"
+      @close="clearForm('jbxx')"
     >
       <template slot="title">
         <div class="avue-crud__dialog__header">
@@ -89,11 +89,20 @@
             <tr>
               <th colspan="4">
                 <span class="title">基本信息</span>
-                <span
-                  ><el-button type="primary" @click="save(1)"
+                <span>
+                  <el-button
+                    type="primary"
+                    v-show="isAdd"
+                    @click="addInfo('jbxx_id', jbxx_form)"
+                    >添加</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    v-show="!isAdd"
+                    @click="edit(jbxx_form)"
                     >保存</el-button
-                  ></span
-                >
+                  >
+                </span>
               </th>
             </tr>
             <tr>
@@ -117,6 +126,35 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item
+                        label="英文姓名"
+                        prop="ywxm"
+                        label-width="80px"
+                      >
+                        <el-input v-model="jbxx_form.ywxm"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item
+                        label="姓名拼音"
+                        prop="xmpy"
+                        label-width="80px"
+                      >
+                        <el-input v-model="jbxx_form.xmpy"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="出生日期" prop="csrq">
+                        <el-date-picker
+                          style="width: 100%"
+                          v-model="jbxx_form.csrq"
+                          type="date"
+                          placeholder="选择日期"
+                        >
+                        </el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item
                         label="曾用名"
                         prop="cym"
                         label-width="80px"
@@ -135,24 +173,31 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                      <el-form-item label="出生日期" prop="csrq">
-                        <el-date-picker
-                          style="width: 100%"
-                          v-model="jbxx_form.csrq"
-                          type="date"
-                          placeholder="选择日期"
-                        >
-                        </el-date-picker>
+                      <el-form-item label="身份证号" prop="sfzjh">
+                        <el-input v-model="jbxx_form.sfzjh"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item
+                        label="身份证件类型"
+                        prop="sfzjlxm"
+                        label-width="110px"
+                      >
+                        <el-input v-model="jbxx_form.sfzjlxm"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item
+                        label="国籍/地区"
+                        prop="gjdqm"
+                        label-width="90px"
+                      >
+                        <el-input v-model="jbxx_form.gjdqm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="出生地" prop="csd">
                         <el-input v-model="jbxx_form.csd"></el-input>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-form-item label="身份证号" prop="sfzjh">
-                        <el-input v-model="jbxx_form.sfzjh"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -231,7 +276,7 @@
               <th colspan="4">
                 <span class="title">教育经历</span>
                 <span
-                  ><el-button type="primary" @click="save(1)"
+                  ><el-button type="primary" @click="edit(jyjl_form)"
                     >保存</el-button
                   ></span
                 >
@@ -286,7 +331,7 @@
               <th colspan="4">
                 <span class="title">联系方式</span>
                 <span
-                  ><el-button type="primary" @click="save(3)"
+                  ><el-button type="primary" @click="edit(lxfs_form)"
                     >保存</el-button
                   ></span
                 >
@@ -326,6 +371,15 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                      <el-form-item
+                        label="户口详细地址"
+                        prop="hkxxdz"
+                        label-width="110px"
+                      >
+                        <el-input v-model="lxfs_form.hkxxdz"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
                       <el-form-item label="户籍类别" prop="hjlb">
                         <el-select
                           style="width: 100%"
@@ -342,13 +396,13 @@
                         </el-select>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="6">
                       <el-form-item
-                        label="户口详细地址"
-                        prop="hkxxdz"
+                        label="港澳台侨外码"
+                        prop="gatqwm"
                         label-width="110px"
                       >
-                        <el-input v-model="lxfs_form.hkxxdz"></el-input>
+                        <el-input v-model="lxfs_form.gatqwm"></el-input>
                       </el-form-item>
                     </el-col>
                   </el-row>
@@ -359,7 +413,7 @@
               <th colspan="4">
                 <span class="title">职称信息</span>
                 <span
-                  ><el-button type="primary" @click="save(4)"
+                  ><el-button type="primary" @click="edit(zcxx_form)"
                     >保存</el-button
                   ></span
                 >
@@ -386,6 +440,24 @@
                         label-width="95px"
                       >
                         <el-input v-model="zcxx_form.ssjyz"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="是否兼职教师"
+                        prop="sfjzjs"
+                        label-width="110px"
+                      >
+                        <el-input v-model="zcxx_form.sfjzjs"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="是否双师型教师"
+                        prop="sfssxjs"
+                        label-width="120px"
+                      >
+                        <el-input v-model="zcxx_form.sfssxjs"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -433,7 +505,7 @@
               <th colspan="4">
                 <span class="title">其他个人信息</span>
                 <span
-                  ><el-button type="primary" @click="save(4)"
+                  ><el-button type="primary" @click="edit(qt_form)"
                     >保存</el-button
                   ></span
                 >
@@ -448,27 +520,6 @@
                   label-width="80px"
                 >
                   <el-row>
-                    <el-col :span="12">
-                      <el-form-item
-                        label="居住证起始时间"
-                        prop="jjzqssj"
-                        label-width="125px"
-                      >
-                        <el-date-picker
-                          style="width: 100%"
-                          v-model="qt_form.jjzqssj"
-                          type="date"
-                          placeholder="选择日期"
-                        >
-                        </el-date-picker>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-form-item label="是否落户" prop="sflu">
-                        <el-radio v-model="qt_form.sflu" label="1">是</el-radio>
-                        <el-radio v-model="qt_form.sflu" label="2">否</el-radio>
-                      </el-form-item>
-                    </el-col>
                     <el-col :span="24">
                       <el-form-item
                         label="居住证有效期"
@@ -576,7 +627,7 @@
               <div>
                 <!-- 学历及学位子集 -->
                 <el-table
-                  :data="xl_tableData"
+                  :data="xljxw_tableData"
                   style="width: 100%"
                   align="center"
                   border
@@ -590,51 +641,67 @@
                   <el-table-column label="学制" prop="xz"> </el-table-column>
                   <el-table-column label="毕业时间" prop="bysj">
                   </el-table-column>
-                  <el-table-column align="right">
+                  <el-table-column align="center">
                     <template slot="header">
-                      <el-button type="text" @click="add_xl"
+                      <el-button type="text" @click="openChild('xljxw')"
                         ><i class="el-icon-plus"></i>添加</el-button
                       >
                     </template>
-                    <template>
-                      <el-button size="mini" type="danger">删除</el-button>
+                    <template slot-scope="scope">
+                      <el-button
+                        type="text"
+                        @click="editChildRow('xljxw', scope.row)"
+                        >修改</el-button
+                      >
+                      <el-button
+                        type="text"
+                        @click="delChildRow('xljxw', scope.row)"
+                        >删除</el-button
+                      >
                     </template>
                   </el-table-column>
                 </el-table>
                 <el-dialog
                   append-to-body
                   title="提示"
-                  :visible.sync="dialogVisible_xl"
+                  :visible.sync="dialogVisible_xljxw"
                   width="30%"
-                  @close="clearForm('xl')"
+                  @close="clearForm('xljxw')"
                 >
                   <el-form
-                    ref="xlFormRef"
-                    :model="xl_form"
+                    ref="xljxwFormRef"
+                    :model="xljxw_form"
                     :rules="xljxw_rules"
                     label-width="100px"
                   >
                     <el-form-item label="学历" prop="xlm">
-                      <el-input v-model="xl_form.xlm"></el-input>
+                      <el-input v-model="xljxw_form.xlm"></el-input>
                     </el-form-item>
                     <el-form-item label="入学时间" prop="rxsj">
-                      <el-input v-model="xl_form.rxsj"></el-input>
+                      <el-input v-model="xljxw_form.rxsj"></el-input>
                     </el-form-item>
                     <el-form-item label="学习形式" prop="xxxsm">
-                      <el-input v-model="xl_form.xxxsm"></el-input>
+                      <el-input v-model="xljxw_form.xxxsm"></el-input>
                     </el-form-item>
                     <el-form-item label="学制" prop="xz">
-                      <el-input v-model="xl_form.xz"></el-input>
+                      <el-input-number
+                        v-model="xljxw_form.xz"
+                        controls-position="right"
+                        :min="1"
+                        :max="5"
+                      ></el-input-number>
                     </el-form-item>
                     <el-form-item label="毕业时间" prop="bysj">
-                      <el-input v-model="xl_form.bysj"></el-input>
+                      <el-input v-model="xljxw_form.bysj"></el-input>
                     </el-form-item>
                   </el-form>
                   <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible_xl = false"
+                    <el-button @click="dialogVisible_xljxw = false"
                       >取 消</el-button
                     >
-                    <el-button type="primary" @click="dialogVisible_xl = false"
+                    <el-button
+                      type="primary"
+                      @click="addChild('xljxw', xljxw_form)"
                       >确 定</el-button
                     >
                   </span>
@@ -643,7 +710,7 @@
             </el-collapse-item>
             <el-collapse-item title="个人履历子集（校外）">
               <el-table
-                :data="ll_tableData"
+                :data="grll_tableData"
                 style="width: 100%"
                 border
                 :header-cell-style="{ textAlign: 'center' }"
@@ -657,49 +724,60 @@
                 <el-table-column label="职务" prop="zw"> </el-table-column>
                 <el-table-column label="单位所在省份" prop="dwszsf">
                 </el-table-column>
-                <el-table-column align="right">
+                <el-table-column align="center">
                   <template slot="header">
-                    <el-button type="text" @click="add_ll"
+                    <el-button type="text" @click="openChild('grll')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('grll', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('grll', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
               <el-dialog
                 append-to-body
                 title="提示"
-                :visible.sync="dialogVisible_ll"
+                :visible.sync="dialogVisible_grll"
                 width="30%"
                 @close="clearForm('grll')"
               >
                 <el-form
                   ref="llFormRef"
-                  :model="ll_form"
+                  :model="grll_form"
                   :rules="grll_rules"
                   label-width="110px"
                 >
                   <el-form-item label="超始时间" prop="qssj">
-                    <el-input v-model="ll_form.qssj"></el-input>
+                    <el-input v-model="grll_form.qssj"></el-input>
                   </el-form-item>
                   <el-form-item label="终止时间" prop="zzsj">
-                    <el-input v-model="ll_form.zzsj"></el-input>
+                    <el-input v-model="grll_form.zzsj"></el-input>
                   </el-form-item>
                   <el-form-item label="所在单位" prop="szdw">
-                    <el-input v-model="ll_form.szdw"></el-input>
+                    <el-input v-model="grll_form.szdw"></el-input>
                   </el-form-item>
                   <el-form-item label="职务" prop="zw">
-                    <el-input v-model="ll_form.zw"></el-input>
+                    <el-input v-model="grll_form.zw"></el-input>
                   </el-form-item>
                   <el-form-item label="单位所在省份" prop="dwszsf">
-                    <el-input v-model="ll_form.dwszsf"></el-input>
+                    <el-input v-model="grll_form.dwszsf"></el-input>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible_ll = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible_ll = false"
+                  <el-button @click="dialogVisible_grll = false"
+                    >取 消</el-button
+                  >
+                  <el-button type="primary" @click="addChild('grll', grll_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -707,7 +785,7 @@
             </el-collapse-item>
             <el-collapse-item title="政治面貌及党籍情况子集">
               <el-table
-                :data="zz_tableData"
+                :data="zzmmjdjqk_tableData"
                 style="width: 100%"
                 border
                 :header-cell-style="{ textAlign: 'center' }"
@@ -719,46 +797,59 @@
                 <el-table-column label="介绍人" prop="jsr"> </el-table-column>
                 <el-table-column label="转正时间" prop="zzrq">
                 </el-table-column>
-                <el-table-column align="right">
+                <el-table-column align="center">
                   <template slot="header">
-                    <el-button type="text" @click="add_zz"
+                    <el-button type="text" @click="openChild('zzmmjdjqk')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('zzmmjdjqk', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('zzmmjdjqk', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
               <el-dialog
                 append-to-body
                 title="提示"
-                :visible.sync="dialogVisible_zz"
+                :visible.sync="dialogVisible_zzmmjdjqk"
                 width="30%"
                 @close="clearForm('zz')"
               >
                 <el-form
                   ref="zzFormRef"
-                  :model="zz_form"
+                  :model="zzmmjdjqk_form"
                   :rules="zzmmjdjqk_rules"
                   label-width="110px"
                 >
                   <el-form-item label="政治面貌" prop="zzmmm">
-                    <el-input v-model="zz_form.zzmmm"></el-input>
+                    <el-input v-model="zzmmjdjqk_form.zzmmm"></el-input>
                   </el-form-item>
                   <el-form-item label="参加党派时间" prop="cjrq">
-                    <el-input v-model="zz_form.cjrq"></el-input>
+                    <el-input v-model="zzmmjdjqk_form.cjrq"></el-input>
                   </el-form-item>
                   <el-form-item label="介绍人" prop="jsr">
-                    <el-input v-model="zz_form.jsr"></el-input>
+                    <el-input v-model="zzmmjdjqk_form.jsr"></el-input>
                   </el-form-item>
                   <el-form-item label="转正时间" prop="zzrq">
-                    <el-input v-model="zz_form.zzrq"></el-input>
+                    <el-input v-model="zzmmjdjqk_form.zzrq"></el-input>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible_zz = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible_zz = false"
+                  <el-button @click="dialogVisible_zzmmjdjqk = false"
+                    >取 消</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    @click="addChild('zzmmjdjqk', zzmmjdjqk_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -783,12 +874,19 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_js"
+                    <el-button type="text" @click="openChild('js')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('js', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button type="text" @click="delChildRow('js', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -826,7 +924,7 @@
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogVisible_js = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible_js = false"
+                  <el-button type="primary" @click="addChild('js', js_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -983,7 +1081,7 @@
           <el-collapse accordion>
             <el-collapse-item title="职业资格证子集">
               <el-table
-                :data="zy_tableData"
+                :data="zyzgz_tableData"
                 style="width: 100%"
                 border
                 :header-cell-style="{ textAlign: 'center' }"
@@ -1000,47 +1098,60 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_zy"
+                    <el-button type="text" @click="openChild('zyzgz')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('zyzgz', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('zyzgz', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
               <el-dialog
                 append-to-body
                 title="提示"
-                :visible.sync="dialogVisible_zy"
+                :visible.sync="dialogVisible_zyzgz"
                 width="30%"
                 @close="clearForm('zy')"
               >
                 <el-form
                   ref="zyFormRef"
-                  :model="zy_form"
+                  :model="zyzgz_form"
                   :rules="zyzgz_rules"
                   label-width="100px"
                 >
                   <el-form-item label="职业工种" prop="zygz">
-                    <el-input v-model="zy_form.zygz"></el-input>
+                    <el-input v-model="zyzgz_form.zygz"></el-input>
                   </el-form-item>
                   <el-form-item label="职业等级" prop="zydj">
-                    <el-input v-model="zy_form.zydj"></el-input>
+                    <el-input v-model="zyzgz_form.zydj"></el-input>
                   </el-form-item>
                   <el-form-item label="颁证机构" prop="bzjg">
-                    <el-input v-model="zy_form.bzjg"></el-input>
+                    <el-input v-model="zyzgz_form.bzjg"></el-input>
                   </el-form-item>
                   <el-form-item label="证书编号" prop="zyzgzsbh">
-                    <el-input v-model="zy_form.zyzgzsbh"></el-input>
+                    <el-input v-model="zyzgz_form.zyzgzsbh"></el-input>
                   </el-form-item>
                   <el-form-item label="取得时间" prop="zsbfrq">
-                    <el-input v-model="zy_form.zsbfrq"></el-input>
+                    <el-input v-model="zyzgz_form.zsbfrq"></el-input>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible_zy = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible_zy = false"
+                  <el-button @click="dialogVisible_zyzgz = false"
+                    >取 消</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    @click="addChild('zyzgz', zyzgz_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1048,7 +1159,7 @@
             </el-collapse-item>
             <el-collapse-item title="校内职务表">
               <el-table
-                :data="xnzw_tableData"
+                :data="xnzwb_tableData"
                 style="width: 100%"
                 border
                 :header-cell-style="{ textAlign: 'center' }"
@@ -1066,36 +1177,45 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_xnzw"
+                    <el-button type="text" @click="openChild('xnzwb')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('xnzwb', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('xnzwb', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
               <el-dialog
                 append-to-body
                 title="提示"
-                :visible.sync="dialogVisible_xnzw"
+                :visible.sync="dialogVisible_xnzwb"
                 width="30%"
                 @close="clearForm('xnzw')"
               >
                 <el-form
                   ref="xnzwFormRef"
-                  :model="xnzw_form"
+                  :model="xnzwb_form"
                   :rules="xnzwb_rules"
                   label-width="110px"
                 >
                   <el-form-item label="部门" prop="xxzgbmm">
-                    <el-input v-model="xnzw_form.xxzgbmm"></el-input>
+                    <el-input v-model="xnzwb_form.xxzgbmm"></el-input>
                   </el-form-item>
                   <el-form-item label="职务名称" prop="zwmc">
-                    <el-input v-model="xnzw_form.zwmc"></el-input>
+                    <el-input v-model="xnzwb_form.zwmc"></el-input>
                   </el-form-item>
                   <el-form-item label="任职方式" prop="rzfsm">
-                    <el-select v-model="xnzw_form.rzfsm" placeholder="请选择">
+                    <el-select v-model="xnzwb_form.rzfsm" placeholder="请选择">
                       <el-option
                         v-for="item in rzfsOptions"
                         :key="item.id"
@@ -1106,20 +1226,22 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="任免职文号" prop="rmzwh">
-                    <el-input v-model="xnzw_form.rmzwh"></el-input>
+                    <el-input v-model="xnzwb_form.rmzwh"></el-input>
                   </el-form-item>
                   <el-form-item label="职务级别" prop="zwjbm">
-                    <el-input v-model="xnzw_form.zwjbm"></el-input>
+                    <el-input v-model="xnzwb_form.zwjbm"></el-input>
                   </el-form-item>
                   <el-form-item label="任本职级时间" prop="rzrq">
-                    <el-input v-model="xnzw_form.rzrq"></el-input>
+                    <el-input v-model="xnzwb_form.rzrq"></el-input>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible_xnzw = false"
+                  <el-button @click="dialogVisible_xnzwb = false"
                     >取 消</el-button
                   >
-                  <el-button type="primary" @click="dialogVisible_xnzw = false"
+                  <el-button
+                    type="primary"
+                    @click="addChild('xnzwb', xnzwb_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1152,12 +1274,21 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_zyjszw"
+                    <el-button type="text" @click="openChild('zyjszw')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('zyjszw', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('zyjszw', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1231,7 +1362,7 @@
                   >
                   <el-button
                     type="primary"
-                    @click="dialogVisible_zyjszw = false"
+                    @click="addChild('zyjszw', zyjszw_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1239,7 +1370,7 @@
             </el-collapse-item>
             <el-collapse-item title="工人技术等级及职务子集">
               <el-table
-                :data="grjsdj_tableData"
+                :data="grjsdjzw_tableData"
                 style="width: 100%"
                 border
                 :header-cell-style="{ textAlign: 'center' }"
@@ -1260,31 +1391,40 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_grjsdj"
+                    <el-button type="text" @click="openChild('grjsdjjzw')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('grjsdjjzw', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('grjsdjjzw', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
               <el-dialog
                 append-to-body
                 title="提示"
-                :visible.sync="dialogVisible_grjsdj"
+                :visible.sync="dialogVisible_grjsdjjzw"
                 width="30%"
                 @close="clearForm('grjsdj')"
               >
                 <el-form
                   ref="grjsdjFormRef"
-                  :model="grjsdj_form"
+                  :model="grjsdjzw_form"
                   :rules="grjsdjjzw_rules"
                   label-width="165px"
                 >
                   <el-form-item label="工人技术等级名称" prop="grjsdjmc">
                     <el-select
-                      v-model="grjsdj_form.grjsdjmc"
+                      v-model="grjsdjzw_form.grjsdjmc"
                       placeholder="请选择"
                     >
                       <el-option
@@ -1298,7 +1438,7 @@
                   </el-form-item>
                   <el-form-item label="工人技术职务名称" prop="grjszwmc">
                     <el-select
-                      v-model="grjsdj_form.grjszwmc"
+                      v-model="grjsdjzw_form.grjszwmc"
                       placeholder="请选择"
                     >
                       <el-option
@@ -1311,28 +1451,28 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="取得技术职务时间" prop="qdjszwsj">
-                    <el-input v-model="grjsdj_form.qdjszwsj"></el-input>
+                    <el-input v-model="grjsdjzw_form.qdjszwsj"></el-input>
                   </el-form-item>
                   <el-form-item label="批准技术职务单位名称" prop="pzjszwdwmc">
-                    <el-input v-model="grjsdj_form.pzjszwdwmc"></el-input>
+                    <el-input v-model="grjsdjzw_form.pzjszwdwmc"></el-input>
                   </el-form-item>
                   <el-form-item label="证书编号" prop="zsbh">
-                    <el-input v-model="grjsdj_form.zsbh"></el-input>
+                    <el-input v-model="grjsdjzw_form.zsbh"></el-input>
                   </el-form-item>
                   <el-form-item label="职业工种" prop="grgzm">
-                    <el-input v-model="grjsdj_form.grgzm"></el-input>
+                    <el-input v-model="grjsdjzw_form.grgzm"></el-input>
                   </el-form-item>
                   <el-form-item label="上传电子证件" prop="szdczj">
-                    <el-input v-model="grjsdj_form.szdczj"></el-input>
+                    <el-input v-model="grjsdjzw_form.szdczj"></el-input>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible_grjsdj = false"
+                  <el-button @click="dialogVisible_grjsdjjzw = false"
                     >取 消</el-button
                   >
                   <el-button
                     type="primary"
-                    @click="dialogVisible_grjsdj = false"
+                    @click="addChild('grjsdjjzw', grjsdjjzw_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1359,12 +1499,21 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_shjz"
+                    <el-button type="text" @click="openChild('shjz')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('shjz', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('shjz', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1412,7 +1561,7 @@
                   <el-button @click="dialogVisible_shjz = false"
                     >取 消</el-button
                   >
-                  <el-button type="primary" @click="dialogVisible_shjz = false"
+                  <el-button type="primary" @click="addChild('shjz', shjz_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1434,12 +1583,21 @@
                 <el-table-column label="备注" prop="bz"> </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_fwxy"
+                    <el-button type="text" @click="openChild('fwxy')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('fwxy', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('fwxy', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1481,7 +1639,7 @@
                   <el-button @click="dialogVisible_fwxy = false"
                     >取 消</el-button
                   >
-                  <el-button type="primary" @click="dialogVisible_fwxy = false"
+                  <el-button type="primary" @click="addChild('fwxy', fwxy_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1567,12 +1725,21 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_jypx"
+                    <el-button type="text" @click="openChild('jypx')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('jypx', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('jypx', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1618,7 +1785,7 @@
                   <el-button @click="dialogVisible_jypx = false"
                     >取 消</el-button
                   >
-                  <el-button type="primary" @click="dialogVisible_jypx = false"
+                  <el-button type="primary" @click="addChild('jypx', jypx_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1639,12 +1806,21 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_jszgz"
+                    <el-button type="text" @click="openChild('jszgz')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('jszgz', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('jszgz', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1675,7 +1851,9 @@
                   <el-button @click="dialogVisible_jszgz = false"
                     >取 消</el-button
                   >
-                  <el-button type="primary" @click="dialogVisible_jszgz = false"
+                  <el-button
+                    type="primary"
+                    @click="addChild('jszgz', jszgz_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1702,12 +1880,19 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_cf"
+                    <el-button type="text" @click="openChild('cf')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('cf', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button type="text" @click="delChildRow('cf', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1745,7 +1930,7 @@
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogVisible_cf = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible_cf = false"
+                  <el-button type="primary" @click="addChild('cf', cf_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1768,12 +1953,19 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_jl"
+                    <el-button type="text" @click="openChild('jl')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('jl', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button type="text" @click="delChildRow('jl', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1805,7 +1997,7 @@
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogVisible_jl = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible_jl = false"
+                  <el-button type="primary" @click="addChild('jl', jl_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1829,12 +2021,21 @@
                 <el-table-column label="备注" prop="bz"> </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_zzkc"
+                    <el-button type="text" @click="openChild('zzkc')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('zzkc', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('zzkc', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -1870,7 +2071,7 @@
                   <el-button @click="dialogVisible_zzkc = false"
                     >取 消</el-button
                   >
-                  <el-button type="primary" @click="dialogVisible_zzkc = false"
+                  <el-button type="primary" @click="addChild('zzkc', zzkc_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -1878,7 +2079,7 @@
             </el-collapse-item>
             <el-collapse-item title="教师任职情况测评子集">
               <el-table
-                :data="jsrzqk_tableData"
+                :data="jsrzqkcp_tableData"
                 style="width: 100%"
                 border
                 :header-cell-style="{ textAlign: 'center' }"
@@ -1897,65 +2098,74 @@
                 <el-table-column label="备注" prop="bz"></el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_jsrzqk"
+                    <el-button type="text" @click="openChild('jsrzqkcp')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('jsrzqkcp', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('jsrzqkcp', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
               <el-dialog
                 append-to-body
                 title="提示"
-                :visible.sync="dialogVisible_jsrzqk"
+                :visible.sync="dialogVisible_jsrzqkcp"
                 width="30%"
                 @close="clearForm('jsrzqk')"
               >
                 <el-form
                   ref="jsrzqkFormRef"
-                  :model="jsrzqk_form"
+                  :model="jsrzqkcp_form"
                   :rules="jsrzqkpc_rules"
                   label-width="170px"
                 >
                   <el-form-item label="年度" prop="nd">
-                    <el-input v-model="jsrzqk_form.nd"></el-input>
+                    <el-input v-model="jsrzqkcp_form.nd"></el-input>
                   </el-form-item>
                   <el-form-item label="考核分数" prop="khfs">
-                    <el-input v-model="jsrzqk_form.khfs"></el-input>
+                    <el-input v-model="jsrzqkcp_form.khfs"></el-input>
                   </el-form-item>
                   <el-form-item label="考核等级" prop="khdj">
-                    <el-input v-model="jsrzqk_form.khdj"></el-input>
+                    <el-input v-model="jsrzqkcp_form.khdj"></el-input>
                   </el-form-item>
                   <el-form-item label="同级人员人数" prop="tjryrs">
-                    <el-input v-model="jsrzqk_form.tjryrs"></el-input>
+                    <el-input v-model="jsrzqkcp_form.tjryrs"></el-input>
                   </el-form-item>
                   <el-form-item label="同级人员中名次" prop="tjryzmc">
-                    <el-input v-model="jsrzqk_form.tjryzmc"></el-input>
+                    <el-input v-model="jsrzqkcp_form.tjryzmc"></el-input>
                   </el-form-item>
                   <el-form-item label="全校专业技术人员数" prop="qxzyjsrys">
-                    <el-input v-model="jsrzqk_form.qxzyjsrys"></el-input>
+                    <el-input v-model="jsrzqkcp_form.qxzyjsrys"></el-input>
                   </el-form-item>
                   <el-form-item label="全校专业技术人员名次" prop="qxzyjsrymc">
-                    <el-input v-model="jsrzqk_form.qxzyjsrymc"></el-input>
+                    <el-input v-model="jsrzqkcp_form.qxzyjsrymc"></el-input>
                   </el-form-item>
                   <el-form-item label="备注" prop="bz">
                     <el-input
                       type="textarea"
                       :autosize="{ minRows: 2, maxRows: 4 }"
                       placeholder="请输入内容"
-                      v-model="jsrzqk_form.bz"
+                      v-model="jsrzqkcp_form.bz"
                     ></el-input>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible_jsrzqk = false"
+                  <el-button @click="dialogVisible_jsrzqkcp = false"
                     >取 消</el-button
                   >
                   <el-button
                     type="primary"
-                    @click="dialogVisible_jsrzqk = false"
+                    @click="addChild('jsrzqkcp', jsrzqkcp_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -2051,7 +2261,7 @@
           <el-collapse accordion>
             <el-collapse-item title="因公/因私护照">
               <el-table
-                :data="hz_tableData"
+                :data="ygyshz_tableData"
                 style="width: 100%"
                 border
                 :header-cell-style="{ textAlign: 'center' }"
@@ -2070,50 +2280,63 @@
                 </el-table-column>
                 <el-table-column align="right">
                   <template slot="header">
-                    <el-button type="text" @click="add_hz"
+                    <el-button type="text" @click="openChild('ygyshz')"
                       ><i class="el-icon-plus"></i>添加</el-button
                     >
                   </template>
-                  <template>
-                    <el-button size="mini" type="danger">删除</el-button>
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      @click="editChildRow('ygyshz', scope.row)"
+                      >修改</el-button
+                    >
+                    <el-button
+                      type="text"
+                      @click="delChildRow('ygyshz', scope.row)"
+                      >删除</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
               <el-dialog
                 append-to-body
                 title="提示"
-                :visible.sync="dialogVisible_hz"
+                :visible.sync="dialogVisible_ygyshz"
                 width="30%"
                 @close="clearForm('hz')"
               >
                 <el-form
                   ref="hzFormRef"
-                  :model="hz_form"
+                  :model="ygyshz_form"
                   :rules="ygyshz_rules"
                   label-width="80px"
                 >
                   <el-form-item label="类别" prop="hzzjzldm">
-                    <el-input v-model="hz_form.hzzjzldm"></el-input>
+                    <el-input v-model="ygyshz_form.hzzjzldm"></el-input>
                   </el-form-item>
                   <el-form-item label="护照号" prop="hzhtxzh">
-                    <el-input v-model="hz_form.hzhtxzh"></el-input>
+                    <el-input v-model="ygyshz_form.hzhtxzh"></el-input>
                   </el-form-item>
                   <el-form-item label="签发地点" prop="qfdd">
-                    <el-input v-model="hz_form.qfdd"></el-input>
+                    <el-input v-model="ygyshz_form.qfdd"></el-input>
                   </el-form-item>
                   <el-form-item label="签发日期" prop="qfrq">
-                    <el-input v-model="hz_form.qfrq"></el-input>
+                    <el-input v-model="ygyshz_form.qfrq"></el-input>
                   </el-form-item>
                   <el-form-item label="签发机关" prop="qfjg">
-                    <el-input v-model="hz_form.qfjg"></el-input>
+                    <el-input v-model="ygyshz_form.qfjg"></el-input>
                   </el-form-item>
                   <el-form-item label="有效期至" prop="zjyxq">
-                    <el-input v-model="hz_form.zjyxq"></el-input>
+                    <el-input v-model="ygyshz_form.zjyxq"></el-input>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible_hz = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible_hz = false"
+                  <el-button @click="dialogVisible_ygyshz = false"
+                    >取 消</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    @click="addChild('ygyshz', ygyshz_form)"
                     >确 定</el-button
                   >
                 </span>
@@ -2268,7 +2491,7 @@
                 <div>
                   <!-- 学历及学位子集 -->
                   <el-table
-                    :data="xl_tableData"
+                    :data="xljxw_tableData"
                     style="width: 100%"
                     align="center"
                     border
@@ -2287,7 +2510,7 @@
               </el-collapse-item>
               <el-collapse-item title="个人履历子集（校外）">
                 <el-table
-                  :data="ll_tableData"
+                  :data="grll_tableData"
                   style="width: 100%"
                   border
                   :header-cell-style="{ textAlign: 'center' }"
@@ -2305,7 +2528,7 @@
               </el-collapse-item>
               <el-collapse-item title="政治面貌及党籍情况子集">
                 <el-table
-                  :data="zz_tableData"
+                  :data="zzmmjdjqk_tableData"
                   style="width: 100%"
                   border
                   :header-cell-style="{ textAlign: 'center' }"
@@ -2398,7 +2621,7 @@
             <el-collapse accordion>
               <el-collapse-item title="职业资格证子集">
                 <el-table
-                  :data="zy_tableData"
+                  :data="zyzgz_tableData"
                   style="width: 100%"
                   border
                   :header-cell-style="{ textAlign: 'center' }"
@@ -2417,7 +2640,7 @@
               </el-collapse-item>
               <el-collapse-item title="校内职务表">
                 <el-table
-                  :data="xnzw_tableData"
+                  :data="xnzwb_tableData"
                   style="width: 100%"
                   border
                   :header-cell-style="{ textAlign: 'center' }"
@@ -2465,7 +2688,7 @@
               </el-collapse-item>
               <el-collapse-item title="工人技术等级及职务子集">
                 <el-table
-                  :data="grjsdj_tableData"
+                  :data="grjsdjzw_tableData"
                   style="width: 100%"
                   border
                   :header-cell-style="{ textAlign: 'center' }"
@@ -2642,7 +2865,7 @@
               </el-collapse-item>
               <el-collapse-item title="教师任职情况测评子集">
                 <el-table
-                  :data="jsrzqk_tableData"
+                  :data="jsrzqkcp_tableData"
                   style="width: 100%"
                   border
                   :header-cell-style="{ textAlign: 'center' }"
@@ -2699,7 +2922,7 @@
             <el-collapse accordion>
               <el-collapse-item title="因公/因私护照">
                 <el-table
-                  :data="hz_tableData"
+                  :data="ygyshz_tableData"
                   style="width: 100%"
                   border
                   :header-cell-style="{ textAlign: 'center' }"
@@ -2750,14 +2973,14 @@ import {
   rzxx_form,
   jsfzxx_form,
   xcflxx_form,
-  xl_form,
-  ll_form,
-  zz_form,
+  xljxw_form,
+  grll_form,
+  zzmmjdjqk_form,
   js_form,
-  zy_form,
-  xnzw_form,
+  zyzgz_form,
+  xnzwb_form,
   zyjszw_form,
-  grjsdj_form,
+  grjsdjzw_form,
   shjz_form,
   fwxy_form,
   jypx_form,
@@ -2765,8 +2988,8 @@ import {
   cf_form,
   jl_form,
   zzkc_form,
-  jsrzqk_form,
-  hz_form,
+  jsrzqkcp_form,
+  ygyshz_form,
   grjsdjOptions,
   zzlxOptions,
   rzfsOptions,
@@ -2801,23 +3024,28 @@ import {
 } from "@/const/crud/staff/teacher/info";
 import {
   getInfo,
-  addJbxxInfo,
-  addJyjlInfo,
-  addlxfslInfo,
-  addZcxxlInfo,
-  addQtgrxxInfo,
-  queryInfoById,
-  putInfo,
+  addInfo,
+  editInfo,
+  addChild,
+  editChild,
+  delChild,
+  getDictItems,
 } from "@/api/staff/teacher/info";
+import { dictItems } from "@/const/staff/dictItems";
 
 export default {
   name: "TableEngage",
   data() {
     return {
+      // 用户id
+      user_id: undefined,
+      addIndex: 0,
+      isAdd: true,
+      child_flag: undefined,
       // 标签页激活项
       activeName: "1",
       fileList: [],
-
+      dictItems: dictItems,
       // 控制弹窗全屏
       dialogFull: false,
 
@@ -2826,21 +3054,21 @@ export default {
       // 控制 查看 对话框的显示与隐藏
       dialogVisible_view: false,
       // 控制 添加 学历及学位子集 对话框的显示与隐藏
-      dialogVisible_xl: false,
+      dialogVisible_xljxw: false,
       // 控制 添加 个人履历子集 对话框的显示与隐藏
-      dialogVisible_ll: false,
+      dialogVisible_grll: false,
       // 控制 添加 政治面貌及党籍情况子集 对话框的显示与隐藏
-      dialogVisible_zz: false,
+      dialogVisible_zzmmjdjqk: false,
       // 控制 添加 家属子集 对话框的显示与隐藏
       dialogVisible_js: false,
       // 控制 添加 职业资格证子集 对话框的显示与隐藏
-      dialogVisible_zy: false,
+      dialogVisible_zyzgz: false,
       // 控制 添加 校内职务表 对话框的显示与隐藏
-      dialogVisible_xnzw: false,
+      dialogVisible_xnzwb: false,
       // 控制 添加 专业技术职务子集 对话框的显示与隐藏
       dialogVisible_zyjszw: false,
       // 控制 添加 工人技术等级及职务子集 对话框的显示与隐藏
-      dialogVisible_grjsdj: false,
+      dialogVisible_grjsdjjzw: false,
       // 控制 添加 社会兼职子集 对话框的显示与隐藏
       dialogVisible_shjz: false,
       // 控制 添加 服务协议子集 对话框的显示与隐藏
@@ -2850,9 +3078,9 @@ export default {
       // 控制 添加 组织考察（考核）子集 对话框的显示与隐藏
       dialogVisible_zzkc: false,
       // 控制 添加 教师任职情况测评子集 对话框的显示与隐藏
-      dialogVisible_jsrzqk: false,
+      dialogVisible_jsrzqkcp: false,
       // 控制 添加 因公/因私护照 对话框的显示与隐藏
-      dialogVisible_hz: false,
+      dialogVisible_ygyshz: false,
       // 控制 添加 处分（行政及党内）子集 对话框的显示与隐藏
       dialogVisible_cf: false,
       // 控制 添加 教育培训子集 对话框的显示与隐藏
@@ -2917,14 +3145,14 @@ export default {
       xcflxx_form: xcflxx_form,
 
       // 子表数据源
-      xl_tableData: [],
-      ll_tableData: [],
-      zz_tableData: [],
+      xljxw_tableData: [],
+      grll_tableData: [],
+      zzmmjdjqk_tableData: [],
       js_tableData: [],
-      zy_tableData: [],
-      xnzw_tableData: [],
+      zyzgz_tableData: [],
+      xnzwb_tableData: [],
       zyjszw_tableData: [],
-      grjsdj_tableData: [],
+      grjsdjzw_tableData: [],
       shjz_tableData: [],
       fwxy_tableData: [],
       jypx_tableData: [],
@@ -2932,18 +3160,18 @@ export default {
       cf_tableData: [],
       jl_tableData: [],
       zzkc_tableData: [],
-      jsrzqk_tableData: [],
-      hz_tableData: [],
+      jsrzqkcp_tableData: [],
+      ygyshz_tableData: [],
 
       // 子表表单
-      xl_form: xl_form,
-      ll_form: ll_form,
-      zz_form: zz_form,
+      xljxw_form: xljxw_form,
+      grll_form: grll_form,
+      zzmmjdjqk_form: zzmmjdjqk_form,
       js_form: js_form,
-      zy_form: zy_form,
-      xnzw_form: xnzw_form,
+      zyzgz_form: zyzgz_form,
+      xnzwb_form: xnzwb_form,
       zyjszw_form: zyjszw_form,
-      grjsdj_form: grjsdj_form,
+      grjsdjzw_form: grjsdjzw_form,
       shjz_form: shjz_form,
       fwxy_form: fwxy_form,
       jypx_form: jypx_form,
@@ -2951,8 +3179,8 @@ export default {
       cf_form: cf_form,
       jl_form: jl_form,
       zzkc_form: zzkc_form,
-      jsrzqk_form: jsrzqk_form,
-      hz_form: hz_form,
+      jsrzqkcp_form: jsrzqkcp_form,
+      ygyshz_form: ygyshz_form,
 
       // 表单验证规则
       jbxx_rules: jbxx_rules,
@@ -2982,10 +3210,22 @@ export default {
       ygyshz_rules: ygyshz_rules,
     };
   },
-  mounted() {
-    this.getInfoList();
-  },
   methods: {
+    // 打开子表对话框
+    openChild(type) {
+      this[`dialogVisible_${type}`] = true;
+      this.child_flag = "add";
+    },
+
+    // 清空表单
+    clearForm(type) {
+      // this.$nextTick(() => {
+      //   this.$refs[`${type}FormRef`].resetFields();
+      // });
+      this.isAdd = true;
+      // this.user_id = undefined;
+    },
+
     // 获取表格数据
     async getInfoList() {
       const { data: res } = await getInfo(this.page);
@@ -2993,155 +3233,88 @@ export default {
       this.data = res.data;
       this.page.total = this.data.total;
     },
-    // 添加
+    // 添加按钮
     add() {
       this.dialogVisible_add = true;
       this.activeName = "1";
     },
     // 查看行信息
     viewRow(row) {
-      console.log(row);
       this.dialogVisible_view = true;
       this.activeName = "1";
     },
     // 编辑行行信息
     editRow(row) {
-      console.log(row);
       this.dialogVisible_add = true;
     },
 
-    // 添加（学历及学位子集）
-    add_xl() {
-      this.dialogVisible_xl = true;
+    async getStatus() {
+      const { data: res } = await getDictItems(this.dictItems["dqztk"]);
+      this.zzztOptions = res.data;
     },
-    // 添加（个人履历子集（校外））
-    add_ll() {
-      this.dialogVisible_ll = true;
-    },
-    // 添加（个人履历子集（校外））
-    add_zz() {
-      this.dialogVisible_zz = true;
-    },
-    // 添加（家属子集）
-    add_js() {
-      this.dialogVisible_js = true;
-    },
-    // 添加（家属子集）
-    add_zy() {
-      this.dialogVisible_zy = true;
-    },
-    // 添加 (校内职务表)
-    add_xnzw() {
-      this.dialogVisible_xnzw = true;
-    },
-    // 添加 (专业技术职务子集)
-    add_zyjszw() {
-      this.dialogVisible_zyjszw = true;
-    },
-    // 添加 (工人技术等级及职务子集)
-    add_grjsdj() {
-      this.dialogVisible_grjsdj = true;
-    },
-    // 添加 (社会兼职子集)
-    add_shjz() {
-      this.dialogVisible_shjz = true;
-    },
-    // 添加 (服务协议子集)
-    add_fwxy() {
-      this.dialogVisible_fwxy = true;
-    },
-    // 添加 (奖励子集)
-    add_jl() {
-      this.dialogVisible_jl = true;
-    },
-    // 添加 (组织考察（考核）子集)
-    add_zzkc() {
-      this.dialogVisible_zzkc = true;
-    },
-    // 添加 (教师任职情况测评子集)
-    add_jsrzqk() {
-      this.dialogVisible_jsrzqk = true;
-    },
-    // 添加 (处分（行政及党内）子集)
-    add_cf() {
-      this.dialogVisible_cf = true;
-    },
-    // 添加 (因公/因私护照)
-    add_hz() {
-      this.dialogVisible_hz = true;
-    },
-    add_jypx() {
-      this.dialogVisible_jypx = true;
-    },
-    add_jszgz() {
-      this.dialogVisible_jszgz = true;
-    },
-    // 清空表单
-    clearForm(info) {
-      if (info === "primary") {
-        this.$refs.jbxxFormRef.resetFields();
-        this.$refs.jyjlFormRef.resetFields();
-        this.$refs.lxfsFormRef.resetFields();
-        this.$refs.zcxxFormRef.resetFields();
-        this.$refs.qtFormRef.resetFields();
-        this.$refs.jsfzxxFormRef.resetFields();
-        this.$refs.xcflxxFormRef.resetFields();
-        this.$refs.rzxxFormRef.resetFields();
-      }
-      if (info === "xl") {
-        this.$refs.xlFormRef.resetFields();
-      }
-      if (info === "grll") {
-        this.$refs.llFormRef.resetFields();
-      }
-      if (info === "zz") {
-        this.$refs.zzFormRef.resetFields();
-      }
-      if (info === "js") {
-        this.$refs.jsFormRef.resetFields();
-      }
-      if (info === "zy") {
-        this.$refs.zyFormRef.resetFields();
-      }
-      if (info === "xnzw") {
-        this.$refs.xnzwFormRef.resetFields();
-      }
-      if (info === "zyjszw") {
-        this.$refs.zyjszwFormRef.resetFields();
-      }
-      if (info === "grjsdj") {
-        this.$refs.grjsdjFormRef.resetFields();
-      }
-      if (info === "shjz") {
-        this.$refs.shjzFormRef.resetFields();
-      }
-      if (info === "fwxy") {
-        this.$refs.fwxyFormRef.resetFields();
-      }
-      if (info === "jypx") {
-        this.$refs.jypxFormRef.resetFields();
-      }
-      if (info === "jszgz") {
-        this.$refs.jszgzFormRef.resetFields();
-      }
-      if (info === "cf") {
-        this.$refs.cfFormRef.resetFields();
-      }
-      if (info === "jl") {
-        this.$refs.jlFormRef.resetFields();
-      }
-      if (info === "zzkc") {
-        this.$refs.zzkcFormRef.resetFields();
-      }
-      if (info === "jsrzqk") {
-        this.$refs.jsrzqkFormRef.resetFields();
-      }
-      if (info === "hz") {
-        this.$refs.hzFormRef.resetFields();
+
+    // 添加
+    async addInfo(val, obj) {
+      if (val === "jbxx_id") {
+        const { data: res } = await addInfo(obj);
+        if (res.code !== 0) return this.$notify.error("保存失败！" + res.msg);
+        this.$notify.success("添加成功！");
+        this.isAdd = false;
+        this.addIndex++;
+        this.user_id = this.addIndex;
       }
     },
-    // 保存
-    save() {},
+    // 修改
+    async edit(obj) {
+      if (this.user_id === undefined)
+        return this.$notify.error("请先添加基本信息！");
+      obj.id = this.user_id;
+      const { data: res } = await editInfo(obj);
+      if (res.code !== 0) return this.$notify.error("保存失败！" + res.msg);
+      this.$notify.success("保存成功！");
+    },
+    // 子表添加
+    async addChild(type, obj) {
+      console.log(type);
+      console.log(this.user_id);
+      if (this.user_id === undefined)
+        return this.$notify.error("请先添加基本信息！");
+      obj.staffId = this.user_id;
+      if (this.child_flag === "add") {
+        const { data: res } = await addChild(type, obj);
+        if (res.code !== 0) return this.$notify.error("添加失败！" + res.msg);
+        this.$notify.success("保存成功！");
+        this[`${type}_tableData`].push(obj);
+      }
+      if (this.child_flag === "edit") {
+        const { data: res } = await editChild(type, obj);
+        if (res.code !== 0) return this.$notify.error("修改失败！" + res.msg);
+        this.$notify.success("修改成功！");
+      }
+      this[`dialogVisible_${type}`] = false;
+    },
+    // 子表修改
+    editChildRow(type, row) {
+      this[`dialogVisible_${type}`] = true;
+      this[`${type}_form`] = row;
+      this.child_flag = "edit";
+    },
+    // 子表删除
+    async delChildRow(type, row) {
+      const { data: res } = await delChild(type, row.staffId);
+      if (res.code !== 0) return this.$notify.error("删除失败！" + res.msg);
+      this.$notify.success("删除成功！");
+      this[`${type}_tableData`].some((item, index) => {
+        if (item.staffId === row.staffId) {
+          this[`${type}_tableData`].splice(index, 1);
+          return true;
+        }
+      });
+    },
+  },
+  mounted() {
+    // this.getInfoList();
+    this.getStatus();
   },
 };
 </script>

@@ -254,11 +254,15 @@ export const pickerOptions = {
 export const jbxx_form = {
   gh: undefined,
   xm: undefined,
-  cymgh: undefined,
+  ywxm: undefined,
+  xmpy: undefined,
+  cym: undefined,
   xbm: "1",
   csrq: undefined,
   csd: undefined,
   sfzjh: undefined,
+  sfzjlxm: undefined,
+  gjdqm: undefined,
   jg: undefined,
   mzm: undefined,
   zzmmm: undefined,
@@ -278,6 +282,7 @@ export const lxfs_form = {
   jtlxr: undefined,
   jtzz: undefined,
   hjlb: undefined,
+  gatqwm: undefined,
   hkxxdz: undefined,
 }
 // 职称信息表单
@@ -287,10 +292,13 @@ export const zcxx_form = {
   dqztm: undefined,
   htlx: undefined,
   yhkh: undefined,
+  sfjzjs: undefined,
+  sfssxjs: undefined,
 }
 // 其他个人信息表单
 export const qt_form = {
   jjzqssj: undefined,
+  jjzjzsj: undefined,
   sflu: "2",
   jjzyxq: undefined,
   hzhtxzh: undefined,
@@ -332,21 +340,21 @@ export const xcflxx_form = {
   xjdjfj: undefined,
 }
 // 子表表单
-export const xl_form = {
-  xl: undefined,
+export const xljxw_form = {
+  xlm: undefined,
   rxsj: undefined,
   xxxsm: undefined,
   xz: undefined,
   bysj: undefined,
 }
-export const ll_form = {
+export const grll_form = {
   qssj: undefined,
   zzsj: undefined,
   szdw: undefined,
   zw: undefined,
   dwszsf: undefined,
 }
-export const zz_form = {
+export const zzmmjdjqk_form = {
   zzmmm: undefined,
   cjrq: undefined,
   jsr: undefined,
@@ -360,14 +368,14 @@ export const js_form = {
   dwmc: undefined,
   lxfs: undefined,
 }
-export const zy_form = {
+export const zyzgz_form = {
   zygz: undefined,
   zydj: undefined,
   bzjg: undefined,
   zyzgzsbh: undefined,
   zsbfrq: undefined,
 }
-export const xnzw_form = {
+export const xnzwb_form = {
   xxzgbmm: undefined,
   zwmc: undefined,
   rzfsm: undefined,
@@ -386,7 +394,7 @@ export const zyjszw_form = {
   prqkm: undefined,
   scdzzj: undefined,
 }
-export const grjsdj_form = {
+export const grjsdjzw_form = {
   grjsdjmc: undefined,
   grjszwmc: undefined,
   qdjszwsj: undefined,
@@ -444,7 +452,7 @@ export const zzkc_form = {
   khrq: undefined,
   bz: undefined,
 }
-export const jsrzqk_form = {
+export const jsrzqkcp_form = {
   nd: undefined,
   khfs: undefined,
   khdj: undefined,
@@ -454,7 +462,7 @@ export const jsrzqk_form = {
   qxzyjsrymc: undefined,
   bz: undefined,
 }
-export const hz_form = {
+export const ygyshz_form = {
   hzzjzldm: undefined,
   hzhtxzh: undefined,
   qfdd: undefined,

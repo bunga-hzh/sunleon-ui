@@ -1,72 +1,53 @@
 import request from '@/router/axios'
 
+// 获取字典项
+export function getDictItems(type) {
+  return request({
+    url: '/admin/dict/type/' + type,
+    method: 'get',
+  })
+}
+
 // 添加用户信息
-export function addJbxxInfo(obj) {
+export function addInfo(obj) {
   return request({
-    url: '',
+    url: '/staff/zzjginfo',
     method: 'post',
     data: obj
-  })
-}
-
-// 添加教育经历
-export function addJyjlInfo(obj) {
-  return request({
-    url: '',
-    method: 'post',
-    data: obj
-  })
-}
-
-// 添加联系方式
-export function addlxfslInfo(obj) {
-  return request({
-    url: '',
-    method: 'post',
-    data: obj
-  })
-}
-
-// 添加职称信息
-export function addZcxxlInfo(obj) {
-  return request({
-    url: '',
-    method: 'post',
-    data: obj
-  })
-}
-
-// 添加其他个人信息
-export function addQtgrxxInfo(obj) {
-  return request({
-    url: '',
-    method: 'post',
-    data: obj
-  })
-}
-
-// 获取用户信息
-export function getInfo(query) {
-  return request({
-    url: '',
-    method: 'get',
-    data: query
-  })
-}
-
-// 根据id查询用户信息
-export function queryInfoById(id) {
-  return request({
-    url: '' + id,
-    method: 'get',
   })
 }
 
 // 修改用户信息
-export function putInfo(obj) {
+export function editInfo(obj) {
   return request({
-    url: '',
+    url: '/staff/zzjginfo',
     method: 'put',
     data: obj
+  })
+}
+
+// 子表添加
+export function addChild(type, obj) {
+  return request({
+    url: '/staff/zzjg' + type,
+    method: 'post',
+    data: obj
+  })
+}
+
+// 子表修改
+export function editChild(type, obj) {
+  return request({
+    url: '/staff/zzjg' + type,
+    method: 'put',
+    data: obj
+  })
+}
+
+// 子表删除
+export function delChild(type, id) {
+  return request({
+    url: '/staff/zzjg' + type + '/' + id,
+    method: 'delete',
   })
 }
