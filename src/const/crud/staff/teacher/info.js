@@ -35,40 +35,36 @@ export const option = {
   delBtn: false,
   editBtn: false,
   column: [{
-      label: "账号",
-      prop: "user",
+      label: "工号",
+      prop: "gh",
     },
     {
       label: "姓名",
-      prop: "name",
+      prop: "xm",
       search: true,
     },
     {
       label: "性别",
-      prop: "sex",
+      prop: "xbm",
     },
     {
       label: "组织机构",
-      prop: "dep",
+      prop: "orgId",
       search: true,
       searchslot: true,
     },
     {
-      label: "身份类型",
-      prop: "identity",
-    },
-    {
       label: "身份证号",
-      prop: "cardId",
+      prop: "sfzjh",
       minWidth: 100,
     },
     {
-      label: "手机号",
-      prop: "phone",
+      label: "联系电话",
+      prop: "lxdh",
     },
     {
       label: "在职状态",
-      prop: "status",
+      prop: "dqztm",
       search: true,
       searchslot: true,
     },
@@ -250,6 +246,7 @@ export const pickerOptions = {
     }
   }]
 }
+
 // 基本信息表单
 export const jbxx_form = {
   gh: undefined,
@@ -360,7 +357,7 @@ export const zzmmjdjqk_form = {
   jsr: undefined,
   zzrq: undefined,
 }
-export const js_form = {
+export const family_form = {
   cw: undefined,
   xm: undefined,
   csny: undefined,
@@ -368,14 +365,14 @@ export const js_form = {
   dwmc: undefined,
   lxfs: undefined,
 }
-export const zyzgz_form = {
+export const certificate_form = {
   zygz: undefined,
   zydj: undefined,
   bzjg: undefined,
   zyzgzsbh: undefined,
   zsbfrq: undefined,
 }
-export const xnzwb_form = {
+export const leader_form = {
   xxzgbmm: undefined,
   zwmc: undefined,
   rzfsm: undefined,
@@ -383,7 +380,7 @@ export const xnzwb_form = {
   zwjbm: undefined,
   rzrq: undefined,
 }
-export const zyjszw_form = {
+export const professionduty_form = {
   zyjszgmc: undefined,
   qdzgtjm: undefined,
   hdzgsj: undefined,
@@ -394,7 +391,7 @@ export const zyjszw_form = {
   prqkm: undefined,
   scdzzj: undefined,
 }
-export const grjsdjzw_form = {
+export const workerskillgrade_form = {
   grjsdjmc: undefined,
   grjszwmc: undefined,
   qdjszwsj: undefined,
@@ -403,7 +400,7 @@ export const grjsdjzw_form = {
   grgzm: undefined,
   szdczj: undefined,
 }
-export const shjz_form = {
+export const parttimejob_form = {
   shjzqsrq: undefined,
   shjzzzrq: undefined,
   rzzz: undefined,
@@ -411,14 +408,14 @@ export const shjz_form = {
   jzzw: undefined,
   sfqc: undefined,
 }
-export const fwxy_form = {
+export const servicetoenterprise_form = {
   qssj: undefined,
   zzsj: undefined,
   sy: undefined,
   zje: undefined,
   bz: undefined,
 }
-export const jypx_form = {
+export const train_form = {
   xxqssj: undefined,
   xxzzsj: undefined,
   pxbmc: undefined,
@@ -433,21 +430,21 @@ export const jszgz_form = {
   jszgzhm: undefined,
   xjxkm: undefined,
 }
-export const cf_form = {
+export const punish_form = {
   cflb: undefined,
   ccmc: undefined,
   ccrq: undefined,
   ccyy: undefined,
   cccxrq: undefined,
-  jcjgzjjyd: undefined,
+  jcjgzjjy: undefined,
 }
-export const jl_form = {
+export const reward_form = {
   hjlbm: undefined,
   jlmc: undefined,
   hjrq: undefined,
   bjdw: undefined,
 }
-export const zzkc_form = {
+export const organiseinspect_form = {
   kcsy: undefined,
   khrq: undefined,
   bz: undefined,
@@ -462,37 +459,37 @@ export const jsrzqkcp_form = {
   qxzyjsrymc: undefined,
   bz: undefined,
 }
-export const ygyshz_form = {
+export const furtherstudyforeign_form = {
   hzzjzldm: undefined,
   hzhtxzh: undefined,
   qfdd: undefined,
   qfrq: undefined,
   qfjg: undefined,
-  zjyxq: undefined,
+  zzrq: undefined,
 }
 
 export const grjsdjOptions = [{
-    id: 1,
+    id: '1',
     name: '初级技术工人'
   },
   {
-    id: 2,
+    id: '2',
     name: '中级技术工人'
   },
   {
-    id: 3,
+    id: '3',
     name: '高级技术工人'
   },
   {
-    id: 4,
+    id: '4',
     name: '技师'
   },
   {
-    id: 5,
+    id: '5',
     name: '高级技师'
   },
   {
-    id: 6,
+    id: '6',
     name: '学徒工'
   },
 ]
@@ -1308,7 +1305,7 @@ export const cf_rules = {
     message: '请输入撤销处分时间',
     trigger: 'blur'
   }, ],
-  jcjgzjjyd: [{
+  jcjgzjjy: [{
     required: true,
     message: '请输入监察机关直接给予的',
     trigger: 'blur'

@@ -8,6 +8,15 @@ export function getDictItems(type) {
   })
 }
 
+// 获取用户信息
+export function getInfo(query) {
+  return request({
+    url: '/staff/zzjginfo/page',
+    method: 'get',
+    params: query
+  })
+}
+
 // 添加用户信息
 export function addInfo(obj) {
   return request({
@@ -26,8 +35,8 @@ export function editInfo(obj) {
   })
 }
 
-// 子表添加
-export function addChild(type, obj) {
+// 子表提交
+export function submitChild(type, obj) {
   return request({
     url: '/staff/zzjg' + type,
     method: 'post',
