@@ -334,7 +334,6 @@ export const xcflxx_form = {
   gwjd: undefined,
   xj: undefined,
   gwdjm: undefined,
-  gwdjm: undefined,
   xjdjfj: undefined,
 }
 // 子表表单
