@@ -35,6 +35,15 @@ export function editInfo(obj) {
   })
 }
 
+// 获取子表信息
+export function getChild(type, query) {
+  return request({
+    url: '/staff/zzjg' + type + '/page',
+    method: 'get',
+    params: query
+  })
+}
+
 // 子表提交
 export function submitChild(type, obj) {
   return request({

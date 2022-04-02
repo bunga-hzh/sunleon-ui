@@ -1,28 +1,3 @@
-export const tabList = [{
-    id: '1',
-    label: '实习期不合格'
-  },
-  {
-    id: '2',
-    label: '试用期不合格'
-  },
-  {
-    id: '3',
-    label: '转正'
-  },
-  {
-    id: '4',
-    label: '合同续签'
-  },
-  {
-    id: '5',
-    label: '转岗'
-  },
-  {
-    id: '6',
-    label: '自定义'
-  },
-]
 export const statusList = [{
     id: 1,
     name: "事业编制"
@@ -63,25 +38,30 @@ export const depList = [{
 ]
 export const dataList = [
   [{
-    name: "张三",
-    dep: "未知",
-    status: "在职人员",
-    time: "2022/02/02",
-    reason: "无",
+    gh: '111111',
+    xm: "张三",
+    objId: "未知",
+    sxq: "1年",
+    sxsjd: "2022/02/02  至  2022/02/02",
+    bz: "无",
   }, ],
   [{
-    name: "张三",
-    dep: "未知",
-    status: "在职人员",
-    time: "2022/02/02",
-    reason: "无",
+    gh: '111111',
+    xm: "张三",
+    objId: "未知",
+    syq: "1年",
+    sysjd: "2022/02/02  至  2022/02/02",
+    bhgyy: '无',
+    bz: "无",
   }, ],
   [{
-    name: "张三",
-    dep: "未知",
-    status: "在职人员",
-    time: '2022/02/02',
-    illu: '无'
+    gh: '111111',
+    xm: "张三",
+    objId: "未知",
+    gw: "岗位一",
+    rzrq: "2022/02/02",
+    zszzrq: '2022/03/03',
+    bz: "无",
   }, ],
   [{
     name: "张三",
@@ -114,33 +94,38 @@ export const optionList = [{
     border: true,
     searchMenuSpan: 4,
     menu: false,
+    index: true,
     column: [{
+        label: "工号",
+        prop: "gh",
+        search: true,
+        searchSpan: 6,
+      },
+      {
         label: "姓名",
-        prop: "name",
+        prop: "xm",
         search: true,
         searchSpan: 6,
       },
       {
         label: "部门",
-        prop: "dep",
+        prop: "objId",
         search: true,
         searchSpan: 6,
         searchslot: true,
       },
       {
-        label: "在职状态",
-        prop: "status",
-        search: true,
-        searchSpan: 6,
-        searchslot: true,
+        label: "实习期（月）",
+        prop: "sxq",
       },
       {
-        label: "时间",
-        prop: "time",
+        label: "实习时间段",
+        prop: "sxsjd",
+        width: 170,
       },
       {
-        label: "原因",
-        prop: "reason",
+        label: "备注",
+        prop: "bz",
       },
     ],
   },
@@ -149,33 +134,42 @@ export const optionList = [{
     border: true,
     searchMenuSpan: 4,
     menu: false,
+    index: true,
     column: [{
+        label: "工号",
+        prop: "gh",
+        search: true,
+        searchSpan: 6,
+      },
+      {
         label: "姓名",
-        prop: "name",
+        prop: "xm",
         search: true,
         searchSpan: 6,
       },
       {
         label: "部门",
-        prop: "dep",
+        prop: "objId",
         search: true,
         searchSpan: 6,
         searchslot: true,
       },
       {
-        label: "在职状态",
-        prop: "status",
-        search: true,
-        searchSpan: 6,
-        searchslot: true,
+        label: "试用期（月）",
+        prop: "syq",
       },
       {
-        label: "时间",
-        prop: "time",
+        label: "试用时间段",
+        prop: "sysjd",
+        width: 170,
       },
       {
-        label: "原因",
-        prop: "reason",
+        label: "不合格原因",
+        prop: "bhgyy",
+      },
+      {
+        label: "备注",
+        prop: "bz",
       },
     ],
   },
@@ -184,33 +178,43 @@ export const optionList = [{
     border: true,
     searchMenuSpan: 4,
     menu: false,
+    index: true,
     column: [{
+        label: "工号",
+        prop: "gh",
+        search: true,
+        searchSpan: 6,
+      },
+      {
         label: "姓名",
-        prop: "name",
+        prop: "xm",
         search: true,
         searchSpan: 6,
       },
       {
         label: "部门",
-        prop: "dep",
+        prop: "objId",
         search: true,
         searchSpan: 6,
         searchslot: true,
       },
       {
-        label: "在职状态",
-        prop: "status",
-        search: true,
-        searchSpan: 6,
-        searchslot: true,
+        label: "岗位",
+        prop: "gw",
       },
       {
-        label: "日期",
-        prop: "time",
+        label: "入职日期",
+        prop: "rzrq",
+        width: 100,
       },
       {
-        label: "说明",
-        prop: "illu",
+        label: "正式转正日期",
+        prop: "zszzrq",
+        width: 100,
+      },
+      {
+        label: "备注",
+        prop: "bz",
       },
     ],
   },
@@ -417,18 +421,18 @@ export const selectRenewalPickerOptions = {
 }
 
 export const jobOptions = [{
-    value: '选项1',
-    label: '岗位1'
-  }, {
-    value: '选项2',
-    label: '岗位2'
-  }, {
-    value: '选项3',
-    label: '岗位3'
-  }, {
-    value: '选项4',
-    label: '岗位4'
-  }, {
-    value: '选项5',
-    label: '岗位5'
-  }]
+  value: '选项1',
+  label: '岗位1'
+}, {
+  value: '选项2',
+  label: '岗位2'
+}, {
+  value: '选项3',
+  label: '岗位3'
+}, {
+  value: '选项4',
+  label: '岗位4'
+}, {
+  value: '选项5',
+  label: '岗位5'
+}]

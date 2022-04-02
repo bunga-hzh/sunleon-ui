@@ -34,6 +34,7 @@ export const option = {
   viewBtn: false,
   delBtn: false,
   editBtn: false,
+  index: true,
   column: [{
       label: "工号",
       prop: "gh",

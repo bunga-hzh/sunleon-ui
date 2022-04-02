@@ -72,6 +72,7 @@
       width="60%"
       :fullscreen="dialogFull"
       @open="clearForm('jbxx')"
+      @close="getInfoList(page)"
     >
       <template slot="title">
         <div class="avue-crud__dialog__header">
@@ -94,7 +95,7 @@
                   <el-button
                     type="primary"
                     v-show="isAdd"
-                    @click="addInfo('jbxx_id', jbxx_form)"
+                    @click="addInfo(jbxx_form)"
                     >添加</el-button
                   >
                   <el-button
@@ -2350,25 +2351,61 @@
                   label-width="170px"
                 >
                   <el-form-item label="年度" prop="nd">
-                    <el-input v-model="jsrzqkcp_form.nd"></el-input>
+                    <el-input-number
+                      v-model="jsrzqkcp_form.nd"
+                      controls-position="right"
+                      :min="1"
+                      :max="10"
+                    >
+                    </el-input-number>
                   </el-form-item>
                   <el-form-item label="考核分数" prop="khfs">
-                    <el-input v-model="jsrzqkcp_form.khfs"></el-input>
+                    <el-input-number
+                      v-model="jsrzqkcp_form.khfs"
+                      controls-position="right"
+                      :min="1"
+                      :max="10"
+                    >
+                    </el-input-number>
                   </el-form-item>
                   <el-form-item label="考核等级" prop="khdj">
                     <el-input v-model="jsrzqkcp_form.khdj"></el-input>
                   </el-form-item>
                   <el-form-item label="同级人员人数" prop="tjryrs">
-                    <el-input v-model="jsrzqkcp_form.tjryrs"></el-input>
+                    <el-input-number
+                      v-model="jsrzqkcp_form.tjryrs"
+                      controls-position="right"
+                      :min="1"
+                      :max="10"
+                    >
+                    </el-input-number>
                   </el-form-item>
                   <el-form-item label="同级人员中名次" prop="tjryzmc">
-                    <el-input v-model="jsrzqkcp_form.tjryzmc"></el-input>
+                    <el-input-number
+                      v-model="jsrzqkcp_form.tjryzmc"
+                      controls-position="right"
+                      :min="1"
+                      :max="10"
+                    >
+                    </el-input-number>
                   </el-form-item>
                   <el-form-item label="全校专业技术人员数" prop="qxzyjsrys">
-                    <el-input v-model="jsrzqkcp_form.qxzyjsrys"></el-input>
+                    <el-input-number
+                      v-model="jsrzqkcp_form.qxzyjsrys"
+                      controls-position="right"
+                      :min="1"
+                      :max="10"
+                    >
+                    </el-input-number>
                   </el-form-item>
                   <el-form-item label="全校专业技术人员名次" prop="qxzyjsrymc">
-                    <el-input v-model="jsrzqkcp_form.qxzyjsrymc"></el-input>
+                    <el-input-number
+                      v-model="jsrzqkcp_form.qxzyjsrymc"
+                      controls-position="right"
+                      :min="1"
+                      :max="10"
+                    >
+                    </el-input-number>
                   </el-form-item>
                   <el-form-item label="备注" prop="bz">
                     <el-input
@@ -2602,47 +2639,57 @@
             <el-descriptions title="基本信息" :column="3" border>
               <el-descriptions-item>
                 <template slot="label">工号</template>
-                1111111111111
+                {{ view_obj.gh }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">姓名</template>
-                张三
+                {{ view_obj.xm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">曾用名</template>
-                法外狂徒
+                {{ view_obj.cym }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">性别</template>
-                男
+                <span v-if="view_obj.xbm === '1'">男</span>
+                <span v-else-if="view_obj.xbm === '2'">女</span>
+                <span v-else>未知</span>
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">出生日期</template>
-                2022/03/03
+                {{ view_obj.csrq }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">出生地</template>
+                {{ view_obj.csd }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">身份证号</template>
+                {{ view_obj.sfzjh }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">籍贯</template>
+                {{ view_obj.jg }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">民族</template>
+                {{ view_obj.mzm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">政治面貌</template>
+                {{ view_obj.zzmmm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">健康状况</template>
+                {{ view_obj.jkzkm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">婚姻状况</template>
+                {{ view_obj.hyzkm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">身份证件照</template>
+                待定
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
@@ -2650,15 +2697,19 @@
             <el-descriptions title="教育经历" :column="3" border>
               <el-descriptions-item>
                 <template slot="label">毕业院校</template>
+                {{ view_obj.byyx }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">学位</template>
+                {{ view_obj.shxwm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">专业</template>
+                {{ view_obj.sxzymc }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">学历上传附件</template>
+                待定
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
@@ -2666,21 +2717,27 @@
             <el-descriptions title="联系方式" :column="3" border>
               <el-descriptions-item>
                 <template slot="label">联系电话</template>
+                {{ view_obj.lxdh }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">电子邮箱</template>
+                {{ view_obj.dzyx }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">家庭联系人</template>
+                {{ view_obj.jtlxr }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">家庭住址</template>
+                {{ view_obj.jtzz }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">户籍类别</template>
+                {{ view_obj.hjlb }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">户口详细地址</template>
+                {{ view_obj.hkxxdz }}
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
@@ -2688,18 +2745,23 @@
             <el-descriptions title="职称信息" :column="3" border>
               <el-descriptions-item>
                 <template slot="label">教师职称</template>
+                {{ view_obj.jszc }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">所属教研组</template>
+                {{ view_obj.ssjyz }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">当前状态</template>
+                {{ view_obj.dqztm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">合同类型</template>
+                {{ view_obj.htlx }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">银行卡号</template>
+                {{ view_obj.yhkh }}
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
@@ -2707,30 +2769,39 @@
             <el-descriptions title="其他个人信息" :column="3" border>
               <el-descriptions-item>
                 <template slot="label">居住证起始时间</template>
+                {{ view_obj.jjzqssj }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">是否落户</template>
+                {{ view_obj.sflh }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">居住证有效期</template>
+                待定
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">护照号/通行证号</template>
+                没有
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">发证单位</template>
+                没有
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">护照号/通行证号有效期</template>
+                没有
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">入党日期</template>
+                {{ view_obj.rdrq }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">备注</template>
+                {{ view_obj.bz }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">因公/因私护照上传附件</template>
+                没有
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
@@ -3275,6 +3346,7 @@ import {
   getInfo,
   addInfo,
   editInfo,
+  getChild,
   submitChild,
   editChild,
   delChild,
@@ -3288,8 +3360,6 @@ export default {
     return {
       // 用户id
       user_id: undefined,
-      addIndex: 0,
-      childIndex: 0,
       isAdd: true,
       child_flag: undefined,
       // 标签页激活项
@@ -3394,6 +3464,9 @@ export default {
       // 薪酬福利信息表单
       xcflxx_form: xcflxx_form,
 
+      // 查看行对象
+      view_obj: {},
+
       // 子表数据源
       xljxw_tableData: [],
       grll_tableData: [],
@@ -3472,14 +3545,15 @@ export default {
       // this.$nextTick(() => {
       //   this.$refs[`${type}FormRef`].resetFields();
       // });
-      this.isAdd = true;
-      this.user_id = undefined;
+      if (type === "jbxx") {
+        this.isAdd = true;
+        this.user_id = undefined;
+      }
     },
 
     // 获取表格数据
     async getInfoList(page) {
       const { data: res } = await getInfo(page);
-      console.log(res);
       if (res.code !== 0) return this.$notify.error("获取表格数据失败！");
       this.data = res.data.records;
       this.page.total = res.data.total;
@@ -3502,27 +3576,32 @@ export default {
     viewRow(row) {
       this.dialogVisible_view = true;
       this.activeName = "1";
+      this.view_obj = row;
     },
     // 编辑行行信息
     editRow(row) {
       this.dialogVisible_add = true;
     },
 
-    async getStatus() {
+    async getDqzt() {
       const { data: res } = await getDictItems(this.dictItems["dqztk"]);
+      if (res.code !== 0) return this.$message.error("获取下拉失败!");
       this.zzztOptions = res.data;
+    },
+    async getObj() {
+      const { data: res } = await getDictItems(this.dictItems["tree"]);
+      if (res.code !== 0) return this.$message.error("获取下拉失败!");
+      console.log(res);
+      // this.zzztOptions = res.data;
     },
 
     // 添加
-    async addInfo(val, obj) {
-      if (val === "jbxx_id") {
-        const { data: res } = await addInfo(obj);
-        if (res.code !== 0) return this.$notify.error("保存失败！" + res.msg);
-        this.$notify.success("添加成功！");
-        this.isAdd = false;
-        this.addIndex++;
-        this.user_id = this.addIndex;
-      }
+    async addInfo(obj) {
+      const { data: res } = await addInfo(obj);
+      if (res.code !== 0) return this.$notify.error("保存失败！" + res.msg);
+      this.$notify.success("添加成功！");
+      this.isAdd = false;
+      this.user_id = res.data;
     },
     // 修改
     async edit(obj) {
@@ -3535,36 +3614,37 @@ export default {
     },
     // 子表提交
     async submitChild(type, obj) {
-      console.log(type);
-      console.log(obj);
-      console.log(this.user_id);
       if (this.user_id === undefined)
         return this.$notify.error("请先添加基本信息！");
       obj.staffId = this.user_id;
+      // 添加
       if (this.child_flag === "add") {
         const { data: res } = await submitChild(type, obj);
         if (res.code !== 0) return this.$notify.error("添加失败！" + res.msg);
-        this.$notify.success("保存成功！");
-        this[`${type}_tableData`].push(obj);
-        this.childIndex++;
+        this.$notify.success("添加成功！");
       }
+      // 修改
       if (this.child_flag === "edit") {
-        obj.id = this.childIndex;
         const { data: res } = await editChild(type, obj);
         if (res.code !== 0) return this.$notify.error("修改失败！" + res.msg);
         this.$notify.success("修改成功！");
+        console.log(obj.id);
       }
+      const { data: res } = await getChild(type);
+      if (res.code !== 0) return true;
+      this[`${type}_tableData`] = res.data.records;
       this[`dialogVisible_${type}`] = false;
     },
     // 子表修改
     editChildRow(type, row) {
+      console.log(row);
       this[`dialogVisible_${type}`] = true;
       this[`${type}_form`] = row;
       this.child_flag = "edit";
     },
     // 子表删除
     async delChildRow(type, row) {
-      const { data: res } = await delChild(type, row.staffId);
+      const { data: res } = await delChild(type, row.id);
       if (res.code !== 0) return this.$notify.error("删除失败！" + res.msg);
       this.$notify.success("删除成功！");
       this[`${type}_tableData`].some((item, index) => {
@@ -3576,7 +3656,8 @@ export default {
     },
   },
   mounted() {
-    this.getStatus();
+    this.getDqzt();
+    this.getObj();
   },
 };
 </script>

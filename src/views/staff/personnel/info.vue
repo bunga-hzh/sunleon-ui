@@ -1,47 +1,53 @@
 <template>
   <div class="engage_container">
     <basic-container>
-      <avue-crud :option="option"
-                 :search.sync="search"
-                 :data="data"
-                 :page.sync="page">
+      <avue-crud
+        :option="option"
+        :search.sync="search"
+        :data="data"
+        :page.sync="page"
+      >
         <template slot="depSearch">
-          <el-select v-model="depValue"
-                     placeholder="请选择">
-            <el-option v-for="item in depList"
-                       :key="item.value"
-                       :label="item.name"
-                       :value="item.id">
+          <el-select v-model="depValue" placeholder="请选择">
+            <el-option
+              v-for="item in depList"
+              :key="item.value"
+              :label="item.name"
+              :value="item.id"
+            >
             </el-option>
           </el-select>
         </template>
         <template slot="bz_typeSearch">
-          <el-select v-model="bzValue"
-                     placeholder="请选择">
-            <el-option v-for="item in bzList"
-                       :key="item.value"
-                       :label="item.name"
-                       :value="item.id">
+          <el-select v-model="bzValue" placeholder="请选择">
+            <el-option
+              v-for="item in bzList"
+              :key="item.value"
+              :label="item.name"
+              :value="item.id"
+            >
             </el-option>
           </el-select>
         </template>
         <template slot="ry_typeSearch">
-          <el-select v-model="ryValue"
-                     placeholder="请选择">
-            <el-option v-for="item in ryList"
-                       :key="item.value"
-                       :label="item.name"
-                       :value="item.id">
+          <el-select v-model="ryValue" placeholder="请选择">
+            <el-option
+              v-for="item in ryList"
+              :key="item.value"
+              :label="item.name"
+              :value="item.id"
+            >
             </el-option>
           </el-select>
         </template>
         <template slot="js_typeSearch">
-          <el-select v-model="jsValue"
-                     placeholder="请选择">
-            <el-option v-for="item in jsList"
-                       :key="item.value"
-                       :label="item.name"
-                       :value="item.id">
+          <el-select v-model="jsValue" placeholder="请选择">
+            <el-option
+              v-for="item in jsList"
+              :key="item.value"
+              :label="item.name"
+              :value="item.id"
+            >
             </el-option>
           </el-select>
         </template>
@@ -53,7 +59,7 @@
 <script>
 export default {
   name: "TableEngage",
-  data () {
+  data() {
     return {
       page: {
         total: 1000,
@@ -74,6 +80,7 @@ export default {
       ],
       option: {
         editBtn: false,
+        addBtn: false,
         border: true,
         searchMenuSpan: 4,
         column: [
