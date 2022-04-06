@@ -7,3 +7,11 @@ export function getDictItem(type) {
     method: 'get',
   })
 }
+
+// 获取部门
+export function getDeptTree() {
+  return request({
+    url: '/admin/dept/tree',
+    method: 'get',
+  })
+}

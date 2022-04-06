@@ -7,21 +7,19 @@
         :data="data"
         :page.sync="page"
         @on-load="loadList"
+        @search-change="searchChange"
       >
         <template slot="orgIdSearch">
-          <el-select v-model="search.orgId" placeholder="请选择">
-            <el-option
-              v-for="item in zzjgOptions"
-              :key="item.id"
-              :label="item.dep"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
+          <avue-input-tree
+            v-model="search.orgId"
+            :dic="treeDeptData"
+            :props="defaultProps"
+            placeholder="请选择所属部门"
+          />
         </template>
 
         <template slot="dqztmSearch">
-          <el-select v-model="search.dqztm" placeholder="请选择">
+          <el-select v-model="search.dqztm" placeholder="请选择" clearable>
             <el-option
               v-for="item in zzztOptions"
               :key="item.id"
@@ -228,7 +226,7 @@
                           <el-option
                             v-for="item in jkzkOptions"
                             :key="item.id"
-                            :label="item.status"
+                            :label="item.label"
                             :value="item.id"
                           >
                           </el-option>
@@ -242,9 +240,9 @@
                           placeholder="请选择"
                         >
                           <el-option
-                            v-for="item in jkzkOptions"
+                            v-for="item in hyzkOptions"
                             :key="item.id"
-                            :label="item.status"
+                            :label="item.label"
                             :value="item.id"
                           >
                           </el-option>
@@ -393,7 +391,7 @@
                           <el-option
                             v-for="item in hjlbOptions"
                             :key="item.id"
-                            :label="item.type"
+                            :label="item.label"
                             :value="item.id"
                           >
                           </el-option>
@@ -476,9 +474,9 @@
                           placeholder="请选择"
                         >
                           <el-option
-                            v-for="item in dqztOptions"
+                            v-for="item in zzztOptions"
                             :key="item.id"
-                            :label="item.status"
+                            :label="item.label"
                             :value="item.id"
                           >
                           </el-option>
@@ -494,7 +492,7 @@
                           <el-option
                             v-for="item in htlxOptions"
                             :key="item.id"
-                            :label="item.type"
+                            :label="item.label"
                             :value="item.id"
                           >
                           </el-option>
@@ -3277,14 +3275,7 @@
 
 <script>
 import {
-  data,
   option,
-  hjlbOptions,
-  jkzkOptions,
-  hyzkOptions,
-  dqztOptions,
-  htlxOptions,
-  pickerOptions,
   jbxx_form,
   jyjl_form,
   lxfs_form,
@@ -3310,12 +3301,6 @@ import {
   organiseinspect_form,
   jsrzqkcp_form,
   furtherstudyforeign_form,
-  grjsdjOptions,
-  zzlxOptions,
-  rzfsOptions,
-  przzsjOptions,
-  zzjgOptions,
-  zzztOptions,
   jbxx_rules,
   jyjl_rules,
   lxfs_rules,
@@ -3350,9 +3335,16 @@ import {
   submitChild,
   editChild,
   delChild,
-  getDictItems,
 } from "@/api/staff/teacher/info";
 import { dictItems } from "@/const/staff/dictItems";
+import {
+  getDept,
+  getDqztk,
+  getJkzk,
+  getHyzk,
+  getHjlb,
+  getHtlx,
+} from "@/const/staff/getSelectOption";
 
 export default {
   name: "TableEngage",
@@ -3414,29 +3406,28 @@ export default {
         size: 10,
       },
       // 数据源
-      data: data,
+      data: undefined,
       option: option,
-
-      // 搜索的表单对象
-      search: {
-        name: undefined,
-        orgId: undefined,
-        dqztm: undefined,
+      defaultProps: {
+        label: "name",
+        value: "id",
       },
+      // 搜索的表单对象
+      search: {},
 
       // 选择器配置对象
-      hjlbOptions: hjlbOptions,
-      jkzkOptions: jkzkOptions,
-      hyzkOptions: hyzkOptions,
-      dqztOptions: dqztOptions,
-      htlxOptions: htlxOptions,
-      pickerOptions: pickerOptions,
-      grjsdjOptions: grjsdjOptions,
-      zzlxOptions: zzlxOptions,
-      rzfsOptions: rzfsOptions,
-      przzsjOptions: przzsjOptions,
-      zzjgOptions: zzjgOptions,
-      zzztOptions: zzztOptions,
+      hjlbOptions: undefined,
+      jkzkOptions: undefined,
+      hyzkOptions: undefined,
+      dqztOptions: undefined,
+      htlxOptions: undefined,
+      pickerOptions: undefined,
+      grjsdjOptions: undefined,
+      zzlxOptions: undefined,
+      rzfsOptions: undefined,
+      przzsjOptions: undefined,
+      treeDeptData: undefined,
+      zzztOptions: undefined,
 
       // 上传地址
       sfzAction: "",
@@ -3552,9 +3543,18 @@ export default {
     },
 
     // 获取表格数据
-    async getInfoList(page) {
-      const { data: res } = await getInfo(page);
-      if (res.code !== 0) return this.$notify.error("获取表格数据失败！");
+    async getInfoList(page, params) {
+      const { data: res } = await getInfo(
+        Object.assign(
+          {
+            current: page.currentPage,
+            size: page.pageSize,
+          },
+          params,
+          this.search
+        )
+      );
+      if (res.code !== 0) return this.$message.error("获取表格数据失败！");
       this.data = res.data.records;
       this.page.total = res.data.total;
     },
@@ -3565,6 +3565,13 @@ export default {
         current: page.currentPage,
         size: page.pageSize,
       });
+    },
+
+    searchChange(form, done) {
+      this.search = form;
+      this.page.currentPage = 1;
+      this.getInfoList(this.page, form);
+      done();
     },
 
     // 添加按钮
@@ -3583,52 +3590,70 @@ export default {
       this.dialogVisible_add = true;
     },
 
-    async getDqzt() {
-      const { data: res } = await getDictItems(this.dictItems["dqztk"]);
-      if (res.code !== 0) return this.$message.error("获取下拉失败!");
+    async loadDept() {
+      const { data: res } = await getDept();
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.treeDeptData = res.data;
+    },
+    async loadZzzt() {
+      const { data: res } = await getDqztk();
+      if (res.code !== 0) return this.$message.error("获取数据失败!");
       this.zzztOptions = res.data;
     },
-    async getObj() {
-      const { data: res } = await getDictItems(this.dictItems["tree"]);
-      if (res.code !== 0) return this.$message.error("获取下拉失败!");
-      console.log(res);
-      // this.zzztOptions = res.data;
+    async getJkzk() {
+      const { data: res } = await getJkzk();
+      if (res.code !== 0) return this.$message.error("获取数据失败!");
+      this.jkzkOptions = res.data;
+    },
+    async getHyzk() {
+      const { data: res } = await getHyzk();
+      if (res.code !== 0) return this.$message.error("获取数据失败!");
+      this.hyzkOptions = res.data;
+    },
+    async getHjlb() {
+      const { data: res } = await getHjlb();
+      if (res.code !== 0) return this.$message.error("获取数据失败!");
+      this.hjlbOptions = res.data;
+    },
+    async getHtlx() {
+      const { data: res } = await getHtlx();
+      if (res.code !== 0) return this.$message.error("获取数据失败!");
+      this.htlxOptions = res.data;
     },
 
     // 添加
     async addInfo(obj) {
       const { data: res } = await addInfo(obj);
-      if (res.code !== 0) return this.$notify.error("保存失败！" + res.msg);
-      this.$notify.success("添加成功！");
+      if (res.code !== 0) return this.$message.error("保存失败！" + res.msg);
+      this.$message.success("添加成功！");
       this.isAdd = false;
       this.user_id = res.data;
     },
     // 修改
     async edit(obj) {
       if (this.user_id === undefined)
-        return this.$notify.error("请先添加基本信息！");
+        return this.$message.error("请先添加基本信息！");
       obj.id = this.user_id;
       const { data: res } = await editInfo(obj);
-      if (res.code !== 0) return this.$notify.error("保存失败！" + res.msg);
-      this.$notify.success("保存成功！");
+      if (res.code !== 0) return this.$message.error("保存失败！" + res.msg);
+      this.$message.success("保存成功！");
     },
     // 子表提交
     async submitChild(type, obj) {
       if (this.user_id === undefined)
-        return this.$notify.error("请先添加基本信息！");
+        return this.$message.error("请先添加基本信息！");
       obj.staffId = this.user_id;
       // 添加
       if (this.child_flag === "add") {
         const { data: res } = await submitChild(type, obj);
-        if (res.code !== 0) return this.$notify.error("添加失败！" + res.msg);
-        this.$notify.success("添加成功！");
+        if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
+        this.$message.success("添加成功！");
       }
       // 修改
       if (this.child_flag === "edit") {
         const { data: res } = await editChild(type, obj);
-        if (res.code !== 0) return this.$notify.error("修改失败！" + res.msg);
-        this.$notify.success("修改成功！");
-        console.log(obj.id);
+        if (res.code !== 0) return this.$message.error("修改失败！" + res.msg);
+        this.$message.success("修改成功！");
       }
       const { data: res } = await getChild(type);
       if (res.code !== 0) return true;
@@ -3637,7 +3662,6 @@ export default {
     },
     // 子表修改
     editChildRow(type, row) {
-      console.log(row);
       this[`dialogVisible_${type}`] = true;
       this[`${type}_form`] = row;
       this.child_flag = "edit";
@@ -3645,8 +3669,8 @@ export default {
     // 子表删除
     async delChildRow(type, row) {
       const { data: res } = await delChild(type, row.id);
-      if (res.code !== 0) return this.$notify.error("删除失败！" + res.msg);
-      this.$notify.success("删除成功！");
+      if (res.code !== 0) return this.$message.error("删除失败！" + res.msg);
+      this.$message.success("删除成功！");
       this[`${type}_tableData`].some((item, index) => {
         if (item.staffId === row.staffId) {
           this[`${type}_tableData`].splice(index, 1);
@@ -3656,8 +3680,12 @@ export default {
     },
   },
   mounted() {
-    this.getDqzt();
-    this.getObj();
+    this.loadDept();
+    this.loadZzzt();
+    this.getJkzk();
+    this.getHyzk();
+    this.getHjlb();
+    this.getHtlx();
   },
 };
 </script>

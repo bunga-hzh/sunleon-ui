@@ -7,29 +7,26 @@
         :data="data"
         :page.sync="page"
       >
-        <template slot="depSearch">
-          <el-select v-model="depValue" placeholder="请选择">
-            <el-option
-              v-for="item in depList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
+        <template slot="orgIdSearch">
+          <avue-input-tree
+            v-model="search.orgId"
+            :dic="treeDeptData"
+            :props="defaultProps"
+            placeholder="请选择所属部门"
+          />
         </template>
-        <template slot="bz_typeSearch">
+        <template slot="bzlxSearch">
           <el-select v-model="bzValue" placeholder="请选择">
             <el-option
-              v-for="item in bzList"
-              :key="item.value"
-              :label="item.name"
+              v-for="item in bzlxList"
+              :key="item.id"
+              :label="item.label"
               :value="item.id"
             >
             </el-option>
           </el-select>
         </template>
-        <template slot="ry_typeSearch">
+        <template slot="rylxSearch">
           <el-select v-model="ryValue" placeholder="请选择">
             <el-option
               v-for="item in ryList"
@@ -40,12 +37,12 @@
             </el-option>
           </el-select>
         </template>
-        <template slot="js_typeSearch">
+        <template slot="jslxSearch">
           <el-select v-model="jsValue" placeholder="请选择">
             <el-option
-              v-for="item in jsList"
-              :key="item.value"
-              :label="item.name"
+              v-for="item in jslxList"
+              :key="item.id"
+              :label="item.label"
               :value="item.id"
             >
             </el-option>
@@ -57,10 +54,17 @@
 </template>
 
 <script>
+import { getDept, getJslx, getBzlx } from "@/const/staff/getSelectOption";
+
 export default {
   name: "TableEngage",
   data() {
     return {
+      treeDeptData: undefined,
+      defaultProps: {
+        label: "name",
+        value: "id",
+      },
       page: {
         total: 1000,
         currentPage: 1,
@@ -69,13 +73,13 @@ export default {
       // 数据源
       data: [
         {
-          jobId: 1,
-          name: "张三",
-          dep: "未知",
-          bz_type: "事业编制",
-          ry_type: "在职人员",
-          js_type: "外聘教师",
-          time: "2022/02/02",
+          gh: "10086",
+          xm: "张三",
+          objId: "未知",
+          bzlx: "事业编制",
+          rylx: "在职人员",
+          jslx: "外聘教师",
+          rzrq: "2022/02/02",
         },
       ],
       option: {
@@ -86,47 +90,47 @@ export default {
         column: [
           {
             label: "工号",
-            prop: "jobId",
+            prop: "gh",
             search: true,
             searchSpan: 7,
           },
           {
             label: "姓名",
-            prop: "name",
+            prop: "xm",
             search: true,
             searchSpan: 7,
           },
           {
             label: "所属部门",
-            prop: "dep",
+            prop: "orgId",
             search: true,
             searchSpan: 7,
             searchslot: true,
           },
           {
-            label: "编制",
-            prop: "bz_type",
+            label: "编制类型",
+            prop: "bzlx",
             search: true,
             searchSpan: 7,
             searchslot: true,
           },
           {
             label: "人员类型",
-            prop: "ry_type",
+            prop: "rylx",
             search: true,
             searchSpan: 7,
             searchslot: true,
           },
           {
             label: "教师类型",
-            prop: "js_type",
+            prop: "jslx",
             search: true,
             searchSpan: 6,
             searchslot: true,
           },
           {
             label: "入职日期",
-            prop: "time",
+            prop: "rzrq",
           },
         ],
       },
@@ -142,10 +146,7 @@ export default {
         { id: 7, name: "部门7" },
       ],
       depValue: "",
-      bzList: [
-        { id: 1, name: "事业编制" },
-        { id: 2, name: "非事业编制" },
-      ],
+      bzlxList: undefined,
       bzValue: "",
       ryList: [
         { id: 1, name: "在职人员" },
@@ -153,14 +154,32 @@ export default {
         { id: 3, name: "退休人员" },
       ],
       ryValue: "",
-      jsList: [
-        { id: 1, name: "外聘教师" },
-        { id: 2, name: "非外聘教师" },
-      ],
+      jslxList: undefined,
       jsValue: "",
     };
   },
-  methods: {},
+  methods: {
+    async getDept() {
+      const { data: res } = await getDept();
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.treeDeptData = res.data;
+    },
+    async getJslx() {
+      const { data: res } = await getJslx();
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.jslxList = res.data;
+    },
+    async getBzlx() {
+      const { data: res } = await getBzlx();
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.bzlxList = res.data;
+    },
+  },
+  mounted() {
+    this.getDept();
+    this.getJslx();
+    this.getBzlx();
+  },
 };
 </script>
 

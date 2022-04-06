@@ -39,10 +39,12 @@ export const option = {
       label: "出生日期",
       prop: "csrq",
       formslot: true,
+      width: 150,
     },
     {
       label: "身份证号码",
       prop: "sfzjh",
+      width: 150,
     },
     {
       label: "性质",
@@ -51,6 +53,7 @@ export const option = {
     {
       label: "家庭地址",
       prop: "jtzz",
+      width: 180,
     },
     {
       label: "联系电话",
@@ -82,6 +85,7 @@ export const option = {
       prop: "cjgzny",
       width: 150,
       formslot: true,
+      width: 150,
     },
     {
       label: "教师资格证",

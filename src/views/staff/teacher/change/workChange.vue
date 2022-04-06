@@ -15,12 +15,119 @@
             :page.sync="page"
             v-model="form"
           >
-            <template slot-scope="scope" slot="salary">
-              <span v-show="showInput">{{ scope.row.salary }}</span>
+            <template slot="sxqForm">
+              <el-input-number
+                v-model="form.sxq"
+                controls-position="right"
+                :min="0"
+                :max="999"
+              ></el-input-number>
+            </template>
+            <template slot="sxsjdForm">
+              <el-date-picker
+                v-model="form.sxsjd"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
+              >
+              </el-date-picker>
+            </template>
+            <template slot="syqForm">
+              <el-input-number
+                v-model="form.sxq"
+                controls-position="right"
+                :min="0"
+                :max="999"
+              ></el-input-number>
+            </template>
+            <template slot="sysjdForm">
+              <el-date-picker
+                v-model="form.sxsjd"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
+              >
+              </el-date-picker>
+            </template>
+            <template slot="bhgyyForm">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4 }"
+                placeholder="请输入内容"
+                v-model="form.bhgyy"
+              >
+              </el-input>
+            </template>
+            <template slot="rzrqForm">
+              <el-date-picker
+                v-model="form.rzrq"
+                type="date"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
+            </template>
+            <template slot="zszzrqForm">
+              <el-date-picker
+                v-model="form.zszzrq"
+                type="date"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
+            </template>
+            <template slot="xqsjdForm">
+              <el-date-picker
+                v-model="form.xqsjd"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
+              >
+              </el-date-picker>
+            </template>
+            <template slot="zgsjForm">
+              <el-date-picker
+                v-model="form.zgsj"
+                type="date"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
+            </template>
+            <template slot="ydsjForm">
+              <el-date-picker
+                v-model="form.ydsj"
+                type="date"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
+            </template>
+            <template slot="xzForm">
+              <el-input-number
+                v-model="form.xz"
+                controls-position="right"
+                :min="0"
+                :max="999"
+              ></el-input-number>
+            </template>
+            <template slot="bzForm">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4 }"
+                placeholder="请输入内容"
+                v-model="form.bz"
+              >
+              </el-input>
+            </template>
+            <template slot="xz" slot-scope="scope">
+              <span v-show="showInput">{{ scope.row.xz }}</span>
               <el-input
                 @blur="showInput = true"
                 v-show="!showInput"
-                v-model="scope.row.salary"
+                v-model="scope.row.xz"
               ></el-input>
               <i
                 v-show="showInput"
@@ -30,10 +137,10 @@
               ></i>
             </template>
 
-            <template slot="job" slot-scope="scope">
-              <span v-show="showSelect">{{ scope.row.job }}</span>
+            <template slot="gwmc" slot-scope="scope">
+              <span v-show="showSelect">{{ scope.row.gwmc }}</span>
               <el-select
-                v-model="scope.row.job"
+                v-model="scope.row.gwmc"
                 @change="showSelect = true"
                 v-show="!showSelect"
               >
@@ -53,12 +160,21 @@
               ></i>
             </template>
 
-            <template slot="nameFrom">
+            <template slot="objIdSearch">
+              <avue-input-tree
+                v-model="search.objId"
+                :dic="treeDeptData"
+                :props="treeProps"
+                placeholder="请选择所属部门"
+              />
+            </template>
+
+            <template slot="xmFrom">
               <el-input placeholder="请输入内容" v-model="form.name" clearable>
               </el-input>
             </template>
 
-            <template slot="depSearch">
+            <template slot="objIdSearch">
               <el-select v-model="depValue" placeholder="请选择">
                 <el-option
                   v-for="item in depList"
@@ -69,7 +185,7 @@
                 </el-option>
               </el-select>
             </template>
-            <template slot="statusSearch">
+            <template slot="zzztmSearch">
               <el-select v-model="statusValue" placeholder="请选择">
                 <el-option
                   v-for="item in statusList"
@@ -80,7 +196,7 @@
                 </el-option>
               </el-select>
             </template>
-            <template slot="menuLeft" v-if="item.id == 4">
+            <template slot="menuLeft" v-if="item.value == 4">
               <el-button
                 type="primary"
                 icon="el-icon-finished"
@@ -174,7 +290,7 @@ import {
 } from "@/const/crud/staff/teacher/change/workChange";
 
 import { dictItems } from "@/const/staff/dictItems";
-import { getDictItem } from "@/api/staff/dictItem";
+import { getDictItem, getDeptTree } from "@/api/staff/dictItem";
 
 export default {
   name: "TableEngage",
@@ -222,6 +338,12 @@ export default {
       showSelect: true,
       // 字典项
       dictItems: dictItems,
+      // 树状部门选择器数据
+      treeDeptData: [],
+      treeProps: {
+        label: "name",
+        value: "id",
+      },
     };
   },
   methods: {
@@ -248,15 +370,24 @@ export default {
       const { data: res } = await getDictItem(
         this.dictItems["workchangetablist"]
       );
-      console.log(res);
+      if (res.code !== 0)
+        return this.$message.error("获取数据失败！" + res.msg);
       this.tabList = res.data;
       this.activeName = res.data[0].value;
+    },
+    // 获取部门信息
+    async getDept() {
+      const { data: res } = await getDeptTree();
+      if (res.code !== 0)
+        return this.$message.error("获取数据失败！" + res.msg);
+      this.treeDeptData = res.data;
     },
   },
   created() {
     this.option = this.optionList[0];
     this.data = this.dataList[0];
     this.getTabs();
+    this.getDept();
   },
 };
 </script>
