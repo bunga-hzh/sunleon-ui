@@ -65,3 +65,28 @@ export function getSyzt() {
 export function getRygwlx() {
   return getDictItem(dictItems['rygwlx'])
 }
+
+// 获取性别
+export function getXb() {
+  return getDictItem(dictItems['xb'])
+}
+
+// 是/否
+export function getSf() {
+  return getDictItem(dictItems['sf'])
+}
+
+// 获取专技人员专业类别
+export function getZyjsrylb() {
+  return getDictItem(dictItems['zyjsrylb'])
+}
+
+// 获取人员类别
+export function getRylb() {
+  return getDictItem(dictItems['rylb'])
+}
+
+// 获取岗位类型
+export function getPost() {
+  return getDictItem(dictItems['post'])
+}

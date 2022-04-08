@@ -11,5 +11,10 @@ export const dictItems = {
   xmfl: "xmfl_type", //项目分类
   syzt: "syzt_type", //使用状态
   rygwlx: "rygwlx_type", //人员岗位类型
+  xb: "xb_type", //性别
+  sf: "sf_type", //是/否
+  zyjsrylb: "zyjsrylb_type", //专技人员专业类别
+  rylb: "rylb_type", //人员类别
+  post: "post_type", //岗位类型
   workchangetablist: "workchangetablist_type" //人事业务管理标签项
 }
