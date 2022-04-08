@@ -45,3 +45,23 @@ export function getJslx() {
 export function getBzlx() {
   return getDictItem(dictItems['bzlx'])
 }
+
+// 获取增减类型
+export function getZjx() {
+  return getDictItem(dictItems['zjx'])
+}
+
+// 获取项目分类
+export function getXmfl() {
+  return getDictItem(dictItems['xmfl'])
+}
+
+// 获取使用状态
+export function getSyzt() {
+  return getDictItem(dictItems['syzt'])
+}
+
+// 获取人员岗位类型
+export function getRygwlx() {
+  return getDictItem(dictItems['rygwlx'])
+}

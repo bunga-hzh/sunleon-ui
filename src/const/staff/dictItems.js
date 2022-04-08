@@ -7,5 +7,9 @@ export const dictItems = {
   htlx: "htlx_type", //合同类型
   jslx: "jslx_type", //教师类型
   bzlx: "bzlx_type", //编制类型
+  zjx: "zjx_type", //增减类型
+  xmfl: "xmfl_type", //项目分类
+  syzt: "syzt_type", //使用状态
+  rygwlx: "rygwlx_type", //人员岗位类型
   workchangetablist: "workchangetablist_type" //人事业务管理标签项
 }
