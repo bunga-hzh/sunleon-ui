@@ -16,6 +16,7 @@ export const option = {
       search: true,
       searchslot: true,
       formslot: true,
+      slot: true,
     },
     {
       label: '使用状态',
@@ -23,6 +24,7 @@ export const option = {
       search: true,
       searchslot: true,
       formslot: true,
+      slot: true,
     },
     {
       label: '描述',
@@ -39,8 +41,8 @@ export const childOption = {
   menu: false,
   selection: true,
   column: [{
-      label: '编号',
-      prop: 'bh',
+      label: '字段名称',
+      prop: 'zdbh',
     },
     {
       label: '工资项名称',

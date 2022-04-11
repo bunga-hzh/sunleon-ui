@@ -5,11 +5,17 @@ export const option = {
   indexLabel: '序号',
   searchMenuSpan: 4,
   menuWidth: 240,
+  labelWidth: 150,
   column: [{
-      label: '编号',
-      prop: 'bh',
+      label: '字段编号',
+      prop: 'zdbh',
       search: true,
       searchSpan: 7,
+      rules: [{
+        required: true,
+        message: '请输入字段名称',
+        trigger: 'blur',
+      }]
     },
     {
       label: '工资项名称',
@@ -17,6 +23,12 @@ export const option = {
       search: true,
       searchLabelWidth: 120,
       searchSpan: 7,
+      width: 240,
+      rules: [{
+        required: true,
+        message: '请输入工资项名称',
+        trigger: 'blur',
+      }]
     },
     {
       label: '项目分类',
@@ -25,6 +37,11 @@ export const option = {
       searchSpan: 7,
       searchslot: true,
       formslot: true,
+      rules: [{
+        required: true,
+        message: '请选择项目分类',
+        trigger: 'blur',
+      }]
     },
     {
       label: '增减项',
@@ -34,10 +51,11 @@ export const option = {
       searchslot: true,
       formslot: true,
       slot: true,
-    },
-    {
-      label: '工资标准（元）',
-      prop: 'gzbz',
+      rules: [{
+        required: true,
+        message: '请选择增减项',
+        trigger: 'blur',
+      }]
     },
     {
       label: '使用状态',
@@ -47,6 +65,11 @@ export const option = {
       searchslot: true,
       formslot: true,
       slot: true,
+      rules: [{
+        required: true,
+        message: '请选择使用状态',
+        trigger: 'blur',
+      }]
     },
     {
       label: '描述',

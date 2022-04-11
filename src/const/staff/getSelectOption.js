@@ -90,3 +90,8 @@ export function getRylb() {
 export function getPost() {
   return getDictItem(dictItems['post'])
 }
+
+// 获取年收入统计标签项
+export function getNsrtjtabs() {
+  return getDictItem(dictItems['nsrtjtabs'])
+}

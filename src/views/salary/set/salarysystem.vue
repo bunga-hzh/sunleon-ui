@@ -39,6 +39,18 @@
           </el-option>
         </el-select>
       </template>
+      <template slot="sygw" slot-scope="scope">
+        <span v-if="scope.row.sygw === '1'">专业技术人员</span>
+        <span v-else-if="scope.row.sygw === '2'">管理人员</span>
+        <span v-else-if="scope.row.sygw === '3'">普教教师</span>
+        <span v-else-if="scope.row.sygw === '4'">工人</span>
+        <el-tag v-else type="danger">错误，请联系管理员</el-tag>
+      </template>
+      <template slot="syzt" slot-scope="scope">
+        <el-tag v-if="scope.row.syzt === '1'" type="success">启用</el-tag>
+        <el-tag v-else-if="scope.row.syzt === '2'" type="warning">停用</el-tag>
+        <el-tag v-else type="danger">错误，请联系管理员</el-tag>
+      </template>
     </avue-crud>
     <el-dialog
       title="添加"
@@ -104,9 +116,9 @@
         </tr>
         <tr>
           <th>
-            <span class="title">5号发放</span>
+            <span class="title">国家工资</span>
             <span
-              ><el-button type="primary" @click="openChildDialog"
+              ><el-button type="primary" @click="openChildDialog('gjgz')"
                 >添加</el-button
               ></span
             >
@@ -115,7 +127,13 @@
         <tr>
           <td>
             <el-row>
-              <el-tag v-for="tag in tags" :key="tag.bh" closable type="primary">
+              <el-tag
+                v-for="tag in gjgzList"
+                :key="tag.zdbh"
+                closable
+                type="primary"
+                @close="removeItem('gjgz', tag)"
+              >
                 {{ tag.gzxmc }}
               </el-tag>
             </el-row>
@@ -123,9 +141,9 @@
         </tr>
         <tr>
           <th>
-            <span class="title">15号发放</span>
+            <span class="title">校内工资</span>
             <span
-              ><el-button type="primary" @click="openChildDialog"
+              ><el-button type="primary" @click="openChildDialog('xngz')"
                 >添加</el-button
               ></span
             >
@@ -134,7 +152,13 @@
         <tr>
           <td>
             <el-row>
-              <el-tag v-for="tag in tags" :key="tag.bh" closable type="primary">
+              <el-tag
+                v-for="tag in xngzList"
+                :key="tag.zdbh"
+                closable
+                type="primary"
+                @close="removeItem('xngz', tag)"
+              >
                 {{ tag.gzxmc }}
               </el-tag>
             </el-row>
@@ -142,9 +166,9 @@
         </tr>
         <tr>
           <th>
-            <span class="title">25号发放</span>
+            <span class="title">零星发放</span>
             <span
-              ><el-button type="primary" @click="openChildDialog"
+              ><el-button type="primary" @click="openChildDialog('lxff')"
                 >添加</el-button
               ></span
             >
@@ -153,7 +177,13 @@
         <tr>
           <td>
             <el-row>
-              <el-tag v-for="tag in tags" :key="tag.bh" closable type="primary">
+              <el-tag
+                v-for="tag in lxffList"
+                :key="tag.zdbh"
+                closable
+                type="primary"
+                @close="removeItem('lxff', tag)"
+              >
                 {{ tag.gzxmc }}
               </el-tag>
             </el-row>
@@ -163,7 +193,7 @@
           <th>
             <span class="title">不定时发放</span>
             <span
-              ><el-button type="primary" @click="openChildDialog"
+              ><el-button type="primary" @click="openChildDialog('bdsff')"
                 >添加</el-button
               ></span
             >
@@ -172,7 +202,13 @@
         <tr>
           <td>
             <el-row>
-              <el-tag v-for="tag in tags" :key="tag.bh" closable type="primary">
+              <el-tag
+                v-for="tag in bdsffList"
+                :key="tag.zdbh"
+                closable
+                type="primary"
+                @close="removeItem('bdsff', tag)"
+              >
                 {{ tag.gzxmc }}
               </el-tag>
             </el-row>
@@ -191,9 +227,11 @@
       append-to-body
     >
       <avue-crud
+        ref="crudChildRef"
         :data="childData"
         :option="childOption"
         :page.sync="childPage"
+        @selection-change="selectionChange"
       ></avue-crud>
       <span slot="footer">
         <el-button @click="dialogVisible_child = false">取 消</el-button>
@@ -205,6 +243,7 @@
 
 <script>
 import { option, childOption } from "@/const/crud/salary/set/salarysystem";
+import { data } from "@/const/crud/salary/itemdatas";
 import { getRygwlx, getSyzt } from "@/const/staff/getSelectOption";
 
 export default {
@@ -212,7 +251,28 @@ export default {
     return {
       data: [
         {
-          txmc: "体系一",
+          txmc: "一",
+          sygw: "1",
+          syzt: "1",
+          ms: "无",
+        },
+        {
+          txmc: "二",
+          sygw: "2",
+          syzt: "1",
+          ms: "无",
+        },
+        {
+          txmc: "三",
+          sygw: "3",
+          syzt: "1",
+          ms: "无",
+        },
+        {
+          txmc: "四",
+          sygw: "4",
+          syzt: "1",
+          ms: "无",
         },
       ],
       option: option,
@@ -223,11 +283,7 @@ export default {
         current: 1,
         size: 10,
       },
-      childData: [
-        {
-          bh: "1111",
-        },
-      ],
+      childData: data,
       childOption: childOption,
       childPage: {
         total: 100,
@@ -235,22 +291,13 @@ export default {
         size: 10,
       },
 
-      tags: [
-        {
-          bh: "1111",
-          gzxmc: "养老金",
-          xmfl: "未知",
-          zjx: 238,
-          gzxzt: 240,
-        },
-        {
-          bh: "2222",
-          gzxmc: "基本薪资",
-          xmfl: "未知",
-          zjx: 239,
-          gzxzt: 241,
-        },
-      ],
+      snapData: [],
+      currentType: undefined,
+
+      gjgzList: [],
+      xngzList: [],
+      lxffList: [],
+      bdsffList: [],
 
       sygwOptions: undefined,
       syztOptions: undefined,
@@ -276,11 +323,25 @@ export default {
       if (res.code !== 0) return this.$message.error(res.msg);
       this.syztOptions = res.data;
     },
-    openChildDialog() {
+    openChildDialog(type) {
       this.dialogVisible_child = true;
+      this.snapData = [];
+      this.currentType = type;
+    },
+    selectionChange(list) {
+      this.snapData = list;
     },
     submitChild() {
       this.dialogVisible_child = false;
+      this[`${this.currentType}List`] = this.snapData;
+      this.$refs.crudChildRef.toggleSelection();
+    },
+    removeItem(type, tag) {
+      this[`${type}List`].some((item, index) => {
+        if (item.zdbh === tag.zdbh) {
+          this[`${type}List`].splice(index, 1);
+        }
+      });
     },
   },
   mounted() {

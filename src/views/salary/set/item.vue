@@ -25,9 +25,9 @@
         <el-select v-model="search.zjx" placeholder="请选择" clearable>
           <el-option
             v-for="item in zjxOptions"
-            :key="item.id"
+            :key="item.value"
             :label="item.label"
-            :value="item.id"
+            :value="item.value"
           >
           </el-option>
         </el-select>
@@ -36,9 +36,9 @@
         <el-select v-model="form.zjx" placeholder="请选择" clearable>
           <el-option
             v-for="item in zjxOptions"
-            :key="item.id"
+            :key="item.value"
             :label="item.label"
-            :value="item.id"
+            :value="item.value"
           >
           </el-option>
         </el-select>
@@ -77,10 +77,7 @@
         </el-select>
       </template>
       <template slot="syztForm">
-        <el-radio-group v-model="form.syzt">
-          <el-radio :label="247">启用</el-radio>
-          <el-radio :label="248">停用</el-radio>
-        </el-radio-group>
+        <avue-radio v-model="form.syzt" :dic="syztOptions"></avue-radio>
       </template>
       <template slot="msForm">
         <el-input
@@ -91,14 +88,14 @@
         >
         </el-input>
       </template>
-      <template slot="gzxzt" slot-scope="scope">
-        <el-tag v-if="scope.row.gzxzt === 240" type="success">启用</el-tag>
-        <el-tag v-else-if="scope.row.gzxzt === 241" type="danger">停用</el-tag>
+      <template slot="syzt" slot-scope="scope">
+        <el-tag v-if="scope.row.syzt === '1'" type="success">启用</el-tag>
+        <el-tag v-else-if="scope.row.syzt === '2'" type="danger">停用</el-tag>
         <el-tag v-else type="danger">未知错误，请联系管理员</el-tag>
       </template>
       <template slot="zjx" slot-scope="scope">
-        <el-tag v-if="scope.row.zjx === 238">增项</el-tag>
-        <el-tag v-else-if="scope.row.zjx === 239" type="warning">减项</el-tag>
+        <el-tag v-if="scope.row.zjx === '1'">增项</el-tag>
+        <el-tag v-else-if="scope.row.zjx === '2'" type="warning">减项</el-tag>
         <el-tag v-else type="danger">未知错误，请联系管理员</el-tag>
       </template>
     </avue-crud>
@@ -108,33 +105,15 @@
 <script>
 import { option } from "@/const/crud/salary/set/item";
 import { getZjx, getXmfl, getSyzt } from "@/const/staff/getSelectOption";
+import { data } from "@/const/crud/salary/itemdatas";
 
 export default {
   data() {
     return {
-      data: [
-        {
-          bh: "1111",
-          gzxmc: "养老金",
-          xmfl: "未知",
-          zjx: 238,
-          gzbz: "300",
-          gzxzt: 240,
-        },
-        {
-          bh: "2222",
-          gzxmc: "基本薪资",
-          xmfl: "未知",
-          zjx: 239,
-          gzbz: 200,
-          gzxzt: 241,
-        },
-      ],
+      data: data,
       option: option,
       search: {},
-      form: {
-        syzt: 247,
-      },
+      form: {},
       page: {
         total: 100,
         current: 1,

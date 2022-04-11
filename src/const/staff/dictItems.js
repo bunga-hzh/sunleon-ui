@@ -16,5 +16,6 @@ export const dictItems = {
   zyjsrylb: "zyjsrylb_type", //专技人员专业类别
   rylb: "rylb_type", //人员类别
   post: "post_type", //岗位类型
+  nsrtjtabs: "nsrtjtabs_type", //年收入统计标签项
   workchangetablist: "workchangetablist_type" //人事业务管理标签项
 }

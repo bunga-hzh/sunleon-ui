@@ -139,14 +139,6 @@
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                      <el-form-item label="性别" prop="xbm">
-                        <avue-radio
-                          v-model="ryjbqk_form.xbm"
-                          :dic="xbmDic"
-                        ></avue-radio>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
                       <el-form-item label="年龄" prop="jsnl">
                         <el-input-number
                           v-model="ryjbqk_form.jsnl"
@@ -156,19 +148,58 @@
                         ></el-input-number>
                       </el-form-item>
                     </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="性别" prop="xbm">
+                        <avue-radio
+                          v-model="ryjbqk_form.xbm"
+                          :dic="xbmDic"
+                        ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="籍贯" prop="jg">
+                        <el-input placeholder="详细地址" v-model="jg">
+                          <el-select
+                            style="width: 150px"
+                            v-model="jgSelect"
+                            slot="prepend"
+                            placeholder="省、市、区、县"
+                          >
+                            <el-option
+                              v-for="item in hjlbOptions"
+                              :key="item.id"
+                              :label="item.label"
+                              :value="item.label"
+                            >
+                            </el-option>
+                          </el-select>
+                        </el-input>
+                      </el-form-item>
+                    </el-col>
                     <el-col :span="12">
                       <el-form-item label="身份证号" prop="sfzjh">
                         <el-input v-model="ryjbqk_form.sfzjh"></el-input>
                       </el-form-item>
                     </el-col>
+
                     <el-col :span="12">
                       <el-form-item label="出生地" prop="csd">
-                        <el-input v-model="ryjbqk_form.csd"></el-input>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item label="籍贯" prop="jg">
-                        <el-input v-model="ryjbqk_form.jg"></el-input>
+                        <el-input placeholder="详细地址" v-model="csd">
+                          <el-select
+                            style="width: 150px"
+                            v-model="csdSelect"
+                            slot="prepend"
+                            placeholder="省、市、区、县"
+                          >
+                            <el-option
+                              v-for="item in hjlbOptions"
+                              :key="item.id"
+                              :label="item.label"
+                              :value="item.label"
+                            >
+                            </el-option>
+                          </el-select>
+                        </el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -181,14 +212,14 @@
                         <el-input v-model="ryjbqk_form.zzmmm"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="6">
-                      <el-form-item label="联系电话" prop="lxdh">
-                        <el-input v-model="ryjbqk_form.lxdh"></el-input>
-                      </el-form-item>
-                    </el-col>
                     <el-col :span="12">
                       <el-form-item label="家庭住址" prop="jtzz">
                         <el-input v-model="ryjbqk_form.jtzz"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="联系电话" prop="lxdh">
+                        <el-input v-model="ryjbqk_form.lxdh"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -214,7 +245,7 @@
                         <el-input v-model="ryjbqk_form.jjlxrdh"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="24">
                       <el-form-item
                         label="身份证上传"
                         prop="sfzsc"
@@ -368,7 +399,22 @@
                   <el-row>
                     <el-col :span="12">
                       <el-form-item label="户口所在地" prop="hkszdm">
-                        <el-input v-model="ryjbqk_form.hkszdm"></el-input>
+                        <el-input placeholder="详细地址" v-model="hkszdm">
+                          <el-select
+                            style="width: 150px"
+                            v-model="hkszdmSelect"
+                            slot="prepend"
+                            placeholder="省、市、区、县"
+                          >
+                            <el-option
+                              v-for="item in hjlbOptions"
+                              :key="item.id"
+                              :label="item.label"
+                              :value="item.label"
+                            >
+                            </el-option>
+                          </el-select>
+                        </el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -410,7 +456,22 @@
                         prop="hkxxdz"
                         label-width="120px"
                       >
-                        <el-input v-model="ryjbqk_form.hkxxdz"></el-input>
+                        <el-input placeholder="详细地址" v-model="hkxxdz">
+                          <el-select
+                            style="width: 150px"
+                            v-model="hkxxdzSelect"
+                            slot="prepend"
+                            placeholder="省、市、区、县"
+                          >
+                            <el-option
+                              v-for="item in hjlbOptions"
+                              :key="item.id"
+                              :label="item.label"
+                              :value="item.label"
+                            >
+                            </el-option>
+                          </el-select>
+                        </el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -419,7 +480,22 @@
                         prop="jzxxdz"
                         label-width="120px"
                       >
-                        <el-input v-model="ryjbqk_form.jzxxdz"></el-input>
+                        <el-input placeholder="详细地址" v-model="jzxxdz">
+                          <el-select
+                            style="width: 150px"
+                            v-model="jzxxdzSelect"
+                            slot="prepend"
+                            placeholder="省、市、区、县"
+                          >
+                            <el-option
+                              v-for="item in hjlbOptions"
+                              :key="item.id"
+                              :label="item.label"
+                              :value="item.label"
+                            >
+                            </el-option>
+                          </el-select>
+                        </el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -3587,6 +3663,17 @@ export default {
       xbmDic: undefined,
       sfDic: undefined,
 
+      jg: undefined,
+      jgSelect: undefined,
+      csd: undefined,
+      csdSelect: undefined,
+      hkszdm: undefined,
+      hkszdmSelect: undefined,
+      hkxxdz: undefined,
+      hkxxdzSelect: undefined,
+      jzxxdz: undefined,
+      jzxxdzSelect: undefined,
+
       // 上传地址
       sfzAction: "",
       xlAction: "",
@@ -3844,6 +3931,26 @@ export default {
         }
       });
     },
+    log() {
+      console.log(ryjbqk_form.csd);
+    },
+  },
+  watch: {
+    jg: function (val) {
+      this.ryjbqk_form.jg = this.jgSelect + val;
+    },
+    csd: function (val) {
+      this.ryjbqk_form.csd = this.csdSelect + val;
+    },
+    hkszdm: function (val) {
+      this.ryjbqk_form.hkszdm = this.hkszdmSelect + val;
+    },
+    hkxxdz: function (val) {
+      this.ryjbqk_form.hkxxdz = this.hkxxdzSelect + val;
+    },
+    jzxxdz: function (val) {
+      this.ryjbqk_form.jzxxdz = this.jzxxdzSelect + val;
+    },
   },
   mounted() {
     this.loadDept();
@@ -3863,7 +3970,7 @@ export default {
 
 <style lang="scss" scoped>
 .el-row {
-  padding: 20px;
+  padding: 10px;
 }
 table {
   width: 100%;
