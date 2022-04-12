@@ -1,7 +1,7 @@
 <template>
   <div class="power_info_container">
     <basic-container>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane
           v-for="item in transferList"
           :key="item.id"
@@ -26,6 +26,22 @@
               @change="handleChange"
               :data="data"
             >
+              <template slot="left-footer">
+                <avue-select
+                  v-model="form"
+                  placeholder="请选择内容"
+                  type="tree"
+                  :dic="dic"
+                ></avue-select>
+              </template>
+              <template slot="right-footer">
+                <avue-select
+                  v-model="form"
+                  placeholder="请选择内容"
+                  type="tree"
+                  :dic="dic"
+                ></avue-select>
+              </template>
             </el-transfer>
           </div>
         </el-tab-pane>
@@ -49,7 +65,7 @@ export default {
       return data;
     };
     return {
-      activeName: '1',
+      activeName: "1",
       data: generateData(),
       value: [1],
       value4: [1],
@@ -62,9 +78,9 @@ export default {
       },
       // 穿梭框的数据
       transferList: [
-        { id: '1', title: "本人可修改的" },
-        { id: '2', title: "人事可修改的" },
-        { id: '3', title: "与数据中心对接的" },
+        { id: "1", title: "本人可修改的" },
+        { id: "2", title: "人事可修改的" },
+        { id: "3", title: "与数据中心对接的" },
       ],
     };
   },
@@ -93,4 +109,5 @@ export default {
     transform: translateX(-50%);
   }
 }
-</style>>
+</style>
+>

@@ -49,7 +49,7 @@ export const option = {
   ],
 }
 
-export const ryjbqk_form = {
+export const info_form = {
   gh: undefined,
   xm: undefined,
   cym: undefined,
@@ -66,18 +66,20 @@ export const ryjbqk_form = {
   dzyx: undefined,
   jjlxrxm: undefined,
   jjlxrdh: undefined,
-  sfzsc: undefined,
+  orgId: undefined,
+  sfzFrontImg: undefined,
+  sfzBackImg: undefined,
   byyx: undefined,
   zgxl: undefined,
   zgxlzy: undefined,
   zgxwm: undefined,
   zgxwzy: undefined,
+  zgxlbyyx: undefined,
   qrzxl: undefined,
   qrzzy: undefined,
   qrzxw: undefined,
   qrzbyyx: undefined,
-  xlsczgxlz: undefined,
-  xlscxlz: undefined,
+  zgxlzsc: undefined,
   hjlb: undefined,
   dqztm: undefined,
   hkszdm: undefined,
@@ -88,13 +90,14 @@ export const ryjbqk_form = {
   hyzkm: undefined,
   htlx: undefined,
   sflh: '2',
-  jjzyxq: undefined,
+  jzzqssj: undefined,
+  jjzjzsj: undefined,
   zyjsrylb: undefined,
-  sfjyzyzg: undefined,
+  sfjyzyzg: '2',
   bz: undefined,
 }
 
-export const rzxx_form = {
+export const office_form = {
   bm: undefined,
   rylb: undefined,
   gwlbm: undefined,
@@ -121,7 +124,7 @@ export const rzxx_form = {
   jyclsc: undefined,
 }
 
-export const ndkh_form = {
+export const examine_form = {
   xm: undefined,
   sfzjh: undefined,
   khnd: undefined,
@@ -214,13 +217,14 @@ export const pickerOptions = {
 // 子表表单
 export const xljxw_form = {
   xlm: undefined,
-  rxny: undefined,
+  rxsj: undefined,
   xxxsm: undefined,
   xx: undefined,
   sxzym: undefined,
   hdxwm: undefined,
   zmr: undefined,
-  byny: undefined,
+  bysj: undefined,
+  bz: undefined,
 }
 export const grll_form = {
   qssj: undefined,
@@ -240,7 +244,7 @@ export const zzmmjdjqk_form = {
 export const family_form = {
   cw: undefined,
   xm: undefined,
-  csny: undefined,
+  csrq: undefined,
   zzmmm: undefined,
   dwmc: undefined,
   jtcyzym: undefined,
@@ -254,13 +258,13 @@ export const certificate_form = {
   zsbfrq: undefined,
 }
 export const leader_form = {
-  xxzgbmm: undefined,
+  bm: undefined,
   zwmc: undefined,
   rzfsm: undefined,
   rmzwh: undefined,
   zwjbm: undefined,
-  rzrq: undefined,
-  scldrzwj: undefined,
+  rbzjsj: undefined,
+  ldrzwj: undefined,
 }
 export const professionduty_form = {
   zyjszgmc: undefined,

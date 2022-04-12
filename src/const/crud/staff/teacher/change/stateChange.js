@@ -2,172 +2,78 @@
 export const option = {
   align: 'center',
   border: true,
+  index: true,
   searchMenuSpan: 4,
-  menu: false,
-  column: [{
+  labelWidth: 120,
+  searchSpan: 7,
+  column: [
+    // {
+    //   label: "姓名",
+    //   prop: "xm",
+    //   search: true,
+    //   searchSpan: 7,
+    //   editDisabled: true,
+    // },
+    {
       label: "工号",
-      prop: "gh",
+      prop: "staffId",
       search: true,
-      searchSpan: 7,
+      // addDisabled: true,
+      editDisabled: true,
+      // type: 'number',
     },
-    {
-      label: "姓名",
-      prop: "xm",
-      search: true,
-      searchSpan: 7,
-    },
-    {
-      label: "部门名称",
-      prop: "objId",
-      search: true,
-      searchSpan: 7,
-      searchslot: true,
-    },
+    // {
+    //   label: "部门名称",
+    //   prop: "orgId",
+    //   search: true,
+    //   addDisabled: true,
+    //   editDisabled: true,
+    // },
     {
       label: "异动类型",
-      prop: "ydlx",
+      prop: "changeType",
       search: true,
-      searchSpan: 7,
-      searchslot: true,
+      type: 'select',
+      dicUrl: '/admin/dict/type/dqztk_type',
+      props: {
+        "label": "label",
+        "value": "value"
+      },
     },
     {
       label: "异动时间",
-      prop: "ydsj",
+      prop: "changeDate",
       width: 100,
-      formslot: true,
+      type: 'date',
+      valueFormat: 'yyyy-MM-dd'
     },
     {
-      label: "异动时间段",
-      prop: "ydsjd",
+      label: "异动开始时间",
+      prop: "changeStartDate",
       width: 170,
-      formslot: true,
+      type: 'date',
+      valueFormat: 'yyyy-MM-dd'
+    },
+    {
+      label: "异动结束时间",
+      prop: "changeEndDate",
+      width: 170,
+      type: 'date',
+      valueFormat: 'yyyy-MM-dd'
     },
     {
       label: "异动原因",
-      prop: "ydyy",
+      prop: "changeReason",
     },
     {
       label: "备注",
-      prop: "bz",
-      formslot: true,
+      prop: "memo",
+
     },
     {
       label: "证明附件",
-      prop: "zmfj",
+      prop: "changeEvidence",
       formslot: true,
     },
   ],
 }
-
-//表格数据源
-export const data = [{
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-  {
-    gh: 'zhangsan',
-    xm: '张三',
-    objId: '部门一',
-    ydlx: '离职',
-    ydsj: '2022-03-03',
-    ydsjd: '2021-03-03  至  2022-03-03',
-    ydyy: '未知',
-    bz: '无',
-    zmfj: '无'
-  },
-]
