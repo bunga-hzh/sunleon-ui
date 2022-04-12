@@ -6,7 +6,8 @@
         :search.sync="search"
         :data="data"
         :page.sync="page"
-        @on-load="loadList"
+        @on-load="get"
+        @refresh-change="get"
         @search-change="searchChange"
       >
         <template slot="orgIdSearch">
@@ -69,8 +70,8 @@
       :visible.sync="dialogVisible_add"
       width="60%"
       :fullscreen="dialogFull"
-      @open="clearForm('jbxx')"
-      @close="getInfoList(page)"
+      @open="clearForm('info')"
+      @close="get"
     >
       <template slot="title">
         <div class="avue-crud__dialog__header">
@@ -84,24 +85,18 @@
         </div>
       </template>
 
-      <el-tabs v-model="activeName" type="card">
+      <el-tabs v-model="activeName" type="card" @tab-click="tabChange">
         <el-tab-pane label="人员基本情况" name="1">
-          <el-form ref="ryjbqkFormRef" :model="ryjbqk_form" label-width="90px">
+          <el-form ref="ryjbqkFormRef" :model="info_form" label-width="90px">
             <table>
               <tr>
                 <th>
                   <span>基本信息</span>
                   <span>
-                    <el-button
-                      type="primary"
-                      v-show="isAdd"
-                      @click="addInfo(ryjbqk_form)"
+                    <el-button type="primary" v-show="isAdd" @click="addInfo"
                       >添加</el-button
                     >
-                    <el-button
-                      type="primary"
-                      v-show="!isAdd"
-                      @click="edit(ryjbqk_form)"
+                    <el-button type="primary" v-show="!isAdd" @click="saveInfo"
                       >保存</el-button
                     ></span
                   >
@@ -112,24 +107,24 @@
                   <el-row>
                     <el-col :span="12">
                       <el-form-item label="教职工编号" prop="gh">
-                        <el-input v-model="ryjbqk_form.gh"></el-input>
+                        <el-input v-model="info_form.gh"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="姓名" prop="xm">
-                        <el-input v-model="ryjbqk_form.xm"></el-input>
+                        <el-input v-model="info_form.xm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="曾用名" prop="cym">
-                        <el-input v-model="ryjbqk_form.cym"></el-input>
+                        <el-input v-model="info_form.cym"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="出生日期" prop="csrq">
                         <el-date-picker
                           style="width: 100%"
-                          v-model="ryjbqk_form.csrq"
+                          v-model="info_form.csrq"
                           type="date"
                           format="yyyy 年 MM 月 dd 日"
                           value-format="yyyy-MM-dd"
@@ -141,7 +136,7 @@
                     <el-col :span="6">
                       <el-form-item label="年龄" prop="jsnl">
                         <el-input-number
-                          v-model="ryjbqk_form.jsnl"
+                          v-model="info_form.jsnl"
                           controls-position="right"
                           :min="0"
                           :max="120"
@@ -151,7 +146,7 @@
                     <el-col :span="6">
                       <el-form-item label="性别" prop="xbm">
                         <avue-radio
-                          v-model="ryjbqk_form.xbm"
+                          v-model="info_form.xbm"
                           :dic="xbmDic"
                         ></avue-radio>
                       </el-form-item>
@@ -178,7 +173,7 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="身份证号" prop="sfzjh">
-                        <el-input v-model="ryjbqk_form.sfzjh"></el-input>
+                        <el-input v-model="info_form.sfzjh"></el-input>
                       </el-form-item>
                     </el-col>
 
@@ -204,27 +199,27 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="民族" prop="mzm">
-                        <el-input v-model="ryjbqk_form.mzm"></el-input>
+                        <el-input v-model="info_form.mzm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="政治面貌" prop="zzmmm">
-                        <el-input v-model="ryjbqk_form.zzmmm"></el-input>
+                        <el-input v-model="info_form.zzmmm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="家庭住址" prop="jtzz">
-                        <el-input v-model="ryjbqk_form.jtzz"></el-input>
+                        <el-input v-model="info_form.jtzz"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="联系电话" prop="lxdh">
-                        <el-input v-model="ryjbqk_form.lxdh"></el-input>
+                        <el-input v-model="info_form.lxdh"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="电子邮箱" prop="dzyx">
-                        <el-input v-model="ryjbqk_form.dzyx"></el-input>
+                        <el-input v-model="info_form.dzyx"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -233,7 +228,7 @@
                         prop="jjlxrxm"
                         label-width="120px"
                       >
-                        <el-input v-model="ryjbqk_form.jjlxrxm"></el-input>
+                        <el-input v-model="info_form.jjlxrxm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -242,27 +237,71 @@
                         prop="jjlxrdh"
                         label-width="120px"
                       >
-                        <el-input v-model="ryjbqk_form.jjlxrdh"></el-input>
+                        <el-input v-model="info_form.jjlxrdh"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="24">
+                    <el-col :span="6">
                       <el-form-item
-                        label="身份证上传"
-                        prop="sfzsc"
-                        label-width="95px"
+                        label="所属教研组"
+                        prop="ssjyz"
+                        label-width="90px"
+                      >
+                        <el-input v-model="info_form.ssjyz"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="组织机构" prop="orgId">
+                        <avue-input-tree
+                          v-model="info_form.orgId"
+                          :dic="treeDeptData"
+                          :props="defaultProps"
+                          placeholder="请选择所属部门"
+                        />
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="身份证正面上传"
+                        prop="sfzFrontImg"
+                        label-width="120px"
                       >
                         <el-upload
-                          class="upload-demo"
-                          :action="sfzAction"
-                          :file-list="fileList"
-                          list-type="picture"
+                          class="avatar-uploader"
+                          :action="action"
+                          :show-file-list="false"
                         >
-                          <el-button size="small" type="primary"
-                            >点击上传</el-button
-                          >
-                          <div slot="tip" class="el-upload__tip">
-                            只能上传jpg/png文件，且不超过500kb
-                          </div>
+                          <img
+                            v-if="sfzFrontImgUrl"
+                            :src="sfzFrontImgUrl"
+                            class="avatar"
+                          />
+                          <i
+                            v-else
+                            class="el-icon-plus avatar-uploader-icon"
+                          ></i>
+                        </el-upload>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="身份证反面上传"
+                        prop="sfzBackImg"
+                        label-width="120px"
+                      >
+                        <el-upload
+                          class="avatar-uploader"
+                          :action="action"
+                          :show-file-list="false"
+                        >
+                          <img
+                            v-if="sfzBackImgUrl"
+                            :src="sfzBackImgUrl"
+                            class="avatar"
+                          />
+                          <i
+                            v-else
+                            class="el-icon-plus avatar-uploader-icon"
+                          ></i>
                         </el-upload>
                       </el-form-item>
                     </el-col>
@@ -273,7 +312,7 @@
                 <th colspan="4">
                   <span class="title">教育经历</span>
                   <span
-                    ><el-button type="primary" @click="edit(form)"
+                    ><el-button type="primary" @click="saveInfo"
                       >保存</el-button
                     ></span
                   >
@@ -284,12 +323,12 @@
                   <el-row>
                     <el-col :span="12">
                       <el-form-item label="毕业院校" prop="byyx">
-                        <el-input v-model="ryjbqk_form.byyx"></el-input>
+                        <el-input v-model="info_form.byyx"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="最高学历" prop="zgxl">
-                        <el-input v-model="ryjbqk_form.zgxl"></el-input>
+                        <el-input v-model="info_form.zgxl"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -298,56 +337,65 @@
                         prop="zgxlzy"
                         label-width="120px"
                       >
-                        <el-input v-model="ryjbqk_form.zgxlzy"></el-input>
+                        <el-input v-model="info_form.zgxlzy"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="最高学位" prop="zgxwm">
-                        <el-input v-model="ryjbqk_form.zgxwm"></el-input>
+                        <el-input v-model="info_form.zgxwm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item
                         label="最高学位专业"
                         prop="zgxwzy"
-                        label-width="120px"
+                        label-width="110px"
                       >
-                        <el-input v-model="ryjbqk_form.zgxwzy"></el-input>
+                        <el-input v-model="info_form.zgxwzy"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="最高学历毕业院校"
+                        prop="zgxlbyyx"
+                        label-width="140px"
+                      >
+                        <el-input v-model="info_form.zgxlbyyx"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="全日制学历" prop="qrzxl">
-                        <el-input v-model="ryjbqk_form.qrzxl"></el-input>
+                        <el-input v-model="info_form.qrzxl"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="全日制专业" prop="qrzzy">
-                        <el-input v-model="ryjbqk_form.qrzzy"></el-input>
+                        <el-input v-model="info_form.qrzzy"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="全日制学位" prop="qrzxw">
-                        <el-input v-model="ryjbqk_form.qrzxw"></el-input>
+                        <el-input v-model="info_form.qrzxw"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="24">
+                    <el-col :span="12">
                       <el-form-item
                         label="全日制毕业院校"
                         prop="qrzbyyx"
                         label-width="120px"
                       >
-                        <el-input v-model="ryjbqk_form.qrzbyyx"></el-input>
+                        <el-input v-model="info_form.qrzbyyx"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item
-                        label="学历上传（最高学历证）"
-                        prop="xlsczgxlz"
+                        label="最高学历证上传"
+                        prop="zgxlzsc"
                         label-width="180px"
                       >
                         <el-upload
                           class="upload-demo"
-                          :action="sfzAction"
+                          :action="action"
                           :file-list="fileList"
                           list-type="picture"
                         >
@@ -362,13 +410,13 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item
-                        label="学历上传（学历证）"
-                        prop="xlscxlz"
+                        label="全日制学历证上传"
+                        prop="qrzxlzsc"
                         label-width="180px"
                       >
                         <el-upload
                           class="upload-demo"
-                          :action="sfzAction"
+                          :action="action"
                           :file-list="fileList"
                           list-type="picture"
                         >
@@ -388,7 +436,7 @@
                 <th colspan="4">
                   <span class="title">其他信息</span>
                   <span
-                    ><el-button type="primary" @click="edit(form)"
+                    ><el-button type="primary" @click="saveInfo"
                       >保存</el-button
                     ></span
                   >
@@ -421,7 +469,7 @@
                       <el-form-item label="户籍类别" prop="hjlb">
                         <el-select
                           style="width: 100%"
-                          v-model="ryjbqk_form.hjlb"
+                          v-model="info_form.hjlb"
                           placeholder="请选择"
                         >
                           <el-option
@@ -437,7 +485,7 @@
                     <el-col :span="6">
                       <el-form-item label="当前状态" prop="dqztm">
                         <el-select
-                          v-model="ryjbqk_form.dqztm"
+                          v-model="info_form.dqztm"
                           placeholder="请选择"
                         >
                           <el-option
@@ -454,7 +502,7 @@
                       <el-form-item
                         label="户口详细地址"
                         prop="hkxxdz"
-                        label-width="120px"
+                        label-width="100px"
                       >
                         <el-input placeholder="详细地址" v-model="hkxxdz">
                           <el-select
@@ -478,7 +526,7 @@
                       <el-form-item
                         label="居住详细地址"
                         prop="jzxxdz"
-                        label-width="120px"
+                        label-width="110px"
                       >
                         <el-input placeholder="详细地址" v-model="jzxxdz">
                           <el-select
@@ -502,7 +550,7 @@
                       <el-form-item label="入党日期" prop="rdrq">
                         <el-date-picker
                           style="width: 100%"
-                          v-model="ryjbqk_form.rdrq"
+                          v-model="info_form.rdrq"
                           type="date"
                           format="yyyy 年 MM 月 dd 日"
                           value-format="yyyy-MM-dd"
@@ -514,7 +562,7 @@
                     <el-col :span="6">
                       <el-form-item label="健康状况" prop="jkzkm">
                         <el-select
-                          v-model="ryjbqk_form.jkzkm"
+                          v-model="info_form.jkzkm"
                           placeholder="请选择"
                         >
                           <el-option
@@ -530,7 +578,7 @@
                     <el-col :span="6">
                       <el-form-item label="婚姻状况" prop="hyzkm">
                         <el-select
-                          v-model="ryjbqk_form.hyzkm"
+                          v-model="info_form.hyzkm"
                           placeholder="请选择"
                         >
                           <el-option
@@ -543,10 +591,11 @@
                         </el-select>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="12">
                       <el-form-item label="合同类型" prop="htlx">
                         <el-select
-                          v-model="ryjbqk_form.htlx"
+                          style="width: 100%"
+                          v-model="info_form.htlx"
                           placeholder="请选择"
                         >
                           <el-option
@@ -559,22 +608,15 @@
                         </el-select>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="5">
-                      <el-form-item label="是否落户" prop="sflh">
-                        <avue-radio
-                          v-model="ryjbqk_form.sflh"
-                          :dic="sfDic"
-                        ></avue-radio>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="7">
+                    <el-col :span="12">
                       <el-form-item
                         label="专技人员专业类别"
                         prop="zyjsrylb"
-                        label-width="140px"
+                        label-width="130px"
                       >
                         <el-select
-                          v-model="ryjbqk_form.zyjsrylb"
+                          style="width: 100%"
+                          v-model="info_form.zyjsrylb"
                           placeholder="请选择"
                           clearable
                         >
@@ -588,38 +630,59 @@
                         </el-select>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+
+                    <el-col :span="12">
+                      <el-form-item
+                        label="居住证起始时间"
+                        prop="jjzqssj"
+                        label-width="120px"
+                      >
+                        <el-date-picker
+                          style="width: 100%"
+                          v-model="info_form.jjzqssj"
+                          type="date"
+                          format="yyyy 年 MM 月 dd 日"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择日期"
+                        >
+                        </el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="居住证截止时间"
+                        prop="jjzjzsj"
+                        label-width="120px"
+                      >
+                        <el-date-picker
+                          style="width: 100%"
+                          v-model="info_form.jjzjzsj"
+                          type="date"
+                          format="yyyy 年 MM 月 dd 日"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择日期"
+                        >
+                        </el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="是否落户" prop="sflh">
+                        <avue-radio
+                          v-model="info_form.sflh"
+                          :dic="sfDic"
+                        ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
                       <el-form-item
                         label="是否具有职业资格"
                         prop="sfjyzyzg"
                         label-width="140px"
                       >
                         <avue-radio
-                          v-model="ryjbqk_form.sfjyzyzg"
+                          v-model="info_form.sfjyzyzg"
                           :dic="sfDic"
                         ></avue-radio>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                      <el-form-item
-                        label="居住证有效期"
-                        prop="jjzyxq"
-                        label-width="110px"
-                      >
-                        <el-date-picker
-                          style="width: 100%"
-                          v-model="ryjbqk_form.jjzyxq"
-                          type="daterange"
-                          align="center"
-                          format="yyyy 年 MM 月 dd 日"
-                          value-format="yyyy-MM-dd"
-                          unlink-panels
-                          range-separator="至"
-                          start-placeholder="开始日期"
-                          end-placeholder="结束日期"
-                          :picker-options="pickerOptions"
-                        >
-                        </el-date-picker>
                       </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -627,7 +690,7 @@
                         <el-input
                           type="textarea"
                           placeholder="请输入内容"
-                          v-model="ryjbqk_form.bz"
+                          v-model="info_form.bz"
                           maxlength="200"
                           :autosize="{ minRows: 2, maxRows: 4 }"
                           show-word-limit
@@ -652,7 +715,7 @@
                   :header-cell-style="{ textAlign: 'center' }"
                 >
                   <el-table-column label="学历" prop="xlm"> </el-table-column>
-                  <el-table-column label="入学年月" prop="rxny">
+                  <el-table-column label="入学时间" prop="rxsj">
                   </el-table-column>
                   <el-table-column label="学习形式" prop="xxxsm">
                   </el-table-column>
@@ -662,8 +725,9 @@
                   <el-table-column label="所获学位" prop="hdxwm">
                   </el-table-column>
                   <el-table-column label="证明人" prop="zmr"> </el-table-column>
-                  <el-table-column label="毕业年月" prop="byny">
+                  <el-table-column label="毕业时间" prop="bysj">
                   </el-table-column>
+                  <el-table-column label="备注" prop="bz"> </el-table-column>
                   <el-table-column align="center">
                     <template slot="header">
                       <el-button type="text" @click="openChild('xljxw')"
@@ -700,7 +764,7 @@
                     <el-form-item label="学历" prop="xlm">
                       <el-input v-model="xljxw_form.xlm"></el-input>
                     </el-form-item>
-                    <el-form-item label="入学年月" prop="rxny">
+                    <el-form-item label="入学时间" prop="rxsj">
                       <el-date-picker
                         v-model="xljxw_form.rxsj"
                         type="date"
@@ -725,7 +789,7 @@
                     <el-form-item label="证明人" prop="zmr">
                       <el-input v-model="xljxw_form.zmr"></el-input>
                     </el-form-item>
-                    <el-form-item label="毕业年月" prop="byny">
+                    <el-form-item label="毕业时间" prop="bysj">
                       <el-date-picker
                         v-model="xljxw_form.bysj"
                         type="date"
@@ -734,6 +798,16 @@
                         placeholder="选择日期"
                       >
                       </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="备注" prop="bz">
+                      <el-input
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4 }"
+                        placeholder="请输入内容"
+                        v-model="xljxw_form.bz"
+                        maxlength="100"
+                      >
+                      </el-input>
                     </el-form-item>
                   </el-form>
                   <span slot="footer" class="dialog-footer">
@@ -858,7 +932,7 @@
               >
                 <el-table-column label="称谓" prop="cw"> </el-table-column>
                 <el-table-column label="姓名" prop="xm"> </el-table-column>
-                <el-table-column label="出生年月" prop="csny">
+                <el-table-column label="出生年月" prop="csrq">
                 </el-table-column>
                 <el-table-column label="政治面貌" prop="zzmmm">
                 </el-table-column>
@@ -893,7 +967,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_family"
                 width="30%"
-                @open="clearForm('js')"
+                @open="clearForm('family')"
               >
                 <el-form
                   ref="jsFormRef"
@@ -907,9 +981,9 @@
                   <el-form-item label="姓名" prop="xm">
                     <el-input v-model="family_form.xm"></el-input>
                   </el-form-item>
-                  <el-form-item label="出生年月" prop="csny">
+                  <el-form-item label="出生年月" prop="csrq">
                     <el-date-picker
-                      v-model="family_form.csny"
+                      v-model="family_form.csrq"
                       type="date"
                       placeholder="选择日期"
                       format="yyyy 年 MM 月 dd 日"
@@ -945,13 +1019,22 @@
           </el-collapse>
         </el-tab-pane>
         <el-tab-pane label="任职信息" name="2">
-          <el-form ref="ryjbqkFormRef" :model="ryjbqk_form" label-width="90px">
+          <el-form ref="officeFormRef" :model="office_form" label-width="90px">
             <table>
               <tr>
                 <th>
                   <span>任职信息</span>
                   <span>
-                    <el-button type="primary" @click="edit(rzxx_form)"
+                    <el-button
+                      type="primary"
+                      v-show="office_isAdd"
+                      @click="addOther('office', office_form)"
+                      >添加</el-button
+                    >
+                    <el-button
+                      type="primary"
+                      v-show="!office_isAdd"
+                      @click="saveOther('office', office_form)"
                       >保存</el-button
                     ></span
                   >
@@ -966,13 +1049,13 @@
                         prop="bm"
                         label-width="110px"
                       >
-                        <el-input v-model="rzxx_form.bm"></el-input>
+                        <el-input v-model="office_form.bm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="人员类别" prop="rylb">
                         <el-select
-                          v-model="rzxx_form.rylb"
+                          v-model="office_form.rylb"
                           placeholder="请选择"
                         >
                           <el-option
@@ -988,7 +1071,7 @@
                     <el-col :span="6">
                       <el-form-item label="岗位类别" prop="gwlbm">
                         <el-select
-                          v-model="rzxx_form.gwlbm"
+                          v-model="office_form.gwlbm"
                           placeholder="请选择"
                         >
                           <el-option
@@ -1001,35 +1084,16 @@
                         </el-select>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="6">
-                      <el-form-item label="岗位等级" prop="gwdjm">
-                        <el-input v-model="rzxx_form.gwdjm"></el-input>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="9">
+
+                    <el-col :span="12">
                       <el-form-item
                         label="岗位聘任年月"
                         prop="gwprny"
-                        label-width="100px"
+                        label-width="110px"
                       >
                         <el-date-picker
-                          v-model="rzxx_form.gwprny"
-                          type="month"
-                          placeholder="选择月"
-                          format="yyyy 年 MM 月"
-                          value-format="yyyy-MM"
-                        >
-                        </el-date-picker>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="9">
-                      <el-form-item
-                        label="岗位聘任年限"
-                        prop="gwprny"
-                        label-width="100px"
-                      >
-                        <el-date-picker
-                          v-model="rzxx_form.gwprnx"
+                          style="width: 100%"
+                          v-model="office_form.gwprny"
                           type="date"
                           placeholder="选择日期"
                           format="yyyy 年 MM 月 dd 日"
@@ -1038,30 +1102,42 @@
                         </el-date-picker>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="6">
+                      <el-form-item
+                        label="岗位聘任年限"
+                        prop="gwprny"
+                        label-width="110px"
+                      >
+                        <avue-input-number
+                          v-model="office_form.gwprnx"
+                          :min-rows="0"
+                          :max-rows="100"
+                        ></avue-input-number>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
                       <el-form-item
                         label="实际工作年限"
                         prop="cjgzny"
                         label-width="110px"
                       >
-                        <el-date-picker
-                          v-model="rzxx_form.cjgzny"
-                          type="date"
-                          placeholder="选择日期"
-                          format="yyyy 年 MM 月 dd 日"
-                          value-format="yyyy-MM-dd"
-                        >
-                        </el-date-picker>
+                        <avue-input-number
+                          v-model="office_form.cjgzny"
+                          :min-rows="0"
+                          :max-rows="100"
+                        ></avue-input-number>
                       </el-form-item>
                     </el-col>
+
                     <el-col :span="12">
                       <el-form-item
                         label="进入本单位工作时间"
                         prop="jrbdwgzsj"
-                        label-width="160px"
+                        label-width="150px"
                       >
                         <el-date-picker
-                          v-model="rzxx_form.jrbdwgzsj"
+                          style="width: 100%"
+                          v-model="office_form.jrbdwgzsj"
                           type="date"
                           placeholder="选择日期"
                           format="yyyy 年 MM 月 dd 日"
@@ -1070,14 +1146,29 @@
                         </el-date-picker>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
+                      <el-form-item label="岗位等级" prop="gwdjm">
+                        <el-input v-model="office_form.gwdjm"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item
+                        label="校内职务"
+                        prop="xnzw"
+                        label-width="100px"
+                      >
+                        <el-input v-model="office_form.xnzw"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
                       <el-form-item
                         label="参加工作时间"
                         prop="cjgzsj"
                         label-width="110px"
                       >
                         <el-date-picker
-                          v-model="rzxx_form.cjgzsj"
+                          style="width: 100%"
+                          v-model="office_form.cjgzsj"
                           type="date"
                           placeholder="选择日期"
                           format="yyyy 年 MM 月 dd 日"
@@ -1086,23 +1177,16 @@
                         </el-date-picker>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                      <el-form-item
-                        label="校内职务"
-                        prop="xnzw"
-                        label-width="100px"
-                      >
-                        <el-input v-model="rzxx_form.xnzw"></el-input>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
+
+                    <el-col :span="12">
                       <el-form-item
                         label="任现职务时间"
                         prop="rxzwsj"
-                        label-width="100px"
+                        label-width="110px"
                       >
                         <el-date-picker
-                          v-model="rzxx_form.rxzwsj"
+                          style="width: 100%"
+                          v-model="office_form.rxzwsj"
                           type="date"
                           placeholder="选择日期"
                           format="yyyy 年 MM 月 dd 日"
@@ -1117,7 +1201,7 @@
                         prop="ygxs"
                         label-width="180px"
                       >
-                        <el-input v-model="rzxx_form.ygxs"></el-input>
+                        <el-input v-model="office_form.ygxs"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -1126,31 +1210,16 @@
                         prop="ssjyz"
                         label-width="100px"
                       >
-                        <el-input v-model="rzxx_form.ssjyz"></el-input>
+                        <el-input v-model="office_form.ssjyz"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="教龄" prop="jl">
                         <avue-input-number
-                          v-model="rzxx_form.jl"
+                          v-model="office_form.jl"
                           :min-rows="1"
                           :max-rows="60"
                         ></avue-input-number>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item
-                        label="人员录聘来源"
-                        prop="rylply"
-                        label-width="110px"
-                      >
-                        <el-input v-model="rzxx_form.rylply"></el-input>
-                      </el-form-item>
-                    </el-col>
-
-                    <el-col :span="6">
-                      <el-form-item label="试用期限" prop="syqx">
-                        <el-input v-model="rzxx_form.syqx"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -1160,7 +1229,8 @@
                         label-width="100px"
                       >
                         <el-date-picker
-                          v-model="rzxx_form.jysj"
+                          style="width: 100%"
+                          v-model="office_form.jysj"
                           type="date"
                           placeholder="选择日期"
                           format="yyyy 年 MM 月 dd 日"
@@ -1169,13 +1239,27 @@
                         </el-date-picker>
                       </el-form-item>
                     </el-col>
+                    <el-col :span="6">
+                      <el-form-item
+                        label="人员录聘来源"
+                        prop="rylply"
+                        label-width="110px"
+                      >
+                        <el-input v-model="office_form.rylply"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item label="试用期限" prop="syqx">
+                        <el-input v-model="office_form.syqx"></el-input>
+                      </el-form-item>
+                    </el-col>
                     <el-col :span="12">
                       <el-form-item
                         label="专业技术职务"
                         prop="zyjszw"
                         label-width="110px"
                       >
-                        <el-input v-model="rzxx_form.zyjszw"></el-input>
+                        <el-input v-model="office_form.zyjszw"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -1184,53 +1268,54 @@
                         prop="zyjsdj"
                         label-width="110px"
                       >
-                        <el-input v-model="rzxx_form.zyjsdj"></el-input>
+                        <el-input v-model="office_form.zyjsdj"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                      <el-form-item
-                        label="是否留学回国"
-                        prop="sflxhg"
-                        label-width="110px"
-                      >
-                        <avue-radio
-                          v-model="rzxx_form.sflxhg"
-                          :dic="sfDic"
-                        ></avue-radio>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                      <el-form-item label="是否残疾人" prop="sfcjr">
-                        <avue-radio
-                          v-model="rzxx_form.sfcjr"
-                          :dic="sfDic"
-                        ></avue-radio>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                      <el-form-item
-                        label="是否为应届毕业生"
-                        prop="sfwyjbys"
-                        label-width="140px"
-                      >
-                        <avue-radio
-                          v-model="rzxx_form.sfwyjbys"
-                          :dic="sfDic"
-                        ></avue-radio>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
+                    <el-col :span="7">
                       <el-form-item
                         label="是否为内设机构领导"
                         prop="sfwnsjgld"
                         label-width="150px"
                       >
                         <avue-radio
-                          v-model="rzxx_form.sfwnsjgld"
+                          v-model="office_form.sfwnsjgld"
                           :dic="sfDic"
                         ></avue-radio>
                       </el-form-item>
                     </el-col>
+                    <el-col :span="5">
+                      <el-form-item label="是否残疾人" prop="sfcjr">
+                        <avue-radio
+                          v-model="office_form.sfcjr"
+                          :dic="sfDic"
+                        ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item
+                        label="是否留学回国"
+                        prop="sflxhg"
+                        label-width="110px"
+                      >
+                        <avue-radio
+                          v-model="office_form.sflxhg"
+                          :dic="sfDic"
+                        ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                      <el-form-item
+                        label="是否为应届毕业生"
+                        prop="sfwyjbys"
+                        label-width="140px"
+                      >
+                        <avue-radio
+                          v-model="office_form.sfwyjbys"
+                          :dic="sfDic"
+                        ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+
                     <el-col :span="12">
                       <el-form-item
                         label="减员材料上传"
@@ -1239,7 +1324,7 @@
                       >
                         <el-upload
                           class="upload-demo"
-                          :action="jyclAction"
+                          :action="action"
                           :file-list="fileList"
                           list-type="picture"
                         >
@@ -1265,7 +1350,7 @@
                 border
                 :header-cell-style="{ textAlign: 'center' }"
               >
-                <el-table-column label="部门" prop="xxzgbmm"> </el-table-column>
+                <el-table-column label="部门" prop="bm"> </el-table-column>
                 <el-table-column label="职务名称" prop="zwmc">
                 </el-table-column>
                 <el-table-column label="任职方式" prop="rzfsm">
@@ -1274,9 +1359,9 @@
                 </el-table-column>
                 <el-table-column label="职务级别" prop="zwjbm">
                 </el-table-column>
-                <el-table-column label="任本职级时间" prop="rzrq">
+                <el-table-column label="任本职级时间" prop="rbzjsj">
                 </el-table-column>
-                <el-table-column label="上传领导任职文件" prop="scldrzwj">
+                <el-table-column label="上传领导任职文件" prop="ldrzwj">
                 </el-table-column>
                 <el-table-column align="center">
                   <template slot="header">
@@ -1303,7 +1388,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_leader"
                 width="30%"
-                @open="clearForm('xnzw')"
+                @open="clearForm('leader')"
               >
                 <el-form
                   ref="xnzwFormRef"
@@ -1311,8 +1396,8 @@
                   :rules="xnzwb_rules"
                   label-width="140px"
                 >
-                  <el-form-item label="部门" prop="xxzgbmm">
-                    <el-input v-model="leader_form.xxzgbmm"></el-input>
+                  <el-form-item label="部门" prop="bm">
+                    <el-input v-model="leader_form.bm"></el-input>
                   </el-form-item>
                   <el-form-item label="职务名称" prop="zwmc">
                     <el-input v-model="leader_form.zwmc"></el-input>
@@ -1334,9 +1419,9 @@
                   <el-form-item label="职务级别" prop="zwjbm">
                     <el-input v-model="leader_form.zwjbm"></el-input>
                   </el-form-item>
-                  <el-form-item label="任本职级时间" prop="rzrq">
+                  <el-form-item label="任本职级时间" prop="rbzjsj">
                     <el-date-picker
-                      v-model="leader_form.rzrq"
+                      v-model="leader_form.rbzjsj"
                       type="date"
                       placeholder="选择日期"
                       format="yyyy 年 MM 月 dd 日"
@@ -1344,10 +1429,10 @@
                     >
                     </el-date-picker>
                   </el-form-item>
-                  <el-form-item label="上传领导任职文件" prop="scldrzwj">
+                  <el-form-item label="上传领导任职文件" prop="ldrzwj">
                     <el-upload
                       class="upload-demo"
-                      :action="jyclAction"
+                      :action="action"
                       :file-list="fileList"
                       list-type="picture"
                     >
@@ -1422,7 +1507,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_professionduty"
                 width="30%"
-                @open="clearForm('zyjszw')"
+                @open="clearForm('professionduty')"
               >
                 <el-form
                   ref="zyjszwFormRef"
@@ -1485,7 +1570,7 @@
                   <el-form-item label="上传电子证件" prop="scdzzj">
                     <el-upload
                       class="upload-demo"
-                      :action="zyjszgzsAction"
+                      :action="action"
                       :file-list="fileList"
                       list-type="picture"
                     >
@@ -1558,7 +1643,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_workerskillgrade"
                 width="30%"
-                @open="clearForm('grjsdj')"
+                @open="clearForm('workerskillgrade')"
               >
                 <el-form
                   ref="grjsdjFormRef"
@@ -1677,7 +1762,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_parttimejob"
                 width="30%"
-                @open="clearForm('shjz')"
+                @open="clearForm('parttimejob')"
               >
                 <el-form
                   ref="shjzFormRef"
@@ -1782,7 +1867,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_servicetoenterprise"
                 width="30%"
-                @open="clearForm('fwxy')"
+                @open="clearForm('servicetoenterprise')"
               >
                 <el-form
                   ref="fwxyFormRef"
@@ -1852,13 +1937,26 @@
           </el-collapse>
         </el-tab-pane>
         <el-tab-pane label="年度考核" name="3">
-          <el-form ref="ryjbqkFormRef" :model="ryjbqk_form" label-width="90px">
+          <el-form
+            ref="examineFormRef"
+            :model="examine_form"
+            label-width="90px"
+          >
             <table>
               <tr>
                 <th>
                   <span>年度考核</span>
                   <span
-                    ><el-button type="primary" @click="edit(ndkh_form)"
+                    ><el-button
+                      type="primary"
+                      v-show="examine_isAdd"
+                      @click="addOther('examine', examine_form)"
+                      >添加</el-button
+                    >
+                    <el-button
+                      type="primary"
+                      v-show="!examine_isAdd"
+                      @click="saveOther('examine', examine_form)"
                       >保存</el-button
                     ></span
                   >
@@ -1869,22 +1967,30 @@
                   <el-row>
                     <el-col :span="12">
                       <el-form-item label="姓名" prop="xm">
-                        <el-input v-model="ndkh_form.xm" disabled></el-input>
+                        <el-input v-model="examine_form.xm" disabled></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="身份证号" prop="sfzjh">
-                        <el-input v-model="ndkh_form.sfzjh" disabled></el-input>
+                        <el-input
+                          v-model="examine_form.sfzjh"
+                          disabled
+                        ></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="考核年度" prop="khnd">
-                        <el-input v-model="ndkh_form.khnd"></el-input>
+                        <avue-input-number
+                          style="width: 100%"
+                          v-model="examine_form.khnd"
+                          :min-rows="1"
+                          :max-rows="100"
+                        ></avue-input-number>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
                       <el-form-item label="考核结果" prop="khjgm">
-                        <el-input v-model="ndkh_form.khjgm"></el-input>
+                        <el-input v-model="examine_form.khjgm"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -1892,7 +1998,7 @@
                         <el-input
                           type="textarea"
                           placeholder="请输入内容"
-                          v-model="ndkh_form.bz"
+                          v-model="examine_form.bz"
                           maxlength="200"
                           :autosize="{ minRows: 2, maxRows: 4 }"
                           show-word-limit
@@ -1907,7 +2013,7 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="教师发展信息" name="4">
-          <el-form ref="ryjbqkFormRef" :model="ryjbqk_form" label-width="90px">
+          <el-form ref="ryjbqkFormRef" :model="info_form" label-width="90px">
             <table>
               <tr>
                 <th>
@@ -2019,7 +2125,7 @@
                       >
                         <el-upload
                           class="upload-demo"
-                          :action="jszgzAction"
+                          :action="action"
                           :file-list="fileList"
                           list-type="picture"
                         >
@@ -2158,7 +2264,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_certificate"
                 width="30%"
-                @open="clearForm('zy')"
+                @open="clearForm('certificate')"
               >
                 <el-form
                   ref="zyFormRef"
@@ -2249,7 +2355,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_train"
                 width="30%"
-                @open="clearForm('jypx')"
+                @open="clearForm('train')"
               >
                 <el-form
                   ref="jypxFormRef"
@@ -2311,7 +2417,7 @@
           </el-collapse>
         </el-tab-pane>
         <el-tab-pane label="奖惩信息" name="5">
-          <el-form ref="ryjbqkFormRef" :model="ryjbqk_form" label-width="90px">
+          <el-form ref="ryjbqkFormRef" :model="info_form" label-width="90px">
             <table>
               <tr>
                 <th>
@@ -2467,7 +2573,7 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="薪酬福利信息" name="6">
-          <el-form ref="ryjbqkFormRef" :model="ryjbqk_form" label-width="90px">
+          <el-form ref="ryjbqkFormRef" :model="info_form" label-width="90px">
             <table>
               <tr>
                 <th>
@@ -2690,7 +2796,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_furtherstudyforeign"
                 width="30%"
-                @open="clearForm('hz')"
+                @open="clearForm('furtherstudyforeign')"
               >
                 <el-form
                   ref="hzFormRef"
@@ -2793,7 +2899,7 @@
                 title="提示"
                 :visible.sync="dialogVisible_organiseinspect"
                 width="30%"
-                @open="clearForm('zzkc')"
+                @open="clearForm('organiseinspect')"
               >
                 <el-form
                   ref="zzkcFormRef"
@@ -3492,9 +3598,9 @@
 <script>
 import {
   option,
-  ryjbqk_form,
-  rzxx_form,
-  ndkh_form,
+  info_form,
+  office_form,
+  examine_form,
   jsfzxx_form,
   jcxx_form,
   xcflxx_form,
@@ -3542,15 +3648,6 @@ import {
   xcflxx_rules,
   ygyshz_rules,
 } from "@/const/crud/staff/teacher/info";
-import {
-  getInfo,
-  addInfo,
-  editInfo,
-  getChild,
-  submitChild,
-  editChild,
-  delChild,
-} from "@/api/staff/teacher/info";
 import { dictItems } from "@/const/staff/dictItems";
 import {
   getDept,
@@ -3566,13 +3663,21 @@ import {
   getPost,
 } from "@/const/staff/getSelectOption";
 
+import { get, add, edit, del } from "@/const/staff/crud";
+import { result } from "@/const/staff/message";
+
 export default {
   name: "TableEngage",
   data() {
     return {
       // 用户id
       user_id: undefined,
+      office_id: undefined,
+
       isAdd: true,
+      office_isAdd: true,
+      examine_isAdd: true,
+
       child_flag: undefined,
       // 标签页激活项
       activeName: "1",
@@ -3631,13 +3736,13 @@ export default {
       },
       page: {
         total: 0,
-        current: 1,
-        size: 10,
+        currentPage: 1,
+        pageSize: 10,
       },
 
-      ryjbqk_form: ryjbqk_form,
-      rzxx_form: rzxx_form,
-      ndkh_form: ndkh_form,
+      info_form: info_form,
+      office_form: office_form,
+      examine_form: examine_form,
       jsfzxx_form: jsfzxx_form,
       jcxx_form: jcxx_form,
       xcflxx_form: xcflxx_form,
@@ -3675,13 +3780,10 @@ export default {
       jzxxdzSelect: undefined,
 
       // 上传地址
-      sfzAction: "",
-      xlAction: "",
-      hzAction: "",
-      jyclAction: "",
-      jszgzAction: "",
-      xjdjfjAction: "",
-      zyjszgzsAction: "",
+      action: "",
+
+      sfzFrontImgUrl: "",
+      sfzBackImgUrl: "",
 
       // 查看行对象
       view_obj: {},
@@ -3764,41 +3866,117 @@ export default {
       // this.$nextTick(() => {
       //   this.$refs[`${type}FormRef`].resetFields();
       // });
-      if (type === "jbxx") {
+      if (type === "info") {
         this.isAdd = true;
+        this.office_isAdd = true;
+        this.examine_isAdd = true;
         this.user_id = undefined;
       }
     },
 
     // 获取表格数据
-    async getInfoList(page, params) {
-      const { data: res } = await getInfo(
-        Object.assign(
-          {
-            current: page.currentPage,
-            size: page.pageSize,
-          },
-          params,
-          this.search
-        )
-      );
-      if (res.code !== 0) return this.$message.error("获取表格数据失败！");
+    async get(form) {
+      const { data: res } = await get("info", this.page, form, this.search);
+      if (!result(this, res, "get")) return true;
       this.data = res.data.records;
       this.page.total = res.data.total;
     },
+    // 添加人员基本信息
+    async addInfo() {
+      const { data: res } = await add("info", info_form);
+      if (!result(this, res, "add")) return true;
+      this.isAdd = false;
+      this.user_id = res.data;
+    },
+    // 保存人员基本信息
+    async saveInfo() {
+      info_form.id = this.user_id;
+      const { data: res } = await edit("info", info_form);
+      if (!result(this, res, "save")) return true;
+    },
+    // 添加其他信息
+    async addOther(type, from) {
+      if (this.user_id === undefined)
+        return this.$message.error("请先添加基本信息！");
+      from.staffId = this.user_id;
+      const { data: res } = await add(type, from);
+      if (!result(this, res, "add")) return true;
+      this[`${type}_isAdd`] = false;
+      this.office_id = res.data;
+    },
+    // 保存其他信息
+    async saveOther(type, from) {
+      if (this.user_id === undefined)
+        return this.$message.error("请先添加基本信息！");
+      from.id = this.office_id;
+      const { data: res } = await edit(type, from);
+      if (!result(this, res, "save")) return true;
+    },
+    // 删除教职工基本信息
+    async delInfo(type, id) {
+      if (this.user_id === undefined)
+        return this.$message.error("请先添加基本信息！");
+      const { data: res } = await del(type, id);
+      if (!result(this, res, "del")) return true;
+    },
 
-    // 加载列表
-    loadList(page) {
-      this.getInfoList({
-        current: page.currentPage,
-        size: page.pageSize,
+    // 子表提交
+    async submitChild(type, obj) {
+      if (this.user_id === undefined)
+        return this.$message.error("请先添加基本信息！");
+      obj.staffId = this.user_id;
+      // 添加
+      if (this.child_flag === "add") {
+        const { data: res } = await add(type, obj);
+        if (!result(this, res, "add")) return true;
+        this.$message.success("添加成功！");
+      }
+      // 修改
+      if (this.child_flag === "edit") {
+        const { data: res } = await edit(type, obj);
+        if (!result(this, res, "edit")) return true;
+        this.$message.success("修改成功！");
+      }
+      const { data: res } = await get(type, {
+        currentPage: undefined,
+        pageSize: undefined,
       });
+      if (res.code !== 0) return true;
+      this[`${type}_tableData`] = res.data.records;
+      this[`dialogVisible_${type}`] = false;
+    },
+
+    // 子表修改
+    editChildRow(type, row) {
+      this[`dialogVisible_${type}`] = true;
+      this[`${type}_form`] = row;
+      this.child_flag = "edit";
+    },
+
+    // 子表删除
+    async delChildRow(type, row) {
+      const { data: res } = await del(type, row.id);
+      if (!result(this, res, "del")) return true;
+      this.$message.success("删除成功！");
+      this[`${type}_tableData`].some((item, index) => {
+        if (item.staffId === row.staffId) {
+          this[`${type}_tableData`].splice(index, 1);
+          return true;
+        }
+      });
+    },
+    // 标签页切换
+    tabChange(val) {
+      if (val.name !== "3") return true;
+      if (this.user_id === undefined) return true;
+      examine_form.xm = info_form.xm;
+      examine_form.sfzjh = info_form.sfzjh;
     },
 
     searchChange(form, done) {
       this.search = form;
       this.page.currentPage = 1;
-      this.getInfoList(this.page, form);
+      this.get(form);
       done();
     },
 
@@ -3873,83 +4051,22 @@ export default {
       if (res.code !== 0) return this.$message.error("获取数据失败!");
       this.postOptions = res.data;
     },
-
-    // 添加
-    async addInfo(obj) {
-      const { data: res } = await addInfo(obj);
-      if (res.code !== 0) return this.$message.error("保存失败！" + res.msg);
-      this.$message.success("添加成功！");
-      this.isAdd = false;
-      this.user_id = res.data;
-    },
-    // 修改
-    async edit(obj) {
-      if (this.user_id === undefined)
-        return this.$message.error("请先添加基本信息！");
-      obj.id = this.user_id;
-      const { data: res } = await editInfo(obj);
-      if (res.code !== 0) return this.$message.error("保存失败！" + res.msg);
-      this.$message.success("保存成功！");
-    },
-    // 子表提交
-    async submitChild(type, obj) {
-      if (this.user_id === undefined)
-        return this.$message.error("请先添加基本信息！");
-      obj.staffId = this.user_id;
-      // 添加
-      if (this.child_flag === "add") {
-        const { data: res } = await submitChild(type, obj);
-        if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
-        this.$message.success("添加成功！");
-      }
-      // 修改
-      if (this.child_flag === "edit") {
-        const { data: res } = await editChild(type, obj);
-        if (res.code !== 0) return this.$message.error("修改失败！" + res.msg);
-        this.$message.success("修改成功！");
-      }
-      const { data: res } = await getChild(type);
-      if (res.code !== 0) return true;
-      this[`${type}_tableData`] = res.data.records;
-      this[`dialogVisible_${type}`] = false;
-    },
-    // 子表修改
-    editChildRow(type, row) {
-      this[`dialogVisible_${type}`] = true;
-      this[`${type}_form`] = row;
-      this.child_flag = "edit";
-    },
-    // 子表删除
-    async delChildRow(type, row) {
-      const { data: res } = await delChild(type, row.id);
-      if (res.code !== 0) return this.$message.error("删除失败！" + res.msg);
-      this.$message.success("删除成功！");
-      this[`${type}_tableData`].some((item, index) => {
-        if (item.staffId === row.staffId) {
-          this[`${type}_tableData`].splice(index, 1);
-          return true;
-        }
-      });
-    },
-    log() {
-      console.log(ryjbqk_form.csd);
-    },
   },
   watch: {
     jg: function (val) {
-      this.ryjbqk_form.jg = this.jgSelect + val;
+      this.info_form.jg = this.jgSelect + val;
     },
     csd: function (val) {
-      this.ryjbqk_form.csd = this.csdSelect + val;
+      this.info_form.csd = this.csdSelect + val;
     },
     hkszdm: function (val) {
-      this.ryjbqk_form.hkszdm = this.hkszdmSelect + val;
+      this.info_form.hkszdm = this.hkszdmSelect + val;
     },
     hkxxdz: function (val) {
-      this.ryjbqk_form.hkxxdz = this.hkxxdzSelect + val;
+      this.info_form.hkxxdz = this.hkxxdzSelect + val;
     },
     jzxxdz: function (val) {
-      this.ryjbqk_form.jzxxdz = this.jzxxdzSelect + val;
+      this.info_form.jzxxdz = this.jzxxdzSelect + val;
     },
   },
   mounted() {

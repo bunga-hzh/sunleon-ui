@@ -4,7 +4,6 @@ export const option = {
   index: true,
   indexLabel: '序号',
   searchMenuSpan: 4,
-  menuWidth: 240,
   menuWidth: 160,
   column: [{
       label: '部门名称',

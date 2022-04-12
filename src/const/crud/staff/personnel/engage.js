@@ -1,63 +1,70 @@
-export const data = [{
-  jobId: "20220202",
-  name: "张三",
-  jobName: "专任教师",
-  level: "教授",
-  pay: "未知",
-  reason: "无",
-  dep: "部门一",
-  period: "2021/02-2022/02",
-  remark: "无",
-}, ]
-
 export const option = {
   border: true,
-  searchMenuSpan: 6,
+  searchMenuSpan: 4,
+  searchSpan: 7,
   align: 'center',
+  labelWidth: 120,
+  index: true,
   column: [{
       label: "工号",
-      prop: "jobId",
+      prop: "gh",
       search: true,
+      // type: 'number',
     },
     {
       label: "姓名",
-      prop: "name",
+      prop: "xm",
       search: true,
     },
     {
+      label: "部门",
+      prop: "deptId",
+      search: true,
+      type: 'select',
+      dicUrl: '/admin/dict/type/post_type',
+      props: {
+        "label": "label",
+        "value": "value"
+      },
+    },
+    {
       label: "聘任名称",
-      prop: "jobName",
+      prop: "engageName",
     },
     {
       label: "专家级别",
-      prop: "level",
+      prop: "expertLevel",
     },
     {
       label: "待遇",
-      prop: "pay",
+      prop: "salary",
     },
     {
       label: "原因",
       prop: "reason",
     },
     {
-      label: "聘任部门",
-      prop: "dep",
+      searchLabelWidth: 120,
+      label: "聘任开始时间",
+      prop: "sarteDate",
+      type: "date",
       search: true,
+      width: 200,
+      valueFormat: 'yyyy-MM-dd'
     },
     {
       searchLabelWidth: 120,
-      label: "聘任时间段",
-      prop: "period",
-      type: "datetime",
-      searchSpan: 18,
-      searchRange: true,
+      label: "聘任结束时间",
+      prop: "endDate",
+      type: "date",
       search: true,
       width: 200,
+      valueFormat: 'yyyy-MM-dd'
     },
     {
       label: "备注",
-      prop: "remark",
+      prop: "memo",
+      type: 'textarea',
     },
   ],
 }

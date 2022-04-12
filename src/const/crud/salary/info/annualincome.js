@@ -5,11 +5,26 @@ export const options = [{
     indexLabel: '序号',
     searchMenuSpan: 4,
     menuWidth: 240,
-    labelWidth: 150,
+    labelWidth: 190,
     column: [{
-        label: '备注',
-        prop: 'bz',
-        formslot: true,
+        label: '姓名',
+        prop: 'xm',
+        search: true,
+        rules: [{
+          required: true,
+          message: '请输入姓名',
+          trigger: 'blur',
+        }]
+      },
+      {
+        label: '工号',
+        prop: 'gh',
+        search: true,
+        rules: [{
+          required: true,
+          message: '请输入工号',
+          trigger: 'blur',
+        }]
       },
       {
         label: '工作月份',
@@ -18,28 +33,6 @@ export const options = [{
         searchSpan: 7,
         searchslot: true,
         formslot: true,
-      },
-      {
-        label: '工号',
-        prop: 'gh',
-        search: true,
-
-        rules: [{
-          required: true,
-          message: '请输入工号',
-          trigger: 'blur',
-        }]
-      },
-      {
-        label: '姓名',
-        prop: 'xm',
-        search: true,
-
-        rules: [{
-          required: true,
-          message: '请输入姓名',
-          trigger: 'blur',
-        }]
       },
       {
         label: '护进博工作奖励',
@@ -108,6 +101,11 @@ export const options = [{
       {
         label: '净收入不含五金和税',
         prop: 'jsrbhwjhs',
+      },
+      {
+        label: '备注',
+        prop: 'bz',
+        formslot: true,
       },
     ]
   },

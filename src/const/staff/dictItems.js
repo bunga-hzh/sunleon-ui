@@ -19,3 +19,12 @@ export const dictItems = {
   nsrtjtabs: "nsrtjtabs_type", //年收入统计标签项
   workchangetablist: "workchangetablist_type" //人事业务管理标签项
 }
+
+// 字典项
+export const message = {
+  get: '获取数据',
+  add: '添加数据',
+  edit: '修改数据',
+  del: '删除数据',
+  save: '保存数据',
+}
