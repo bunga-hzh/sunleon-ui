@@ -1256,10 +1256,10 @@
                     <el-col :span="12">
                       <el-form-item
                         label="专业技术职务"
-                        prop="zyjszw"
+                        prop="xrzyjszw"
                         label-width="110px"
                       >
-                        <el-input v-model="office_form.zyjszw"></el-input>
+                        <el-input v-model="office_form.xrzyjszw"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -1306,11 +1306,11 @@
                     <el-col :span="6">
                       <el-form-item
                         label="是否为应届毕业生"
-                        prop="sfwyjbys"
+                        prop="sfyjbys"
                         label-width="140px"
                       >
                         <avue-radio
-                          v-model="office_form.sfwyjbys"
+                          v-model="office_form.sfyjbys"
                           :dic="sfDic"
                         ></avue-radio>
                       </el-form-item>
@@ -2013,13 +2013,22 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="教师发展信息" name="4">
-          <el-form ref="ryjbqkFormRef" :model="info_form" label-width="90px">
+          <el-form ref="jsfzxxFormRef" :model="jsfzxx_form" label-width="90px">
             <table>
               <tr>
                 <th>
                   <span>教师发展信息</span>
                   <span
-                    ><el-button type="primary" @click="edit(jsfzxx_form)"
+                    ><el-button
+                      type="primary"
+                      v-show="jsfzxx_isAdd"
+                      @click="addOther('jsfzxx', jsfzxx_form)"
+                      >添加</el-button
+                    >
+                    <el-button
+                      type="primary"
+                      v-show="!jsfzxx_isAdd"
+                      @click="saveOther('jsfzxx', jsfzxx_form)"
                       >保存</el-button
                     ></span
                   >
@@ -2028,7 +2037,7 @@
               <tr>
                 <td>
                   <el-row>
-                    <el-col :span="24">
+                    <el-col :span="12">
                       <el-form-item label="师训帐号" prop="sxzh">
                         <el-input v-model="jsfzxx_form.sxzh"></el-input>
                       </el-form-item>
@@ -2039,10 +2048,7 @@
                         prop="ssxjsrd"
                         label-width="120px"
                       >
-                        <avue-radio
-                          v-model="jsfzxx_form.ssxjsrd"
-                          :dic="sfDic"
-                        ></avue-radio>
+                        <el-input v-model="jsfzxx_form.ssxjsrd"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -2059,6 +2065,15 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item
+                        label="教研组长备注"
+                        prop="jyzzbz"
+                        label-width="110px"
+                      >
+                        <el-input v-model="jsfzxx_form.jyzzbz"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                      <el-form-item
                         label="是否名师工作室主持人"
                         prop="sfmsgzszcr"
                         label-width="160px"
@@ -2067,6 +2082,29 @@
                           v-model="jsfzxx_form.sfmsgzszcr"
                           :dic="sfDic"
                         ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="名师工作室主持人级别"
+                        prop="msgzszcrjb"
+                        label-width="160px"
+                      >
+                        <avue-select
+                          v-model="jsfzxx_form.msgzszcrjb"
+                          placeholder="请选择内容"
+                          type="tree"
+                          :dic="undefined"
+                        ></avue-select>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="名师工作室主持人备注"
+                        prop="msgzszcrbz"
+                        label-width="160px"
+                      >
+                        <el-input v-model="jsfzxx_form.msgzszcrbz"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -2083,6 +2121,15 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item
+                        label="学科带头人备注"
+                        prop="xkdtrbz"
+                        label-width="120px"
+                      >
+                        <el-input v-model="jsfzxx_form.xkdtrbz"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
                         label="是否骨干教师"
                         prop="sfggjs"
                         label-width="110px"
@@ -2095,14 +2142,32 @@
                     </el-col>
                     <el-col :span="12">
                       <el-form-item
+                        label="骨干教师备注"
+                        prop="ggjsbz"
+                        label-width="110px"
+                      >
+                        <el-input v-model="jsfzxx_form.ggjsbz"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
                         label="是否学术委员会成员"
                         prop="sfxswyhcy"
-                        label-width="140px"
+                        label-width="150px"
                       >
                         <avue-radio
                           v-model="jsfzxx_form.sfxswyhcy"
                           :dic="sfDic"
                         ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="学术委员会成员备注"
+                        prop="ggjsbz"
+                        label-width="150px"
+                      >
+                        <el-input v-model="jsfzxx_form.xswyhcybz"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -2115,6 +2180,15 @@
                           v-model="jsfzxx_form.sfddzcy"
                           :dic="sfDic"
                         ></avue-radio>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item
+                        label="督导组成员备注"
+                        prop="ddzcybz"
+                        label-width="120px"
+                      >
+                        <el-input v-model="jsfzxx_form.ddzcybz"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -2151,11 +2225,11 @@
                 border
                 :header-cell-style="{ textAlign: 'center' }"
               >
-                <el-table-column label="资格种类" prop="zgzl">
+                <el-table-column label="资格种类" prop="zgzzl">
                 </el-table-column>
                 <el-table-column label="资格证号码" prop="zgzhm">
                 </el-table-column>
-                <el-table-column label="任教学科" prop="xjxkm">
+                <el-table-column label="任教学科" prop="rjxk">
                 </el-table-column>
                 <el-table-column label="发证机关" prop="fzjg">
                 </el-table-column>
@@ -2194,20 +2268,25 @@
                   :rules="jszgz_rules"
                   label-width="120px"
                 >
-                  <el-form-item label="格证种类" prop="zgzl">
-                    <el-input v-model="jszgz_form.zgzl"></el-input>
+                  <el-form-item label="资格证种类" prop="zgzzl">
+                    <el-input v-model="jszgz_form.zgzzl"></el-input>
                   </el-form-item>
                   <el-form-item label="资格证号码" prop="zgzhm">
                     <el-input v-model="jszgz_form.zgzhm"></el-input>
                   </el-form-item>
-                  <el-form-item label="任教学科" prop="xjxkm">
-                    <el-input v-model="jszgz_form.xjxkm"></el-input>
+                  <el-form-item label="任教学科" prop="rjxk">
+                    <el-input v-model="jszgz_form.rjxk"></el-input>
                   </el-form-item>
                   <el-form-item label="发证机关" prop="fzjg">
                     <el-input v-model="jszgz_form.fzjg"></el-input>
                   </el-form-item>
                   <el-form-item label="证书颁发日期" prop="zsbfrq">
-                    <el-input v-model="jszgz_form.zsbfrq"></el-input>
+                    <avue-date
+                      v-model="jszgz_form.zsbfrq"
+                      format="yyyy年MM月dd日"
+                      value-format="yyyy-MM-dd"
+                      placeholder="请选择日期"
+                    ></avue-date>
                   </el-form-item>
                 </el-form>
                 <span slot="footer" class="dialog-footer">
@@ -3433,11 +3512,11 @@
                   border
                   :header-cell-style="{ textAlign: 'center' }"
                 >
-                  <el-table-column label="资格种类" prop="zgzl">
+                  <el-table-column label="资格种类" prop="zgzzl">
                   </el-table-column>
                   <el-table-column label="资格证号码" prop="zgzhm">
                   </el-table-column>
-                  <el-table-column label="任教学科" prop="xjxkm">
+                  <el-table-column label="任教学科" prop="rjxk">
                   </el-table-column>
                   <el-table-column label="发证机关" prop="fzjg">
                   </el-table-column>
@@ -3673,10 +3752,12 @@ export default {
       // 用户id
       user_id: undefined,
       office_id: undefined,
+      jsfzxx_id: undefined,
 
       isAdd: true,
       office_isAdd: true,
       examine_isAdd: true,
+      jsfzxx_isAdd: true,
 
       child_flag: undefined,
       // 标签页激活项
@@ -3902,13 +3983,13 @@ export default {
       const { data: res } = await add(type, from);
       if (!result(this, res, "add")) return true;
       this[`${type}_isAdd`] = false;
-      this.office_id = res.data;
+      this[`${type}_id`] = res.data;
     },
     // 保存其他信息
     async saveOther(type, from) {
       if (this.user_id === undefined)
         return this.$message.error("请先添加基本信息！");
-      from.id = this.office_id;
+      from.id = this[`${type}_id`];
       const { data: res } = await edit(type, from);
       if (!result(this, res, "save")) return true;
     },

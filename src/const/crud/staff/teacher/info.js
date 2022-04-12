@@ -116,11 +116,11 @@ export const office_form = {
   syqx: undefined,
   jysj: undefined,
   sfwnsjgld: '2',
-  zyjszw: undefined,
+  xrzyjszw: undefined,
   zyjsdj: undefined,
   sflxhg: '2',
   sfcjr: '2',
-  sfwyjbys: '2',
+  sfyjbys: '2',
   jyclsc: undefined,
 }
 
@@ -134,13 +134,20 @@ export const examine_form = {
 
 export const jsfzxx_form = {
   sxzh: undefined,
-  ssxjsrd: '2',
+  ssxjsrd: undefined,
   sfjyzz: '2',
+  jyzzbz: undefined,
   sfmsgzszcr: '2',
+  msgzszcrjb: undefined,
+  msgzszcrbz: undefined,
   sfxkdtr: '2',
+  xkdtrbz: undefined,
   sfggjs: '2',
+  ggjsbz: undefined,
   sfxswyhcy: '2',
+  xswyhcybz: undefined,
   sfddzcy: '2',
+  ddzcybz: undefined,
   jszgzsc: undefined,
 }
 
@@ -312,9 +319,9 @@ export const train_form = {
   sfxlxwjs: undefined,
 }
 export const jszgz_form = {
-  zgzl: undefined,
+  zgzzl: undefined,
   zgzhm: undefined,
-  xjxkm: undefined,
+  rjxk: undefined,
   fzjg: undefined,
   zsbfrq: undefined,
 }
@@ -1160,7 +1167,7 @@ export const jszgz_rules = {
     message: '请输入资格证号码',
     trigger: 'blur'
   }, ],
-  xjxkm: [{
+  rjxk: [{
     required: true,
     message: '请输入任教学科',
     trigger: 'blur'
