@@ -167,7 +167,7 @@ export const jcxx_form = {
   bz: undefined,
 }
 
-export const xcflxx_form = {
+export const salary_form = {
   gwjd: undefined,
   gwdjm: undefined,
   gwgz: undefined,
@@ -183,9 +183,10 @@ export const xcflxx_form = {
   gznx: undefined,
   prgw: undefined,
   xrzsj: undefined,
+  xjdjfj: undefined,
 }
 
-export const cwxx_form = {
+export const bankno_form = {
   zgjsyhkh: undefined,
   zggsyhkh: undefined,
   zgyhkh: undefined,
@@ -327,17 +328,21 @@ export const jszgz_form = {
 }
 export const punish_form = {
   cflb: undefined,
-  ccmc: undefined,
-  ccrq: undefined,
-  ccyy: undefined,
-  cccxrq: undefined,
-  jcjgzjjy: undefined,
+  cfyy: undefined,
+  cfjlms: undefined,
+  cfdwmc: undefined,
+  cfrq: undefined,
+  cfcxrq: undefined,
+  cfcxyy: undefined,
 }
 export const reward_form = {
-  hjlbm: undefined,
+  jljbm: undefined,
+  jllbm: undefined,
   jlmc: undefined,
-  hjrq: undefined,
-  bjdw: undefined,
+  jlyy: undefined,
+  jlsj: undefined,
+  jldw: undefined,
+  bz: undefined,
 }
 export const organiseinspect_form = {
   kcsy: undefined,

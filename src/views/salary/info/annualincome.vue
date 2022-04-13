@@ -17,6 +17,7 @@
           <template slot="menuLeft">
             <el-button type="primary" icon="el-icon-upload2">导入</el-button>
             <el-button type="primary" icon="el-icon-download">导出</el-button>
+            <el-button type="primary">下载模板</el-button>
           </template>
           <template slot="gzyfSearch">
             <avue-select
