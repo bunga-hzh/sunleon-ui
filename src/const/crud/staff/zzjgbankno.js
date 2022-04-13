@@ -19,38 +19,28 @@ export const tableOption = {
       "span": 12
     },	  {
       "type": "input",
-      "label": "处分类别",
-      "prop": "cflb",
+      "label": "中国建设银行卡号",
+      "prop": "zgjsyhkh",
       "span": 12
     },	  {
       "type": "input",
-      "label": "处分原因",
-      "prop": "cfyy",
+      "label": "中国工商银行卡号",
+      "prop": "zggsyhkh",
       "span": 12
     },	  {
       "type": "input",
-      "label": "处分记录描述",
-      "prop": "cfjlms",
+      "label": "中国银行卡号",
+      "prop": "zgyhkh",
       "span": 12
     },	  {
       "type": "input",
-      "label": "处分单位名称",
-      "prop": "cfdwmc",
+      "label": "公积金账号",
+      "prop": "gjjzh",
       "span": 12
     },	  {
       "type": "input",
-      "label": "处分日期",
-      "prop": "cfrq",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "处分撤销日期",
-      "prop": "cfcxrq",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "处分撤销原因",
-      "prop": "cfcxyy",
+      "label": "补充公积金账号",
+      "prop": "bcgjjzh",
       "span": 12
     },	  {
       "type": "input",

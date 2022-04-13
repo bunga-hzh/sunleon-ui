@@ -19,8 +19,13 @@ export const tableOption = {
       "span": 12
     },	  {
       "type": "input",
-      "label": "获奖类别码",
-      "prop": "hjlbm",
+      "label": "荣誉奖励级别",
+      "prop": "jljbm",
+      "span": 12
+    },	  {
+      "type": "input",
+      "label": "奖励类别",
+      "prop": "jllbm",
       "span": 12
     },	  {
       "type": "input",
@@ -29,13 +34,23 @@ export const tableOption = {
       "span": 12
     },	  {
       "type": "input",
-      "label": "获奖日期",
-      "prop": "hjrq",
+      "label": "荣誉和奖励原因",
+      "prop": "jlyy",
       "span": 12
     },	  {
       "type": "input",
-      "label": "颁奖单位",
-      "prop": "bjdw",
+      "label": "奖励时间",
+      "prop": "jlsj",
+      "span": 12
+    },	  {
+      "type": "input",
+      "label": "奖励单位",
+      "prop": "jldw",
+      "span": 12
+    },	  {
+      "type": "input",
+      "label": "备注",
+      "prop": "bz",
       "span": 12
     },	  {
       "type": "input",
