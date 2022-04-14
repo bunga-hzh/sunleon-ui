@@ -6,90 +6,34 @@
         :search.sync="search"
         :data="data"
         :page.sync="page"
-        v-model="form"
+        @on-load="getList"
+        @row-save="add"
+        @row-update="rowUpdate"
+        @row-del="rowDel"
+        @refresh-change="refreshChange"
+        @search-change="searchChange"
       >
-        <template slot="objIdSearch">
-          <el-select v-model="search.objId" placeholder="请选择">
-            <el-option
-              v-for="item in objIdOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </template>
-        <template slot="objIdForm">
-          <el-select v-model="form.objId" placeholder="请选择">
-            <el-option
-              v-for="item in objIdOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </template>
-        <template slot="xbmForm">
-          <div>
-            <el-radio v-model="form.xbm" label="1">男</el-radio>
-            <el-radio v-model="form.xbm" label="2">女</el-radio>
-          </div>
-        </template>
-        <template slot="csrqForm">
-          <el-date-picker
-            v-model="form.csrq"
-            type="date"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </template>
-        <template slot="cjgznyForm">
-          <el-date-picker
-            v-model="form.cjgzny"
-            type="date"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </template>
-        <template slot="hqrqnyrForm">
-          <el-date-picker
-            v-model="form.hqrqnyr"
-            type="date"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </template>
-        <template slot="zyzgzsxgxq" slot-scope="scpoe">
-          <el-button type="text" @click="view(scpoe.row, 'zyzgzsxgxq')"
+        <template slot="zyzgzsxgxq" slot-scope="scope">
+          <el-button type="text" @click="view('wpjsworks', scope.row)"
             >查看</el-button
           >
         </template>
-        <template slot="dqzzgbj" slot-scope="scpoe">
-          <el-button type="text" @click="view(scpoe.row, 'dqzzgbj')"
+        <template slot="dqzzgbj" slot-scope="scope">
+          <el-button type="text" @click="view('wpjscertificate', scope.row)"
             >查看</el-button
           >
         </template>
       </avue-crud>
     </basic-container>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%">
-      <avue-crud :option="childOption" :data="childData" v-model="child_form">
-        <template slot="hqrqnyrForm">
-          <el-date-picker
-            v-model="child_form.hqrqnyr"
-            type="date"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </template>
-        <template slot="rzrqnyrForm">
-          <el-date-picker
-            v-model="child_form.rzrqnyr"
-            type="date"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </template>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="60%">
+      <avue-crud
+        :option="childOption"
+        :data="childData"
+        @row-save="addChild"
+        @row-update="editChild"
+        @row-del="delChild"
+        @refresh-change="refreshChangeChild"
+      >
       </avue-crud>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -102,12 +46,23 @@
 </template>
 
 <script>
+import { option, childOption } from "@/const/crud/staff/personnel/external";
+
 import {
-  data,
-  option,
-  childOption,
-  childData,
-} from "@/const/crud/staff/personnel/external";
+  get,
+  add,
+  edit,
+  del,
+  getList,
+  addData,
+  editData,
+  delData,
+  searchData,
+} from "@/const/staff/crud";
+
+import { fetchList } from "@/api/staff/crud";
+
+import { result } from "@/const/staff/message";
 
 export default {
   name: "TableEngage",
@@ -117,33 +72,100 @@ export default {
       form: {},
       child_form: {},
       page: {
-        total: 1000,
+        total: 0,
         currentPage: 1,
         pageSize: 10,
       },
       // 数据源
-      data: data,
+      data: [],
       // crud配置对象
       option: option,
       // 搜索的表单对象
       search: {},
+      childOption: undefined,
+      childData: undefined,
+
       // 控制对话框的显示与隐藏
       dialogVisible: false,
-      childOption: childOption[0],
-      childData: childData[0],
-      // 选择器对象
-      objIdOptions: [{ value: "1", label: "部门" }],
+      requestUrl: undefined,
+      wpjsId: undefined,
     };
   },
   methods: {
-    view(row, type) {
-      if (type === "zyzgzsxgxq") {
+    getList() {
+      getList("wpjs", this);
+    },
+    add(form, done, loading) {
+      addData("wpjs", this, form, done, loading);
+    },
+    rowUpdate(form, index, done, loading) {
+      editData("wpjs", this, form, index, done, loading);
+    },
+    rowDel(form, index) {
+      delData("wpjs", this, form, index, () => {
+        this.getList();
+      });
+    },
+    refreshChange() {
+      this.getList();
+    },
+    searchChange(form, done) {
+      searchData("wpjs", this, form, done);
+    },
+
+    async getListChild() {
+      const { data: res } = await fetchList(this.requestUrl, {
+        wpjsId: this.wpjsId,
+      });
+      console.log(res);
+      if (!result(this, res, "get")) return true;
+      this.childData = res.data.records;
+    },
+    async addChild(form, done, loading) {
+      form.wpjsId = this.wpjsId;
+      const { data: res } = await add(this.requestUrl, form);
+      if (!result(this, res, "add")) return true;
+      form.id = res.data;
+      done(form);
+    },
+    async editChild(form, index, done, loading) {
+      const { data: res } = await edit(this.requestUrl, form);
+      if (!result(this, res, "edit")) return true;
+      done(form);
+    },
+    async delChild(form, index) {
+      console.log(form);
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const { data: res } = await del(this.requestUrl, form.id);
+          if (!result(this, res, "del")) return true;
+          this.getListChild(this.requestUrl);
+        })
+        .catch(() => {});
+    },
+    refreshChangeChild() {
+      this.getListChild();
+    },
+
+    changeRequestUrl(type) {
+      this.requestUrl = type;
+    },
+
+    view(type, row) {
+      this.wpjsId = row.id;
+      if (type === "wpjsworks") {
         this.childOption = childOption[0];
-        this.childData = childData[0];
+        this.requestUrl = type;
+        this.getListChild(this.requestUrl);
       }
-      if (type === "dqzzgbj") {
+      if (type === "wpjscertificate") {
         this.childOption = childOption[1];
-        this.childData = childData[1];
+        this.requestUrl = type;
+        this.getListChild(this.requestUrl);
       }
       this.dialogVisible = true;
     },
@@ -151,59 +173,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-table {
-  width: 100%;
-  border: #eee solid 1px;
-  line-height: 40px;
-  th {
-    font-size: 16px;
-    font-family: Medium;
-    padding-left: 5px;
-    background-color: rgba(242, 242, 242, 1);
-  }
-  td {
-    padding-left: 5px;
-    font-size: 14px;
-    font-family: Base;
-  }
-}
-/*  dialog*/
-.el-dialog__header {
-  padding: 15px 20px 15px;
-}
-.el-dialog__headerbtn {
-  top: 15px;
-}
-/deep/.avue-crud__dialog__header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-/deep/.el-dialog__title {
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: 500;
-  word-wrap: break-word;
-}
-/deep/.avue-crud__dialog__menu {
-  padding-right: 20px;
-  float: left;
-}
-/deep/.avue-crud__dialog__menu i {
-  color: #909399;
-  font-size: 15px;
-}
-/deep/.el-icon-full-screen {
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-/deep/.el-icon-full-screen:before {
-  content: "\e719";
-}
-</style>
+<style lang="scss" scoped></style>

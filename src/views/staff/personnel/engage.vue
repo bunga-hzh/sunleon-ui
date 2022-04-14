@@ -20,12 +20,8 @@
 
 <script>
 import { option } from "@/const/crud/staff/personnel/engage";
-import {
-  fetchList,
-  addObj,
-  putObj,
-  delObj,
-} from "@/api/staff/personnel/engage";
+import { get, add, edit, del } from "@/const/staff/crud";
+import { result } from "@/const/staff/message";
 
 export default {
   name: "TableEngage",
@@ -37,27 +33,25 @@ export default {
         pageSize: 10,
       },
       // 数据源
-      data: data,
+      data: undefined,
       option: option,
       // 搜索的表单对象
       search: {},
     };
   },
   methods: {
-    async getList(page, params) {
-      const { data: res } = await fetchList(
-        Object.assign(
-          {
-            current: page.currentPage,
-            size: page.pageSize,
-          },
-          params,
-          this.search
-        )
+    async getList(page, query) {
+      const { data: res } = await get(
+        "expert",
+        {
+          current: page.currentPage,
+          size: page.pageSize,
+        },
+        query,
+        this.search
       );
-      if (res.code !== 0) return this.$message.error(res.msg);
+      if (!result(this, res, "get")) return true;
       this.data = res.data.records;
-      console.log(res.data.records);
       this.page.total = res.data.total;
     },
 
@@ -67,19 +61,18 @@ export default {
 
     // 新增
     async add(form, done, loading) {
-      const { data: res } = await addObj(form);
-      if (res.code !== 0) return this.$message.error(res.msg);
+      const { data: res } = await add("expert", form);
+      if (!result(this, res, "add")) return true;
       this.$message.success("添加成功！");
       done(form);
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const { data: res } = await putObj(form);
-      if (res.code !== 0) {
-        this.$message.error(res.code);
+      const { data: res } = await edit("expert", form);
+      if (!result(this, res, "edit")) {
         loading();
+        return true;
       }
-      this.$message.success("修改成功！");
       loading();
       done(form);
     },
@@ -91,8 +84,8 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj(form.id);
-          if (res.code !== 0) return this.message.error(res.msg);
+          const { data: res } = await del("expert", form.id);
+          if (!result(this, res, "del")) return true;
           this.$message({
             type: "success",
             message: "删除成功!",

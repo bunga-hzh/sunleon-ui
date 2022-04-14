@@ -1,14 +1,10 @@
-export const data = [{
-  xm: '张三'
-}]
-
 export const option = {
-  menuWidth: 80,
+  menuWidth: 160,
   align: 'center',
-  editBtn: false,
   border: true,
   searchMenuSpan: 4,
   labelWidth: 160,
+  index: true,
   column: [{
       label: "工号",
       prop: "gh",
@@ -21,15 +17,20 @@ export const option = {
     },
     {
       label: "部门",
-      prop: "objId",
+      prop: "orgId",
       search: true,
-      searchslot: true,
-      formslot: true,
+      type: 'select'
     },
     {
       label: "性别",
       prop: "xbm",
-      formslot: true,
+      type: 'radio',
+      dicUrl: '/admin/dict/type/xb_type',
+      props: {
+        "label": "label",
+        "value": "value",
+      },
+      valueDefault: '1',
     },
     {
       label: "民族",
@@ -38,8 +39,8 @@ export const option = {
     {
       label: "出生日期",
       prop: "csrq",
-      formslot: true,
       width: 150,
+      type: 'date',
     },
     {
       label: "身份证号码",
@@ -52,7 +53,7 @@ export const option = {
     },
     {
       label: "家庭地址",
-      prop: "jtzz",
+      prop: "jtdz",
       width: 180,
     },
     {
@@ -82,10 +83,10 @@ export const option = {
     },
     {
       label: "参加工作（年月）",
-      prop: "cjgzny",
+      prop: "cjgzrq",
       width: 150,
-      formslot: true,
-      width: 150,
+      type: 'date',
+      valueFormat: 'yyyy-MM-dd'
     },
     {
       label: "教师资格证",
@@ -94,7 +95,7 @@ export const option = {
     },
     {
       label: "双师型教师",
-      prop: "ssxjs",
+      prop: "xsxjs",
       width: 150,
     },
     {
@@ -103,56 +104,39 @@ export const option = {
       width: 150,
     },
     {
-      label: "职称等级",
-      prop: "zcdj",
-    },
-    {
-      label: "职称名称",
-      prop: "zcmc",
-    },
-    {
-      label: "发证单位",
-      prop: "fzdw",
-    },
-    {
-      label: "获取日期（年月日）",
-      prop: "hqrqnyr",
-      width: 150,
-      formslot: true,
-    },
-    {
-      label: "职业资格证书类别",
-      prop: "zyzgzslb",
-      width: 150,
-    },
-    {
-      label: "职业资格证书等级",
-      prop: "zyzgzsdj",
-      width: 150,
-    },
-    {
       label: "职业资格证书相关详情",
       prop: "zyzgzsxgxq",
       width: 150,
-      slot: true
+      slot: true,
+      display: false
     },
     {
       label: "当前专职工作背景",
       prop: "dqzzgbj",
       width: 150,
-      slot: true
+      slot: true,
+      display: false
     },
   ],
 }
 
 export const childOption = [{
     align: 'center',
-    menu: false,
     border: true,
+    align: 'center',
+    index: true,
     labelWidth: 160,
     column: [{
-        label: "名称（全称）",
-        prop: "mcqc",
+        label: "证书类别",
+        prop: "zslb",
+      },
+      {
+        label: "证书等级",
+        prop: "zsdj",
+      },
+      {
+        label: "证书名称",
+        prop: "zsmc",
       },
       {
         label: "发证单位",
@@ -163,39 +147,36 @@ export const childOption = [{
         prop: "zsbh",
       },
       {
-        label: "获取日期（年月日）",
-        prop: "hqrqnyr",
-        formslot: true,
+        label: "获取日期",
+        prop: "hqrq",
+        type: 'date',
+        valueFormat: 'yyyy-MM-dd'
       },
     ]
   },
   {
     align: 'center',
-    menu: false,
     border: true,
+    index: true,
     labelWidth: 160,
     column: [{
-        label: "单位名称",
-        prop: "dwmc",
+        label: "职称名称",
+        prop: "zcmc",
       },
       {
-        label: "职务",
-        prop: "zw",
+        label: "职称等级",
+        prop: "zcdj",
       },
       {
-        label: "任职日期（年月日）",
-        prop: "rzrqnyr",
-        formslot: true,
+        label: "发证单位",
+        prop: "fzdw",
+      },
+      {
+        label: "获取日期",
+        prop: "hqrq",
+        type: 'date',
+        valueFormat: 'yyyy-MM-dd'
       }
     ]
   }
-]
-
-export const childData = [
-  [{
-    mcqc: '张三'
-  }],
-  [{
-    dwmc: '李四'
-  }],
 ]
