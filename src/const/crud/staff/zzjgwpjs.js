@@ -109,46 +109,6 @@ export const tableOption = {
       "span": 12
     },	  {
       "type": "input",
-      "label": "职称名称",
-      "prop": "zcmc",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "职称等级",
-      "prop": "zcdj",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "发证单位",
-      "prop": "fzdw",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "获取日期",
-      "prop": "hqrq",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "职业资格证书类别",
-      "prop": "zyzgzslb",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "职业资格证书等级",
-      "prop": "zyzgzsdj",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "职业资格证书相关详情",
-      "prop": "zyzgzsxq",
-      "span": 12
-    },	  {
-      "type": "input",
-      "label": "当前专职工作背景",
-      "prop": "dqzzgzbj",
-      "span": 12
-    },	  {
-      "type": "input",
       "label": "delFlag",
       "prop": "delFlag",
       "span": 12

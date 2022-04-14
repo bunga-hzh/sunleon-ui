@@ -37,12 +37,12 @@
 </template>
 
 <script>
-    import {fetchList, getObj, addObj, putObj, delObj} from '@/api/staff/zzjgwpjs'
-    import {tableOption} from '@/const/crud/staff/zzjgwpjs'
+    import {fetchList, getObj, addObj, putObj, delObj} from '@/api/zzjgwpjscertificate'
+    import {tableOption} from '@/const/crud/zzjgwpjscertificate'
     import {mapGetters} from 'vuex'
 
     export default {
-        name: 'zzjgwpjs',
+        name: 'zzjgwpjscertificate',
         data() {
             return {
                 searchForm: {},
