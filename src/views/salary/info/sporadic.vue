@@ -1,69 +1,27 @@
 <template>
   <basic-container>
-    <avue-crud
-      :option="option"
-      :data="data"
-      :search.sync="search"
-      :page.sync="page"
-    >
-      <template slot="menuLeft">
-        <el-button type="primary" icon="el-icon-upload2">导入</el-button>
-        <el-button type="primary" icon="el-icon-download">导出</el-button>
-        <el-button type="primary">下载模板</el-button>
-      </template>
-      <template slot="bmmcSearch">
-        <avue-select
-          v-model="search"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="bmmcDic"
-        ></avue-select>
-      </template>
-      <template slot="bmmcForm">
-        <avue-select
-          v-model="form"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="bmmcDic"
-        ></avue-select>
-      </template>
-      <template slot="ywndSearch">
-        <avue-select
-          v-model="search"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="ywndDic"
-        ></avue-select>
-      </template>
-      <template slot="ywndForm">
-        <avue-select
-          v-model="form"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="ywndDic"
-        ></avue-select>
-      </template>
-      <template slot="yfSearch">
-        <avue-select
-          v-model="search"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="yfDic"
-        ></avue-select>
-      </template>
-      <template slot="yfForm">
-        <avue-select
-          v-model="form"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="yfDic"
-        ></avue-select>
-      </template>
-    </avue-crud>
+    <el-tabs v-model="activeName" type="card">
+      <el-tab-pane label="绩效内" name="1">
+        <avue-crud
+          :option="option"
+          :data="data"
+          :search.sync="search"
+          :page.sync="page"
+        >
+          <template slot="menuLeft">
+            <el-button type="primary" icon="el-icon-upload2">导入</el-button>
+            <el-button type="primary" icon="el-icon-download">导出</el-button>
+            <el-button type="primary">下载模板</el-button>
+          </template>
+        </avue-crud></el-tab-pane
+      >
+      <el-tab-pane label="绩效外" name="2">无</el-tab-pane>
+    </el-tabs>
   </basic-container>
 </template>
 
 <script>
+import LogicFlow from "@logicflow/core";
 import { option } from "@/const/crud/salary/info/sporadic";
 
 export default {
@@ -82,6 +40,8 @@ export default {
       bmmcDic: undefined,
       ywndDic: undefined,
       yfDic: undefined,
+
+      activeName: "1",
     };
   },
 };

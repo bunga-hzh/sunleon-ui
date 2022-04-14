@@ -4,15 +4,14 @@ export const option = {
   index: true,
   indexLabel: '序号',
   searchMenuSpan: 4,
-  menuWidth: 240,
   menuWidth: 160,
+  labelWidth: 160,
   column: [{
       label: '部门名称',
       prop: 'bmmc',
       search: true,
       searchSpan: 6,
-      searchslot: true,
-      formslot: true,
+      type: 'select'
     },
     {
       label: '职工编码',

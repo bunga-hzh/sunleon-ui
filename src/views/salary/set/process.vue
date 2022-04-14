@@ -18,58 +18,43 @@
         <el-button type="text" icon="el-icon-view">查看详情</el-button>
         <el-button type="text" icon="el-icon-s-order">审核</el-button>
       </template>
-      <template slot="shztSearch">
-        <avue-select
-          v-model="search"
-          placeholder="请选择"
-          type="tree"
-          :dic="shztDic"
-        ></avue-select>
-      </template>
-      <template slot="shztForm">
-        <avue-select
-          v-model="form"
-          placeholder="请选择"
-          type="tree"
-          :dic="shztDic"
-        ></avue-select>
-      </template>
     </avue-crud>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="60%">
-      <el-button type="primary" @click="$refs.flow.addNode('测试节点')"
-        >添加节点</el-button
-      >
-      <el-button type="primary" @click="handleNext">下一个节点</el-button>
-      <br /><br />
-      <avue-flow
-        :height="600"
-        :width="1200"
-        ref="flow"
-        :option="flowOption"
-        v-model="flowForm"
-      >
-        <template slot-scope="scope" slot="header">
-          <i
-            class="el-icon-delete"
-            @click="$refs.flow.deleteNode(scope.node.id)"
-          ></i>
-          自定义头部
-        </template>
-        <div slot-scope="{ node }">
-          <span>自定义{{ (node || {}).name }}</span>
-        </div>
-      </avue-flow>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
-      </span>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="60%"
+      @opened="createLogicFlow"
+    >
+      <el-row>
+        <el-form ref="formRef" :model="form" label-width="80px">
+          <el-col :span="24">
+            <el-form-item label="流程名称">
+              <el-input v-model="form.lcmc"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="描述">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4 }"
+                placeholder="请输入内容"
+                v-model="form.ms"
+              >
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-form>
+      </el-row>
+      <el-row>
+        <div class="container" ref="container"></div>
+      </el-row>
     </el-dialog>
   </basic-container>
 </template>
 
 <script>
+import LogicFlow from "@logicflow/core";
+import { Menu } from "@logicflow/extension";
 import { option, flowOption } from "@/const/crud/salary/set/process";
 
 export default {
@@ -77,7 +62,10 @@ export default {
     return {
       data: [{}],
       option: option,
-      form: {},
+      form: {
+        lcmc: undefined,
+        ms: undefined,
+      },
       search: {},
       page: {
         total: 100,
@@ -99,26 +87,24 @@ export default {
     add() {
       this.dialogVisible = true;
     },
-    handleClick(node) {
-      this.$message.success(JSON.stringify(node));
+    createLogicFlow() {
+      LogicFlow.use(Menu);
+      this.lf = new LogicFlow({
+        container: this.$refs.container,
+        grid: true,
+      });
+      this.lf.render();
     },
-    handleNext() {
-      this.count++;
-      if (this.count >= this.nodeList.length) {
-        this.count = 0;
-      }
-      this.form = this.nodeList[this.count].id;
-    },
-  },
-  computed: {
-    nodeList() {
-      return this.flowOption.nodeList;
-    },
-  },
-  mounted() {
-    this.flowForm = this.nodeList[this.count].id;
   },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.el-row {
+  padding: 20px;
+}
+.container {
+  width: 100%;
+  height: 500px;
+}
+</style>

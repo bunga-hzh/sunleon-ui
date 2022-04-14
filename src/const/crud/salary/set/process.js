@@ -6,11 +6,11 @@ export const option = {
   searchMenuSpan: 4,
   menuWidth: 280,
   addBtn: false,
+  searchSpan: 7,
   column: [{
       label: '流程名称',
       prop: 'lcmc',
       search: true,
-      searchSpan: 7,
     },
     {
       label: '创建时间',
@@ -20,9 +20,7 @@ export const option = {
       label: '审核状态',
       prop: 'shzt',
       search: true,
-      searchSpan: 7,
-      searchslot: true,
-      formslot: true,
+      type: 'select',
       slot: true,
     },
     {
