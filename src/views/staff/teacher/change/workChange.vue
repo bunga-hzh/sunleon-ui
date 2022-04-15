@@ -3,199 +3,46 @@
     <basic-container>
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane
-          v-for="item in tabList"
+          v-for="(item, index) in tabList"
           :key="item.id"
           :label="item.label"
           :name="item.value"
         >
           <avue-crud
-            :option="option"
+            :ref="index === 3 ? 'crud' : ''"
+            :option="optionList[index]"
             :search.sync="search"
             :data="data"
             :page.sync="page"
             v-model="form"
+            :before-close="beforeClose"
+            @on-load="loadList(index, apiUrlList[index])"
+            @row-save="add"
+            @row-update="edit"
+            @row-del="del"
+            @selection-change="selectionChange"
+            @refresh-change="refreshChange"
+            @search-change="searchChange"
           >
-            <template slot="sxqForm">
-              <el-input-number
-                v-model="form.sxq"
-                controls-position="right"
-                :min="0"
-                :max="999"
-              ></el-input-number>
-            </template>
-            <template slot="sxsjdForm">
-              <el-date-picker
-                v-model="form.sxsjd"
-                type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                format="yyyy 年 MM 月 dd 日"
-                value-format="yyyy-MM-dd"
-              >
-              </el-date-picker>
-            </template>
-            <template slot="syqForm">
-              <el-input-number
-                v-model="form.sxq"
-                controls-position="right"
-                :min="0"
-                :max="999"
-              ></el-input-number>
-            </template>
-            <template slot="sysjdForm">
-              <el-date-picker
-                v-model="form.sxsjd"
-                type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                format="yyyy 年 MM 月 dd 日"
-                value-format="yyyy-MM-dd"
-              >
-              </el-date-picker>
-            </template>
-            <template slot="bhgyyForm">
-              <el-input
-                type="textarea"
-                :autosize="{ minRows: 2, maxRows: 4 }"
-                placeholder="请输入内容"
-                v-model="form.bhgyy"
-              >
-              </el-input>
-            </template>
-            <template slot="rzrqForm">
-              <el-date-picker
-                v-model="form.rzrq"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </template>
-            <template slot="zszzrqForm">
-              <el-date-picker
-                v-model="form.zszzrq"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </template>
-            <template slot="xqsjdForm">
-              <el-date-picker
-                v-model="form.xqsjd"
-                type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                format="yyyy 年 MM 月 dd 日"
-                value-format="yyyy-MM-dd"
-              >
-              </el-date-picker>
-            </template>
-            <template slot="zgsjForm">
-              <el-date-picker
-                v-model="form.zgsj"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </template>
-            <template slot="ydsjForm">
-              <el-date-picker
-                v-model="form.ydsj"
-                type="date"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </template>
-            <template slot="xzForm">
-              <el-input-number
-                v-model="form.xz"
-                controls-position="right"
-                :min="0"
-                :max="999"
-              ></el-input-number>
-            </template>
-            <template slot="bzForm">
-              <el-input
-                type="textarea"
-                :autosize="{ minRows: 2, maxRows: 4 }"
-                placeholder="请输入内容"
-                v-model="form.bz"
-              >
-              </el-input>
-            </template>
-            <template slot="xz" slot-scope="scope">
-              <span v-show="showInput">{{ scope.row.xz }}</span>
-              <el-input
-                @blur="showInput = true"
-                v-show="!showInput"
-                v-model="scope.row.xz"
-              ></el-input>
-              <i
-                v-show="showInput"
-                style="color: #409eff"
-                class="el-icon-edit"
-                @click="showInput = false"
-              ></i>
+            <template slot="xmForm">
+              <el-autocomplete
+                v-model="form.xm"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="请输入姓名"
+                @select="handleSelect"
+                clearable
+              ></el-autocomplete>
             </template>
 
-            <template slot="gwmc" slot-scope="scope">
-              <span v-show="showSelect">{{ scope.row.gwmc }}</span>
-              <el-select
-                v-model="scope.row.gwmc"
-                @change="showSelect = true"
-                v-show="!showSelect"
+            <template slot="menu" slot-scope="scope">
+              <el-button
+                type="text"
+                @click="renewRow(scope.row)"
+                icon="el-icon-finished"
+                >续签</el-button
               >
-                <el-option
-                  v-for="item in jobOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <i
-                v-show="showSelect"
-                style="color: #409eff"
-                class="el-icon-edit"
-                @click="showSelect = false"
-              ></i>
             </template>
 
-            <template slot="objIdSearch">
-              <avue-input-tree
-                v-model="search.objId"
-                :dic="treeDeptData"
-                :props="treeProps"
-                placeholder="请选择所属部门"
-              />
-            </template>
-
-            <template slot="xmFrom">
-              <el-input placeholder="请输入内容" v-model="form.name" clearable>
-              </el-input>
-            </template>
-
-            <template slot="objIdSearch">
-              <el-select v-model="depValue" placeholder="请选择">
-                <el-option
-                  v-for="item in depList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-            <template slot="zzztmSearch">
-              <el-select v-model="statusValue" placeholder="请选择">
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.value"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
             <template slot="menuLeft" v-if="item.value == 4">
               <el-button
                 type="primary"
@@ -205,68 +52,21 @@
               >
               <!-- 批量续签对话框 -->
               <el-dialog
-                title="批量续签"
+                title="续签至"
                 :visible.sync="dialogVisible"
-                width="50%"
+                width="20%"
+                @close="toggleSelection()"
               >
-                <!-- 内层对话框 -->
-                <el-dialog
-                  width="20%"
-                  title="选择续签时间段"
-                  :visible.sync="selectVisible"
-                  append-to-body
-                >
-                  <!-- 日期选择器 -->
-                  <el-date-picker
-                    style="width: 100%"
-                    v-model="renewal_time"
-                    align="right"
-                    type="date"
-                    placeholder="选择日期"
-                    :picker-options="selectRenewalPickerOptions"
-                  >
-                  </el-date-picker>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="renew">续签</el-button>
-                  </span>
-                </el-dialog>
                 <!-- 日期选择器 -->
-                <el-date-picker
+                <avue-date
                   v-model="period"
-                  type="daterange"
-                  align="right"
-                  unlink-panels
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptions"
-                >
-                </el-date-picker>
-                <!-- 表格 -->
-                <el-table
-                  v-if="period"
-                  :data="periodTableData"
-                  border
-                  style="width: 100%; margin-top: 20px"
-                >
-                  <el-table-column type="selection" width="55">
-                  </el-table-column>
-                  <el-table-column prop="name" label="姓名"> </el-table-column>
-                  <el-table-column prop="dep" label="部门"> </el-table-column>
-                  <el-table-column prop="status" label="状态">
-                  </el-table-column>
-                  <el-table-column prop="period" label="续签时间段">
-                  </el-table-column>
-                  <el-table-column prop="salary" label="薪资">
-                  </el-table-column>
-                  <el-table-column prop="job" label="岗位"> </el-table-column>
-                </el-table>
+                  format="yyyy年MM月dd日"
+                  value-format="yyyy-MM-dd"
+                  placeholder="请选择日期"
+                ></avue-date>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogVisible = false">取 消</el-button>
-                  <el-button type="primary" @click="selectPeriod"
-                    >批量续签</el-button
-                  >
+                  <el-button type="primary" @click="renew">批量续签</el-button>
                 </span>
               </el-dialog>
             </template>
@@ -278,116 +78,206 @@
 </template>
 
 <script>
-import {
-  dataList,
-  optionList,
-  depList,
-  statusList,
-  pickerOptions,
-  periodTableData,
-  selectRenewalPickerOptions,
-  jobOptions,
-} from "@/const/crud/staff/teacher/change/workChange";
+import { optionList } from "@/const/crud/staff/teacher/change/workChange";
 
 import { dictItems } from "@/const/staff/dictItems";
-import { getDictItem, getDeptTree } from "@/api/staff/dictItem";
+import { getDictItem } from "@/api/staff/dictItem";
+import { add, edit, getList, delData, searchData } from "@/const/staff/crud";
+import { fetchList } from "@/api/staff/crud";
+import { page } from "@/const/staff/page";
+import { result } from "@/const/staff/message";
 
 export default {
   name: "TableEngage",
   data() {
     return {
-      form: {},
-      // 表格数据
-      data: [],
-      // 表格配置对象
-      option: {},
-      // 标签页集合
       tabList: undefined,
-      // 数据源集合
-      dataList: dataList,
-      // 表格配置对象集合
-      optionList: optionList,
-      pickerOptions: pickerOptions,
-      selectRenewalPickerOptions: selectRenewalPickerOptions,
       activeName: "1",
+
+      optionList: optionList,
+
       page: {
-        total: 1000,
+        total: 0,
         currentPage: 1,
         pageSize: 10,
       },
+      // 数据源
+      data: undefined,
+      option: undefined,
       // 搜索的表单对象
       search: {},
-      // 部门下拉框数据集合
-      depList: depList,
-      depValue: "",
-      // 状态下拉集合
-      statusList: statusList,
-      statusValue: "",
-      // 控制对话框的显示与隐藏
+      form: {},
+
+      period: undefined,
+      dataChild: undefined,
       dialogVisible: false,
-      // 时间段
-      period: "",
-      // 按时间段筛选的表格数据
-      periodTableData: periodTableData,
-      // 控制内层对话框的显示与隐藏
-      selectVisible: false,
-      // 续签时间
-      renewal_time: "",
-      jobOptions: jobOptions,
-      showInput: true,
-      showSelect: true,
-      // 字典项
-      dictItems: dictItems,
-      // 树状部门选择器数据
-      treeDeptData: [],
-      treeProps: {
-        label: "name",
-        value: "id",
-      },
+      renewList: [],
+      renewType: undefined,
+      renewObj: {},
+
+      apiUrlList: [
+        "ywglsxqbhg",
+        "ywglsyqbhg",
+        "ywglzz",
+        "ywglhtxq",
+        "ywglzg",
+        "ywglzdy",
+      ],
+
+      restaurants: [],
+      timeout: null,
     };
   },
   methods: {
+    get(type) {
+      getList(type, this);
+    },
+    loadList(index, type) {
+      if (this.activeName == index + 1) getList(type, this);
+    },
+
+    async add(form, done, loading) {
+      const { data: res } = await add(
+        this.apiUrlList[this.activeName - 1],
+        form
+      );
+      if (!result(this, res, "add")) {
+        done();
+        loading();
+      }
+      done();
+      loading();
+      getList(this.apiUrlList[this.activeName - 1], this);
+    },
+
+    async edit(form, index, done, loading) {
+      console.log(form);
+      const { data: res } = await edit(
+        this.apiUrlList[this.activeName - 1],
+        form
+      );
+      if (!result(this, res, "edit")) {
+        done();
+        loading();
+      }
+      done();
+      loading();
+      getList(this.apiUrlList[this.activeName - 1], this);
+    },
+    async del(form, index) {
+      delData(this.apiUrlList[this.activeName - 1], this, form, index, () => {
+        console.log("aaa");
+        getList(this.apiUrlList[this.activeName - 1], this);
+      });
+    },
+
+    async loadAll() {
+      const { data: res } = await fetchList("info", page);
+      if (res.code !== 0) return true;
+      res.data.records.forEach((item) => {
+        this.restaurants.push({
+          value: item.xm,
+          gh: item.gh,
+          orgId: item.orgId,
+          staffId: item.id,
+        });
+      });
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString
+        ? restaurants.filter(this.createStateFilter(queryString))
+        : restaurants;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 1000 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    handleSelect(item) {
+      this.form.gh = item.gh;
+      this.form.orgId = item.orgId;
+      this.form.staffId = item.staffId;
+    },
+    beforeClose(done, type) {
+      if (type === "add") {
+        Object.keys(this.form).forEach((key) => (this.form[key] = ""));
+      }
+      done();
+    },
+
     handleClick(val) {
       this.option = this.optionList[val.index];
-      this.data = this.dataList[val.index];
+      if (val.index == 0) this.get("ywglsxqbhg");
+      if (val.index == 1) this.get("ywglsyqbhg");
+      if (val.index == 2) this.get("ywglzz");
+      if (val.index == 3) this.get("ywglhtxq");
+      if (val.index == 4) this.get("ywglzg");
+      if (val.index == 5) this.get("ywglzdy");
     },
     // 批量续签
     batchRenew() {
+      if (this.renewList.length == 0)
+        return this.$message.error("请选择需要续签的用户！");
+      this.renewType = "plxq";
       this.dialogVisible = true;
     },
-    // 选择续签时间段
-    selectPeriod() {
-      this.selectVisible = true;
+    // 续签
+    renewRow(row) {
+      this.renewObj = row;
+      this.renewType = "xq";
+      this.dialogVisible = true;
+    },
+    selectionChange(list) {
+      this.renewList = list;
     },
     // 提交续签
-    renew() {
-      this.selectVisible = false;
+    async renew() {
+      if (this.renewType === "plxq") {
+        this.renewList.forEach(async (item) => {
+          item.endDate = this.period;
+          const { data: res } = await add("ywglhtxq", item);
+          if (res.code !== 0) return this.$message.error(res.msg);
+        });
+      }
+      if (this.renewType === "xq") {
+        this.renewObj.endDate = this.period;
+        const { data: res } = await add("ywglhtxq", this.renewObj);
+        if (res.code !== 0) return this.$message.error(res.msg);
+      }
       this.dialogVisible = false;
+      this.renewObj = {};
       this.$message.success("续签成功");
+      getList(this.apiUrlList[this.activeName - 1], this);
+    },
+    toggleSelection(val) {
+      this.period = undefined;
+      this.$refs.crud[0].toggleSelection(val);
+    },
+    refreshChange() {
+      getList(this.apiUrlList[this.activeName - 1], this);
+    },
+    searchChange(form, done) {
+      searchData(this.apiUrlList[this.activeName - 1], this, form, done);
     },
     // 获取标签页数据
     async getTabs() {
-      const { data: res } = await getDictItem(
-        this.dictItems["workchangetablist"]
-      );
-      if (res.code !== 0)
-        return this.$message.error("获取数据失败！" + res.msg);
+      const { data: res } = await getDictItem(dictItems["workchangetablist"]);
+      if (res.code !== 0) return true;
       this.tabList = res.data;
-      this.activeName = res.data[0].value;
-    },
-    // 获取部门信息
-    async getDept() {
-      const { data: res } = await getDeptTree();
-      if (res.code !== 0)
-        return this.$message.error("获取数据失败！" + res.msg);
-      this.treeDeptData = res.data;
     },
   },
-  created() {
-    this.option = this.optionList[0];
-    this.data = this.dataList[0];
+  mounted() {
     this.getTabs();
-    this.getDept();
+    this.option = this.optionList[0];
+    this.loadAll();
   },
 };
 </script>
