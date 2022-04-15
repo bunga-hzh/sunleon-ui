@@ -54,18 +54,16 @@
 
 <script>
 import LogicFlow from "@logicflow/core";
-import { Menu } from "@logicflow/extension";
-import { option, flowOption } from "@/const/crud/salary/set/process";
+import "@logicflow/core/dist/style/index.css";
+import UserTask from "@/const/crud/salary/set/UserTaskNode.js";
+import { option, data } from "@/const/crud/salary/set/process";
 
 export default {
   data() {
     return {
-      data: [{}],
+      data: data,
       option: option,
-      form: {
-        lcmc: undefined,
-        ms: undefined,
-      },
+      form: {},
       search: {},
       page: {
         total: 100,
@@ -73,13 +71,7 @@ export default {
         size: 10,
       },
 
-      shztDic: undefined,
-
       dialogVisible: false,
-
-      flowOption: flowOption,
-      count: 0,
-      flowForm: "",
     };
   },
   methods: {
@@ -88,12 +80,19 @@ export default {
       this.dialogVisible = true;
     },
     createLogicFlow() {
-      LogicFlow.use(Menu);
       this.lf = new LogicFlow({
         container: this.$refs.container,
-        grid: true,
       });
-      this.lf.render();
+      this.lf.register(UserTask);
+      this.lf.render({
+        nodes: [
+          {
+            type: "UserTask",
+            x: 100,
+            y: 100,
+          },
+        ],
+      });
     },
   },
 };
@@ -106,5 +105,6 @@ export default {
 .container {
   width: 100%;
   height: 500px;
+  border: 1px solid #eee;
 }
 </style>

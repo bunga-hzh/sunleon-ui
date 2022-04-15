@@ -1,76 +1,36 @@
 <template>
   <basic-container>
-    <avue-crud
-      :option="option"
-      :data="data"
-      :search.sync="search"
-      :page.sync="page"
-    >
-      <template slot="menuLeft">
-        <el-button type="primary" icon="el-icon-upload2">导入</el-button>
-        <el-button type="primary" icon="el-icon-download">导出</el-button>
-        <el-button type="primary">下载模板</el-button>
-      </template>
-      <template slot="bmmcSearch">
-        <avue-select
-          v-model="search"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="bmmcDic"
-        ></avue-select>
-      </template>
-      <template slot="bmmcForm">
-        <avue-select
-          v-model="form"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="bmmcDic"
-        ></avue-select>
-      </template>
-      <template slot="ywndSearch">
-        <avue-select
-          v-model="search"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="ywndDic"
-        ></avue-select>
-      </template>
-      <template slot="ywndForm">
-        <avue-select
-          v-model="form"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="ywndDic"
-        ></avue-select>
-      </template>
-      <template slot="yfSearch">
-        <avue-select
-          v-model="search"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="yfDic"
-        ></avue-select>
-      </template>
-      <template slot="yfForm">
-        <avue-select
-          v-model="form"
-          placeholder="请选择内容"
-          type="tree"
-          :dic="yfDic"
-        ></avue-select>
-      </template>
-    </avue-crud>
+    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+      <el-tab-pane
+        v-for="(tab, index) in tabs"
+        :key="tab.name"
+        :label="tab.label"
+        :name="tab.name"
+      >
+        <avue-crud
+          :option="options[index]"
+          :data="data"
+          :search.sync="search"
+          :page.sync="page"
+        >
+          <template slot="menuLeft">
+            <el-button type="primary" icon="el-icon-upload2">导入</el-button>
+            <el-button type="primary" icon="el-icon-download">导出</el-button>
+            <el-button type="primary">下载模板</el-button>
+          </template>
+        </avue-crud>
+      </el-tab-pane>
+    </el-tabs>
   </basic-container>
 </template>
 
 <script>
-import { option } from "@/const/crud/salary/info/attendance";
+import { options, tabs } from "@/const/crud/salary/info/attendance";
 
 export default {
   data() {
     return {
-      data: [{}],
-      option: option,
+      data: undefined,
       form: {},
       search: {},
       page: {
@@ -79,10 +39,18 @@ export default {
         size: 10,
       },
 
-      bmmcDic: undefined,
-      ywndDic: undefined,
-      yfDic: undefined,
+      options: options,
+      tabs: tabs,
+      activeName: "1",
     };
+  },
+  methods: {
+    handleClick(val) {
+      console.log(val.index);
+    },
+  },
+  mounted() {
+    this.option = this.options[0];
   },
 };
 </script>

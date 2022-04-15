@@ -21,7 +21,6 @@ export const option = {
       prop: 'shzt',
       search: true,
       type: 'select',
-      slot: true,
     },
     {
       label: '描述',
@@ -30,44 +29,24 @@ export const option = {
   ]
 }
 
-export const flowOption = {
-  "name": "流程A",
-  "nodeList": [{
-      "id": "nodeA",
-      "name": "流程A-节点A",
-      "left": 39,
-      "top": 110,
-    },
-    {
-      "id": "nodeB",
-      "name": "流程A-节点B",
-      "left": 340,
-      "top": 161,
-    },
-    {
-      "id": "nodeC",
-      "name": "流程A-节点C",
-      "left": 739,
-      "top": 161,
-    },
-    {
-      "id": "nodeD",
-      "name": "节点D",
-      "left": 739,
-      "top": 20,
-    }
-  ],
-  "lineList": [{
-      "from": "nodeA",
-      "to": "nodeB"
-    },
-    {
-      "from": "nodeB",
-      "to": "nodeC"
-    },
-    {
-      "from": "nodeC",
-      "to": "nodeD"
-    }
-  ]
-}
+export const data = [{
+  lcmc: '校内奖金发放',
+  cjsj: '2019-01-01',
+  shzt: '审核中',
+  ms: '描述1'
+}, {
+  lcmc: '绩效内零星收入',
+  cjsj: '2019-01-01',
+  shzt: '审核中',
+  ms: '描述1'
+}, {
+  lcmc: '绩效外零星收入',
+  cjsj: '2019-01-01',
+  shzt: '审核中',
+  ms: '描述1'
+}, {
+  lcmc: '其它不定时发放',
+  cjsj: '2019-01-01',
+  shzt: '审核中',
+  ms: '描述1'
+}]
