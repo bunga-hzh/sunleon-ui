@@ -1109,7 +1109,7 @@
                     <el-col :span="6">
                       <el-form-item
                         label="岗位聘任年限"
-                        prop="gwprny"
+                        prop="gwprnx"
                         label-width="110px"
                       >
                         <avue-input-number
