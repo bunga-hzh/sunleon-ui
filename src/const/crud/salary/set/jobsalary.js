@@ -4,6 +4,7 @@ export const option = {
   index: true,
   indexLabel: '序号',
   searchMenuSpan: 4,
+  labelWidth: 120,
   column: [{
       label: '岗位等级',
       prop: 'gwdj',

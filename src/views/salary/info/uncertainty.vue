@@ -1,13 +1,12 @@
 <template>
   <basic-container>
     <avue-crud
-      :option="option"
       :data="data"
+      :option="option"
       :search.sync="search"
       :page.sync="page"
     >
       <template slot="menuLeft">
-        <el-button type="primary" icon="el-icon-edit">批量修改</el-button>
         <el-button type="primary" icon="el-icon-upload2">导入</el-button>
         <el-button type="primary" icon="el-icon-download">导出</el-button>
         <el-button type="primary">下载模板</el-button>
@@ -74,7 +73,7 @@ import {
   option,
   reportDic,
   reportOption,
-} from "@/const/crud/salary/info/oncampussalary";
+} from "@/const/crud/salary/info/uncertainty";
 
 export default {
   data() {

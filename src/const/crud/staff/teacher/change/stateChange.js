@@ -6,14 +6,13 @@ export const option = {
   searchMenuSpan: 4,
   labelWidth: 120,
   searchSpan: 7,
-  column: [
-    // {
-    //   label: "姓名",
-    //   prop: "xm",
-    //   search: true,
-    //   searchSpan: 7,
-    //   editDisabled: true,
-    // },
+  column: [{
+      label: "姓名",
+      prop: "xm",
+      search: true,
+      searchSpan: 7,
+      editDisabled: true,
+    },
     {
       label: "工号",
       prop: "staffId",
@@ -22,13 +21,13 @@ export const option = {
       editDisabled: true,
       // type: 'number',
     },
-    // {
-    //   label: "部门名称",
-    //   prop: "orgId",
-    //   search: true,
-    //   addDisabled: true,
-    //   editDisabled: true,
-    // },
+    {
+      label: "部门名称",
+      prop: "orgId",
+      search: true,
+      addDisabled: true,
+      editDisabled: true,
+    },
     {
       label: "异动类型",
       prop: "changeType",

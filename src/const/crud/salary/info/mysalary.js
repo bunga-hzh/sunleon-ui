@@ -24,8 +24,7 @@ export const options = [{
         label: '发放月份',
         prop: 'ffyf',
         search: true,
-        type: 'date',
-        valueFormat: 'yyyy-MM',
+        type: 'month',
       },
       {
         label: '姓名',

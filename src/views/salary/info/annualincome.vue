@@ -19,32 +19,6 @@
             <el-button type="primary" icon="el-icon-download">导出</el-button>
             <el-button type="primary">下载模板</el-button>
           </template>
-          <template slot="gzyfSearch">
-            <avue-select
-              v-model="search"
-              placeholder="请选择内容"
-              type="tree"
-              :dic="gzyfDic"
-            ></avue-select>
-          </template>
-          <template slot="gzyfForm">
-            <avue-select
-              v-model="form"
-              placeholder="请选择内容"
-              type="tree"
-              :dic="gzyfDic"
-            ></avue-select>
-          </template>
-          <template slot="bzForm">
-            <el-input
-              type="textarea"
-              :autosize="{ minRows: 2, maxRows: 4 }"
-              placeholder="请输入内容"
-              v-model="form.bz"
-              maxlength="200"
-            >
-            </el-input>
-          </template>
         </avue-crud>
       </el-tab-pane>
     </el-tabs>

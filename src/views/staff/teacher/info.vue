@@ -19,18 +19,6 @@
           />
         </template>
 
-        <template slot="dqztmSearch">
-          <el-select v-model="search.dqztm" placeholder="请选择" clearable>
-            <el-option
-              v-for="item in zzztOptions"
-              :key="item.id"
-              :label="item.label"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-        </template>
-
         <template slot="menuLeft">
           <el-button
             type="primary"
@@ -3128,148 +3116,234 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
-    <el-dialog title="查看" :visible.sync="dialogVisible_view" width="60%">
+    <el-dialog title="个人信息" :visible.sync="dialogVisible_view" width="60%">
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="人员基本情况" name="1">
-          <el-row>
+          <el-row class="margin20">
             <el-descriptions title="基本信息" :column="3" border>
               <el-descriptions-item>
-                <template slot="label">工号</template>
-                {{ view_obj.gh }}
+                <template slot="label">教职工编号</template>
+                {{ info_obj.gh }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">姓名</template>
-                {{ view_obj.xm }}
+                {{ info_obj.xm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">曾用名</template>
-                {{ view_obj.cym }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">性别</template>
-                <span v-if="view_obj.xbm === '1'">男</span>
-                <span v-else-if="view_obj.xbm === '2'">女</span>
-                <span v-else>未知</span>
+                {{ info_obj.cym }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">出生日期</template>
-                {{ view_obj.csrq }}
+                {{ info_obj.csrq }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">出生地</template>
-                {{ view_obj.csd }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">身份证号</template>
-                {{ view_obj.sfzjh }}
+                <template slot="label">年龄</template>
+                {{ info_obj.jsnl }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">籍贯</template>
-                {{ view_obj.jg }}
+                {{ info_obj.jg }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">身份证号</template>
+                {{ info_obj.sfzjh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">出生地</template>
+                {{ info_obj.csd }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">民族</template>
-                {{ view_obj.mzm }}
+                {{ info_obj.mzm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">政治面貌</template>
-                {{ view_obj.zzmmm }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">健康状况</template>
-                {{ view_obj.jkzkm }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">婚姻状况</template>
-                {{ view_obj.hyzkm }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">身份证件照</template>
-                待定
-              </el-descriptions-item>
-            </el-descriptions>
-          </el-row>
-          <el-row>
-            <el-descriptions title="教育经历" :column="3" border>
-              <el-descriptions-item>
-                <template slot="label">毕业院校</template>
-                {{ view_obj.byyx }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">学位</template>
-                {{ view_obj.shxwm }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">专业</template>
-                {{ view_obj.sxzymc }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">学历上传附件</template>
-                待定
-              </el-descriptions-item>
-            </el-descriptions>
-          </el-row>
-          <el-row>
-            <el-descriptions title="联系方式" :column="3" border>
-              <el-descriptions-item>
-                <template slot="label">联系电话</template>
-                {{ view_obj.lxdh }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">电子邮箱</template>
-                {{ view_obj.dzyx }}
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">家庭联系人</template>
-                {{ view_obj.jtlxr }}
+                {{ info_obj.zzmmm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">家庭住址</template>
-                {{ view_obj.jtzz }}
+                {{ info_obj.jtzz }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">户籍类别</template>
-                {{ view_obj.hjlb }}
+                <template slot="label">联系电话</template>
+                {{ info_obj.lxdh }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">户口详细地址</template>
-                {{ view_obj.hkxxdz }}
+                <template slot="label">电子邮箱</template>
+                {{ info_obj.dzyx }}
               </el-descriptions-item>
-            </el-descriptions>
-          </el-row>
-          <el-row>
-            <el-descriptions title="职称信息" :column="3" border>
               <el-descriptions-item>
-                <template slot="label">教师职称</template>
-                {{ view_obj.jszc }}
+                <template slot="label">紧急联系人姓名</template>
+                {{ info_obj.jjlxrxm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">紧急联系人电话</template>
+                {{ info_obj.jjlxrdh }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">所属教研组</template>
-                {{ view_obj.ssjyz }}
+                {{ info_obj.ssjyz }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">当前状态</template>
-                {{ view_obj.dqztm }}
+                <template slot="label">组织机构</template>
+                {{ info_obj.orgId }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">合同类型</template>
-                {{ view_obj.htlx }}
+                <template slot="label">身份证正面上传</template>
+                {{ info_obj.sfzFrontImg }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">银行卡号</template>
-                {{ view_obj.yhkh }}
+                <template slot="label">身份证反面上传</template>
+                {{ info_obj.sfzBackImg }}
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
-          <el-row>
-            <el-descriptions title="其他个人信息" :column="3" border>
+          <el-row class="margin20">
+            <el-descriptions title="教育经历" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">毕业院校</template>
+                {{ info_obj.byyx }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">最高学历</template>
+                {{ info_obj.zgxl }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">最高学历专业</template>
+                {{ info_obj.zgxlzy }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">最高学位</template>
+                {{ info_obj.zgxwm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">最高学位专业</template>
+                {{ info_obj.zgxwzy }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">最高学历毕业院校</template>
+                {{ info_obj.zgxlbyyx }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">全日制学历</template>
+                {{ info_obj.qrzxl }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">全日制学位</template>
+                {{ info_obj.qrzxw }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">全日制毕业院校</template>
+                {{ info_obj.qrzbyyx }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">最高学历证上传</template>
+                {{ info_obj.zgxlzsc }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">全日制学历证上传</template>
+                {{ info_obj.qrzxlzsc }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row class="margin20">
+            <el-descriptions title="其他信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">户口所在地</template>
+                {{ info_obj.hkszdm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">户籍类别</template>
+                {{ info_obj.hjlb }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">当前状态</template>
+                {{ info_obj.dqztm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">户口详细地址</template>
+                {{ info_obj.hkxxdz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">居住详细地址</template>
+                {{ info_obj.rdrq }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">入党日期</template>
+                {{ info_obj.hkxxdz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">健康状况</template>
+                {{ info_obj.jkzkm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">婚姻状况</template>
+                {{ info_obj.hyzkm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">合同类型</template>
+                {{ info_obj.htlx }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">专技人员专业类别</template>
+                {{ info_obj.zyjsrylb }}
+              </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">居住证起始时间</template>
-                {{ view_obj.jjzqssj }}
+                {{ info_obj.jjzqssj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">居住证截止时间</template>
+                {{ info_obj.jjzjzsj }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">是否落户</template>
-                {{ view_obj.sflh }}
+                {{ info_obj.sflh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否具有职业资格</template>
+                {{ info_obj.sfjyzyzg }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">备注</template>
+                {{ info_obj.bz }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row class="margin20">
+            <el-descriptions title="职称信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">教师职称</template>
+                {{ info_obj.jszc }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">所属教研组</template>
+                {{ info_obj.ssjyz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">当前状态</template>
+                {{ info_obj.dqztm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">合同类型</template>
+                {{ info_obj.htlx }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">银行卡号</template>
+                {{ info_obj.yhkh }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row class="margin20">
+            <el-descriptions title="其他个人信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">居住证起始时间</template>
+                {{ info_obj.jjzqssj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否落户</template>
+                {{ info_obj.sflh }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">居住证有效期</template>
@@ -3289,11 +3363,11 @@
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">入党日期</template>
-                {{ view_obj.rdrq }}
+                {{ info_obj.rdrq }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">备注</template>
-                {{ view_obj.bz }}
+                {{ info_obj.bz }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">因公/因私护照上传附件</template>
@@ -3301,7 +3375,7 @@
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
-          <el-row>
+          <el-row class="margin20">
             <el-collapse accordion>
               <el-collapse-item title="学历及学位子集">
                 <div>
@@ -3318,9 +3392,16 @@
                     </el-table-column>
                     <el-table-column label="学习形式" prop="xxxsm">
                     </el-table-column>
-                    <el-table-column label="学制" prop="xz"> </el-table-column>
+                    <el-table-column label="学校" prop="xx"> </el-table-column>
+                    <el-table-column label="专业/系" prop="sxzym">
+                    </el-table-column>
+                    <el-table-column label="所获学位" prop="hdxwm">
+                    </el-table-column>
+                    <el-table-column label="证明人" prop="zmr">
+                    </el-table-column>
                     <el-table-column label="毕业时间" prop="bysj">
                     </el-table-column>
+                    <el-table-column label="备注" prop="bz"> </el-table-column>
                   </el-table>
                 </div>
               </el-collapse-item>
@@ -3340,21 +3421,8 @@
                   <el-table-column label="职务" prop="zw"> </el-table-column>
                   <el-table-column label="单位所在省份" prop="dwszsf">
                   </el-table-column>
-                </el-table>
-              </el-collapse-item>
-              <el-collapse-item title="政治面貌及党籍情况子集">
-                <el-table
-                  :data="zzmmjdjqk_tableData"
-                  style="width: 100%"
-                  border
-                  :header-cell-style="{ textAlign: 'center' }"
-                >
-                  <el-table-column label="政治面貌" prop="zzmmm">
-                  </el-table-column>
-                  <el-table-column label="参加党派时间" prop="cjrq">
-                  </el-table-column>
-                  <el-table-column label="介绍人" prop="jsr"> </el-table-column>
-                  <el-table-column label="转正时间" prop="zzrq">
+                  <el-table-column label="证明人" prop="zmr"> </el-table-column>
+                  <el-table-column label="上传电子证明" prop="scdzzm">
                   </el-table-column>
                 </el-table>
               </el-collapse-item>
@@ -3367,11 +3435,13 @@
                 >
                   <el-table-column label="称谓" prop="cw"> </el-table-column>
                   <el-table-column label="姓名" prop="xm"> </el-table-column>
-                  <el-table-column label="出生年月" prop="csny">
+                  <el-table-column label="出生年月" prop="csrq">
                   </el-table-column>
                   <el-table-column label="政治面貌" prop="zzmmm">
                   </el-table-column>
-                  <el-table-column label="工作单位及职务" prop="dwmc">
+                  <el-table-column label="单位名称" prop="dwmc">
+                  </el-table-column>
+                  <el-table-column label="家庭成员职业" prop="jtcyzym">
                   </el-table-column>
                   <el-table-column label="联系方式" prop="lxfs">
                   </el-table-column>
@@ -3381,79 +3451,108 @@
           </el-row>
         </el-tab-pane>
         <el-tab-pane label="任职信息" name="2">
-          <el-row>
+          <el-row class="margin20">
             <el-descriptions title="任职信息" :column="3" border>
               <el-descriptions-item>
-                <template slot="label">校内职务</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">参加工作时间</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">进入本单位工作时间</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">任职年限</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">教研组</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">工龄</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">实际工作年限</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">教龄</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">岗位类别</template>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">用工形式（编制内录用）</template>
+                <template slot="label">部门（处室）</template>
+                {{ office_obj.bm }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">人员类别</template>
+                {{ office_obj.rylb }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">人员录聘来源</template>
+                <template slot="label">岗位类别</template>
+                {{ office_obj.gwlbm }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">实习期限</template>
+                <template slot="label">岗位聘任年月</template>
+                {{ office_obj.gwprny }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">部门（处室）</template>
+                <template slot="label">岗位聘任年限</template>
+                {{ office_obj.gwprnx }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">实际工作年限</template>
+                {{ office_obj.cjgzny }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">进入本单位工作时间</template>
+                {{ office_obj.jrbdwgzsj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">岗位等级</template>
+                {{ office_obj.gwdjm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">校内职务</template>
+                {{ office_obj.xnzw }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">参加工作时间</template>
+                {{ office_obj.cjgzsj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">任现职务时间</template>
+                {{ office_obj.rxzwsj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">用工形式（编制内录用）</template>
+                {{ office_obj.ygxs }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">所属教研组</template>
+                {{ office_obj.ssjyz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">教龄</template>
+                {{ office_obj.jl }}
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">减员时间</template>
+                {{ office_obj.jysj }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">减员材料上传附件</template>
+                <template slot="label">人员录聘来源</template>
+                {{ office_obj.rylply }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">专业技术职务</template>
+                {{ office_obj.xrzyjszw }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">专业技术等级</template>
+                {{ office_obj.zyjsdj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否为内设机构领导</template>
+                {{ office_obj.sfwnsjgld }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否残疾人</template>
+                {{ office_obj.sfcjr }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否留学回国</template>
+                {{ office_obj.sflxhg }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否为应届毕业生</template>
+                {{ office_obj.sfyjbys }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否留学回国</template>
+                {{ office_obj.sflxhg }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">减员材料上传</template>
+                {{ office_obj.jyclsc }}
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
-          <el-row>
+          <el-row class="margin20">
             <el-collapse accordion>
-              <el-collapse-item title="职业资格证子集">
-                <el-table
-                  :data="certificate_tableData"
-                  style="width: 100%"
-                  border
-                  :header-cell-style="{ textAlign: 'center' }"
-                >
-                  <el-table-column label="职业工种" prop="zygz">
-                  </el-table-column>
-                  <el-table-column label="职业等级" prop="zydj">
-                  </el-table-column>
-                  <el-table-column label="颁证机构" prop="bzjg">
-                  </el-table-column>
-                  <el-table-column label="证书编号" prop="zyzgzsbh">
-                  </el-table-column>
-                  <el-table-column label="取得时间" prop="zsbfrq">
-                  </el-table-column>
-                </el-table>
-              </el-collapse-item>
               <el-collapse-item title="校内职务表">
                 <el-table
                   :data="leader_tableData"
@@ -3461,8 +3560,7 @@
                   border
                   :header-cell-style="{ textAlign: 'center' }"
                 >
-                  <el-table-column label="部门" prop="xxzgbmm">
-                  </el-table-column>
+                  <el-table-column label="部门" prop="bm"> </el-table-column>
                   <el-table-column label="职务名称" prop="zwmc">
                   </el-table-column>
                   <el-table-column label="任职方式" prop="rzfsm">
@@ -3471,7 +3569,9 @@
                   </el-table-column>
                   <el-table-column label="职务级别" prop="zwjbm">
                   </el-table-column>
-                  <el-table-column label="任本职级时间" prop="rzrq">
+                  <el-table-column label="任本职级时间" prop="rbzjsj">
+                  </el-table-column>
+                  <el-table-column label="上传领导任职文件" prop="ldrzwj">
                   </el-table-column>
                 </el-table>
               </el-collapse-item>
@@ -3568,19 +3668,141 @@
             </el-collapse>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="教师发展信息" name="3">
-          <el-row>
-            <el-descriptions title="教师发展信息" :column="1" border>
+        <el-tab-pane label="年度考核" name="3">
+          <el-row class="margin20">
+            <el-descriptions title="年度考核" :column="3" border>
               <el-descriptions-item>
-                <template slot="label">师训帐号</template>
+                <template slot="label">姓名</template>
+                {{ examine_obj.xm }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">教师资格证上传附件</template>
+                <template slot="label">身份证号</template>
+                {{ examine_obj.sfzjh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">考核年度</template>
+                {{ examine_obj.khnd }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">考核结果</template>
+                {{ examine_obj.khjgm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">备注</template>
+                {{ examine_obj.bz }}
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
-          <el-row>
+        </el-tab-pane>
+        <el-tab-pane label="教师发展信息" name="4">
+          <el-row class="margin20">
+            <el-descriptions title="教师发展信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">师训帐号</template>
+                {{ jsfzxx_obj.sxzh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">双师型教师认定</template>
+                {{ jsfzxx_obj.ssxjsrd }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否教研组长</template>
+                {{ jsfzxx_obj.sfjyzz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">教研组长备注</template>
+                {{ jsfzxx_obj.jyzzbz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否名师工作室主持人</template>
+                {{ jsfzxx_obj.sfmsgzszcr }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">名师工作室主持人级别</template>
+                {{ jsfzxx_obj.msgzszcrjb }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">名师工作室主持人备注</template>
+                {{ jsfzxx_obj.msgzszcrbz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否学科带头人</template>
+                {{ jsfzxx_obj.sfxkdtr }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">学科带头人备注</template>
+                {{ jsfzxx_obj.xkdtrbz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否骨干教师</template>
+                {{ jsfzxx_obj.sfggjs }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">骨干教师备注</template>
+                {{ jsfzxx_obj.ggjsbz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否学术委员会成员</template>
+                {{ jsfzxx_obj.sfxswyhcy }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">学术委员会成员备注</template>
+                {{ jsfzxx_obj.ggjsbz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">是否督导组成员</template>
+                {{ jsfzxx_obj.sfddzcy }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">督导组成员备注</template>
+                {{ jsfzxx_obj.ddzcybz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">教师资格证上传</template>
+                {{ jsfzxx_obj.jszgzsc }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+          <el-row class="margin20">
             <el-collapse accordion>
+              <el-collapse-item title="教师资格证子集">
+                <el-table
+                  :data="jszgz_tableData"
+                  style="width: 100%"
+                  border
+                  :header-cell-style="{ textAlign: 'center' }"
+                >
+                  <el-table-column label="资格种类" prop="zgzzl">
+                  </el-table-column>
+                  <el-table-column label="资格证号码" prop="zgzhm">
+                  </el-table-column>
+                  <el-table-column label="任教学科" prop="rjxk">
+                  </el-table-column>
+                  <el-table-column label="发证机关" prop="fzjg">
+                  </el-table-column>
+                  <el-table-column label="证书颁发日期" prop="zsbfrq">
+                  </el-table-column>
+                </el-table>
+              </el-collapse-item>
+              <el-collapse-item title="职业资格证子集">
+                <el-table
+                  :data="certificate_tableData"
+                  style="width: 100%"
+                  border
+                  :header-cell-style="{ textAlign: 'center' }"
+                >
+                  <el-table-column label="职业工种" prop="zygz">
+                  </el-table-column>
+                  <el-table-column label="职业等级" prop="zydj">
+                  </el-table-column>
+                  <el-table-column label="颁证机构" prop="bzjg">
+                  </el-table-column>
+                  <el-table-column label="证书编号" prop="zyzgzsbh">
+                  </el-table-column>
+                  <el-table-column label="取得时间" prop="zsbfrq">
+                  </el-table-column>
+                </el-table>
+              </el-collapse-item>
               <el-collapse-item title="教育培训子集">
                 <el-table
                   :data="train_tableData"
@@ -3606,101 +3828,171 @@
                   </el-table-column>
                 </el-table>
               </el-collapse-item>
-              <el-collapse-item title="教师资格证子集">
-                <el-table
-                  :data="jszgz_tableData"
-                  style="width: 100%"
-                  border
-                  :header-cell-style="{ textAlign: 'center' }"
-                >
-                  <el-table-column label="资格种类" prop="zgzzl">
-                  </el-table-column>
-                  <el-table-column label="资格证号码" prop="zgzhm">
-                  </el-table-column>
-                  <el-table-column label="任教学科" prop="rjxk">
-                  </el-table-column>
-                  <el-table-column label="发证机关" prop="fzjg">
-                  </el-table-column>
-                  <el-table-column label="证书颁发日期" prop="zsbfrq">
-                  </el-table-column>
-                </el-table>
-              </el-collapse-item>
             </el-collapse>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="绩效考核信息" name="4">
-          <el-row>
-            <el-collapse accordion>
-              <el-collapse-item title="组织考察（考核）子集">
-                <el-table
-                  :data="organiseinspect_tableData"
-                  style="width: 100%"
-                  border
-                  :header-cell-style="{ textAlign: 'center' }"
-                >
-                  <el-table-column label="考察（考核）事由" prop="kcsy">
-                  </el-table-column>
-                  <el-table-column label="考察（考核）时间" prop="khrq">
-                  </el-table-column>
-                  <el-table-column label="备注" prop="bz"> </el-table-column>
-                </el-table>
-              </el-collapse-item>
-              <el-collapse-item title="教师任职情况测评子集">
-                <el-table
-                  :data="jsrzqkcp_tableData"
-                  style="width: 100%"
-                  border
-                  :header-cell-style="{ textAlign: 'center' }"
-                >
-                  <el-table-column label="年度" prop="nd"> </el-table-column>
-                  <el-table-column
-                    label="考核分数"
-                    prop="khfs"
-                  ></el-table-column>
-                  <el-table-column
-                    label="考核等级"
-                    prop="khdj"
-                  ></el-table-column>
-                  <el-table-column label="同级人员人数" prop="tjryrs">
-                  </el-table-column>
-                  <el-table-column label="同级人员中名次" prop="tjryzmc">
-                  </el-table-column>
-                  <el-table-column label="全校专业技术人员数" prop="qxzyjsrys">
-                  </el-table-column>
-                  <el-table-column
-                    label="全校专业技术人员名次"
-                    prop="qxzyjsrymc"
-                  >
-                  </el-table-column>
-                  <el-table-column label="备注" prop="bz"></el-table-column>
-                </el-table>
-              </el-collapse-item>
-            </el-collapse>
-          </el-row>
-        </el-tab-pane>
-        <el-tab-pane label="薪酬福利信息" name="5">
-          <el-row>
-            <el-descriptions title="任职信息" :column="3" border>
+        <el-tab-pane label="奖惩信息" name="5">
+          <el-row class="margin20">
+            <el-descriptions title="处分（行政及党内）" :column="3" border>
               <el-descriptions-item>
-                <template slot="label">套用工资标示</template>
+                <template slot="label">处分类别</template>
+                {{ jsfzxx_obj.cflb }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">岗位绩点</template>
+                <template slot="label">处分原因</template>
+                {{ jsfzxx_obj.cfyy }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">薪级等级</template>
+                <template slot="label">处分记录描述</template>
+                {{ jsfzxx_obj.cfjlms }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">岗位等级</template>
+                <template slot="label">处分单位名称</template>
+                {{ jsfzxx_obj.cfdwmc }}
               </el-descriptions-item>
               <el-descriptions-item>
-                <template slot="label">薪级等级附件</template>
+                <template slot="label">处分日期</template>
+                {{ jsfzxx_obj.cfrq }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">处分撤销日期</template>
+                {{ jsfzxx_obj.cfcxrq }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">处分撤销原因</template>
+                {{ jsfzxx_obj.cfcxyy }}
+              </el-descriptions-item>
+            </el-descriptions>
+            <el-descriptions title="奖励和荣誉" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">荣誉奖励级别</template>
+                {{ jsfzxx_obj.jljbm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">奖励类别</template>
+                {{ jsfzxx_obj.jllbm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">奖励名称</template>
+                {{ jsfzxx_obj.jlmc }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">荣誉和奖励原因</template>
+                {{ jsfzxx_obj.jlyy }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">奖励时间</template>
+                {{ jsfzxx_obj.jlsj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">奖励单位</template>
+                {{ jsfzxx_obj.jldw }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">备注</template>
+                {{ jsfzxx_obj.bz }}
               </el-descriptions-item>
             </el-descriptions>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="其他信息" name="6">
-          <el-row>
+        <el-tab-pane label="薪酬福利信息" name="6">
+          <el-row class="margin20">
+            <el-descriptions title="薪酬福利信息" :column="3" border>
+              <el-descriptions-item>
+                <template slot="label">岗位绩点</template>
+                {{ salary_obj.gwjd }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">岗位等级</template>
+                {{ salary_obj.gwdjm }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">岗位工资</template>
+                {{ salary_obj.gwgz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">薪级等级</template>
+                {{ salary_obj.xjdj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">薪级工资</template>
+                {{ salary_obj.xjgz }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">上下班交通费</template>
+                {{ salary_obj.sxbjtf }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">粮油补贴</template>
+                {{ salary_obj.lybt }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">教贴</template>
+                {{ salary_obj.jt }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">岗位津贴</template>
+                {{ salary_obj.gwjt }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">技术津贴</template>
+                {{ salary_obj.jsjt }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">工会费</template>
+                {{ salary_obj.ghf }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">饭贴</template>
+                {{ salary_obj.ft }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">工作年限</template>
+                {{ salary_obj.gznx }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">聘任岗位</template>
+                {{ salary_obj.prgw }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">任现职时间</template>
+                {{ salary_obj.xrzsj }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">薪级等级附件</template>
+                {{ salary_obj.xjdjfj }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="财务信息" name="7">
+          <el-row class="margin20">
+            <el-descriptions title="财务信息" :column="1" border>
+              <el-descriptions-item>
+                <template slot="label">中国建设银行卡号</template>
+                {{ salary_obj.zgjsyhkh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">中国工商银行卡号</template>
+                {{ salary_obj.zggsyhkh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">中国银行卡号</template>
+                {{ salary_obj.zgyhkh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">公积金账号</template>
+                {{ salary_obj.gjjzh }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">补充公积金账号</template>
+                {{ salary_obj.bcgjjzh }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="其他信息" name="8">
+          <el-row class="margin20">
             <el-collapse accordion>
               <el-collapse-item title="因公/因私护照">
                 <el-table
@@ -3721,6 +4013,20 @@
                   </el-table-column>
                   <el-table-column label="终止日期" prop="zzrq">
                   </el-table-column>
+                </el-table>
+              </el-collapse-item>
+              <el-collapse-item title="组织考察（考核）子集">
+                <el-table
+                  :data="organiseinspect_tableData"
+                  style="width: 100%"
+                  border
+                  :header-cell-style="{ textAlign: 'center' }"
+                >
+                  <el-table-column label="考察（考核）事由" prop="kcsy">
+                  </el-table-column>
+                  <el-table-column label="考察（考核）时间" prop="khrq">
+                  </el-table-column>
+                  <el-table-column label="备注" prop="bz"> </el-table-column>
                 </el-table>
               </el-collapse-item>
             </el-collapse>
@@ -3938,27 +4244,27 @@ export default {
       sfzFrontImgUrl: "",
       sfzBackImgUrl: "",
 
-      // 查看行对象
-      view_obj: {},
-
-      // 子表数据源
-      xljxw_tableData: [],
-      grll_tableData: [],
-      zzmmjdjqk_tableData: [],
-      family_tableData: [],
-      certificate_tableData: [],
-      leader_tableData: [],
-      professionduty_tableData: [],
-      workerskillgrade_tableData: [],
-      parttimejob_tableData: [],
-      servicetoenterprise_tableData: [],
-      train_tableData: [],
-      jszgz_tableData: [],
-      punish_tableData: [],
-      reward_tableData: [],
-      organiseinspect_tableData: [],
-      jsrzqkcp_tableData: [],
-      furtherstudyforeign_tableData: [],
+      info_obj: {},
+      office_obj: {},
+      examine_obj: {},
+      jsfzxx_obj: {},
+      punish_obj: {},
+      reward_obj: {},
+      salary_obj: {},
+      bankno_obj: {},
+      xljxw_tableData: undefined,
+      grll_tableData: undefined,
+      family_tableData: undefined,
+      leader_tableData: undefined,
+      professionduty_tableData: undefined,
+      workerskillgrade_tableData: undefined,
+      parttimejob_tableData: undefined,
+      servicetoenterprise_tableData: undefined,
+      jszgz_tableData: undefined,
+      certificate_tableData: undefined,
+      train_tableData: undefined,
+      furtherstudyforeign_tableData: undefined,
+      organiseinspect_tableData: undefined,
 
       // 子表表单
       xljxw_form: xljxw_form,

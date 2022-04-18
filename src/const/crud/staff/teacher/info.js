@@ -4,20 +4,18 @@ export const option = {
   border: true,
   searchMenuSpan: 4,
   viewBtn: false,
-  delBtn: false,
   editBtn: false,
   index: true,
+  searchSpan: 5,
   column: [{
       label: "工号",
       prop: "gh",
       search: true,
-      searchSpan: 5,
     },
     {
       label: "姓名",
       prop: "xm",
       search: true,
-      searchSpan: 5,
     },
     {
       label: "性别",
@@ -28,7 +26,6 @@ export const option = {
       prop: "orgId",
       search: true,
       searchslot: true,
-      searchSpan: 5,
     },
     {
       label: "身份证号",
@@ -43,8 +40,12 @@ export const option = {
       label: "在职状态",
       prop: "dqztm",
       search: true,
-      searchslot: true,
-      searchSpan: 5,
+      type: 'select',
+      dicUrl: '/admin/dict/type/dqztk_type',
+      props: {
+        "label": "label",
+        "value": "value"
+      },
     },
   ],
 }

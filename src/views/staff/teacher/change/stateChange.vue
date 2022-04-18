@@ -44,7 +44,7 @@ export default {
       // 表格配置对象
       option: option,
       // 表格数据源集合
-      data: data,
+      data: undefined,
       // 搜索的表单对象
       search: {},
       // 分页查询对象
