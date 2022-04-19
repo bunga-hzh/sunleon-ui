@@ -23,6 +23,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './styles/common.scss'
 import AvueFormDesign from '@sscfaith/avue-form-design'
 import basicContainer from './components/basic-container/main'
+
 // 插件 json 展示
 Vue.use(router)
 

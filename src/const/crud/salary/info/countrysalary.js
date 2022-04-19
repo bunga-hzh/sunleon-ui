@@ -6,6 +6,7 @@ export const option = {
   searchMenuSpan: 4,
   menuWidth: 160,
   searchSpan: 7,
+  labelWidth: 240,
   column: [{
       label: '部门名称',
       prop: 'bmmc',
@@ -13,8 +14,8 @@ export const option = {
       type: 'select',
     },
     {
-      label: '职工编码',
-      prop: 'zgbh',
+      label: '工号',
+      prop: 'gh',
       search: true,
     },
     {
@@ -23,9 +24,20 @@ export const option = {
       search: true,
     },
     {
-      label: '证件号码',
-      prop: 'zjhm',
+      label: '身份证号',
+      prop: 'sfjjh',
       search: true,
+    },
+    {
+      label: '人员分类',
+      prop: 'ryfl',
+      search: true,
+      type: 'select',
+      dicUrl: '/admin/dict/type/rygwlx_type',
+      props: {
+        "label": "label",
+        "value": "value"
+      },
     },
     {
       label: '业务年度',
@@ -38,7 +50,6 @@ export const option = {
       prop: 'yf',
       search: true,
       type: 'month',
-      searchSpan: 6,
     },
     {
       label: '岗位工资',

@@ -56,6 +56,8 @@
 import LogicFlow from "@logicflow/core";
 import "@logicflow/core/dist/style/index.css";
 import UserTask from "@/const/crud/salary/set/UserTaskNode.js";
+import { Menu } from "@logicflow/extension";
+import "@logicflow/extension/lib/style/index.css";
 import { option, data } from "@/const/crud/salary/set/process";
 
 export default {
@@ -80,6 +82,7 @@ export default {
       this.dialogVisible = true;
     },
     createLogicFlow() {
+      LogicFlow.use(Menu);
       this.lf = new LogicFlow({
         container: this.$refs.container,
       });

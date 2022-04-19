@@ -5,39 +5,16 @@
       :option="option"
       :search.sync="search"
       :page.sync="page"
-      v-model="form"
     >
       <template slot="menuLeft">
         <el-button type="primary" icon="el-icon-plus" @click="add"
           >添加</el-button
         >
       </template>
-      <template slot="menu">
-        <el-button type="text" icon="el-icon-view" @click="add"
+      <template slot="menu" slot-scope="scope">
+        <el-button type="text" icon="el-icon-view" @click="view(scope.row)"
           >查看详情</el-button
         >
-      </template>
-      <template slot="sygwSearch">
-        <el-select v-model="search.sygw" placeholder="请选择" clearable>
-          <el-option
-            v-for="item in sygwOptions"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select>
-      </template>
-      <template slot="syztSearch">
-        <el-select v-model="search.syzt" placeholder="请选择" clearable>
-          <el-option
-            v-for="item in syztOptions"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select>
       </template>
       <template slot="sygw" slot-scope="scope">
         <span v-if="scope.row.sygw === '1'">专业技术人员</span>
@@ -55,163 +32,36 @@
     <el-dialog
       title="添加"
       :visible.sync="dialogVisible_add"
-      width="60%"
+      width="80%"
       class="avue-dialog"
     >
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="编码">
+          <el-input v-model="form.bm"></el-input>
+        </el-form-item>
+        <el-form-item label="适用岗位">
+          <el-input v-model="form.sygw"></el-input>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            placeholder="请输入内容"
+            v-model="form.ms"
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
       <table>
         <tr>
           <th>
-            <span class="title">添加工资体系</span>
+            <span class="title">设置工资体系</span>
             <span></span>
           </th>
         </tr>
         <tr>
           <td>
-            <el-form ref="form" :model="form" label-width="80px">
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item label="体系名称">
-                    <el-input v-model="form.txmc"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="适用岗位">
-                    <el-select
-                      v-model="form.sygw"
-                      placeholder="请选择"
-                      style="width: 100%"
-                    >
-                      <el-option
-                        v-for="item in sygwOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      >
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="使用状态">
-                    <el-radio-group v-model="form.syzt">
-                      <el-radio :label="247">启用</el-radio>
-                      <el-radio :label="248">停用</el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="描述">
-                    <el-input
-                      type="textarea"
-                      :autosize="{ minRows: 2, maxRows: 4 }"
-                      placeholder="请输入内容"
-                      v-model="form.ms"
-                    >
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <span class="title">国家工资</span>
-            <span
-              ><el-button type="primary" @click="openChildDialog('gjgz')"
-                >添加</el-button
-              ></span
-            >
-          </th>
-        </tr>
-        <tr>
-          <td>
-            <el-row>
-              <el-tag
-                v-for="tag in gjgzList"
-                :key="tag.zdbh"
-                closable
-                type="primary"
-                @close="removeItem('gjgz', tag)"
-              >
-                {{ tag.gzxmc }}
-              </el-tag>
-            </el-row>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <span class="title">校内工资</span>
-            <span
-              ><el-button type="primary" @click="openChildDialog('xngz')"
-                >添加</el-button
-              ></span
-            >
-          </th>
-        </tr>
-        <tr>
-          <td>
-            <el-row>
-              <el-tag
-                v-for="tag in xngzList"
-                :key="tag.zdbh"
-                closable
-                type="primary"
-                @close="removeItem('xngz', tag)"
-              >
-                {{ tag.gzxmc }}
-              </el-tag>
-            </el-row>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <span class="title">零星发放</span>
-            <span
-              ><el-button type="primary" @click="openChildDialog('lxff')"
-                >添加</el-button
-              ></span
-            >
-          </th>
-        </tr>
-        <tr>
-          <td>
-            <el-row>
-              <el-tag
-                v-for="tag in lxffList"
-                :key="tag.zdbh"
-                closable
-                type="primary"
-                @close="removeItem('lxff', tag)"
-              >
-                {{ tag.gzxmc }}
-              </el-tag>
-            </el-row>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <span class="title">不定时发放</span>
-            <span
-              ><el-button type="primary" @click="openChildDialog('bdsff')"
-                >添加</el-button
-              ></span
-            >
-          </th>
-        </tr>
-        <tr>
-          <td>
-            <el-row>
-              <el-tag
-                v-for="tag in bdsffList"
-                :key="tag.zdbh"
-                closable
-                type="primary"
-                @close="removeItem('bdsff', tag)"
-              >
-                {{ tag.gzxmc }}
-              </el-tag>
-            </el-row>
+            <avue-crud :data="dataChild" :option="optionChild"></avue-crud>
           </td>
         </tr>
       </table>
@@ -220,71 +70,61 @@
         <el-button type="primary" @click="submit">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible_child"
-      width="60%"
-      append-to-body
-    >
-      <avue-crud
-        ref="crudChildRef"
-        :data="childData"
-        :option="childOption"
-        :page.sync="childPage"
-        @selection-change="selectionChange"
-      ></avue-crud>
-      <span slot="footer">
-        <el-button @click="dialogVisible_child = false">取 消</el-button>
-        <el-button type="primary" @click="submitChild">确 定</el-button>
-      </span>
-    </el-dialog>
   </basic-container>
 </template>
 
 <script>
-import { option, childOption } from "@/const/crud/salary/set/salarysystem";
-import { data } from "@/const/crud/salary/itemdatas";
-import { getRygwlx, getSyzt } from "@/const/staff/getSelectOption";
+import {
+  option,
+  optionChild,
+  dataChilds,
+} from "@/const/crud/salary/set/salarysystem";
 
 export default {
   data() {
     return {
       data: [
         {
-          txmc: "一",
+          bm: "一",
           sygw: "1",
           syzt: "1",
-          ms: "无",
+          ms: "",
         },
         {
-          txmc: "二",
+          bm: "二",
           sygw: "2",
           syzt: "1",
-          ms: "无",
+          ms: "",
         },
         {
-          txmc: "三",
+          bm: "三",
           sygw: "3",
           syzt: "1",
-          ms: "无",
+          ms: "",
         },
         {
-          txmc: "四",
+          bm: "四",
           sygw: "4",
           syzt: "1",
-          ms: "无",
+          ms: "",
         },
       ],
       option: option,
       search: {},
-      form: {},
+      form: {
+        bm: undefined,
+        sygw: undefined,
+        syzt: undefined,
+        ms: undefined,
+      },
       page: {
         total: 100,
         current: 1,
         size: 10,
       },
-      childData: data,
-      childOption: childOption,
+      dataChild: undefined,
+      dataChilds: dataChilds,
+      optionChild: optionChild,
       childPage: {
         total: 100,
         current: 1,
@@ -311,18 +151,13 @@ export default {
     add() {
       this.dialogVisible_add = true;
     },
+    view(row) {
+      this.dialogVisible_add = true;
+      this.dataChild = this.dataChilds[row.$index];
+      this.form = row;
+    },
     // 提交
     submit() {},
-    async getRygwlx() {
-      const { data: res } = await getRygwlx();
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.sygwOptions = res.data;
-    },
-    async getSyzt() {
-      const { data: res } = await getSyzt();
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.syztOptions = res.data;
-    },
     openChildDialog(type) {
       this.dialogVisible_child = true;
       this.snapData = [];
@@ -343,10 +178,6 @@ export default {
         }
       });
     },
-  },
-  mounted() {
-    this.getRygwlx();
-    this.getSyzt();
   },
 };
 </script>

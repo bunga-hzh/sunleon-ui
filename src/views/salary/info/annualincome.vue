@@ -12,7 +12,6 @@
           :option="options[index]"
           :search.sync="search"
           :page.sync="page"
-          v-model="form"
         >
           <template slot="menuLeft">
             <el-button type="primary" icon="el-icon-upload2">导入</el-button>
@@ -35,24 +34,19 @@ export default {
       // 当前激活标签页
       activeName: undefined,
       tabs: undefined,
-      data: undefined,
+      data: [{}],
       options: options,
       search: {},
-      form: {},
       page: {
         total: 100,
         current: 1,
         size: 10,
       },
-
-      gzyfDic: undefined,
     };
   },
   methods: {
     // 标签页切换事件
-    handleClick(val) {
-      console.log(val);
-    },
+    handleClick(val) {},
     async getNsrtjtabs() {
       const { data: res } = await getNsrtjtabs();
       if (res.code !== 0) return this.$message.error(res.msg);

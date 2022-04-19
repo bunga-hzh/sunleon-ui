@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" type="card">
       <el-tab-pane label="绩效内" name="1">
         <avue-crud
-          :option="option"
+          :option="options[0]"
           :data="data"
           :search.sync="search"
           :page.sync="page"
@@ -13,56 +13,112 @@
             <el-button type="primary" icon="el-icon-download">导出</el-button>
             <el-button type="primary">下载模板</el-button>
             <el-button type="primary" icon="el-icon-check" @click="report"
-              >提交报表</el-button
+              >上报工作量</el-button
+            >
+            <el-button type="primary" icon="el-icon-document"
+              >生成汇总表</el-button
             >
           </template>
         </avue-crud></el-tab-pane
       >
-      <el-tab-pane label="绩效外" name="2">无</el-tab-pane>
-    </el-tabs>
-    <el-dialog title="报表" :visible.sync="dialogVisible" width="60%">
-      <el-row>
-        <el-form label-width="120px">
-          <el-form-item label="表格名称">
-            <el-col :span="8">
-              <el-input v-model="tableName"></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="按（年/月）统计">
-            <avue-select
-              v-model="datetype"
-              placeholder="请选择内容"
-              type="tree"
-              :dic="reportDic"
-            ></avue-select>
-          </el-form-item>
-          <el-form-item label="统计（年/月）" v-show="datetype">
-            <avue-date
-              v-show="datetype === '1'"
-              v-model="month"
-              type="month"
-              format="yyyy 年 MM 月"
-              value-format="yyyy-MM"
-              placeholder="请选择日期"
-            ></avue-date>
-            <avue-date
-              v-show="datetype === '2'"
-              v-model="year"
-              type="year"
-              format="yyyy 年"
-              value-format="yyyy"
-              placeholder="请选择日期"
-            ></avue-date>
-          </el-form-item>
-        </el-form>
-      </el-row>
-      <el-row>
+      <el-tab-pane label="绩效外" name="2">
         <avue-crud
-          :option="reportOption"
-          :data="reportData"
-          :page.sync="reportPage"
-        ></avue-crud>
-      </el-row>
+          :option="options[1]"
+          :data="data"
+          :search.sync="search"
+          :page.sync="page"
+        >
+          <template slot="menuLeft">
+            <el-button type="primary" icon="el-icon-upload2">导入</el-button>
+            <el-button type="primary" icon="el-icon-download">导出</el-button>
+            <el-button type="primary">下载模板</el-button>
+            <el-button type="primary" icon="el-icon-check" @click="report"
+              >上报工作量</el-button
+            >
+            <el-button type="primary" icon="el-icon-document"
+              >生成汇总表</el-button
+            >
+          </template>
+        </avue-crud></el-tab-pane
+      >
+      <el-tab-pane label="汇总" name="3">
+        <avue-crud
+          :option="options[2]"
+          :data="data"
+          :search.sync="search"
+          :page.sync="page"
+        >
+          <template slot="menuLeft">
+            <el-button type="primary" icon="el-icon-upload2">导入</el-button>
+            <el-button type="primary" icon="el-icon-download">导出</el-button>
+            <el-button type="primary">下载模板</el-button>
+            <el-button type="primary" icon="el-icon-check" @click="report"
+              >上报工作量</el-button
+            >
+            <el-button type="primary" icon="el-icon-document"
+              >生成汇总表</el-button
+            >
+          </template>
+        </avue-crud></el-tab-pane
+      >
+    </el-tabs>
+    <el-dialog title="上报工作量" :visible.sync="dialogVisible" width="60%">
+      <el-form ref="formRef" :model="form" label-width="80px">
+        <el-form-item label="表格名称">
+          <el-input v-model="form.bgmc"></el-input>
+        </el-form-item>
+        <el-form-item label="绩效类型">
+          <avue-select
+            style="width: 100%"
+            v-model="form.jxlx"
+            placeholder="请选择内容"
+            type="tree"
+            :dic="[
+              { label: '绩效内', value: '1' },
+              { label: '绩效外', value: '2' },
+            ]"
+          ></avue-select>
+        </el-form-item>
+        <el-form-item label="部门名称">
+          <avue-select
+            style="width: 100%"
+            v-model="form.bmmc"
+            placeholder="请选择内容"
+            type="tree"
+            :dic="undefined"
+          ></avue-select>
+        </el-form-item>
+        <el-form-item label="人数">
+          <avue-input-number
+            v-model="form.rs"
+            style="width: 100%"
+          ></avue-input-number>
+        </el-form-item>
+        <el-form-item label="总金额">
+          <avue-input-number
+            v-model="form.zje"
+            style="width: 100%"
+          ></avue-input-number>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            placeholder="请输入备注"
+            v-model="form.bz"
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <avue-crud
+        v-show="form.jxlx === '2'"
+        :data="dataChild"
+        :option="optionChild"
+      >
+        <template slot="menu">
+          <el-button type="text" icon="el-icon-upload2">上传附件</el-button>
+        </template>
+      </avue-crud>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false"
@@ -74,17 +130,13 @@
 </template>
 
 <script>
-import {
-  option,
-  reportOption,
-  reportDic,
-} from "@/const/crud/salary/info/sporadic";
+import { options, optionChild } from "@/const/crud/salary/info/sporadic";
 
 export default {
   data() {
     return {
       data: [{}],
-      option: option,
+      options: options,
       form: {},
       search: {},
       page: {
@@ -96,18 +148,17 @@ export default {
       activeName: "1",
 
       dialogVisible: false,
-      reportDic: reportDic,
-      datetype: undefined,
-      month: undefined,
-      year: undefined,
-      reportOption: reportOption,
-      reportData: undefined,
-      reportPage: {
-        total: 100,
-        current: 1,
-        size: 10,
+      form: {
+        bgmc: undefined,
+        jxlx: undefined,
+        bmmc: undefined,
+        rs: undefined,
+        zje: undefined,
+        bz: undefined,
       },
-      tableName: undefined,
+
+      dataChild: undefined,
+      optionChild: optionChild,
     };
   },
   methods: {

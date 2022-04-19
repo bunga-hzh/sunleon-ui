@@ -185,6 +185,7 @@ export const salary_form = {
   prgw: undefined,
   xrzsj: undefined,
   xjdjfj: undefined,
+  xclb: undefined,
 }
 
 export const bankno_form = {

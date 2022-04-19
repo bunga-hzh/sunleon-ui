@@ -5,8 +5,8 @@ export const option = {
   searchMenuSpan: 4,
   searchSpan: 7,
   column: [{
-      label: '职工编码',
-      prop: 'zgbh',
+      label: '工号',
+      prop: 'gh',
       search: true,
     },
     {
@@ -21,6 +21,21 @@ export const option = {
       type: 'select',
     },
     {
+      label: '人员分类',
+      prop: 'ryfl',
+      search: true,
+      type: 'select',
+      dicUrl: '/admin/dict/type/rygwlx_type',
+      props: {
+        "label": "label",
+        "value": "value"
+      },
+    },
+    {
+      label: '月份',
+      prop: 'yf',
+    },
+    {
       label: '字段名称',
       prop: 'zdmc',
       search: true,
@@ -29,6 +44,7 @@ export const option = {
       label: '扣款名称',
       prop: 'kkmc',
       search: true,
+      searchSpan: 6,
     },
     {
       label: '扣款金额',

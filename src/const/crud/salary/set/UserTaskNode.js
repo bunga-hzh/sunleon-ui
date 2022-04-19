@@ -10,5 +10,5 @@ class UserTaskView extends RectNode {}
 export default {
   type: "UserTask",
   view: UserTaskView,
-  model: UserTaskModel
+  model: UserTaskModel,
 };

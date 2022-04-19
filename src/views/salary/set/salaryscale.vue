@@ -12,7 +12,6 @@
           :option="option"
           :search.sync="search"
           :page.sync="page"
-          v-model="form"
         ></avue-crud>
       </el-tab-pane>
     </el-tabs>
@@ -30,7 +29,6 @@ export default {
       datas: datas,
       option: option,
       search: {},
-      form: {},
       page: {
         total: 100,
         current: 1,

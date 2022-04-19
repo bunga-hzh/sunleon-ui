@@ -4,9 +4,10 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 190,
     searchSpan: 7,
+    showSummary: true,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -34,8 +35,8 @@ export const options = [{
         type: 'year',
       },
       {
-        label: '月份',
-        prop: 'yf',
+        label: '工作月份',
+        prop: 'gzyf',
         search: true,
         type: 'month',
       },
@@ -47,6 +48,7 @@ export const options = [{
       {
         label: '增发能级 ',
         prop: 'zfnj',
+        width: 120,
 
       },
       {
@@ -57,6 +59,7 @@ export const options = [{
       {
         label: '工作奖励 ',
         prop: 'gzjl',
+        width: 120,
       },
       {
         label: '元旦过节费 ',
@@ -128,6 +131,79 @@ export const options = [{
         prop: 'bz',
         type: 'textarea',
       },
+    ],
+    sumColumnList: [{
+        label: '合计',
+        name: 'xm',
+      },
+      {
+        name: 'hjbgzjl',
+        type: 'sum'
+      },
+      {
+        name: 'zfnj',
+        type: 'sum'
+      },
+      {
+        name: 'nkjcdyjdgzjl',
+        type: 'sum'
+      },
+      {
+        name: 'gzjl',
+        type: 'sum'
+      },
+      {
+        name: 'ydgjf',
+        type: 'sum'
+      },
+      {
+        name: 'jxnjlhj',
+        type: 'sum'
+      },
+      {
+        name: 'xnsrsq',
+        type: 'sum'
+      },
+      {
+        name: 'ghf',
+        type: 'sum'
+      },
+      {
+        name: 'sb',
+        type: 'sum'
+      },
+      {
+        name: 'gjj',
+        type: 'sum'
+      },
+      {
+        name: 'dkdjhj',
+        type: 'sum'
+      },
+      {
+        name: 'xnsrsh',
+        type: 'sum'
+      },
+      {
+        name: 'pxzxsqhj',
+        type: 'sum'
+      },
+      {
+        name: 'shhkssrhj',
+        type: 'sum'
+      },
+      {
+        name: 'cjsybt',
+        type: 'sum'
+      },
+      {
+        name: 'sqzsrhwj',
+        type: 'sum'
+      },
+      {
+        name: 'jsrbhwjhs',
+        type: 'sum'
+      },
     ]
   },
   {
@@ -136,7 +212,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     column: [{
         label: '姓名',
@@ -185,35 +261,35 @@ export const options = [{
         prop: 'four',
       },
       {
-        label: '5号',
+        label: '5月',
         prop: 'five',
       },
       {
-        label: '6号',
+        label: '6月',
         prop: 'six',
       },
       {
-        label: '7号',
+        label: '7月',
         prop: 'seven',
       },
       {
-        label: '8号',
+        label: '8月',
         prop: 'eight',
       },
       {
-        label: '9号',
+        label: '9月',
         prop: 'nine',
       },
       {
-        label: '10号',
+        label: '10月',
         prop: 'ten',
       },
       {
-        label: '11号',
+        label: '11月',
         prop: 'eleven',
       },
       {
-        label: '12号',
+        label: '12月',
         prop: 'twelve',
       },
       {
@@ -229,7 +305,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     column: [{
         label: '姓名',
@@ -279,35 +355,35 @@ export const options = [{
         prop: 'four',
       },
       {
-        label: '5号',
+        label: '5月',
         prop: 'five',
       },
       {
-        label: '6号',
+        label: '6月',
         prop: 'six',
       },
       {
-        label: '7号',
+        label: '7月',
         prop: 'seven',
       },
       {
-        label: '8号',
+        label: '8月',
         prop: 'eight',
       },
       {
-        label: '9号',
+        label: '9月',
         prop: 'nine',
       },
       {
-        label: '10号',
+        label: '10月',
         prop: 'ten',
       },
       {
-        label: '11号',
+        label: '11月',
         prop: 'eleven',
       },
       {
-        label: '12号',
+        label: '12月',
         prop: 'twelve',
       },
       {
@@ -323,7 +399,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     column: [{
         label: '姓名',
@@ -372,31 +448,31 @@ export const options = [{
         prop: 'four',
       },
       {
-        label: '5号',
+        label: '5月',
         prop: 'five',
       },
       {
-        label: '6号',
+        label: '6月',
         prop: 'six',
       },
       {
-        label: '7号',
+        label: '7月',
         prop: 'seven',
       },
       {
-        label: '8号',
+        label: '8月',
         prop: 'eight',
       },
       {
-        label: '9号',
+        label: '9月',
         prop: 'nine',
       },
       {
-        label: '10号',
+        label: '10月',
         prop: 'ten',
       },
       {
-        label: '11号',
+        label: '11月',
         prop: 'eleven',
       },
       {
@@ -416,7 +492,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     column: [{
         label: '姓名',
@@ -465,35 +541,35 @@ export const options = [{
         prop: 'four',
       },
       {
-        label: '5号',
+        label: '5月',
         prop: 'five',
       },
       {
-        label: '6号',
+        label: '6月',
         prop: 'six',
       },
       {
-        label: '7号',
+        label: '7月',
         prop: 'seven',
       },
       {
-        label: '8号',
+        label: '8月',
         prop: 'eight',
       },
       {
-        label: '9号',
+        label: '9月',
         prop: 'nine',
       },
       {
-        label: '10号',
+        label: '10月',
         prop: 'ten',
       },
       {
-        label: '11号',
+        label: '11月',
         prop: 'eleven',
       },
       {
-        label: '12号',
+        label: '12月',
         prop: 'twelve',
       }
     ]
@@ -504,7 +580,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     column: [{
         label: '姓名',
@@ -554,31 +630,31 @@ export const options = [{
         prop: 'four',
       },
       {
-        label: '5号',
+        label: '5月',
         prop: 'five',
       },
       {
-        label: '6号',
+        label: '6月',
         prop: 'six',
       },
       {
-        label: '7号',
+        label: '7月',
         prop: 'seven',
       },
       {
-        label: '8号',
+        label: '8月',
         prop: 'eight',
       },
       {
-        label: '9号',
+        label: '9月',
         prop: 'nine',
       },
       {
-        label: '10号',
+        label: '10月',
         prop: 'ten',
       },
       {
-        label: '11号',
+        label: '11月',
         prop: 'eleven',
       },
       {
@@ -593,7 +669,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     column: [{
         label: '姓名',
@@ -643,35 +719,35 @@ export const options = [{
         prop: 'four',
       },
       {
-        label: '5号',
+        label: '5月',
         prop: 'five',
       },
       {
-        label: '6号',
+        label: '6月',
         prop: 'six',
       },
       {
-        label: '7号',
+        label: '7月',
         prop: 'seven',
       },
       {
-        label: '8号',
+        label: '8月',
         prop: 'eight',
       },
       {
-        label: '9号',
+        label: '9月',
         prop: 'nine',
       },
       {
-        label: '10号',
+        label: '10月',
         prop: 'ten',
       },
       {
-        label: '11号',
+        label: '11月',
         prop: 'eleven',
       },
       {
-        label: '12号',
+        label: '12月',
         prop: 'twelve',
       }
     ]
@@ -682,7 +758,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     column: [{
         label: '姓名',
@@ -731,35 +807,35 @@ export const options = [{
         prop: 'four',
       },
       {
-        label: '5号',
+        label: '5月',
         prop: 'five',
       },
       {
-        label: '6号',
+        label: '6月',
         prop: 'six',
       },
       {
-        label: '7号',
+        label: '7月',
         prop: 'seven',
       },
       {
-        label: '8号',
+        label: '8月',
         prop: 'eight',
       },
       {
-        label: '9号',
+        label: '9月',
         prop: 'nine',
       },
       {
-        label: '10号',
+        label: '10月',
         prop: 'ten',
       },
       {
-        label: '11号',
+        label: '11月',
         prop: 'eleven',
       },
       {
-        label: '12号',
+        label: '12月',
         prop: 'twelve',
       }
     ]
@@ -770,7 +846,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     searchSpan: 7,
     column: [{
@@ -826,7 +902,7 @@ export const options = [{
     index: true,
     indexLabel: '序号',
     searchMenuSpan: 4,
-    menuWidth: 240,
+    menu: false,
     labelWidth: 150,
     searchSpan: 7,
     column: [{

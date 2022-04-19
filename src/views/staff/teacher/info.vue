@@ -2709,9 +2709,19 @@
                     :model="salary_form"
                     label-width="90px"
                   >
-                    <el-col :span="24">
+                    <el-col :span="12">
                       <el-form-item label="岗位绩点" prop="gwjd">
                         <el-input v-model="salary_form.gwjd"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="薪酬类别" prop="xclb">
+                        <avue-select
+                          v-model="salary_form.xclb"
+                          placeholder="请选择内容"
+                          type="tree"
+                          :dic="undefined"
+                        ></avue-select>
                       </el-form-item>
                     </el-col>
                     <el-col :span="12">

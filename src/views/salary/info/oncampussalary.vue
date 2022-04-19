@@ -12,53 +12,46 @@
         <el-button type="primary" icon="el-icon-download">导出</el-button>
         <el-button type="primary">下载模板</el-button>
         <el-button type="primary" icon="el-icon-check" @click="report"
-          >提交报表</el-button
+          >上报工作量</el-button
         >
+        <el-button type="primary" icon="el-icon-document">生成汇总表</el-button>
       </template>
     </avue-crud>
-    <el-dialog title="报表" :visible.sync="dialogVisible" width="60%">
-      <el-row>
-        <el-form label-width="120px">
-          <el-form-item label="表格名称">
-            <el-col :span="8">
-              <el-input v-model="tableName"></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="按（年/月）统计">
-            <avue-select
-              v-model="datetype"
-              placeholder="请选择内容"
-              type="tree"
-              :dic="reportDic"
-            ></avue-select>
-          </el-form-item>
-          <el-form-item label="统计（年/月）" v-show="datetype">
-            <avue-date
-              v-show="datetype === '1'"
-              v-model="month"
-              type="month"
-              format="yyyy 年 MM 月"
-              value-format="yyyy-MM"
-              placeholder="请选择日期"
-            ></avue-date>
-            <avue-date
-              v-show="datetype === '2'"
-              v-model="year"
-              type="year"
-              format="yyyy 年"
-              value-format="yyyy"
-              placeholder="请选择日期"
-            ></avue-date>
-          </el-form-item>
-        </el-form>
-      </el-row>
-      <el-row>
-        <avue-crud
-          :option="reportOption"
-          :data="reportData"
-          :page.sync="reportPage"
-        ></avue-crud>
-      </el-row>
+    <el-dialog
+      title="上报工作量"
+      :visible.sync="dialogVisible"
+      width="30%"
+      class="avue-dialog"
+    >
+      <el-form ref="formRef" :model="form" label-width="80px">
+        <el-form-item label="表格名称">
+          <el-input v-model="form.bgmc"></el-input>
+        </el-form-item>
+        <el-form-item label="部门名称">
+          <avue-select
+            style="width: 100%"
+            v-model="form.bmmc"
+            placeholder="请选择内容"
+            type="tree"
+            :dic="undefined"
+          ></avue-select>
+        </el-form-item>
+        <el-form-item label="人数">
+          <avue-input-number
+            v-model="form.rs"
+            style="width: 100%"
+          ></avue-input-number>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            placeholder="请输入备注"
+            v-model="form.bz"
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false"
@@ -70,11 +63,7 @@
 </template>
 
 <script>
-import {
-  option,
-  reportDic,
-  reportOption,
-} from "@/const/crud/salary/info/oncampussalary";
+import { option } from "@/const/crud/salary/info/oncampussalary";
 
 export default {
   data() {
@@ -89,18 +78,12 @@ export default {
       },
 
       dialogVisible: false,
-      reportDic: reportDic,
-      datetype: undefined,
-      month: undefined,
-      year: undefined,
-      reportOption: reportOption,
-      reportData: undefined,
-      reportPage: {
-        total: 100,
-        current: 1,
-        size: 10,
+      form: {
+        bgmc: undefined,
+        bmmc: undefined,
+        rs: undefined,
+        bz: undefined,
       },
-      tableName: undefined,
     };
   },
   methods: {
