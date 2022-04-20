@@ -73,7 +73,11 @@
 </template>
 
 <script>
-import { option, optionChild } from "@/const/crud/salary/set/salarysort";
+import {
+  option,
+  optionChild,
+  dataChilds,
+} from "@/const/crud/salary/set/salarysort";
 
 export default {
   data() {
@@ -130,6 +134,8 @@ export default {
       optionChild: optionChild,
 
       titleName: undefined,
+
+      dataChilds: dataChilds,
     };
   },
   methods: {
@@ -142,6 +148,7 @@ export default {
       this.dialogTitle = "查看详情";
       this.form = row;
       this.titleName = row.lxmc;
+      this.dataChild = this.dataChilds[row.$index];
     },
     edit(row) {
       console.log(row);

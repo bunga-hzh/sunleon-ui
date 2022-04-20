@@ -8,6 +8,7 @@ export const options = [{
     labelWidth: 190,
     searchSpan: 7,
     showSummary: true,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -214,6 +215,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -307,6 +309,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -401,6 +404,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -494,6 +498,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -582,6 +587,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -671,6 +677,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -760,6 +767,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    addBtn: false,
     column: [{
         label: '姓名',
         prop: 'xm',
@@ -904,7 +912,7 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
-    searchSpan: 7,
+    searchSpan: 6,
     column: [{
         label: '备注',
         prop: 'bz',

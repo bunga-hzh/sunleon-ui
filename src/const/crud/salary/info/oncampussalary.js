@@ -4,51 +4,75 @@ export const option = {
   index: true,
   indexLabel: '序号',
   searchMenuSpan: 4,
-  menuWidth: 160,
-  searchSpan: 7,
+  menuWidth: 240,
+  searchSpan: 6,
+  addBtn: false,
+  editBtn: false,
+  delBtn: false,
+  column: [{
+      label: '月份',
+      prop: 'yf',
+      search: true,
+      type: 'month',
+    },
+    {
+      label: '表格名称',
+      prop: 'bgmc',
+      width: '200',
+      search: true,
+    },
+    {
+      label: '总金额',
+      prop: 'zje',
+    },
+    {
+      label: '生成时间',
+      prop: 'scsj',
+      type: 'date'
+    },
+    {
+      label: '备注',
+      prop: 'bz',
+    }
+  ]
+}
+
+export const optionChild = {
+  align: 'center',
+  border: true,
+  index: true,
+  indexLabel: '序号',
+  menu: false,
+  menuWidth: 140,
+  addBtn: false,
+  columnBtn: false,
   column: [{
       label: '部门名称',
       prop: 'bmmc',
-      search: true,
-      type: 'select',
     },
     {
       label: '工号',
       prop: 'gh',
-      search: true,
     },
     {
       label: '姓名',
       prop: 'xm',
-      search: true,
     },
     {
       label: '身份证号',
-      prop: 'sfjjh',
-      search: true,
+      prop: 'sfzjh',
     },
     {
       label: '人员分类',
       prop: 'ryfl',
-      search: true,
-      type: 'select',
-      dicUrl: '/admin/dict/type/rygwlx_type',
-      props: {
-        "label": "label",
-        "value": "value"
-      },
     },
     {
       label: '业务年度',
       prop: 'ywnd',
-      search: 'true',
-      type: 'year'
     },
     {
       label: '月份',
       prop: 'yf',
-      search: 'true',
-      type: 'month',
     },
     {
       label: '校内岗位津贴',

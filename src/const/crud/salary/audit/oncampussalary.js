@@ -5,23 +5,30 @@ export const option = {
   indexLabel: '序号',
   searchMenuSpan: 4,
   menuWidth: 240,
-  searchSpan: 7,
+  searchSpan: 6,
   addBtn: false,
   editBtn: false,
   delBtn: false,
   column: [{
       label: '表格名称',
-      prop: 'bgmc'
+      prop: 'bgmc',
+      width: '200',
     },
     {
       label: '部门名称',
-      prop: 'sbbm',
+      prop: 'bmmc',
       search: true,
       type: 'select',
     },
     {
-      label: '人数',
-      prop: 'rs'
+      label: '月份',
+      prop: 'yf',
+      search: true,
+      type: 'month',
+    },
+    {
+      label: '总金额',
+      prop: 'zje',
     },
     {
       label: '申请时间',
@@ -33,6 +40,7 @@ export const option = {
       prop: 'shzt',
       search: true,
       type: 'select',
+      slot: true,
     },
     {
       label: '备注',
@@ -47,6 +55,7 @@ export const optionChild = {
   index: true,
   indexLabel: '序号',
   menu: false,
+  menuWidth: 140,
   addBtn: false,
   columnBtn: false,
   column: [{
@@ -185,4 +194,12 @@ export const optionChild = {
       prop: 'ksf',
     }
   ]
+}
+
+export const rules = {
+  bgmc: [{
+    required: true,
+    message: '请输入表格名称',
+    trigger: 'blur'
+  }]
 }

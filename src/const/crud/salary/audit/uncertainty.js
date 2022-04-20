@@ -15,13 +15,13 @@ export const option = {
     },
     {
       label: '部门名称',
-      prop: 'sbbm',
+      prop: 'bmmc',
       search: true,
       type: 'select',
     },
     {
-      label: '人数',
-      prop: 'rs'
+      label: '月份',
+      prop: 'yf'
     },
     {
       label: '申请时间',
@@ -33,6 +33,7 @@ export const option = {
       prop: 'shzt',
       search: true,
       type: 'select',
+      slot: true,
     },
     {
       label: '备注',
@@ -98,4 +99,16 @@ export const optionChild = {
       prop: 'bz',
     },
   ]
+}
+
+export const rules = {
+  bgmc: [{
+    required: true,
+    message: '请输入表格名称',
+    trigger: 'blur'
+  }],
+  jxlx: [{
+    required: true,
+    message: '请选择绩效类型',
+  }]
 }

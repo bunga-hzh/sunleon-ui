@@ -10,24 +10,25 @@ export const option = {
   editBtn: false,
   delBtn: false,
   column: [{
+      label: '部门名称',
+      prop: 'bmmc',
+      search: true,
+      type: 'select',
+    },
+    {
+      label: '月份',
+      prop: 'yf'
+    },
+    {
       label: '表格名称',
-      prop: 'bgmc'
+      prop: 'bgmc',
+      width: '200',
     },
     {
       label: '绩效类型',
       prop: 'jxlx',
       search: true,
       type: 'select',
-    },
-    {
-      label: '部门名称',
-      prop: 'sbbm',
-      search: true,
-      type: 'select',
-    },
-    {
-      label: '人数',
-      prop: 'rs'
     },
     {
       label: '总金额',
@@ -44,6 +45,7 @@ export const option = {
       prop: 'shzt',
       search: true,
       type: 'select',
+      slot: true,
     },
     {
       label: '备注',
@@ -58,8 +60,11 @@ export const optionChild = {
   index: true,
   indexLabel: '序号',
   menu: false,
+  menuWidth: 120,
   addBtn: false,
   columnBtn: false,
+  editBtn: false,
+  delBtn: false,
   column: [{
       label: '部门名称',
       prop: 'bmmc',
@@ -131,5 +136,27 @@ export const optionChild = {
       label: '合计',
       prop: 'hj',
     },
+    {
+      label: '校务会通过时间',
+      prop: 'xwhtgsj',
+      hide: true,
+    },
+    {
+      label: '附件',
+      prop: 'fj',
+      hide: true,
+    },
   ]
+}
+
+export const rules = {
+  bgmc: [{
+    required: true,
+    message: '请输入表格名称',
+    trigger: 'blur'
+  }],
+  jxlx: [{
+    required: true,
+    message: '请选择绩效类型',
+  }]
 }
