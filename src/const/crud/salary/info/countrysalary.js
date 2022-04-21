@@ -194,3 +194,49 @@ export const option = {
     },
   ]
 }
+
+export const optionChild = {
+  align: 'center',
+  border: true,
+  index: true,
+  indexLabel: '序号',
+  searchMenuSpan: 8,
+  searchSpan: 8,
+  labelWidth: 240,
+  menu: false,
+  addBtn: false,
+  columnBtn: false,
+  column: [{
+      label: '部门名称',
+      prop: 'bmmc',
+      search: true,
+      type: 'select',
+    },
+    {
+      label: '工号',
+      prop: 'gh',
+      search: true,
+    },
+    {
+      label: '姓名',
+      prop: 'xm',
+      search: true,
+    },
+    {
+      label: '身份证号',
+      prop: 'sfjjh',
+      search: true,
+    },
+    {
+      label: '人员分类',
+      prop: 'ryfl',
+      search: true,
+      type: 'select',
+      dicUrl: '/admin/dict/type/rygwlx_type',
+      props: {
+        "label": "label",
+        "value": "value"
+      },
+    },
+  ]
+}

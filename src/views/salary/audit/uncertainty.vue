@@ -11,6 +11,7 @@
         <el-tag type="success" v-if="scope.row.shzt === 2">审核通过</el-tag>
         <el-tag type="danger" v-if="scope.row.shzt === 3">审核不通过</el-tag>
         <el-tag type="warning" v-if="scope.row.shzt === 4">审核中</el-tag>
+        <el-tag type="info" v-if="scope.row.shzt === 5">待提交</el-tag>
       </template>
       <template slot="menuLeft">
         <el-button
@@ -60,6 +61,12 @@
           v-show="role === '1' && scope.row.shzt === 3"
           >重新上报</el-button
         >
+        <el-button
+          type="text"
+          icon="el-icon-document"
+          v-show="role === '1' && scope.row.shzt === 5"
+          >提交</el-button
+        >
       </template>
     </avue-crud>
     <el-radio-group v-model="role">
@@ -76,7 +83,7 @@
       @open="isClose = false"
     >
       <el-tabs v-model="activeName" type="card">
-        <el-tab-pane label="审核信息" name="1" disabled>
+        <el-tab-pane label="导入数据" name="1" disabled>
           <el-form
             :model="form"
             :rules="rules"
@@ -96,24 +103,28 @@
               >
               </el-input>
             </el-form-item>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="导入数据" name="2" disabled>
-          <avue-crud :data="dataChild" :option="optionChild">
-            <template slot="menuLeft">
-              <el-button type="primary" icon="el-icon-upload2">导入</el-button>
+            <el-form-item>
+              <el-button
+                ref="uploadBtn"
+                type="primary"
+                :icon="isUploading ? 'el-icon-loading' : 'el-icon-upload2'"
+                @click="uploadSuccess"
+                >导入</el-button
+              >
               <el-button type="primary" icon="el-icon-download"
                 >下载模板</el-button
               >
-              <el-button type="primary" icon="el-icon-view">预览</el-button>
-            </template>
-          </avue-crud></el-tab-pane
-        >
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="预览" name="2" disabled>
+          <avue-crud :data="dataChild" :option="optionChild"> </avue-crud
+        ></el-tab-pane>
       </el-tabs>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible_report = false">取 消</el-button>
         <el-button @click="activeName = '1'" v-show="isShow">上一步</el-button>
-        <el-button type="primary" @click="nextSubmit">{{ next }}</el-button>
+        <el-button type="primary" @click="submit">{{ btnName }}</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -167,7 +178,6 @@ export default {
     return {
       role: "1",
       activeName: "1",
-      next: "下一步",
       isShow: false,
       isClose: false,
       data: [
@@ -207,6 +217,15 @@ export default {
           shzt: 4,
           bz: "无",
         },
+        {
+          bgmc: "部门一校内奖金7月份统计",
+          bmmc: "部门一",
+          yf: "7月",
+          zje: 1000000,
+          sqsj: "7月11日",
+          shzt: 5,
+          bz: "无",
+        },
       ],
       option: option,
       search: {},
@@ -231,12 +250,16 @@ export default {
 
       dataChild: [{}],
       optionChild: optionChild,
+
+      isUpload: false,
+      isUploading: false,
+      btnName: "预览",
     };
   },
   methods: {
     viewRow(row) {
       this.dialogVisible = true;
-      if (row.shzt === 3) this.optionChild.menu = true;
+      if (row.shzt === 3 || row.shzt === 5) this.optionChild.menu = true;
     },
     passRow(row) {
       console.log(row);
@@ -250,34 +273,45 @@ export default {
     changeMenu() {
       this.optionChild.menu = false;
     },
-    nextSubmit() {
+    // 预览 or 提交
+    submit() {
       if (this.activeName === "2") {
-        console.log("提交");
+        console.log("提交成功");
       }
-      if (this.activeName === "1") {
-        this.$refs.formRef.validate((valid) => {
-          if (valid) {
+      if (!this.isUpload) return this.$message.error("请先导入数据！");
+      this.activeName = "2";
+    },
+    // 上传成功
+    uploadSuccess() {
+      this.$refs.formRef.validate((valid) => {
+        if (valid) {
+          this.isUploading = true;
+          setTimeout(() => {
+            this.$message.success("导入成功!");
+            this.isUploading = false;
+            this.isUpload = true;
             this.activeName = "2";
-          } else {
-            this.$message.error("请填写表格名称！");
-          }
-        });
-      }
+          }, 2000);
+        } else {
+          this.$message.error("请填写表格名称！");
+        }
+      });
     },
   },
   watch: {
     activeName(newValue, oldValue) {
       if (newValue === "2") {
-        this.next = "提交审核";
+        this.btnName = "提交";
         this.isShow = true;
       } else {
-        this.next = "下一步";
+        this.btnName = "预览";
         this.isShow = false;
       }
     },
     isClose(newValue, oldValue) {
       if (newValue) {
         this.activeName = "1";
+        this.isUpload = false;
         this.$refs.formRef.resetFields();
       }
     },

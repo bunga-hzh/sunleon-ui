@@ -17,7 +17,6 @@
             >（{{ passNum }}）</span
           ></el-button
         >
-        <el-button type="primary" icon="el-icon-document">生成汇总表</el-button>
       </template>
     </avue-crud>
     <el-dialog

@@ -48,6 +48,7 @@ export const optionChild = {
   index: true,
   indexLabel: '序号',
   menu: false,
+  menuWidth: 140,
   addBtn: false,
   columnBtn: false,
   column: [{

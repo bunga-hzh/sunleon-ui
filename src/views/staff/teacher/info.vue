@@ -4122,6 +4122,7 @@ import {
 } from "@/const/staff/getSelectOption";
 
 import { get, add, edit, del } from "@/const/staff/crud";
+import { getInfo } from "@/api/staff/teacher/info";
 import { result } from "@/const/staff/message";
 
 export default {
