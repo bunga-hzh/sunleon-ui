@@ -6,21 +6,11 @@ export const option = {
   searchMenuSpan: 4,
   menuWidth: 280,
   addBtn: false,
-  searchSpan: 7,
+  editBtn: false,
+  delBtn: false,
   column: [{
-      label: '流程名称',
-      prop: 'lcmc',
-      search: true,
-    },
-    {
-      label: '创建时间',
-      prop: 'cjsj',
-    },
-    {
-      label: '审核状态',
-      prop: 'shzt',
-      search: true,
-      type: 'select',
+      label: '审核流程',
+      prop: 'shlx',
     },
     {
       label: '描述',
@@ -30,23 +20,23 @@ export const option = {
 }
 
 export const data = [{
-  lcmc: '校内奖金发放',
-  cjsj: '2019-01-01',
-  shzt: '审核中',
-  ms: '描述1'
-}, {
-  lcmc: '绩效内零星收入',
-  cjsj: '2019-01-01',
-  shzt: '审核中',
-  ms: '描述1'
-}, {
-  lcmc: '绩效外零星收入',
-  cjsj: '2019-01-01',
-  shzt: '审核中',
-  ms: '描述1'
-}, {
-  lcmc: '其它不定时发放',
-  cjsj: '2019-01-01',
-  shzt: '审核中',
-  ms: '描述1'
-}]
+    value: 'xnjjff',
+    shlx: '校内奖金发放',
+    ms: '描述1'
+  },
+  {
+    value: 'jxnlxsr',
+    shlx: '绩效内零星收入',
+    ms: '描述1'
+  },
+  {
+    value: 'jxwlxsr',
+    shlx: '绩效外零星收入',
+    ms: '描述1',
+  },
+  {
+    value: 'qtbdsff',
+    shlx: '其它不定时发放',
+    ms: '描述1',
+  }
+]

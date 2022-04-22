@@ -30,41 +30,50 @@
           type="text"
           icon="el-icon-view"
           @click="viewRow(scope.row)"
-          v-show="!(role === '1' && scope.row.shzt === 3)"
+          v-show="scope.row.shzt !== 3"
         >
           查看详情</el-button
         >
         <el-button
-          v-show="role === '2' || role === '3'"
+          v-show="
+            (role === '2' && scope.row.shzt === 1) ||
+            (role === '3' && scope.row.shzt === 1)
+          "
           type="text"
           icon="el-icon-view"
           @click="passRow(scope.row)"
           >通过</el-button
         >
         <el-button
-          v-show="role === '2' || role === '3'"
+          v-show="
+            (role === '2' && scope.row.shzt === 1) ||
+            (role === '3' && scope.row.shzt === 1)
+          "
           type="text"
           icon="el-icon-view"
           @click="refuseRow(scope.row)"
           >拒绝</el-button
         >
-        <el-button
-          type="text"
-          icon="el-icon-view"
-          v-show="role === '1' && scope.row.shzt === 3"
+        <el-button type="text" icon="el-icon-view" v-show="scope.row.shzt === 3"
           >查看原因</el-button
         >
         <el-button
           type="text"
           icon="el-icon-document"
           @click="viewRow(scope.row)"
-          v-show="role === '1' && scope.row.shzt === 3"
+          v-show="
+            (role === '1' && scope.row.shzt === 3) ||
+            (role === '2' && scope.row.shzt === 3)
+          "
           >重新上报</el-button
         >
         <el-button
           type="text"
           icon="el-icon-document"
-          v-show="role === '1' && scope.row.shzt === 5"
+          v-show="
+            (role === '1' && scope.row.shzt === 5) ||
+            (role === '2' && scope.row.shzt === 5)
+          "
           >提交</el-button
         >
       </template>
