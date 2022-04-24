@@ -13,59 +13,41 @@ export const options = [{
         label: '姓名',
         prop: 'xm',
         search: true,
-        rules: [{
-          required: true,
-          message: '请输入姓名',
-          trigger: 'blur',
-        }]
       },
       {
         label: '工号',
         prop: 'gh',
         search: true,
-        rules: [{
-          required: true,
-          message: '请输入工号',
-          trigger: 'blur',
-        }]
       },
       {
         label: '业务年度',
         prop: 'ywnd',
         search: true,
         type: 'year',
+        valueFormat: 'yyyy',
       },
       {
         label: '工作月份',
         prop: 'gzyf',
         search: true,
         type: 'month',
+        valueFormat: 'yyyy-MM',
       },
       {
-        label: '护进博工作奖励',
-        prop: 'hjbgzjl',
+        label: '1-12月份财政工资',
+        prop: 'czgz',
         width: 120,
       },
       {
-        label: '增发能级 ',
-        prop: 'zfnj',
+        label: '1-12月份校内奖金 ',
+        prop: 'xnjj',
         width: 120,
 
       },
       {
-        label: '内控检查第一阶段工作奖励 ',
-        prop: 'nkjcdyjdgzjl',
+        label: '1-12月份零星收入 ',
+        prop: 'lxsr',
         width: 180,
-      },
-      {
-        label: '工作奖励 ',
-        prop: 'gzjl',
-        width: 120,
-      },
-      {
-        label: '元旦过节费 ',
-        prop: 'ydgjf',
-        width: 120,
       },
       {
         label: '绩效内奖励合计 ',
@@ -138,23 +120,15 @@ export const options = [{
         name: 'xm',
       },
       {
-        name: 'hjbgzjl',
+        name: 'czgz',
         type: 'sum'
       },
       {
-        name: 'zfnj',
+        name: 'xnjj',
         type: 'sum'
       },
       {
-        name: 'nkjcdyjdgzjl',
-        type: 'sum'
-      },
-      {
-        name: 'gzjl',
-        type: 'sum'
-      },
-      {
-        name: 'ydgjf',
+        name: 'lxsr',
         type: 'sum'
       },
       {
@@ -487,6 +461,109 @@ export const options = [{
         label: '统一扣减项',
         prop: 'tykjx',
         width: 120,
+      },
+    ]
+  },
+  {
+    align: 'center',
+    border: true,
+    index: true,
+    indexLabel: '序号',
+    searchMenuSpan: 4,
+    menu: false,
+    searchSpan: 7,
+    labelWidth: 150,
+    addBtn: false,
+    column: [{
+        label: '部门名称',
+        prop: 'bmmc',
+        search: true,
+        type: 'select',
+      },
+      {
+        label: '工号',
+        prop: 'gh',
+        search: true,
+      },
+      {
+        label: '姓名',
+        prop: 'xm',
+        search: true,
+      },
+      {
+        label: '人员分类',
+        prop: 'ryfl',
+        search: true,
+        type: 'select',
+      },
+      {
+        label: '月份',
+        prop: 'yf',
+        search: true,
+        type: 'month',
+        valueFormat: 'yyyy-MM',
+      },
+      {
+        label: '资金来源',
+        prop: 'zjly',
+        search: true,
+        type: 'select',
+      },
+      {
+        label: '加班费、值班费等',
+        prop: 'jbfzbfd',
+        width: 120,
+      },
+      {
+        label: '劳务费',
+        prop: 'lwf',
+      },
+      {
+        label: '各种津贴费',
+        prop: 'gzjtf',
+        width: 120,
+      },
+      {
+        label: '各种奖励费',
+        prop: 'gzjlf',
+        width: 120,
+      },
+      {
+        label: '课题费',
+        prop: 'ktf',
+      },
+      {
+        label: '高温费',
+        prop: 'gwf',
+      },
+      {
+        label: '饭贴',
+        prop: 'ft',
+      },
+      {
+        label: '一次性奖励',
+        prop: 'ycxjl',
+        width: 120,
+      },
+      {
+        label: '增发能级',
+        prop: 'zfnj',
+      },
+      {
+        label: '其他',
+        prop: 'qt',
+      },
+      {
+        label: '合计',
+        prop: 'hj',
+      },
+      {
+        label: '校务会通过时间',
+        prop: 'xwhtgsj',
+      },
+      {
+        label: '附件',
+        prop: 'fj',
       },
     ]
   },

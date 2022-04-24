@@ -13,7 +13,7 @@
       </template>
     </avue-crud>
     <el-dialog
-      title="校内工资发放明细"
+      title="零星发放明细"
       :visible.sync="dialogVisible"
       width="60%"
       class="avue-dialog"

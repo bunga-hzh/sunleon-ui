@@ -1,6 +1,6 @@
 export const tabs = [{
     id: '1',
-    label: '国家公资'
+    label: '国家工资'
   },
   {
     id: '2',
@@ -9,6 +9,14 @@ export const tabs = [{
   {
     id: '3',
     label: '零星发放'
+  },
+  {
+    id: '4',
+    label: '不定时发放'
+  },
+  {
+    id: '5',
+    label: '汇总统计'
   },
 ]
 
@@ -357,6 +365,160 @@ export const options = [{
       {
         label: '其他',
         prop: 'qt',
+      },
+      {
+        label: '合计',
+        prop: 'hj',
+      },
+    ]
+  },
+  {
+    align: 'center',
+    border: true,
+    menu: false,
+    searchMenuSpan: 4,
+    searchSpan: 7,
+    addBtn: false,
+    columnBtn: false,
+    refreshBtn: false,
+    column: [{
+        label: '部门',
+        prop: 'bm',
+        search: true,
+        type: 'select',
+      },
+      {
+        label: '工号',
+        prop: 'gh',
+        search: true,
+      },
+      {
+        label: '姓名',
+        prop: 'xm',
+        search: true,
+      },
+      {
+        label: '工作月份',
+        prop: 'gzyf',
+        search: true,
+        type: 'month',
+        valueFormat: 'yyyy-MM',
+      },
+      {
+        label: '工作系数',
+        prop: 'gzxs',
+        width: 160,
+      },
+      {
+        label: '应发1',
+        prop: 'yf1',
+      },
+      {
+        label: '应发2',
+        prop: 'yf2',
+      },
+      {
+        label: '应发3',
+        prop: 'yf3',
+      },
+      {
+        label: '应发4',
+        prop: 'yf4',
+      },
+      {
+        label: '应发5',
+        prop: 'yf5',
+      },
+      {
+        label: '应发6',
+        prop: 'yf6',
+      },
+      {
+        label: '应发7',
+        prop: 'yf7',
+      },
+      {
+        label: '应发8',
+        prop: 'yf8',
+      },
+      {
+        label: '应发9',
+        prop: 'yf9',
+      },
+      {
+        label: '应发10',
+        prop: 'yf10',
+      },
+      {
+        label: '扣减金额',
+        prop: 'kjje',
+      },
+      {
+        label: '个税扣款',
+        prop: 'gskk',
+      },
+      {
+        label: '合计实发',
+        prop: 'hjsf',
+      },
+      {
+        label: '备注',
+        prop: 'bz',
+      },
+    ]
+  },
+  {
+    align: 'center',
+    border: true,
+    menu: false,
+    searchMenuSpan: 4,
+    searchSpan: 7,
+    addBtn: false,
+    columnBtn: false,
+    refreshBtn: false,
+    column: [{
+        label: '部门',
+        prop: 'bm',
+        search: true,
+        type: 'select',
+      },
+      {
+        label: '工号',
+        prop: 'gh',
+        search: true,
+      },
+      {
+        label: '姓名',
+        prop: 'xm',
+        search: true,
+      },
+      {
+        label: '工作月份',
+        prop: 'gzyf',
+        search: true,
+        type: 'month',
+        valueFormat: 'yyyy-MM',
+      },
+      {
+        label: '工作系数',
+        prop: 'gzxs',
+        width: 160,
+      },
+      {
+        label: '国家工资',
+        prop: 'gjgz',
+      },
+      {
+        label: '校内奖金',
+        prop: 'xnjj',
+      },
+      {
+        label: '零星收入',
+        prop: 'jxsr',
+      },
+      {
+        label: '不定时发放',
+        prop: 'bdsff',
       },
       {
         label: '合计',

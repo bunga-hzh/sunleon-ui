@@ -60,7 +60,7 @@ export const optionChild = {
   index: true,
   indexLabel: '序号',
   menu: false,
-  menuWidth: 140,
+  menuWidth: 120,
   addBtn: false,
   columnBtn: false,
   editBtn: false,
@@ -78,6 +78,10 @@ export const optionChild = {
       prop: 'xm',
     },
     {
+      label: '银行卡号',
+      prop: 'yhkh',
+    },
+    {
       label: '人员分类',
       prop: 'ryfl',
     },
@@ -86,65 +90,8 @@ export const optionChild = {
       prop: 'yf',
     },
     {
-      label: '加班费',
-      prop: 'jbf',
-    },
-    {
-      label: '值班费',
-      prop: 'zbf',
-    },
-    {
-      label: '劳务费',
-      prop: 'lwf',
-    },
-    {
-      label: '各种津贴费',
-      prop: 'gzjtf',
-      width: 120,
-    },
-    {
-      label: '各种奖励费',
-      prop: 'gzjlf',
-      width: 120,
-    },
-    {
-      label: '课题费',
-      prop: 'ktf',
-    },
-    {
-      label: '高温费',
-      prop: 'gwf',
-    },
-    {
-      label: '饭贴',
-      prop: 'ft',
-    },
-    {
-      label: '一次性奖励',
-      prop: 'ycxjl',
-      width: 120,
-    },
-    {
-      label: '增发能级',
-      prop: 'zfnj',
-    },
-    {
-      label: '其他',
-      prop: 'qt',
-    },
-    {
-      label: '合计',
-      prop: 'hj',
-    },
-    {
-      label: '校务会通过时间',
-      prop: 'xwhtgsj',
-      hide: true,
-    },
-    {
-      label: '附件',
-      prop: 'fj',
-      hide: true,
+      label: '项目名称',
+      prop: 'xmmc',
     },
   ]
 }

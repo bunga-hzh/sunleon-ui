@@ -17,16 +17,22 @@
             <el-button
               type="primary"
               icon="el-icon-upload2"
-              v-show="index === 8 || index === 9"
+              v-show="index === 0"
+              >导入其他字段</el-button
+            >
+            <el-button
+              type="primary"
+              icon="el-icon-upload2"
+              v-show="index === 9 || index === 10"
               >导入</el-button
             >
             <el-button
               type="primary"
               icon="el-icon-download"
-              v-show="index === 8 || index === 9"
+              v-show="index === 9 || index === 10"
               >导出</el-button
             >
-            <el-button type="primary" v-show="index === 8 || index === 9"
+            <el-button type="primary" v-show="index === 9 || index === 10"
               >下载模板</el-button
             >
           </template>

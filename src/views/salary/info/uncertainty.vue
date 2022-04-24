@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { option, optionChild } from "@/const/crud/salary/info/oncampussalary";
+import { option, optionChild } from "@/const/crud/salary/info/uncertainty";
 
 export default {
   data() {

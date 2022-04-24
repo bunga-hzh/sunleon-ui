@@ -25,7 +25,20 @@
       width="60%"
       class="avue-dialog"
     >
-      <avue-crud :option="optionChild" :data="dataChild"></avue-crud>
+      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tab-pane label="不合格" name="1"
+          ><avue-crud :option="optionChild" :data="dataChild"></avue-crud
+        ></el-tab-pane>
+        <el-tab-pane label="基本合格" name="2"
+          ><avue-crud :option="optionChild" :data="dataChild"></avue-crud
+        ></el-tab-pane>
+        <el-tab-pane label="合格" name="3"
+          ><avue-crud :option="optionChild" :data="dataChild"></avue-crud
+        ></el-tab-pane>
+        <el-tab-pane label=" 优秀" name="4"
+          ><avue-crud :option="optionChild" :data="dataChild"></avue-crud
+        ></el-tab-pane>
+      </el-tabs>
       <span slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false"
@@ -56,12 +69,15 @@ export default {
 
       dataChild: undefined,
       optionChild: optionChild,
+
+      activeName: "1",
     };
   },
   methods: {
     viewResults() {
       this.dialogVisible = true;
     },
+    handleClick() {},
   },
 };
 </script>

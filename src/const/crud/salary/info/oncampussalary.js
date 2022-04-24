@@ -26,8 +26,8 @@ export const option = {
       prop: 'zje',
     },
     {
-      label: '生成时间',
-      prop: 'scsj',
+      label: '审核通过时间',
+      prop: 'shtgsj',
       type: 'date'
     },
     {
@@ -61,6 +61,10 @@ export const optionChild = {
     {
       label: '身份证号',
       prop: 'sfzjh',
+    },
+    {
+      label: '银行卡号',
+      prop: 'yhkh',
     },
     {
       label: '人员分类',

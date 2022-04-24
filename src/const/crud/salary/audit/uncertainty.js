@@ -52,16 +52,8 @@ export const optionChild = {
   addBtn: false,
   columnBtn: false,
   column: [{
-      label: '业务年度',
-      prop: 'ywnd',
-    },
-    {
-      label: '月份',
-      prop: 'yf',
-    },
-    {
-      label: '部门名称',
-      prop: 'bmmc',
+      label: '部门',
+      prop: 'bm',
     },
     {
       label: '工号',
@@ -72,28 +64,64 @@ export const optionChild = {
       prop: 'xm',
     },
     {
-      label: '身份证号',
-      prop: 'sfzjh',
+      label: '工作月份',
+      prop: 'gzyf',
     },
     {
-      label: '人员分类',
-      prop: 'ryfl',
+      label: '工作系数',
+      prop: 'gzxs',
     },
     {
-      label: '发放事由',
-      prop: 'ffsy',
+      label: '应发1',
+      prop: 'yf1',
     },
     {
-      label: '发放奖励',
-      prop: 'ffjl',
+      label: '应发2',
+      prop: 'yf2',
     },
     {
-      label: '发放金额',
-      prop: 'ffje',
+      label: '应发3',
+      prop: 'yf3',
     },
     {
-      label: '发放原因',
-      prop: 'ffyy',
+      label: '应发4',
+      prop: 'yf4',
+    },
+    {
+      label: '应发5',
+      prop: 'yf5',
+    },
+    {
+      label: '应发6',
+      prop: 'yf6',
+    },
+    {
+      label: '应发7',
+      prop: 'yf7',
+    },
+    {
+      label: '应发8',
+      prop: 'yf8',
+    },
+    {
+      label: '应发9',
+      prop: 'yf9',
+    },
+    {
+      label: '应发10',
+      prop: 'yf10',
+    },
+    {
+      label: '扣减金额',
+      prop: 'kjje',
+    },
+    {
+      label: '个税扣款',
+      prop: 'gskk',
+    },
+    {
+      label: '合计实发',
+      prop: 'hjsf',
     },
     {
       label: '备注',

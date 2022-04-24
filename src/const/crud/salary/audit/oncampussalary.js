@@ -15,20 +15,14 @@ export const option = {
       width: '200',
     },
     {
-      label: '部门名称',
-      prop: 'bmmc',
-      search: true,
-      type: 'select',
+      label: '申请人',
+      prop: 'sqr',
     },
     {
       label: '月份',
       prop: 'yf',
       search: true,
       type: 'month',
-    },
-    {
-      label: '总金额',
-      prop: 'zje',
     },
     {
       label: '申请时间',

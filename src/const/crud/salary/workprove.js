@@ -44,10 +44,15 @@ export const option = {
       prop: 'scsj',
     },
     {
-      label: '在职证明文件',
-      prop: 'zzzmwj',
+      label: '证明文件',
+      prop: 'zmwj',
       span: 24,
       formslot: true,
     },
+    {
+      label: '事由',
+      prop: 'sy',
+      type: 'textarea',
+    }
   ]
 }

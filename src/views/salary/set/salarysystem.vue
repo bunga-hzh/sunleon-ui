@@ -19,13 +19,7 @@
       <template slot="sygw" slot-scope="scope">
         <span v-if="scope.row.sygw === '1'">专业技术人员</span>
         <span v-else-if="scope.row.sygw === '2'">管理人员</span>
-        <span v-else-if="scope.row.sygw === '3'">普教教师</span>
-        <span v-else-if="scope.row.sygw === '4'">工人</span>
-        <el-tag v-else type="danger">错误，请联系管理员</el-tag>
-      </template>
-      <template slot="syzt" slot-scope="scope">
-        <el-tag v-if="scope.row.syzt === '1'" type="success">启用</el-tag>
-        <el-tag v-else-if="scope.row.syzt === '2'" type="warning">停用</el-tag>
+        <span v-else-if="scope.row.sygw === '3'">外聘教师</span>
         <el-tag v-else type="danger">错误，请联系管理员</el-tag>
       </template>
     </avue-crud>
@@ -87,25 +81,16 @@ export default {
         {
           bm: "一",
           sygw: "1",
-          syzt: "1",
           ms: "",
         },
         {
           bm: "二",
           sygw: "2",
-          syzt: "1",
           ms: "",
         },
         {
           bm: "三",
           sygw: "3",
-          syzt: "1",
-          ms: "",
-        },
-        {
-          bm: "四",
-          sygw: "4",
-          syzt: "1",
           ms: "",
         },
       ],

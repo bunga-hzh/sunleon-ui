@@ -1,5 +1,12 @@
 <template>
   <basic-container>
+    <el-alert
+      style="margin-bottom: 20px"
+      title="请于每月15号之前提交数据"
+      type="warning"
+      :disabled="false"
+    >
+    </el-alert>
     <avue-crud
       :data="data"
       :option="option"
@@ -101,19 +108,25 @@
             class="demo-ruleForm"
             label-width="80px"
           >
-            <el-form-item label="表格名称" prop="bgmc">
-              <el-input v-model="form.bgmc"></el-input>
+            <el-form-item label="项目名称" prop="xmmc">
+              <el-input v-model="form.xmmc"></el-input>
             </el-form-item>
-            <el-form-item label="绩效类型" prop="jxlx">
+            <el-form-item label="资金类型" prop="zjlx">
               <avue-select
-                v-model="form.jxlx"
+                v-model="form.zjlx"
                 placeholder="请选择内容"
                 type="tree"
                 :dic="[
-                  { label: '绩效内', value: '1' },
-                  { label: '绩效外', value: '2' },
+                  { label: '校内', value: '1' },
+                  { label: '校外', value: '2' },
                 ]"
               ></avue-select>
+            </el-form-item>
+            <el-form-item label="金额" prop="je">
+              <avue-input-number
+                v-model="form.je"
+                :min-rows="0"
+              ></avue-input-number>
             </el-form-item>
             <el-form-item label="备注" prop="bz">
               <el-input
@@ -271,7 +284,17 @@ export default {
       //拒绝原因
       denialReason: undefined,
 
-      dataChild: [{}],
+      dataChild: [
+        {
+          bmmc: "部门一",
+          gh: "001",
+          xm: "张三",
+          yhkh: "123456789012345678",
+          ryfl: "管理人员",
+          yf: "7月",
+          xmmc: 100,
+        },
+      ],
       optionChild: optionChild,
 
       isUpload: false,
