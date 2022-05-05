@@ -12,15 +12,53 @@
           :option="option"
           :search.sync="search"
           :page.sync="page"
-          v-model="form"
-        ></avue-crud>
+        >
+          <template slot="menu">
+            <el-button
+              type="text"
+              icon="el-icon-setting
+"
+              @click="jobsalarySet"
+              >岗位津贴设置</el-button
+            >
+          </template>
+        </avue-crud>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog
+      title="岗位工资设置"
+      :visible.sync="dialogVisible"
+      width="60%"
+      class="avue-dialog"
+    >
+      <avue-crud
+        :data="dataChild"
+        :option="optionChild"
+        :search.sync="searchChild"
+        :page.sync="pageChild"
+      >
+        <template slot="menu">
+          <el-button
+            type="text"
+            icon="el-icon-setting
+"
+            @click="jobsalarySet"
+            >岗位津贴设置</el-button
+          >
+        </template>
+      </avue-crud>
+      <span slot="footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </basic-container>
 </template>
 
 <script>
-import { option, datas } from "@/const/crud/salary/set/allowance";
+import { option, datas, optionChild } from "@/const/crud/salary/set/allowance";
 import { getRygwlx } from "@/const/staff/getSelectOption";
 
 export default {
@@ -39,6 +77,16 @@ export default {
       tabList: undefined,
       // 当前激活标签
       activeName: undefined,
+      dialogVisible: false,
+
+      dataChild: undefined,
+      optionChild: optionChild,
+      searchChild: {},
+      pageChild: {
+        total: 100,
+        current: 1,
+        size: 10,
+      },
     };
   },
   methods: {
@@ -51,6 +99,9 @@ export default {
     // 标签点击事件
     handleClick(val) {
       this.data = this.datas[val.index];
+    },
+    jobsalarySet() {
+      this.dialogVisible = true;
     },
   },
   mounted() {

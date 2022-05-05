@@ -989,6 +989,62 @@ export const options = [{
     searchMenuSpan: 4,
     menu: false,
     labelWidth: 150,
+    searchSpan: 7,
+    column: [{
+        label: '姓名',
+        prop: 'xm',
+        search: true,
+        rules: [{
+          required: true,
+          message: '请输入姓名',
+          trigger: 'blur',
+        }]
+      },
+      {
+        label: '工号',
+        prop: 'gh',
+        search: true,
+        rules: [{
+          required: true,
+          message: '请输入工号',
+          trigger: 'blur',
+        }]
+      },
+      {
+        label: '业务年度',
+        prop: 'ywnd',
+        search: true,
+        type: 'year',
+      },
+      {
+        label: '月份',
+        prop: 'yf',
+        search: true,
+        type: 'month',
+      },
+      {
+        label: '培训工作奖励',
+        prop: 'ndpxgzjl',
+        width: 140,
+      },
+      {
+        label: '合计',
+        prop: 'hj',
+      },
+      {
+        label: '绩效内统发',
+        prop: 'jxntf',
+      },
+    ]
+  },
+  {
+    align: 'center',
+    border: true,
+    index: true,
+    indexLabel: '序号',
+    searchMenuSpan: 4,
+    menu: false,
+    labelWidth: 150,
     searchSpan: 6,
     column: [{
         label: '备注',

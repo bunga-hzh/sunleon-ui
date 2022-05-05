@@ -10,31 +10,61 @@
         <el-tag v-if="scope.row.shzt === 1">待审核</el-tag>
         <el-tag type="success" v-if="scope.row.shzt === 2">审核通过</el-tag>
         <el-tag type="danger" v-if="scope.row.shzt === 3">审核不通过</el-tag>
+        <el-tag type="warning" v-if="scope.row.shzt === 4">审核中</el-tag>
+        <el-tag type="info" v-if="scope.row.shzt === 5">待提交</el-tag>
+      </template>
+      <template slot="menuLeft">
+        <el-button
+          type="primary"
+          icon="el-icon-document"
+          @click="report"
+          v-show="role === '1' || role === '2'"
+          >上报工作量</el-button
+        >
+        <el-button type="primary" icon="el-icon-document" v-show="role === '2'"
+          >生成汇总表</el-button
+        >
       </template>
       <template slot="menu" slot-scope="scope">
         <el-button type="text" icon="el-icon-view" @click="viewRow(scope.row)">
           查看详情</el-button
         >
         <el-button
+          v-show="role === '2' && scope.row.shzt === 1"
           type="text"
           icon="el-icon-view"
           @click="passRow(scope.row)"
-          v-show="scope.row.shzt === 1"
-        >
-          通过</el-button
+          >通过</el-button
         >
         <el-button
+          v-show="role === '2' && scope.row.shzt === 1"
           type="text"
           icon="el-icon-view"
           @click="refuseRow(scope.row)"
-          v-show="scope.row.shzt === 1"
           >拒绝</el-button
         >
         <el-button type="text" icon="el-icon-view" v-show="scope.row.shzt === 3"
           >查看原因</el-button
         >
+        <el-button
+          type="text"
+          icon="el-icon-document"
+          @click="viewRow(scope.row)"
+          v-show="role === '1' && scope.row.shzt === 3"
+          >重新上报</el-button
+        >
+        <el-button
+          type="text"
+          icon="el-icon-document"
+          v-show="role === '1' && scope.row.shzt === 5"
+          >提交</el-button
+        >
       </template>
     </avue-crud>
+    <el-radio-group v-model="role">
+      <el-radio-button label="1">各部门负责人助理</el-radio-button>
+      <el-radio-button label="2">领导审核</el-radio-button>
+    </el-radio-group>
     <!-- 上报工作量 -->
     <el-dialog
       title="上报工作量"
@@ -129,15 +159,12 @@
 </template>
 
 <script>
-import {
-  option,
-  optionChild,
-  rules,
-} from "@/const/crud/salary/audit/uncertainty";
+import { option, optionChild, rules } from "@/const/crud/salary/audit/debit";
 
 export default {
   data() {
     return {
+      role: "1",
       activeName: "1",
       isShow: false,
       isClose: false,
@@ -167,6 +194,24 @@ export default {
           zje: 1000000,
           sqsj: "5月11日",
           shzt: 3,
+          bz: "无",
+        },
+        {
+          bgmc: "部门一校内奖金6月份统计",
+          bmmc: "部门一",
+          yf: "6月",
+          zje: 1000000,
+          sqsj: "6月11日",
+          shzt: 4,
+          bz: "无",
+        },
+        {
+          bgmc: "部门一校内奖金7月份统计",
+          bmmc: "部门一",
+          yf: "7月",
+          zje: 1000000,
+          sqsj: "7月11日",
+          shzt: 5,
           bz: "无",
         },
       ],

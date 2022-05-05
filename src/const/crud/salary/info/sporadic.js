@@ -62,6 +62,10 @@ export const optionChild = {
       prop: 'xm',
     },
     {
+      label: '银行卡号',
+      prop: 'yhkh',
+    },
+    {
       label: '人员分类',
       prop: 'ryfl',
     },

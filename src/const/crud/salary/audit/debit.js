@@ -10,30 +10,19 @@ export const option = {
   editBtn: false,
   delBtn: false,
   column: [{
-      label: '部门名称',
-      prop: 'bmmc',
-      search: true,
-      type: 'select',
-    },
-    {
-      label: '月份',
-      prop: 'yf'
-    },
-    {
       label: '表格名称',
       prop: 'bgmc',
       width: '200',
     },
     {
-      label: '绩效类型',
-      prop: 'jxlx',
-      search: true,
-      type: 'select',
+      label: '申请人',
+      prop: 'sqr',
     },
     {
-      label: '总金额',
-      prop: 'zje',
-      type: 'Number',
+      label: '月份',
+      prop: 'yf',
+      search: true,
+      type: 'month',
     },
     {
       label: '申请时间',
@@ -54,49 +43,6 @@ export const option = {
   ]
 }
 
-export const optionChild = {
-  align: 'center',
-  border: true,
-  index: true,
-  indexLabel: '序号',
-  menu: false,
-  menuWidth: 120,
-  addBtn: false,
-  columnBtn: false,
-  editBtn: false,
-  delBtn: false,
-  column: [{
-      label: '部门名称',
-      prop: 'bmmc',
-    },
-    {
-      label: '工号',
-      prop: 'gh',
-    },
-    {
-      label: '姓名',
-      prop: 'xm',
-    },
-    {
-      label: '银行卡号',
-      prop: 'yhkh',
-      width: 150,
-    },
-    {
-      label: '人员分类',
-      prop: 'ryfl',
-    },
-    {
-      label: '月份',
-      prop: 'yf',
-    },
-    {
-      label: '项目名称',
-      prop: 'xmmc',
-    },
-  ]
-}
-
 export const options = [{
     align: 'center',
     border: true,
@@ -114,8 +60,8 @@ export const options = [{
         width: '200',
       },
       {
-        label: '部门名称',
-        prop: 'bmmc',
+        label: '申请人',
+        prop: 'sqr',
       },
       {
         label: '月份',
@@ -158,8 +104,8 @@ export const options = [{
         width: '200',
       },
       {
-        label: '部门名称',
-        prop: 'bmmc',
+        label: '申请人',
+        prop: 'sqr',
       },
       {
         label: '月份',
@@ -187,19 +133,66 @@ export const options = [{
   },
 ]
 
+export const optionChild = {
+  align: 'center',
+  border: true,
+  index: true,
+  indexLabel: '序号',
+  menu: false,
+  menuWidth: 140,
+  addBtn: false,
+  columnBtn: false,
+  column: [{
+      label: '工号',
+      prop: 'gh',
+    },
+    {
+      label: '姓名',
+      prop: 'xm',
+    },
+    {
+      label: '部门名称',
+      prop: 'bmmc',
+    },
+    {
+      label: '人员分类',
+      prop: 'ryfl',
+    },
+    {
+      label: '月份',
+      prop: 'yf',
+    },
+    {
+      label: '字段名称',
+      prop: 'zdmc',
+    },
+    {
+      label: '扣款名称',
+      prop: 'kkmc',
+    },
+    {
+      label: '扣款金额',
+      prop: 'kkje',
+    },
+    {
+      label: '扣款原因',
+      prop: 'kkyy',
+    },
+    {
+      label: '扣款时间',
+      prop: 'kksj',
+    },
+    {
+      label: '备注',
+      prop: 'bz',
+    },
+  ]
+}
+
 export const rules = {
-  xmmc: [{
+  bgmc: [{
     required: true,
     message: '请输入表格名称',
-    trigger: 'blur'
-  }],
-  zjlx: [{
-    required: true,
-    message: '请选择绩效类型',
-  }],
-  je: [{
-    required: true,
-    message: '请输入金额',
     trigger: 'blur'
   }]
 }

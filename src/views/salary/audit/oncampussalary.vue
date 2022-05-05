@@ -26,29 +26,18 @@
         >
       </template>
       <template slot="menu" slot-scope="scope">
-        <el-button
-          type="text"
-          icon="el-icon-view"
-          @click="viewRow(scope.row)"
-          v-show="scope.row.shzt !== 3"
-        >
+        <el-button type="text" icon="el-icon-view" @click="viewRow(scope.row)">
           查看详情</el-button
         >
         <el-button
-          v-show="
-            (role === '2' && scope.row.shzt === 1) ||
-            (role === '3' && scope.row.shzt === 1)
-          "
+          v-show="role === '2' && scope.row.shzt === 1"
           type="text"
           icon="el-icon-view"
           @click="passRow(scope.row)"
           >通过</el-button
         >
         <el-button
-          v-show="
-            (role === '2' && scope.row.shzt === 1) ||
-            (role === '3' && scope.row.shzt === 1)
-          "
+          v-show="role === '2' && scope.row.shzt === 1"
           type="text"
           icon="el-icon-view"
           @click="refuseRow(scope.row)"
@@ -61,27 +50,20 @@
           type="text"
           icon="el-icon-document"
           @click="viewRow(scope.row)"
-          v-show="
-            (role === '1' && scope.row.shzt === 3) ||
-            (role === '2' && scope.row.shzt === 3)
-          "
+          v-show="role === '1' && scope.row.shzt === 3"
           >重新上报</el-button
         >
         <el-button
           type="text"
           icon="el-icon-document"
-          v-show="
-            (role === '1' && scope.row.shzt === 5) ||
-            (role === '2' && scope.row.shzt === 5)
-          "
+          v-show="role === '1' && scope.row.shzt === 5"
           >提交</el-button
         >
       </template>
     </avue-crud>
     <el-radio-group v-model="role">
-      <el-radio-button label="1">各部门负责人</el-radio-button>
-      <el-radio-button label="2">薪酬管理员</el-radio-button>
-      <el-radio-button label="3">领导审核</el-radio-button>
+      <el-radio-button label="1">各部门负责人助理</el-radio-button>
+      <el-radio-button label="2">领导审核</el-radio-button>
     </el-radio-group>
     <!-- 上报工作量 -->
     <el-dialog

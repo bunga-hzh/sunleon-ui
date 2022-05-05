@@ -4,7 +4,7 @@ export const option = {
   index: true,
   indexLabel: '序号',
   searchMenuSpan: 4,
-  menuWidth: 240,
+  menuWidth: 260,
   searchSpan: 6,
   addBtn: false,
   editBtn: false,
@@ -42,6 +42,96 @@ export const option = {
     }
   ]
 }
+
+export const options = [{
+    align: 'center',
+    border: true,
+    index: true,
+    indexLabel: '序号',
+    searchMenuSpan: 4,
+    menuWidth: 260,
+    searchSpan: 6,
+    addBtn: false,
+    editBtn: false,
+    delBtn: false,
+    column: [{
+        label: '表格名称',
+        prop: 'bgmc',
+        width: '200',
+      },
+      {
+        label: '申请人',
+        prop: 'sqr',
+      },
+      {
+        label: '月份',
+        prop: 'yf',
+        search: true,
+        type: 'month',
+      },
+      {
+        label: '申请时间',
+        prop: 'sqsj',
+        type: 'date'
+      },
+      {
+        label: '审核状态',
+        prop: 'shzt',
+        search: true,
+        type: 'select',
+        slot: true,
+      },
+      {
+        label: '备注',
+        prop: 'bz',
+      }
+    ]
+  },
+  {
+    align: 'center',
+    border: true,
+    index: true,
+    indexLabel: '序号',
+    searchMenuSpan: 4,
+    menuWidth: 260,
+    searchSpan: 6,
+    addBtn: false,
+    editBtn: false,
+    delBtn: false,
+    column: [{
+        label: '表格名称',
+        prop: 'bgmc',
+        width: '200',
+      },
+      {
+        label: '申请人',
+        prop: 'sqr',
+      },
+      {
+        label: '月份',
+        prop: 'yf',
+        search: true,
+        type: 'month',
+      },
+      {
+        label: '申请时间',
+        prop: 'sqsj',
+        type: 'date'
+      },
+      {
+        label: '审核状态',
+        prop: 'shzt',
+        search: true,
+        type: 'select',
+        slot: true,
+      },
+      {
+        label: '备注',
+        prop: 'bz',
+      }
+    ]
+  },
+]
 
 export const optionChild = {
   align: 'center',

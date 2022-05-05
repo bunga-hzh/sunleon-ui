@@ -7,68 +7,101 @@
       :disabled="false"
     >
     </el-alert>
-    <avue-crud
-      :data="data"
-      :option="option"
-      :search.sync="search"
-      :page.sync="page"
-    >
-      <template slot="shzt" slot-scope="scope">
-        <el-tag v-if="scope.row.shzt === 1">待审核</el-tag>
-        <el-tag type="success" v-if="scope.row.shzt === 2">审核通过</el-tag>
-        <el-tag type="danger" v-if="scope.row.shzt === 3">审核不通过</el-tag>
-        <el-tag type="warning" v-if="scope.row.shzt === 4">审核中</el-tag>
-        <el-tag type="info" v-if="scope.row.shzt === 5">待提交</el-tag>
-      </template>
-      <template slot="menuLeft">
-        <el-button
-          type="primary"
-          icon="el-icon-document"
-          @click="report"
-          v-show="role === '1'"
-          >上报工作量</el-button
+    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+      <el-tab-pane label="审核" name="1">
+        <avue-crud
+          :data="data"
+          :option="options[0]"
+          :search.sync="search"
+          :page.sync="page"
         >
-      </template>
-      <template slot="menu" slot-scope="scope">
-        <el-button type="text" icon="el-icon-view" @click="viewRow(scope.row)">
-          查看详情</el-button
+          <template slot="shzt" slot-scope="scope">
+            <el-tag v-if="scope.row.shzt === 1">待审核</el-tag>
+            <el-tag type="success" v-if="scope.row.shzt === 2">审核通过</el-tag>
+            <el-tag type="danger" v-if="scope.row.shzt === 3"
+              >审核不通过</el-tag
+            >
+          </template>
+          <template slot="menu" slot-scope="scope">
+            <el-button
+              type="text"
+              icon="el-icon-view"
+              @click="viewRow(scope.row)"
+            >
+              查看详情</el-button
+            >
+            <el-button
+              type="text"
+              icon="el-icon-view"
+              @click="passRow(scope.row)"
+              v-show="scope.row.shzt === 1"
+              >通过</el-button
+            >
+            <el-button
+              type="text"
+              icon="el-icon-view"
+              @click="refuseRow(scope.row)"
+              v-show="scope.row.shzt === 1"
+              >拒绝</el-button
+            >
+          </template>
+        </avue-crud>
+      </el-tab-pane>
+      <el-tab-pane label="上报" name="2">
+        <avue-crud
+          :data="data"
+          :option="options[1]"
+          :search.sync="search"
+          :page.sync="page"
         >
-        <el-button
-          v-show="role === '2' && scope.row.shzt === 1"
-          type="text"
-          icon="el-icon-view"
-          @click="passRow(scope.row)"
-          >通过</el-button
-        >
-        <el-button
-          v-show="role === '2' && scope.row.shzt === 1"
-          type="text"
-          icon="el-icon-view"
-          @click="refuseRow(scope.row)"
-          >拒绝</el-button
-        >
-        <el-button type="text" icon="el-icon-view" v-show="scope.row.shzt === 3"
-          >查看原因</el-button
-        >
-        <el-button
-          type="text"
-          icon="el-icon-document"
-          @click="viewRow(scope.row)"
-          v-show="role === '1' && scope.row.shzt === 3"
-          >重新上报</el-button
-        >
-        <el-button
-          type="text"
-          icon="el-icon-document"
-          v-show="role === '1' && scope.row.shzt === 5"
-          >提交</el-button
-        >
-      </template>
-    </avue-crud>
-    <el-radio-group v-model="role">
-      <el-radio-button label="1">各部门负责人</el-radio-button>
-      <el-radio-button label="2">领导审核</el-radio-button>
-    </el-radio-group>
+          <template slot="shzt" slot-scope="scope">
+            <el-tag v-if="scope.row.shzt === 1">待审核</el-tag>
+            <el-tag type="success" v-if="scope.row.shzt === 2">审核通过</el-tag>
+            <el-tag type="danger" v-if="scope.row.shzt === 3"
+              >审核不通过</el-tag
+            >
+            <el-tag type="warning" v-if="scope.row.shzt === 4">审核中</el-tag>
+            <el-tag type="info" v-if="scope.row.shzt === 5">待提交</el-tag>
+          </template>
+          <template slot="menuLeft">
+            <el-button type="primary" icon="el-icon-document" @click="report"
+              >上报工作量</el-button
+            >
+            <el-button type="primary" icon="el-icon-document"
+              >生成汇总表</el-button
+            >
+          </template>
+          <template slot="menu" slot-scope="scope">
+            <el-button
+              type="text"
+              icon="el-icon-view"
+              @click="viewRow(scope.row)"
+            >
+              查看详情</el-button
+            >
+            <el-button
+              type="text"
+              icon="el-icon-view"
+              v-show="scope.row.shzt === 3"
+              >查看原因</el-button
+            >
+            <el-button
+              type="text"
+              icon="el-icon-document"
+              @click="viewRow(scope.row)"
+              v-show="scope.row.shzt === 3"
+              >重新上报</el-button
+            >
+            <el-button
+              type="text"
+              icon="el-icon-document"
+              v-show="scope.row.shzt === 5"
+              >提交</el-button
+            >
+          </template>
+        </avue-crud>
+      </el-tab-pane>
+    </el-tabs>
     <!-- 上报工作量 -->
     <el-dialog
       title="上报工作量"
@@ -78,7 +111,7 @@
       @close="isClose = true"
       @open="isClose = false"
     >
-      <el-tabs v-model="activeName" type="card">
+      <el-tabs v-model="activeNameChild" type="card">
         <el-tab-pane label="导入数据" name="1" disabled>
           <el-form
             :model="form"
@@ -176,25 +209,44 @@
         >
       </span>
     </el-dialog>
+    <el-dialog
+      title="选择项目归类"
+      :visible.sync="dialogVisible_type"
+      width="15%"
+    >
+      <avue-select
+        v-model="zjlx"
+        placeholder="请选择内容"
+        type="tree"
+        :dic="undefined"
+      ></avue-select>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible_type = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible_type = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </basic-container>
 </template>
 
 <script>
-import { option, optionChild, rules } from "@/const/crud/salary/audit/sporadic";
+import {
+  options,
+  optionChild,
+  rules,
+} from "@/const/crud/salary/audit/sporadic";
 
 export default {
   data() {
     return {
-      role: "1",
       activeName: "1",
-      isShow: false,
-      isClose: false,
+      activeNameChild: "1",
       data: [
         {
           bgmc: "部门一校内奖金3月份统计",
           bmmc: "部门一",
           yf: "3月",
-          jxlx: "绩效内",
           zje: 1000000,
           sqsj: "3月11日",
           shzt: 1,
@@ -204,7 +256,6 @@ export default {
           bgmc: "部门一校内奖金4月份统计",
           bmmc: "部门一",
           yf: "4月",
-          jxlx: "绩效内",
           zje: 1000000,
           sqsj: "4月11日",
           shzt: 2,
@@ -214,34 +265,13 @@ export default {
           bgmc: "部门一校内奖金5月份统计",
           bmmc: "部门一",
           yf: "5月",
-          jxlx: "绩效内",
           zje: 1000000,
           sqsj: "5月11日",
           shzt: 3,
           bz: "无",
         },
-        {
-          bgmc: "部门一校内奖金6月份统计",
-          bmmc: "部门一",
-          yf: "6月",
-          jxlx: "绩效内",
-          zje: 1000000,
-          sqsj: "6月11日",
-          shzt: 4,
-          bz: "无",
-        },
-        {
-          bgmc: "部门一校内奖金7月份统计",
-          bmmc: "部门一",
-          yf: "7月",
-          jxlx: "绩效内",
-          zje: 1000000,
-          sqsj: "7月11日",
-          shzt: 5,
-          bz: "无",
-        },
       ],
-      option: option,
+      options: options,
       search: {},
       page: {
         total: 100,
@@ -251,8 +281,9 @@ export default {
 
       dialogVisible: false,
       dialogVisible_refuse: false,
-
       dialogVisible_report: false,
+      dialogVisible_type: false,
+
       form: {
         bgmc: undefined,
         jxlx: undefined,
@@ -263,30 +294,107 @@ export default {
       //拒绝原因
       denialReason: undefined,
 
-      dataChild: [
-        {
-          bmmc: "部门一",
-          gh: "001",
-          xm: "张三",
-          yhkh: "123456789012345678",
-          ryfl: "管理人员",
-          yf: "7月",
-          xmmc: 100,
-        },
-      ],
+      dataChild: [{}],
       optionChild: optionChild,
 
       isUpload: false,
       isUploading: false,
       btnName: "预览",
+      isShow: false,
+      isClose: false,
+
+      zjlx: undefined,
     };
   },
   methods: {
+    handleClick(val) {
+      if (val.index == 0) {
+        this.data = [
+          {
+            bgmc: "部门一校内奖金3月份统计",
+            bmmc: "部门一",
+            yf: "3月",
+            zje: 1000000,
+            sqsj: "3月11日",
+            shzt: 1,
+            bz: "无",
+          },
+          {
+            bgmc: "部门一校内奖金4月份统计",
+            bmmc: "部门一",
+            yf: "4月",
+            zje: 1000000,
+            sqsj: "4月11日",
+            shzt: 2,
+            bz: "无",
+          },
+          {
+            bgmc: "部门一校内奖金5月份统计",
+            bmmc: "部门一",
+            yf: "5月",
+            zje: 1000000,
+            sqsj: "5月11日",
+            shzt: 3,
+            bz: "无",
+          },
+        ];
+      }
+      if (val.index == 1) {
+        this.data = [
+          {
+            bgmc: "部门一校内奖金3月份统计",
+            bmmc: "部门一",
+            yf: "3月",
+            zje: 1000000,
+            sqsj: "3月11日",
+            shzt: 1,
+            bz: "无",
+          },
+          {
+            bgmc: "部门一校内奖金4月份统计",
+            bmmc: "部门一",
+            yf: "4月",
+            zje: 1000000,
+            sqsj: "4月11日",
+            shzt: 2,
+            bz: "无",
+          },
+          {
+            bgmc: "部门一校内奖金5月份统计",
+            bmmc: "部门一",
+            yf: "5月",
+            zje: 1000000,
+            sqsj: "5月11日",
+            shzt: 3,
+            bz: "无",
+          },
+          {
+            bgmc: "部门一校内奖金6月份统计",
+            bmmc: "部门一",
+            yf: "6月",
+            zje: 1000000,
+            sqsj: "6月11日",
+            shzt: 4,
+            bz: "无",
+          },
+          {
+            bgmc: "部门一校内奖金7月份统计",
+            bmmc: "部门一",
+            yf: "7月",
+            zje: 1000000,
+            sqsj: "7月11日",
+            shzt: 5,
+            bz: "无",
+          },
+        ];
+      }
+    },
     viewRow(row) {
       this.dialogVisible = true;
       if (row.shzt === 3 || row.shzt === 5) this.optionChild.menu = true;
     },
     passRow(row) {
+      this.dialogVisible_type = true;
       console.log(row);
     },
     refuseRow(row) {
@@ -300,11 +408,11 @@ export default {
     },
     // 预览 or 提交
     submit() {
-      if (this.activeName === "2") {
+      if (this.activeNameChild === "2") {
         console.log("提交成功");
       }
       if (!this.isUpload) return this.$message.error("请先导入数据！");
-      this.activeName = "2";
+      this.activeNameChild = "2";
     },
     // 上传成功
     uploadSuccess() {
@@ -315,7 +423,7 @@ export default {
             this.$message.success("导入成功!");
             this.isUploading = false;
             this.isUpload = true;
-            this.activeName = "2";
+            this.activeNameChild = "2";
           }, 2000);
         } else {
           this.$message.error("请填写表格名称！");
@@ -324,7 +432,7 @@ export default {
     },
   },
   watch: {
-    activeName(newValue, oldValue) {
+    activeNameChild(newValue, oldValue) {
       if (newValue === "2") {
         this.btnName = "提交";
         this.isShow = true;
@@ -335,24 +443,9 @@ export default {
     },
     isClose(newValue, oldValue) {
       if (newValue) {
-        this.activeName = "1";
+        this.activeNameChild = "1";
         this.isUpload = false;
         this.$refs.formRef.resetFields();
-      }
-    },
-    "form.jxlx"(newValue, oldValue) {
-      if (newValue === "1") {
-        this.optionChild.menu = false;
-        this.optionChild.column[this.optionChild.column.length - 1].hide = true;
-        this.optionChild.column[this.optionChild.column.length - 2].hide = true;
-      } else {
-        this.optionChild.menu = true;
-        this.optionChild.column[
-          this.optionChild.column.length - 1
-        ].hide = false;
-        this.optionChild.column[
-          this.optionChild.column.length - 2
-        ].hide = false;
       }
     },
   },

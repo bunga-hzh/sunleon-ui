@@ -5,55 +5,38 @@
       :option="option"
       :search.sync="search"
       :page.sync="page"
+      v-model="form"
     >
-      <template slot="zzzmwjForm">
+      <template slot="zmwjForm">
         <el-button type="primary" icon="el-icon-s-order" @click="generateProof"
           >生成在职证明</el-button
         >
-        <!-- <br /> -->
-        <!-- <el-button type="primary" icon="el-icon-s-order"
-          >上传在职证明</el-button
-        > -->
       </template>
     </avue-crud>
-    <div id="employment_certificate">
-      <h2
-        style="
-          text-align: center;
-          font-size: 18px;
-          font-weight: bold;
-          margin: 20px 0;
-        "
-      >
-        教师在职证明
-      </h2>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;兹证明XXX同志（身份证号、护照号：</p>
-      <p>）系我校XXXXXXXX（单位）在职教师/职工/社会用工，</p>
-      <p>工资号为XXXXXXXXXXXX</p>
-      <br />
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;特此证明</p>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <p style="text-align: end">XX学校人事处</p>
-      <p style="text-align: end">XXXX年XX月XX日</p>
-    </div>
-    <!-- <el-dialog
-      title="生成在职证明"
-      :visible.sync="dialogVisible"
-      width="50%"
-      class="avue-dialog"
-    >
-      <span>这是一段信息</span>
+    <el-dialog title="生成在职证明" :visible.sync="dialogVisible" width="20%">
+      <el-row>
+        <avue-select
+          v-model="proveType"
+          placeholder="请选择内容"
+          type="tree"
+          :dic="[
+            { label: '在职证明', value: '1' },
+            { label: '收入证明', value: '2' },
+          ]"
+        ></avue-select>
+      </el-row>
+      <el-row>
+        <el-button type="primary" icon="el-icon-s-order" @click="generateProof"
+          >生成证明</el-button
+        >
+      </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false"
-          >生 成</el-button
+          >确 定</el-button
         >
       </span>
-    </el-dialog> -->
+    </el-dialog>
   </basic-container>
 </template>
 
@@ -73,11 +56,18 @@ export default {
       },
 
       dialogVisible: false,
+      form: {},
+      proveType: undefined,
     };
   },
   methods: {
     generateProof() {
-      this.$Print(document.querySelector("#employment_certificate"));
+      this.dialogVisible = true;
+    },
+    handleChange(file, fileLis) {
+      this.$Export.xlsx(file.raw).then((data) => {
+        this.list = data.results;
+      });
     },
   },
 };
@@ -86,5 +76,8 @@ export default {
 <style lang="scss" scoped>
 #employment_certificate {
   display: none;
+}
+.el-row {
+  margin: 20px;
 }
 </style>

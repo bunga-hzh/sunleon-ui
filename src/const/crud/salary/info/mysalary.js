@@ -513,8 +513,12 @@ export const options = [{
         prop: 'xnjj',
       },
       {
-        label: '零星收入',
-        prop: 'jxsr',
+        label: '应发一',
+        prop: 'yf1',
+      },
+      {
+        label: '应发二',
+        prop: 'yf2',
       },
       {
         label: '不定时发放',

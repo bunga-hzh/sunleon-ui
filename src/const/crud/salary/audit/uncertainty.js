@@ -42,6 +42,96 @@ export const option = {
   ]
 }
 
+export const options = [{
+    align: 'center',
+    border: true,
+    index: true,
+    indexLabel: '序号',
+    searchMenuSpan: 4,
+    menuWidth: 260,
+    searchSpan: 6,
+    addBtn: false,
+    editBtn: false,
+    delBtn: false,
+    column: [{
+        label: '表格名称',
+        prop: 'bgmc',
+        width: '200',
+      },
+      {
+        label: '部门名称',
+        prop: 'bmmc',
+      },
+      {
+        label: '月份',
+        prop: 'yf',
+        search: true,
+        type: 'month',
+      },
+      {
+        label: '申请时间',
+        prop: 'sqsj',
+        type: 'date'
+      },
+      {
+        label: '审核状态',
+        prop: 'shzt',
+        search: true,
+        type: 'select',
+        slot: true,
+      },
+      {
+        label: '备注',
+        prop: 'bz',
+      }
+    ]
+  },
+  {
+    align: 'center',
+    border: true,
+    index: true,
+    indexLabel: '序号',
+    searchMenuSpan: 4,
+    menuWidth: 260,
+    searchSpan: 6,
+    addBtn: false,
+    editBtn: false,
+    delBtn: false,
+    column: [{
+        label: '表格名称',
+        prop: 'bgmc',
+        width: '200',
+      },
+      {
+        label: '部门名称',
+        prop: 'bmmc',
+      },
+      {
+        label: '月份',
+        prop: 'yf',
+        search: true,
+        type: 'month',
+      },
+      {
+        label: '申请时间',
+        prop: 'sqsj',
+        type: 'date'
+      },
+      {
+        label: '审核状态',
+        prop: 'shzt',
+        search: true,
+        type: 'select',
+        slot: true,
+      },
+      {
+        label: '备注',
+        prop: 'bz',
+      }
+    ]
+  },
+]
+
 export const optionChild = {
   align: 'center',
   border: true,
@@ -72,72 +162,25 @@ export const optionChild = {
       prop: 'gzxs',
     },
     {
-      label: '应发1',
-      prop: 'yf1',
-    },
-    {
-      label: '应发2',
-      prop: 'yf2',
-    },
-    {
-      label: '应发3',
-      prop: 'yf3',
-    },
-    {
-      label: '应发4',
-      prop: 'yf4',
-    },
-    {
-      label: '应发5',
-      prop: 'yf5',
-    },
-    {
-      label: '应发6',
-      prop: 'yf6',
-    },
-    {
-      label: '应发7',
-      prop: 'yf7',
-    },
-    {
-      label: '应发8',
-      prop: 'yf8',
-    },
-    {
-      label: '应发9',
-      prop: 'yf9',
-    },
-    {
-      label: '应发10',
-      prop: 'yf10',
-    },
-    {
-      label: '扣减金额',
-      prop: 'kjje',
-    },
-    {
-      label: '个税扣款',
-      prop: 'gskk',
-    },
-    {
-      label: '合计实发',
-      prop: 'hjsf',
-    },
-    {
-      label: '备注',
-      prop: 'bz',
+      label: '项目名称',
+      prop: 'xmmc',
     },
   ]
 }
 
 export const rules = {
-  bgmc: [{
+  xmmc: [{
     required: true,
     message: '请输入表格名称',
     trigger: 'blur'
   }],
-  jxlx: [{
+  zjlx: [{
     required: true,
     message: '请选择绩效类型',
+  }],
+  je: [{
+    required: true,
+    message: '请输入金额',
+    trigger: 'blur'
   }]
 }

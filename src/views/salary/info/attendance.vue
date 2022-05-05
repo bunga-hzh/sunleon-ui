@@ -2,13 +2,13 @@
   <basic-container>
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
       <el-tab-pane
-        v-for="(tab, index) in tabs"
+        v-for="tab in tabs"
         :key="tab.name"
         :label="tab.label"
         :name="tab.name"
       >
         <avue-crud
-          :option="options[index]"
+          :option="option"
           :data="data"
           :search.sync="search"
           :page.sync="page"
@@ -25,13 +25,12 @@
 </template>
 
 <script>
-import { options, tabs } from "@/const/crud/salary/info/attendance";
+import { option, tabs } from "@/const/crud/salary/info/attendance";
 
 export default {
   data() {
     return {
       data: undefined,
-      form: {},
       search: {},
       page: {
         total: 100,
@@ -39,7 +38,7 @@ export default {
         size: 10,
       },
 
-      options: options,
+      option: option,
       tabs: tabs,
       activeName: "1",
     };
@@ -48,9 +47,6 @@ export default {
     handleClick(val) {
       console.log(val.index);
     },
-  },
-  mounted() {
-    this.option = this.options[0];
   },
 };
 </script>
