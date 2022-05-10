@@ -81,6 +81,10 @@ export const opitons = [{
         valueFormat: 'yyyy-MM',
       },
       {
+        label: '应纳税金额',
+        prop: 'ynsje',
+      },
+      {
         label: '应付职工薪酬',
         prop: 'yfzgxc',
       },
