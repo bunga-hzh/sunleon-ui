@@ -20,15 +20,17 @@ import qs from 'qs'
 const scope = 'server'
 
 export const loginByUsername = (username, password, code, randomStr) => {
-  let grant_type = 'password'
-  let dataObj = qs.stringify({'username': username, 'password': password})
+  let grant_type = 'password';
+  let dataObj = qs.stringify({'username': username, 'password': password}) //账号+密码登录方式
+  // let dataObj = qs.stringify({'phone': username, 'password': password})
 
   return request({
-    url: '/auth/oauth/token',
+    // url: '/auth/oauth/token', 账号+密码登录方式
+    url: '/auth/oauth/token', //手机号+密码登录之后，获取租户信息，同时返回租户id
     headers: {
       isToken: false,
-      'TENANT-ID': '1',
-      'Authorization': 'Basic cGlnOnBpZw=='
+      'TENANT-ID': '1',                        //租户id
+      'Authorization': 'Basic cGlnOnBpZw=='   //base64(clientId:clientSecret)
     },
     method: 'post',
     params: {randomStr, code, grant_type},

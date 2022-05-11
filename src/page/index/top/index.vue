@@ -76,7 +76,7 @@
       </el-tooltip>
       <el-dropdown>
         <span class="el-dropdown-link">
-          {{ userInfo.username }}
+          {{ userInfo.realName }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -86,10 +86,10 @@
           <el-dropdown-item divided>
             <router-link to="/info/index">个人信息</router-link>
           </el-dropdown-item>
-          <el-dropdown-item
-            divided
-            @click.native="$refs.seting.open()">界面设置
-          </el-dropdown-item>
+<!--          <el-dropdown-item-->
+<!--            divided-->
+<!--            @click.native="$refs.seting.open()">界面设置-->
+<!--          </el-dropdown-item>-->
           <el-dropdown-item
             divided
             @click.native="logout">退出系统

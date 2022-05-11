@@ -46,3 +46,14 @@ export function doTask(obj) {
     data: obj
   })
 }
+
+export function delTask(processInsId){
+  return request({
+    url:'/act/task/del_process_ins',
+    method:'delete',
+    params:{
+      processInsId:processInsId
+    }
+
+  })
+}

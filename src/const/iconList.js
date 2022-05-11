@@ -49,5 +49,16 @@ export default [
       'icon-icon-p_mrpbaobiao',
       'icon-liuliang'
     ]
+  },
+  {
+    label: '招聘图标',
+    list: [
+      'icon-zhaopin',
+      'icon-pingfenpingfen',
+      'icon-mianshianpai',
+      'icon-xitong_gangweifabu',
+      'icon-zhaopinmianshi',
+      'icon-jianlishaixuan'
+    ]
   }
 ]

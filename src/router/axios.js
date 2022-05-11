@@ -8,6 +8,8 @@ import { Message } from 'element-ui'
 import 'nprogress/nprogress.css'
 import qs from 'qs'
 import store from '@/store' // progress bar style
+import Cookies from 'js-cookie'
+
 axios.defaults.timeout = 30000
 // 返回其他状态吗
 axios.defaults.validateStatus = function (status) {
@@ -33,11 +35,16 @@ axios.interceptors.request.use(config => {
     config.headers['TENANT-ID'] = TENANT_ID // 租户ID
   }
 
+  config.headers['VERSION'] = Cookies.get('version');
+
   // headers中配置serialize为true开启序列化
   if (config.method === 'post' && config.headers.serialize) {
     config.data = serialize(config.data)
     delete config.data.serialize
   }
+
+
+
 
   if (config.method === 'get') {
     config.paramsSerializer = function (params) {
@@ -60,7 +67,7 @@ axios.interceptors.response.use(res => {
       message: message,
       type: 'error'
     })
-    store.dispatch('LogOut').then(() => {
+    store.dispatch('FedLogOut').then(() => {
       router.push({ path: '/login' })
     })
     return

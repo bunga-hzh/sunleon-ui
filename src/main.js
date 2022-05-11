@@ -6,28 +6,27 @@ import VueAxios from 'vue-axios'
 import App from './App'
 import './permission' // 权限
 import './error' // 日志
-import './cache' //页面缓冲
+import './cache'//页面缓冲
 import router from './router/router'
 import store from './store'
-import {
-  loadStyle
-} from './util/util'
+import { loadStyle } from './util/util'
 import * as urls from '@/config/env'
-import {
-  iconfontUrl,
-  iconfontVersion
-} from '@/config/env'
+import { iconfontUrl, iconfontVersion } from '@/config/env'
 import * as filters from './filters' // 全局filter
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/common.scss'
 import AvueFormDesign from '@sscfaith/avue-form-design'
 import basicContainer from './components/basic-container/main'
+import AvueUeditor from 'avue-plugin-ueditor'
+import Avue from '@smallwei/avue';
+import '@smallwei/avue/lib/index.css';
 
 // 插件 json 展示
 Vue.use(router)
 
 Vue.use(AvueFormDesign);
+Vue.use(AvueUeditor);
 
 window.axios = axios
 Vue.use(VueAxios, axios)
@@ -37,7 +36,7 @@ Vue.use(ElementUI, {
   menuType: 'text'
 })
 
-Vue.use(AVUE, {
+Vue.use(Avue, {
   size: 'small',
   menuType: 'text'
 })

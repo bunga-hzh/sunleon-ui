@@ -1,9 +1,9 @@
 export default {
-  title: '人事全生命周期平台',
-  subtitle: '',
-  copyright: 'Copyright © 2022 po-hoo.com. All rights reserved.',
+  title: '上海信息技术学校-招聘管理平台',
+  subtitle: '上海信息技术学校',
+  copyright: 'Copyright © 2022 shitac.net. All rights reserved.',
   isFirstPage: true,// 配置首页不可关闭
-  key: 'sunleon', // 配置主键,目前用于存储
+  key: 'shitac', // 配置主键,目前用于存储
   whiteList: ['/login', '/404', '/401', '/lock'], // 配置无权限可以访问的页面
   whiteTagList: ['/login', '/404', '/401', '/lock'], // 配置不添加tags页面 （'/advanced-router/mutative-detail/*'——*为通配符）
   fistPage: {

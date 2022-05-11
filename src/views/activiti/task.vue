@@ -46,6 +46,11 @@
             divided
             @click.native="viewPic(scope.row,scope.index)">流程图
           </el-dropdown-item>
+          <el-dropdown-item
+            v-if="permissions.act_task_manage"
+            divided
+            @click.native="handleDelTask(scope.row,scope.index)">删除
+          </el-dropdown-item>
         </template>
       </avue-crud>
     </basic-container>
@@ -78,7 +83,7 @@
 </template>
 
 <script>
-  import {doTask, fetchComment, fetchDetail, fetchList} from '@/api/activiti/task'
+import {delTask, doTask, fetchComment, fetchDetail, fetchList} from '@/api/activiti/task'
   import {formOption, tableOption, taskOption} from '@/const/crud/activiti/task'
   import AvueUeditor from 'avue-plugin-ueditor';
   import {mapGetters} from 'vuex'
@@ -117,6 +122,11 @@
       ...mapGetters(['permissions'])
     },
     methods: {
+      handleDelTask(row){
+        delTask(row.processInstanceId).then(res=>{
+          this.getList(this.page)
+        })
+      },
       getList(page, params) {
         this.tableLoading = true
         fetchList(Object.assign({

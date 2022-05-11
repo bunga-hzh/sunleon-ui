@@ -49,7 +49,7 @@ export const tableOption = {
     addDisplay: false
   }, {
     fixed: true,
-    label: '用户名',
+    label: '教职工号',
     prop: 'username',
     editDisabled: true,
     slot: true,
@@ -57,7 +57,7 @@ export const tableOption = {
     span: 24,
     rules: [{
       required: true,
-      message: '请输入用户名'
+      message: '请输入教职工号'
     },
       {
         min: 3,
@@ -66,6 +66,25 @@ export const tableOption = {
         trigger: 'blur'
       },
       {validator: validateUsername, trigger: 'blur'}
+    ]
+  },
+  {
+    fixed: true,
+    label: '姓名',
+    prop: 'realName',
+    slot: true,
+    search: true,
+    span: 24,
+    rules: [{
+      required: true,
+      message: '请输入姓名'
+    },
+      {
+        min: 2,
+        max: 20,
+        message: '长度在 2 到 20 个字符',
+        trigger: 'blur'
+      }
     ]
   }, {
     label: '密码',

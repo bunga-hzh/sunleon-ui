@@ -41,8 +41,11 @@
                     <i v-else class="el-icon-plus avatar-uploader-icon" />
                   </el-upload>
                 </el-form-item>
-                <el-form-item label="用户名" prop="username">
+                <el-form-item label="教职工号" prop="username">
                   <el-input v-model="ruleForm.username" type="text" disabled />
+                </el-form-item>
+                <el-form-item label="姓名" prop="realName">
+                  <el-input v-model="ruleForm.realName" type="text" />
                 </el-form-item>
                 <el-form-item label="手机号" prop="phone">
                   <el-input v-model="ruleForm.phone" placeholder="验证码登录使用" />
@@ -116,9 +119,19 @@ export default {
         newpassword2: "",
         avatar: "",
         phone: "",
+        realName:"",
       },
       rules: {
         phone: [{ required: false, validator: validatePhone, trigger: "blur" }],
+        realName:[
+          {
+            required: true,
+            min: 2,
+            max: 20,
+            message: "长度在 2 到 20 个字符",
+            trigger: "blur",
+          },
+        ],
         password: [
           {
             required: true,
@@ -169,6 +182,7 @@ export default {
       this.ruleForm.newpassword1 = undefined;
       this.ruleForm.newpassword2 = undefined;
       this.ruleForm.username = this.userInfo.username;
+      this.ruleForm.realName = this.userInfo.realName;
       this.ruleForm.phone = this.userInfo.phone;
       this.ruleForm.avatar = this.userInfo.avatar;
       handleImg(this.userInfo.avatar, "avatar");

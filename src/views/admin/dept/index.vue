@@ -65,7 +65,7 @@
               :rules="rules"
               :model="form"
               label-width="80px">
-<!--              <el-form-item
+              <el-form-item
                 label="父级节点"
                 prop="parentId">
                 <el-input
@@ -81,14 +81,6 @@
                   v-model="form.deptId"
                   :disabled="formEdit"
                   placeholder="节点编号"/>
-              </el-form-item>-->
-              <el-form-item
-                label="部门编码"
-                prop="deptCode">
-                <el-input
-                  v-model="form.deptCode"
-                  :disabled="formEdit"
-                  placeholder="请输入部门编码"/>
               </el-form-item>
               <el-form-item
                 label="部门名称"
@@ -106,22 +98,6 @@
                   :disabled="formEdit"
                   type="number"
                   placeholder="请输入排序"/>
-              </el-form-item>
-              <el-form-item
-                label="负责人"
-                prop="adminUser">
-                <el-input
-                  v-model="form.adminUser"
-                  :disabled="formEdit"
-                  placeholder="请输入负责人"/>
-              </el-form-item>
-              <el-form-item
-                label="职责"
-                prop="duty">
-                <el-input
-                  v-model="form.duty"
-                  :disabled="formEdit"
-                  placeholder="请输入职责"/>
               </el-form-item>
               <el-form-item v-if="formStatus == 'update'">
                 <el-button
@@ -175,10 +151,6 @@ export default {
         deptId: [
           { required: true, message: '请输入节点编号', trigger: 'blur' }
         ],
-        deptCode: [
-          { required: true, message: '请输入部门编码', trigger: 'blur' },
-          { min: 3, max: 32, message: '长度在 3 到 32 个字符', trigger: 'blur'}
-        ],
         name: [
           { required: true, message: '请输入部门名称', trigger: 'blur' },
           { min: 3, max: 32, message: '长度在 3 到 32 个字符', trigger: 'blur'}
@@ -186,17 +158,13 @@ export default {
         sort: [
           { required: true, message: '请输入排序值', trigger: 'blur' }
         ]
-
       },
       labelPosition: 'right',
       form: {
-        deptCode: undefined,
         name: undefined,
         sort: undefined,
         parentId: undefined,
-        deptId: undefined,
-        adminUser: undefined,
-        duty: undefined
+        deptId: undefined
       },
       currentId: 0,
       deptManager_btn_add: false,

@@ -20,13 +20,13 @@ export const tableOption = {
   indexLabel: '序号',
   stripe: true,
   menuAlign: 'center',
-  menuWidth: 150,
-  menuBtn: true,
+  menuWidth: 300,
+  // menuBtn: true,
   align: 'center',
   addBtn: false,
   editBtn: false,
   delBtn: false,
-  menuType: 'menu',
+  // menuType: 'menu',
   searchMenuSpan: 6,
   column: [{
     fixed: true,
@@ -59,3 +59,35 @@ export const tableOption = {
     addDisplay: false
   }]
 }
+
+/**
+ * 审核人设置
+ * @type {{}}
+ */
+export const settingReviewerOption = {
+  labelWidth: 110,
+  span:24,
+  column:[
+    {
+      label: '审核人设置',
+      prop: 'dynamic',
+      type: 'dynamic',
+      span:24,
+      children:{
+        align: 'center',
+        headerAlign: 'center',
+        column: [{
+          label: '审核人',
+          prop: "shr",
+          type:'select',
+          remote:true,
+          props:{
+            label:'username',
+            value:'username'
+          },
+          dicUrl:`/act/resume/select/user?username={{key}}`,
+        }]
+      }
+    }
+  ]
+};

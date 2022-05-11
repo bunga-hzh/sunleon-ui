@@ -19,4 +19,14 @@ export default [{
     component: () =>
       import(/* webpackChunkName: "views" */ '@/views/activiti/detail')
   }]
-}]
+},{
+  path:'/induction',
+  component: Layout,
+  redirect: '/induction/induction-info',
+  children: [{
+    path: 'induction-info/:id',
+    component: () => import('@/components/induction-components/inductionView')
+  }]
+}
+
+]

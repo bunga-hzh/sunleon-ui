@@ -131,7 +131,6 @@ export const encryption = (params) => {
   }
   return result
 }
-
 /**
  * 浏览器判断是否全屏
  */

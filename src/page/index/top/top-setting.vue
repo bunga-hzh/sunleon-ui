@@ -9,8 +9,8 @@
       class="setting__content">
       <div class="setting__header">版权信息</div>
       <div class="setting__body setting__about">
-        <p>Version：poho 1.0</p>
-        <p>Copyright: poho ©2022-2032</p>
+        <p>Version：sunleon 4.1</p>
+        <p>Copyright: sunleon ©2018-2025</p>
       </div>
       <div class="setting__header">设置
         <small>(滑动鼠标下面还有更多设置)</small>
