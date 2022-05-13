@@ -32,7 +32,7 @@ export const tableOption = {
     "required": true,
     "maxlength": 150
   }, {"prop": "personNum", "span": 12, "type": "input", "label": "标配人数"}
-    , {
+    /*, {
       label: '所属部门',
       prop: 'deptId',
       formslot: true,
@@ -45,7 +45,7 @@ export const tableOption = {
         message: '请选择部门',
         trigger: 'change'
       }]
-    }, {
+    }*/, {
     "prop": "duty",
     "span": 24,
     "type": "textarea",

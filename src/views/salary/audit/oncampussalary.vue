@@ -18,8 +18,11 @@
           type="primary"
           icon="el-icon-document"
           @click="report"
-          v-show="role === '1'"
+          v-show="role === '1' || role === '2'"
           >上报工作量</el-button
+        >
+        <el-button type="primary" icon="el-icon-document" v-show="role === '2'"
+          >生成汇总表</el-button
         >
       </template>
       <template slot="menu" slot-scope="scope">

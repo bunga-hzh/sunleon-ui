@@ -333,3 +333,29 @@ export const optionList = [{
     ],
   },
 ]
+
+export const tabList = [{
+    label: '实习期不合格',
+    value: '1'
+  },
+  {
+    label: '试用期不合格',
+    value: '2'
+  },
+  {
+    label: '转正',
+    value: '3'
+  },
+  {
+    label: '合同续签',
+    value: '4'
+  },
+  {
+    label: '转岗',
+    value: '5'
+  },
+  {
+    label: '自定义',
+    value: '6'
+  },
+]
