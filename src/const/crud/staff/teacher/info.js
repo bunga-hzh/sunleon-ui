@@ -20,12 +20,24 @@ export const option = {
     {
       label: "性别",
       prop: "xbm",
+      type: "radio",
+      props: {
+        label: "label",
+        value: 'value'
+      },
+      dicUrl: '/admin/dict/type/sex_type',
     },
     {
       label: "组织机构",
       prop: "orgId",
       search: true,
-      searchslot: true,
+      type: 'tree',
+      dicUrl: '/admin/dept/tree',
+      props: {
+        "label": "name",
+        "value": "id",
+        "children": "children"
+      },
     },
     {
       label: "身份证号",
