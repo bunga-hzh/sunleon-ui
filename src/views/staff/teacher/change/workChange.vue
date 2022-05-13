@@ -11,7 +11,6 @@
           <avue-crud
             :ref="index === 3 ? 'crud' : ''"
             :option="optionList[index]"
-            :search.sync="search"
             :data="data"
             :page.sync="page"
             v-model="form"
@@ -36,6 +35,7 @@
 
             <template slot="menu" slot-scope="scope">
               <el-button
+                v-show="index === 3"
                 type="text"
                 @click="renewRow(scope.row)"
                 icon="el-icon-finished"
@@ -45,6 +45,7 @@
 
             <template slot="menuLeft" v-if="item.value == 4">
               <el-button
+                v-show="index === 3"
                 type="primary"
                 icon="el-icon-finished"
                 @click="batchRenew"
@@ -78,10 +79,11 @@
 </template>
 
 <script>
-import { optionList } from "@/const/crud/staff/teacher/change/workChange";
+import {
+  optionList,
+  tabList,
+} from "@/const/crud/staff/teacher/change/workChange";
 
-import { dictItems } from "@/const/staff/dictItems";
-import { getDictItem } from "@/api/staff/dictItem";
 import { add, edit, getList, delData, searchData } from "@/const/staff/crud";
 import { fetchList } from "@/api/staff/crud";
 import { page } from "@/const/staff/page";
@@ -91,7 +93,7 @@ export default {
   name: "TableEngage",
   data() {
     return {
-      tabList: undefined,
+      tabList: tabList,
       activeName: "1",
 
       optionList: optionList,
@@ -104,8 +106,6 @@ export default {
       // 数据源
       data: undefined,
       option: undefined,
-      // 搜索的表单对象
-      search: {},
       form: {},
 
       period: undefined,
@@ -151,7 +151,6 @@ export default {
     },
 
     async edit(form, index, done, loading) {
-      console.log(form);
       const { data: res } = await edit(
         this.apiUrlList[this.activeName - 1],
         form
@@ -166,7 +165,6 @@ export default {
     },
     async del(form, index) {
       delData(this.apiUrlList[this.activeName - 1], this, form, index, () => {
-        console.log("aaa");
         getList(this.apiUrlList[this.activeName - 1], this);
       });
     },
@@ -267,15 +265,8 @@ export default {
     searchChange(form, done) {
       searchData(this.apiUrlList[this.activeName - 1], this, form, done);
     },
-    // 获取标签页数据
-    async getTabs() {
-      const { data: res } = await getDictItem(dictItems["workchangetablist"]);
-      if (res.code !== 0) return true;
-      this.tabList = res.data;
-    },
   },
   mounted() {
-    this.getTabs();
     this.option = this.optionList[0];
     this.loadAll();
   },

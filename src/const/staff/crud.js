@@ -36,7 +36,7 @@ export async function getList(type, _this, query) {
   const {
     data: res
   } = await get(type, _this.page, query, _this.search);
-  if (!result(_this, res, "get")) return true;
+  if (res.code !== 0) return this.$message.error('获取数据失败');
   _this.data = res.data.records
   _this.page.total = res.data.total;
 }
