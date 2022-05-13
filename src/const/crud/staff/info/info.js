@@ -1,5 +1,6 @@
 export const infoOption = {
   submitText: '添加',
+  readonly: false,
   column: [{
       label: "教职工编号",
       prop: "gh",
