@@ -74,8 +74,15 @@ export const applyOption = {
     },
     {
       label: '工作部门',
-      prop:'department',
+      prop:'gzbmId',
       span: 24,
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      filter:true,
+      type: 'tree',
+      dicUrl: '/act/jpGwgl/tree'
     },
     {
       label: '竞聘状态',

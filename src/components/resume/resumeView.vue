@@ -253,23 +253,32 @@ export default {
 
     },
     handleExport(){
-      downloadResume(this.userId).then(res=>{
-        const blob = new Blob([res],{ type: "application/zip" });
-        const fileName = this.row.candidateName+'_简历.zip';
-        const linkNode = document.createElement('a');
-
-        linkNode.download = fileName; //a标签的download属性规定下载文件的名称
-        linkNode.style.display = 'none';
-        linkNode.href = URL.createObjectURL(blob); //生成一个Blob URL
-        document.body.appendChild(linkNode);
-        linkNode.click();  //模拟在按钮上的一次鼠标单击
-
-        URL.revokeObjectURL(linkNode.href); // 释放URL 对象
-        document.body.removeChild(linkNode);
+      downloadResume(this.userId).then(response=>{
+        // 前提是服务端要在header设置Access-Control-Expose-Headers: Content-Disposition
+        // 前端才能正常获取到Content-Disposition内容
+        const disposition = response.headers['content-disposition'];
+        let fileName = disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
+        // iso8859-1的字符转换成中文
+        fileName = decodeURI(escape(fileName));
+        // 去掉双引号
+        fileName = fileName.replace(/\"/g, "");
+        const content = response.data;
+        console.info("rep:", disposition);
+        console.info("fileName:", fileName);
+        // 创建a标签并点击， 即触发下载
+        let url = window.URL.createObjectURL(new Blob([content]));
+        let link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        link.setAttribute("download", fileName);
+        //link.download = "测试下载文件.xls"
+        // 模拟
+        document.body.appendChild(link);
+        link.click();
+        // 释放URL 对象
+        window.URL.revokeObjectURL(link.href);
+        document.body.removeChild(link);
       })
-      // let Params = {"printAll":true,"token":"null","user_id":this.userId,"pageNo":1,"pageSize":1,"currentPageNo":"1","currentPageSize":1};
-      // window.open(encodeURI('http://192.168.187.121:9999/act/jmreport/show?id=671004993319235584&params='+Params));
-      // http://192.168.187.121:9999/act/jmreport/show?id=671004993319235584&params=
     },
 
     //面试预约
