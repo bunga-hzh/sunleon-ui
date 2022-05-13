@@ -48,13 +48,19 @@ export const competePostOption = {
     // },
     {
       label: '工作部门',
-      prop:'department',
-      hide:true,
+      prop:'gzbmId',
       span: 24,
       rules: [{
         required: true,
-        message: '请输入工作部门'
-      }]
+        message: '请选择部门'
+      }],
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      filter:true,
+      type: 'tree',
+      dicUrl: '/act/jpGwgl/tree'
     },
     {
       label: '岗位类型',

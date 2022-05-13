@@ -264,7 +264,7 @@ export default {
         gwmc:this.form.postName, //岗位名称
         jpksny:this.form.startTime,//竞聘开始时间
         jpjsny:this.form.endTime, //竞聘结束时间
-        gzbu:this.form.department, //工作部门
+        gzbmId:this.form.gzbmId, //工作部门
         gwlbId:this.form.gwlbId, //岗位类别
         gwjd:this.form.gwjd, //岗位绩点
         gzrwzc:this.form.gzrwzc, //工作要求
@@ -287,7 +287,7 @@ export default {
         gwmc:this.form.postName, //岗位名称
         jpksny:this.form.startTime,//竞聘开始时间
         jpjsny:this.form.endTime, //竞聘结束时间
-        gzbu:this.form.department, //工作部门
+        gzbmId:this.form.gzbmId, //工作部门
         gwlbId:this.form.gwlbId, //岗位类别
         gwjd:this.form.gwjd, //岗位绩点
         gzrwzc:this.form.gzrwzc, //工作要求

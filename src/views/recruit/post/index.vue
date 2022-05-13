@@ -76,9 +76,6 @@ export default {
       if(JSON.stringify(this.form)!="{}" && val!=null && val!=undefined && val!=''){
         getPostinfo(val).then((res)=>{
           this.form.postDuty = res.data.data;
-          // this.form.postRequire = res.data.data.postRequire;
-          // this.form.postDuty = res.data.data.postDuty;
-          console.log(res);
         })
       }
     },
