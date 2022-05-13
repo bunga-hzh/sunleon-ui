@@ -94,6 +94,32 @@ export const scoreFormOption = {
       disabled:true
     },
     {
+      label: '评分类型',
+      prop: "pflx",
+      type:'radio',
+      border:true,
+      span: 24,
+      value:0,
+      dicData:[
+        {
+          value:0,
+          label:'面试'
+        },
+        {
+          value:1,
+          label:'笔试'
+        }
+      ]
+    },
+    {
+      label: '备注',
+      prop: "pfbz",
+      span: 24,
+      maxlength:200,
+      showWordLimit:true,
+      type:'textarea',
+    },
+    {
       label: '评分填写',
       prop: 'peopleVO',
       type: 'dynamic',

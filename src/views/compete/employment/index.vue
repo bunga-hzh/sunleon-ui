@@ -8,6 +8,7 @@
         :page.sync="page"
         :table-loading="listLoading"
         :data="list"
+        @row-update="update"
         @on-load="getList"
         @search-change="searchChange"
         @refresh-change="refreshChange"
@@ -34,7 +35,7 @@
 <script>
 
 import {employOptionOption} from "@/views/compete/employment/employOption";
-import {fetchEmployList} from "@/api/compete/employment";
+import {fetchEmployList, updateEmployObj} from "@/api/compete/employment";
 import {exportExcel} from "@/api/recuit/post/post";
 
 export default {
@@ -91,6 +92,13 @@ export default {
         this.list = response.data.data.records
         this.page.total = response.data.data.total
         this.listLoading = false
+      })
+    },
+    update(row, index, done, loading) {
+      updateEmployObj(row).then(res=>{
+        this.getList(this.page)
+        done()
+        this.$notify.success('修改成功!')
       })
     },
     searchChange(form, done) {

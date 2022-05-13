@@ -34,6 +34,7 @@
           <el-button icon="el-icon-check" :size="size" @click="handleConfirm(row,true)" style="margin-left: 10px" :type="type" v-if="row.state=='2'">成功确认</el-button>
           <el-button icon="el-icon-sort" :size="size" @click="handleWorkHandover(row,true)" style="margin-left: 10px" :type="type" v-if="row.state=='4'">开始交接</el-button>
           <el-button icon="el-icon-sort" :size="size" @click="handleWorkHandover(row,false)" style="margin-left: 10px" :type="type" v-if="row.state=='6'">完成交接</el-button>
+          <el-button icon="el-icon-view" :size="size" @click="handleExamAssets(row)" style="margin-left: 10px" :type="type" v-if="row.state=='8'">审核资料</el-button>
           <el-button icon="el-icon-edit" :size="size" @click="handlePinqi(row,true)" style="margin-left: 10px" :type="type" v-if="row.state=='7'">转入聘期</el-button>
           <el-button icon="el-icon-close" :size="size" v-if="row.state=='1' || row.state=='2' || row.state=='4'" style="color:#F56C6C;margin-left: 10px" @click="handleRefuse(row,false)" :type="type">竞聘结束</el-button>
         </template>
@@ -88,10 +89,17 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {nameFormOption, nameListFormOption, nameListOption, pinqiOption} from "@/views/compete/namelist/nameListOption";
+import {
+  handOffExamOption,
+  nameFormOption,
+  nameListFormOption,
+  nameListOption,
+  pinqiOption,
+  stopJinpin
+} from "@/views/compete/namelist/nameListOption";
 import {
   batchSettingConfirm,
-  fetchManageList,
+  fetchManageList, getHandOffWorkAssets,
   JPConfirmation, JPWorkState,
   settingConfirm,
   settingFraction,
@@ -124,7 +132,6 @@ export default {
   },
   methods:{
     exportExcel() {
-      console.log("点击l ")
       let queryParams = {
         "token":null,
         "yearTime":this.searchForm.yearTime,
@@ -158,6 +165,28 @@ export default {
       }).finally(()=>{
         this.listLoading = false;
       });
+    },
+    //审核资料
+    handleExamAssets(row){
+      getHandOffWorkAssets(row.gwtdId).then(res=>{
+        this.$DialogForm.show({
+          title: '转入聘期确认',
+          width: '50%',
+          menuPosition: 'center',
+          option: handOffExamOption,
+          data: {
+            uploads:res.data.data
+          },
+          callback:(resx)=>{
+            JPWorkState({id:row.id,state:false}).then(res=>{
+              this.getList(this.page)
+              resx.close();
+            }).finally(()=>{
+              this.listLoading = false;
+            });
+          }
+        });
+      })
     },
     //聘期
     handlePinqi(row,bool){
@@ -287,20 +316,27 @@ export default {
           this.$message.warning("您所选择的数据中存在已结束竞聘状态的数据，系统已自动忽略!");
         }
       }else{
-        this.$message.warning("您所选择的数据中暂无需要结束竞聘的数据!");
-        return;
+        if(array.length<1){
+          this.$message.warning("您所选择的数据中暂无需要结束竞聘的数据!");
+          return;
+        }
       }
 
-      this.$confirm('确认将选中的竞聘者设置为不通过吗?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(function () {
-        return settingRefuse(array)
-      }).then(() => {
-        this.getList(this.page)
-        this.$message.success('设置成功')
-      })
+      this.$DialogForm.show({
+        title: '结束确认',
+        width: '50%',
+        menuPosition: 'center',
+        option: stopJinpin,
+        beforeClose: (done) => {
+          done()
+        },
+        callback: (res) => {
+          settingRefuse({ids:array,reason:res.data.name}).then(resx=>{
+            this.$message.success('设置成功')
+            res.close()
+          })
+        }
+      });
     },
     handleSuccess(){
       const tempList = this.$refs.crud.tableSelect;

@@ -75,8 +75,7 @@ export default {
     'form.postNameId'(val) {
       if(JSON.stringify(this.form)!="{}" && val!=null && val!=undefined && val!=''){
         getPostinfo(val).then((res)=>{
-          this.form.postRequire = res.data.data.postRequire;
-          this.form.postDuty = res.data.data.postDuty;
+          this.form.postDuty = res.data.data;
         })
       }
     },
@@ -139,6 +138,7 @@ export default {
         endTime:this.form.startTime[1], // 结束时间
         recruitRequire:this.form.recruitRequire, //招聘要求
         isRelease:1, //保存及发布
+        gwlxId:this.form.gwlxId,
       };
       addObj(data).then(res=>{
         this.getList(this.page)
@@ -197,7 +197,8 @@ export default {
         startTime:this.form.startTime[0], //开始时间
         endTime:this.form.startTime[1], // 结束时间
         recruitRequire:this.form.recruitRequire, //招聘要求
-        id:this.form.id
+        id:this.form.id,
+        gwlxId:this.form.gwlxId,
       };
       putObj(data).then(res=>{
         this.getList(this.page)
@@ -215,6 +216,7 @@ export default {
         startTime:this.form.startTime[0], //开始时间
         endTime:this.form.startTime[1], // 结束时间
         recruitRequire:this.form.recruitRequire, //招聘要求
+        gwlxId:this.form.gwlxId,
       };
       addObj(data).then(res=>{
         this.getList(this.page)

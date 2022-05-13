@@ -104,10 +104,21 @@ export default {
       });
     },
     handleRefuse(row){
-      examState(row.deliveryId).then(res=>{
-        this.getList(this.page, this.form)
-      }).catch(err=>{
-      })
+      this.$confirm('此操作将结束该应聘者面试, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        examState(row.deliveryId).then(res=>{
+          this.getList(this.page, this.form)
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          });
+        }).catch(err=>{
+        })
+      }).catch(() => { });
+
     },
     getFixedAddress(){
       getConstantByKey("ZP_MS_DZ").then((res)=>{
@@ -116,7 +127,7 @@ export default {
     },
     getList(page, params) {
       this.listLoading = true;
-      fetchList(Object.assign({}, params, this.searchForm),{
+      fetchList(Object.assign({}, params),{
         current: page.currentPage,
         size: page.pageSize
       }).then(response => {
@@ -137,7 +148,8 @@ export default {
             address:this.fixedAddress,
             detailAddress:row.address,
             interviewTime:row.interviewTime,
-            remark:row.remarks
+            remark:row.remarks,
+            zdyxx:row.zdyxx,
           },type==1 ?{feedback:row.feedback}:null),
           beforeClose: (done) => {
             done()
@@ -151,6 +163,7 @@ export default {
               remarks:res.data.remark, //备注
               deliveryId:row.deliveryId, //投递的岗位ID
               userId:row.userId, //用户ID
+              zdyxx:res.data.zdyxx,
             };
             postReserveData(postData).then((resx)=>{
               res.close();
@@ -164,7 +177,11 @@ export default {
     },
     searchChange(form, done) {
       this.page.currentPage = 1
-      this.getList(this.page, form)
+      let a = form;
+      if(a.postNameIds==''){
+        a.postNameIds = [];
+      }
+      this.getList(this.page, a)
       done()
     },
     refreshChange() {

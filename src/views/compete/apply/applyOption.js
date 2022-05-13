@@ -38,19 +38,43 @@ export const applyOption = {
       hide:true
     },
     {
-      label:'岗位名称',
-      prop:'postName',
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
       search: true,
       span: 24,
+      cascader: ['gwlbId'],
+      dicUrl: "/admin/dict/type/POST_TYPE",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
+    },
+    {
+      label: '所属岗位',
+      prop:'postName',
+    },
+    {
+      label: '所属岗位',
+      prop:'gwlbId',
+      search: true,
+      type: "select",
+      hide:true,
+      rules: [{
+        required: true,
+        message: '请选择岗位类别'
+      }],
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      dicUrl: "/act/gwFb/get_list/{{key}}",
+      span: 24
     },
     {
       label: '工作部门',
       prop:'department',
-      span: 24,
-    },
-    {
-      label: '岗位类别',
-      prop:'postTypeName',
       span: 24,
     },
     {

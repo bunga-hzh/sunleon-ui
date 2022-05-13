@@ -57,6 +57,19 @@ export function getInterviewRecord(deliveryId) {
   })
 }
 
+// /**
+//  * 简历修改记录
+//  * @param deliveryId
+//  * @returns {AxiosPromise}
+//  */
+export function getUpdateResumeRecord(query) {
+  return request({
+    url: '/act/jlLog/page',
+    method: 'get',
+    params:query
+  })
+}
+
 /**
  * 获取当前轮
  * @param deliveryId
@@ -124,5 +137,27 @@ export function getFinalScore(query){
     url:'/act/reports/zp_zm_pf_page',
     method:'get',
     parmas:query
+  })
+}
+
+/**
+ * 提交工作交接单
+ * @param data
+ * @param gwtdId
+ * @returns {*}
+ */
+export function postHandOff(data,gwtdId){
+  return request({
+    url:'/act/jpGwgl/upload/'+gwtdId,
+    method:'post',
+    data:data
+  })
+}
+
+export function downloadResume(id){
+  return request({
+    url:'/act/resume/do_zip_by_user_id/'+id,
+    method:'get',
+    responseType: 'blob'
   })
 }

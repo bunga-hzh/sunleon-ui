@@ -52,6 +52,33 @@ export const reserveOption = {
       searchLabelWidth:90,
     },
     {
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
+      search: true,
+      cascader: ['postNameIds'],
+      dicUrl: "/admin/dict/type/POST_TYPE",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
+    },
+    {
+      label: '应聘岗位',
+      prop:'postNameIds',
+      type: 'select',
+      multiple:true,
+      search: true,
+      showColumn: false,
+      hide: true,
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      dicUrl: "/act/gwFb/get_list/{{key}}"
+    },
+    {
       label: '应聘岗位',
       prop:'postName',
     },
@@ -157,7 +184,13 @@ export const formOption = {
         maxlength:200,
         showWordLimit:true
       },
-
+      {
+        label: "自定义消息",
+        prop: "zdyxx",
+        type:'textarea',
+        maxlength:500,
+        showWordLimit:true
+      },
     ]
 }
 }

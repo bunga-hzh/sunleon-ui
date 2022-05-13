@@ -61,7 +61,7 @@ import {mapGetters} from "vuex";
 import {competePostOption} from "@/views/compete/post/postOption";
 import {addCompeteObj, deletePost, fetchCompeteList, optionRelease} from "@/api/compete/post";
 import ExcelUpload from "@/components/upload/excel";
-import {exportExcel} from "@/api/recuit/post/post";
+import {exportExcel, getPostinfo} from "@/api/recuit/post/post";
 
 export default {
   name:'postc',
@@ -85,6 +85,18 @@ export default {
   },
   computed: {
     ...mapGetters(['permissions'])
+  },
+  watch:{
+    'form.gwlbId'(val) {
+      if(JSON.stringify(this.form)!="{}" && val!=null && val!=undefined && val!=''){
+        console.log(val)
+        getPostinfo(val).then((res)=>{
+          this.form.gzrwzc = res.data.data;
+          // this.form.gzrwzc = res.data.data.postRequire;
+          // this.form.gzrwyq = res.data.data.postDuty;
+        })
+      }
+    },
   },
   methods:{
     //编辑
@@ -252,12 +264,13 @@ export default {
         gwmc:this.form.postName, //岗位名称
         jpksny:this.form.startTime,//竞聘开始时间
         jpjsny:this.form.endTime, //竞聘结束时间
-        gzbu:this.form.department, //工作部门
-        gwlbId:this.form.postTypeName, //岗位类别
+        gzbmId:this.form.gzbmId, //工作部门
+        gwlbId:this.form.gwlbId, //岗位类别
         gwjd:this.form.gwjd, //岗位绩点
         gzrwzc:this.form.gzrwzc, //工作要求
         gzrwyq:this.form.gzrwyq,// 工作条件
         rztj:this.form.rztj, //任职条件
+        gwlxId:this.form.gwlxId, //岗位类型
         id:this.form.id
       };
       addCompeteObj(data).then(res=>{
@@ -274,11 +287,12 @@ export default {
         gwmc:this.form.postName, //岗位名称
         jpksny:this.form.startTime,//竞聘开始时间
         jpjsny:this.form.endTime, //竞聘结束时间
-        gzbu:this.form.department, //工作部门
-        gwlbId:this.form.postTypeName, //岗位类别
+        gzbmId:this.form.gzbmId, //工作部门
+        gwlbId:this.form.gwlbId, //岗位类别
         gwjd:this.form.gwjd, //岗位绩点
         gzrwzc:this.form.gzrwzc, //工作要求
         gzrwyq:this.form.gzrwyq,// 工作条件
+        gwlxId:this.form.gwlxId, //岗位类型
         rztj:this.form.rztj, //任职条件
       };
       addCompeteObj(data).then(res=>{

@@ -12,7 +12,7 @@ export const pmOption = {
   addTitle: '竞聘岗位维护',
   editTitle: '竞聘岗位维护',
   align: 'center',
-  menuWidth: 280,
+  menuWidth: 360,
   menuHeaderAlign: 'center',
   labelWidth: 120,
   gutter: 60,

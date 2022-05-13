@@ -85,3 +85,11 @@ export function JPWorkState(data){
     params:data
   })
 }
+
+
+export function getHandOffWorkAssets(id){
+  return request({
+    url:'/act/jpGwgl/resource/'+id,
+    method:'get'
+  })
+}
