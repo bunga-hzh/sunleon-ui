@@ -41,6 +41,7 @@ import {mapGetters} from "vuex";
 import {arrangeOption,formOption} from './tableOption'
 import {fetchArrangeList, postArrangeData} from "@/api/recuit/arrange/arrange";
 import resumeView from '@/components/resume/resumeView'
+import {examState} from "@/api/recuit/reserve/reserve";
 
 export default {
   name:'Arrange',
@@ -78,7 +79,20 @@ export default {
   methods:{
     //面试结束
     handleStop(row){
-
+      this.$confirm('此操作将结束该应聘者面试, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        examState(row.deliveryId).then(res=>{
+          this.getList(this.page, this.form)
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          });
+        }).catch(err=>{
+        })
+      }).catch(() => { });
     },
     getList(page, params) {
       this.listLoading = false;

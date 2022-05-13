@@ -1,6 +1,4 @@
 import request from '@/router/axios'
-import {jimuUrl} from "@/config/env";
-
 
 /**
  * 查询列表
@@ -25,6 +23,15 @@ export function exportExcel(excelConfigId,queryParam){
       excelConfigId:excelConfigId,
       queryParam:queryParam
     }
+  })
+}
+
+
+export function sendPlatFormNotice(data){
+  return request({
+    url:'/act/resume/send_batch_export_jl_msg',
+    method:'post',
+    data:data
   })
 }
 

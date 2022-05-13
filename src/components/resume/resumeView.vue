@@ -12,7 +12,7 @@
       <el-row :gutter="14">
         <el-col :span="14">
           <el-card>
-            <iframe style="width: 100%;height: calc(100vh - 30vh);border-width: 0px;" :src="'http://192.168.187.121:9999/act/jmreport/view/671004993319235584?token=null&user_id='+userId" />
+            <iframe style="width: 100%;height: calc(100vh - 10vh);border-width: 0px;" :src="'/act/jmreport/view/671004993319235584?token=null&user_id='+userId" />
           </el-card>
         </el-col>
         <el-col :span="10">
@@ -88,6 +88,27 @@
                 </el-timeline>
               </div>
             </el-card>
+
+            <el-card style="margin-top: 20px;" v-if="showView.indexOf('3')!=-1">
+              <div slot="header" class="clearfix">
+                <span>简历修改记录</span>
+              </div>
+<!--              <el-empty v-if="resumeRecordList.length<1" description="暂无记录"></el-empty>-->
+              <div>
+                <avue-crud
+                  ref="crud"
+                  :option="recordOption"
+                  :page.sync="page"
+                  :table-loading="listLoading"
+                  :data="resumeRecordList"
+                  @on-load="getList"
+                  @search-change="searchChange"
+                  @refresh-change="refreshChange"
+                  @size-change="sizeChange"
+                  @current-change="currentChange">
+                </avue-crud>
+              </div>
+            </el-card>
           </div>
         </el-col>
       </el-row>
@@ -99,7 +120,13 @@
 
 <script>
 import {examine} from "@/api/recuit/resume/resume";
-import {getCurrentRecord, getInterviewRecord, getOperationByKey} from "@/api/recuit/common/commonApi";
+import {
+  downloadResume,
+  getCurrentRecord,
+  getInterviewRecord,
+  getOperationByKey,
+  getUpdateResumeRecord
+} from "@/api/recuit/common/commonApi";
 
 export default {
   name: "resumeView",
@@ -126,6 +153,48 @@ export default {
   },
   data() {
     return {
+      resumeRecordList:[],
+      page:{
+        total: 0, // 总页数
+        currentPage: 1, // 当前页数
+        pageSize: 20, // 每页显示多少条,
+        isAsc: false// 是否倒序
+      },
+      listLoading:false,
+      recordOption:{
+        border: true,
+        index: true,
+        indexLabel: '序号',
+        stripe: true,
+        menuAlign: 'center',
+        selection: false,
+        searchMenu:false,
+        editBtn: false,
+        delBtn: false,
+        viewBtn: false,
+        addTitle: '新增招聘岗位',
+        editTitle: '修改招聘岗位',
+        align: 'left',
+        menuWidth: 280,
+        height:300,
+        menu:false,
+        refreshBtn:false,
+        columnBtn:false,
+        menuHeaderAlign: 'center',
+        labelWidth: 120,
+        gutter: 60,
+        addBtn: false,
+        column: [
+          {
+            label:'修改记录',
+            prop:'content'
+          },
+          {
+            label:'修改时间',
+            prop:'createTime'
+          }
+        ]
+      },
       resume:{
         open:false
       },
@@ -155,12 +224,49 @@ export default {
     }
   },
   methods:{
+    getList(page, params) {
+      this.listLoading = true
+      getUpdateResumeRecord(Object.assign({userId:this.userId},params),{ current: page.currentPage,
+        size: page.pageSize}).then(response => {
+        this.resumeRecordList = response.data.data.records
+        this.page.total = response.data.data.total
+        this.listLoading = false
+      })
+    },
+    searchChange(form, done) {
+      this.searchForm = form;
+      this.page.currentPage = 1
+      this.getList(this.page, form)
+      done()
+    },
+    refreshChange() {
+      this.getList(this.page)
+    },
+    sizeChange(pageSize) {
+      this.page.pageSize = pageSize
+    },
+    currentChange(current) {
+      this.page.currentPage = current
+    },
     //结束面试
     handleStop(){
 
     },
     handleExport(){
+      downloadResume(this.userId).then(res=>{
+        const blob = new Blob([res],{ type: "application/zip" });
+        const fileName = this.row.candidateName+'_简历.zip';
+        const linkNode = document.createElement('a');
 
+        linkNode.download = fileName; //a标签的download属性规定下载文件的名称
+        linkNode.style.display = 'none';
+        linkNode.href = URL.createObjectURL(blob); //生成一个Blob URL
+        document.body.appendChild(linkNode);
+        linkNode.click();  //模拟在按钮上的一次鼠标单击
+
+        URL.revokeObjectURL(linkNode.href); // 释放URL 对象
+        document.body.removeChild(linkNode);
+      })
       // let Params = {"printAll":true,"token":"null","user_id":this.userId,"pageNo":1,"pageSize":1,"currentPageNo":"1","currentPageSize":1};
       // window.open(encodeURI('http://192.168.187.121:9999/act/jmreport/show?id=671004993319235584&params='+Params));
       // http://192.168.187.121:9999/act/jmreport/show?id=671004993319235584&params=
@@ -203,6 +309,7 @@ export default {
           })
         }
       }
+      this.getList(this.page);
 
       this.userId = row.userId;
       this.resume.open = true;

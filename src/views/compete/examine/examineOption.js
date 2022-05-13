@@ -44,9 +44,29 @@ export const examineOption = {
       span: 24,
     },
     {
+      label:'部门',
+      prop:'department',
+      span: 24,
+    },
+    {
       label: '申请竞聘岗位名称',
       prop:'postTypeName',
       span: 24,
+    },
+    {
+      label: '岗位变动',
+      prop:'sfyz',
+      span: 24,
+      dicData: [
+        {
+          value:false,
+          label: "否"
+        },
+        {
+          value:true,
+          label: "是"
+        }
+      ]
     },
     {
       label: '状态',

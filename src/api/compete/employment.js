@@ -14,3 +14,16 @@ export function fetchEmployList(query,page) {
     params:page
   })
 }
+
+/**
+ * 更新竞聘者聘期信息
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export function updateEmployObj(data){
+  return request({
+    url:'/act/jpGwgl/employ/edit',
+    method:'post',
+    data:data
+  })
+}

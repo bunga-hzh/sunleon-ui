@@ -73,6 +73,25 @@ export const tableOption = {
       span: 24
     },
     {
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
+      search: true,
+      cascader: ['postNameId'],
+      dicUrl: "/admin/dict/type/POST_TYPE",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
+    },
+    {
+      label: '所属岗位',
+      prop:'postName',
+      addDisplay: false,
+      editDisplay: false
+    },
+    {
       label: '所属岗位',
       prop: 'postNameId',
       search: true,
@@ -82,15 +101,16 @@ export const tableOption = {
         message: '请选择部门',
         trigger: 'change'
       }],
-      filters:true,
+      hide:true,
+      // filters:true,
       searchFilterable:true,
       filterable:true,
       filter:true,
       props: {
-        label: 'postName',
+        label: 'name',
         value: 'id'
       },
-      dicUrl: "/act/sysPostMaintain/getSelect/List"
+      dicUrl: "/act/gwFb/get_list/{{key}}"
     }, {
       label: '招聘负责人',
       prop: 'userName',
@@ -184,8 +204,6 @@ export const tableOption = {
       hide:true,
       type: 'ueditor',
       component: 'avueUeditor',
-      editDisabled: true,
-      addDisabled: true,
       span: 24,
       options: {
         action: "/admin/sys-file/upload",

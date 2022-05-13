@@ -33,21 +33,21 @@ export const MaterialFormOption = {
         span: 24,
         disabled: true
       },
-      {
-        label: '有无犯罪记录',
-        prop:'fzjl',
-        span: 24,
-        detail:true,
-        disabled: true,
-        type:'radio',
-        dicData:[{
-          label:'否',
-          value:'0'
-        },{
-          label:'是',
-          value:'1'
-        }]
-      },
+      // {
+      //   label: '有无犯罪记录',
+      //   prop:'fzjl',
+      //   span: 24,
+      //   detail:true,
+      //   disabled: true,
+      //   type:'radio',
+      //   dicData:[{
+      //     label:'否',
+      //     value:'0'
+      //   },{
+      //     label:'是',
+      //     value:'1'
+      //   }]
+      // },
       {
         label: '审核意见',
         prop:'remark',

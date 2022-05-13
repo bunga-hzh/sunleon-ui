@@ -41,6 +41,7 @@ import {mapGetters} from "vuex";
 import {fetchScoreList, finalPass, getGradingTeacher, postScoreData, transferInReserve} from "@/api/recuit/score/score";
 import {scoreFormOption, scoreOption} from "@/views/recruit/score/tableOption";
 import resumeView from '@/components/resume/resumeView'
+import {examState} from "@/api/recuit/reserve/reserve";
 
 export default {
   name:'Score',
@@ -76,6 +77,23 @@ export default {
     ...mapGetters(['permissions'])
   },
   methods:{
+    handleRefuse(row){
+      this.$confirm('此操作将结束该应聘者面试, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        examState(row.deliveryId).then(res=>{
+          this.getList(this.page, this.form)
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          });
+        }).catch(err=>{
+        })
+      }).catch(() => { });
+
+    },
     //终面通过
     handleFinalPass(row){
       this.$confirm(`应聘者：《${row.candidateName}》终面通过, 是否继续?`, '提示', {
@@ -159,7 +177,9 @@ export default {
               deliveryId:row.deliveryId,
               userId:row.userId,
               reserveId:row.reserveId,
-              peopleVO:res.data.peopleVO
+              peopleVO:res.data.peopleVO,
+              pflx:res.data.pflx,
+              pfbz:res.data.pfbz
             };
             postScoreData(postData).then(resx => {
               res.close();

@@ -14,8 +14,11 @@
         @size-change="sizeChange"
         @current-change="currentChange">
         <template slot-scope="{type,size,row,index}" slot="menu">
-          <el-button icon="el-icon-view" :size="size" @click="handleConfirm(row,false)" style="margin-left: 10px" :type="type">查看人员信息</el-button>
-          <el-button icon="el-icon-edit" :size="size" @click="handleConfirm(row,true)" style="margin-left: 10px" :type="type">录入信息</el-button>
+
+          <el-button icon="el-icon-view" v-if="row.state=='0'" :size="size" @click="handleConfirm(row,false)" style="margin-left: 10px" :type="type">生成账号</el-button>
+          <el-button icon="el-icon-view" :size="size" @click="handleConfirm(row,false)" style="margin-left: 10px" :type="type">发送完善消息</el-button>
+          <el-button icon="el-icon-view" :size="size" @click="handleConfirm(row,false)" style="margin-left: 10px" :type="type">查看基本信息</el-button>
+<!--          <el-button icon="el-icon-edit" :size="size" @click="handleConfirm(row,true)" style="margin-left: 10px" :type="type">录入信息</el-button>-->
         </template>
       </avue-crud>
     </basic-container>
@@ -25,7 +28,6 @@
 
 
 <script>
-import {mapGetters} from "vuex";
 import {pmOption} from "./pm";
 import inductionView from "@/components/induction-components/inductionView";
 import {fetchInductionList} from "@/api/induction/induction";

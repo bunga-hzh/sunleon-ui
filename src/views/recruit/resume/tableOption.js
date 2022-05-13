@@ -13,6 +13,7 @@ export const resumeOption = {
   menuWidth: 180,
   menuHeaderAlign: 'center',
   labelWidth: 120,
+  searchLabelWidth: 120,
   reserveSelection:true,
   gutter: 10,
   addBtn: false,
@@ -33,15 +34,18 @@ export const resumeOption = {
       label: '日期',
       prop: 'yearTime',
       search: true,
-      editDisplay: false,
-      addDisplay: false,
-      showColumn: false,
-      hide: true,
+      viewDisplay:false,
       searchTitle: '日期',
       searchValue: new Date().getFullYear()+"",
       type: 'year',
       format: 'yyyy年',
       valueFormat: 'yyyy',
+      editDisplay: false,
+      addDisplay: false,
+      editDisabled: true,
+      showColumn: false,
+      hide:true,
+      span: 24
     },
     {
       label: '应聘者姓名',
@@ -54,6 +58,19 @@ export const resumeOption = {
       prop:'postName',
     },
     {
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
+      search: true,
+      cascader: ['postNameIds'],
+      dicUrl: "/admin/dict/type/POST_TYPE",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
+    },
+    {
       label: '应聘岗位',
       prop:'postNameIds',
       type: 'select',
@@ -61,14 +78,11 @@ export const resumeOption = {
       search: true,
       showColumn: false,
       hide: true,
-      searchFilterable:true,
-      filterable:true,
-      filter:true,
       props: {
-        label: 'postName',
+        label: 'name',
         value: 'id'
       },
-      dicUrl: "/act/sysPostMaintain/getSelect/List"
+      dicUrl: "/act/gwFb/get_list/{{key}}"
     },
     {
       label: '投递时间',
@@ -142,6 +156,35 @@ export const resumeOption = {
     },
     {
       label: '状态',
+      prop: 'status',
+      searchLabelWidth:120,
+      search: true,
+      editDisplay: false,
+      addDisplay: false,
+      showColumn: false,
+      hide: true,
+      type:'select',
+      dicData:[
+        {
+          value:'0',
+          label:'待处理'
+        },
+        {
+          value:'1',
+          label:'筛选通过'
+        },
+        {
+          value:'2',
+          label:'筛选不通过'
+        },
+        {
+          value:'12',
+          label:'待定'
+        }
+      ]
+    },
+    {
+      label: '状态',
       prop: 'statusName',
       slot:true
     },
@@ -177,4 +220,81 @@ export const resumeOption = {
       dicUrl:`/admin/dict/type_with_dict_id/card_teacher`
     }
   ]
+}
+
+
+export const tableOption = {
+  border: true,
+  index: true,
+  indexLabel: '序号',
+  stripe: true,
+  menuAlign: 'center',
+  searchMenuSpan:6,
+  menu:false,
+  editBtn: false,
+  selection:true,
+  reserveSelection:true,
+  delBtn: false,
+  align: 'center',
+  addBtn: false,
+  column: [{
+    fixed: true,
+    label: 'id',
+    prop: 'userId',
+    span: 24,
+    hide: true,
+    editDisabled: true,
+    addDisplay: false
+  }, {
+    fixed: true,
+    label: '教职工号',
+    prop: 'username',
+    editDisabled: true,
+    slot: true,
+    search: true,
+    span: 24,
+    rules: [{
+      required: true,
+      message: '请输入教职工号'
+    },
+      {
+        min: 3,
+        max: 20,
+        message: '长度在 3 到 20 个字符',
+        trigger: 'blur'
+      }
+    ]
+  },
+    {
+      fixed: true,
+      label: '姓名',
+      prop: 'realName',
+      slot: true,
+      search: true,
+      span: 24,
+      rules: [{
+        required: true,
+        message: '请输入姓名'
+      },
+        {
+          min: 2,
+          max: 20,
+          message: '长度在 2 到 20 个字符',
+          trigger: 'blur'
+        }
+      ]
+    }, {
+      label: '所属部门',
+      prop: 'deptId',
+      formslot: true,
+      slot: true,
+      span: 24,
+      hide: true,
+      dataType:"number",
+      rules: [{
+        required: true,
+        message: '请选择部门',
+        trigger: 'change'
+      }]
+    }]
 }

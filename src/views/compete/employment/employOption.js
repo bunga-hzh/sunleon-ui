@@ -7,14 +7,14 @@ export const employOptionOption = {
   menuAlign: 'center',
   selection: true,
   searchMenuSpan: 6,
-  editBtn: true,
+  editBtn: false,
   delBtn: false,
-  viewBtn: true,
+  viewBtn: false,
   addBtn: false,
   addTitle: '竞聘岗位维护',
   editTitle: '竞聘岗位维护',
   align: 'center',
-  menuWidth: 280,
+  menuWidth: 180,
   menuHeaderAlign: 'center',
   labelWidth: 120,
   gutter: 60,
@@ -53,11 +53,45 @@ export const employOptionOption = {
       prop:'postTypeName'
     },
     {
-      label: '入职日期',
-      prop:'startTime',
+      label: '所属部门',
+      prop:'ssbm',
+    },
+    {
+      label: '开始日期',
+      prop:'rzksny',
       format: 'yyyy-MM-dd',
-      valueFormat: 'yyyy-MM-dd  HH:mm:ss',
+      valueFormat: 'yyyy-MM-dd',
       type: "date",
+    },
+    {
+      label: '到期日期',
+      prop:'rzjsny',
+      format: 'yyyy-MM-dd',
+      valueFormat: 'yyyy-MM-dd',
+      type: "date",
+    },
+    {
+      label: '续签职务职称',
+      prop:'xqzwZc'
+    },
+    {
+      label: '职称',
+      prop:'zc'
+    },
+    {
+      label: '岗位工资',
+      prop:'gwGz',
+      type:'number'
+    },
+    {
+      label: '续签薪级级数',
+      prop:'xqxjJs',
+      type:'number'
+    },
+    {
+      label: '续签薪级工资',
+      prop:'xqxjGz',
+      type:'number'
     },
     {
       label: '最后更新时间',

@@ -36,16 +36,16 @@ export const competePostOption = {
       hide:true,
       span: 24
     },
-    {
-      label:'岗位名称',
-      prop:'postName',
-      search: true,
-      span: 24,
-      rules: [{
-        required: true,
-        message: '请输入岗位名称'
-      }]
-    },
+    // {
+    //   label:'岗位名称',
+    //   prop:'postName',
+    //   search: true,
+    //   span: 24,
+    //   rules: [{
+    //     required: true,
+    //     message: '请输入岗位名称'
+    //   }]
+    // },
     {
       label: '工作部门',
       prop:'department',
@@ -55,6 +55,43 @@ export const competePostOption = {
         required: true,
         message: '请输入工作部门'
       }]
+    },
+    {
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
+      search: true,
+      span: 24,
+      cascader: ['gwlbId'],
+      dicUrl: "/admin/dict/type/POST_TYPE",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
+    },
+    {
+      label: '所属岗位',
+      prop:'postName',
+      addDisplay: false,
+      editDisplay: false
+    },
+    {
+      label: '所属岗位',
+      prop:'gwlbId',
+      search: true,
+      type: "select",
+      hide:true,
+      rules: [{
+        required: true,
+        message: '请选择岗位'
+      }],
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      dicUrl: "/act/gwFb/get_list/{{key}}",
+      span: 24
     },
     {
       label: '状态',
@@ -73,24 +110,6 @@ export const competePostOption = {
           value:'1'
         }
       ]
-    },
-    {
-      label: '岗位类别',
-      prop:'postTypeId',
-      search: true,
-      type: "select",
-      rules: [{
-        required: true,
-        message: '请选择岗位类别'
-      }],
-      dicData:[{
-        label: '模拟岗位一',
-        value: 1
-      }, {
-        label: '模拟岗位二',
-        value: 2
-      }],
-      span: 24
     },
     {
       label: '岗位绩点',
@@ -136,28 +155,12 @@ export const competePostOption = {
       addDisplay: false,
       span: 24
     },
-    // {
-    //   label: '备注',
-    //   prop: 'remarks',
-    //   hide: true,
-    //   type: 'ueditor',
-    //   component: 'avueUeditor',
-    //   span: 24,
-    //   options: {
-    //     action: "/admin/sys-file/upload",
-    //     props: {
-    //       res: "data",
-    //       url: "url"
-    //     },
-    //   }
-    // },
     {
-      label: '工作任务及职责',
-      prop: 'gzrwzc',
-      hide: true,
+      label: '任职条件',
+      prop:'rztj',
+      showColumn:false,
+      hide:true,
       type: 'ueditor',
-      editDisabled: true,
-      addDisabled: true,
       component: 'avueUeditor',
       span: 24,
       options: {
@@ -175,8 +178,6 @@ export const competePostOption = {
       hide:true,
       type: 'ueditor',
       component: 'avueUeditor',
-      editDisabled: true,
-      addDisabled: true,
       span: 24,
       options: {
         action: "/admin/sys-file/upload",
@@ -187,14 +188,13 @@ export const competePostOption = {
       }
     },
     {
-      label: '任职条件',
-      prop:'rztj',
-      showColumn:false,
-      hide:true,
+      label: '工作任务及职责',
+      prop: 'gzrwzc',
+      hide: true,
       type: 'ueditor',
-      component: 'avueUeditor',
       editDisabled: true,
       addDisabled: true,
+      component: 'avueUeditor',
       span: 24,
       options: {
         action: "/admin/sys-file/upload",
