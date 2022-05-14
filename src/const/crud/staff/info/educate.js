@@ -1,9 +1,10 @@
 export const educateOption = {
-  labelWidth: 130,
+  labelWidth: 140,
+  detail: false,
   submitText: '保存',
   column: [{
       label: "毕业院校",
-      prop: "byyx",
+      prop: "qrzbyyx",
     },
     {
       label: "最高学历",

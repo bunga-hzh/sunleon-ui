@@ -1,4 +1,4 @@
-export const page = {
+export const jzg_page = {
   currentPage: 1,
   size: 1000,
 }

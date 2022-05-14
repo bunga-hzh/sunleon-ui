@@ -1,7 +1,7 @@
 export const xljxwOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   column: [{
       label: "学历",
       prop: 'xlm',
@@ -17,6 +17,11 @@ export const xljxwOption = {
       prop: 'bysj',
       type: 'date',
       valueFormat: 'yyyy-MM-dd',
+      rules: [{
+        required: true,
+        message: "请输入毕业时间",
+        trigger: "blur"
+      }],
     },
     {
       label: "学校",
@@ -47,6 +52,7 @@ export const xljxwOption = {
       label: "备注",
       prop: 'bz',
       type: 'textarea',
+      span: 24,
     },
   ]
 }

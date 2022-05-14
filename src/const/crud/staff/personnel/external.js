@@ -6,31 +6,43 @@ export const option = {
   labelWidth: 160,
   index: true,
   column: [{
-      label: "工号",
-      prop: "gh",
-      search: true,
-    },
-    {
       label: "姓名",
       prop: "xm",
       search: true,
+      slotForm: true,
+    },
+    {
+      label: "工号",
+      prop: "gh",
+      search: true,
+      addDisabled: true,
+      editDisabled: true,
+      width: 120,
     },
     {
       label: "部门",
       prop: "orgId",
       search: true,
-      type: 'select'
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      addDisabled: true,
+      editDisabled: true,
+      width: 120,
     },
     {
       label: "性别",
       prop: "xbm",
       type: 'radio',
-      dicUrl: '/admin/dict/type/xb_type',
+      dicUrl: '/admin/dict/type/sex_type',
       props: {
         "label": "label",
         "value": "value",
       },
-      valueDefault: '1',
     },
     {
       label: "民族",
@@ -41,6 +53,7 @@ export const option = {
       prop: "csrq",
       width: 150,
       type: 'date',
+      valueFormat: 'yyyy-MM-dd'
     },
     {
       label: "身份证号码",
@@ -69,11 +82,6 @@ export const option = {
       prop: "sjjn",
     },
     {
-      label: "是否已参加综合保险",
-      prop: "sfycjzhbx",
-      width: 150,
-    },
-    {
       label: "学历",
       prop: "xl",
     },
@@ -92,16 +100,39 @@ export const option = {
       label: "教师资格证",
       prop: "jszgz",
       width: 150,
-    },
-    {
-      label: "双师型教师",
-      prop: "xsxjs",
-      width: 150,
+      type: 'radio',
+      dicUrl: '/admin/dict/type/is_type',
+      props: {
+        "label": "label",
+        "value": "value",
+      },
     },
     {
       label: "所学专业名称",
       prop: "sxzymc",
       width: 150,
+    },
+    {
+      label: "双师型教师",
+      prop: "xsxjs",
+      width: 150,
+      type: 'radio',
+      dicUrl: '/admin/dict/type/is_type',
+      props: {
+        "label": "label",
+        "value": "value",
+      },
+    },
+    {
+      label: "是否已参加综合保险",
+      prop: "sfycjzhbx",
+      width: 150,
+      type: 'radio',
+      dicUrl: '/admin/dict/type/is_type',
+      props: {
+        "label": "label",
+        "value": "value",
+      },
     },
     {
       label: "职业资格证书相关详情",

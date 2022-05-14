@@ -1,6 +1,7 @@
 export const officeOption = {
   submitText: '保存',
   labelWidth: 150,
+  detail: false,
   column: [{
       label: "部门（处室）",
       prop: "bm",
@@ -39,6 +40,7 @@ export const officeOption = {
     {
       label: "实际工作年限",
       prop: "sjgzny",
+      type: 'number',
     },
     {
       label: "进入本单位工作时间",
@@ -110,7 +112,6 @@ export const officeOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/is_type',
-
     },
     {
       label: "是否残疾人",
@@ -121,6 +122,7 @@ export const officeOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/is_type',
+      dicFlag: false,
     },
     {
       label: "是否留学回国",
@@ -131,6 +133,7 @@ export const officeOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/is_type',
+      dicFlag: false,
     },
     {
       label: "是否为应届毕业生",
@@ -141,6 +144,7 @@ export const officeOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/is_type',
+      dicFlag: false,
     },
     {
       label: "减员材料上传",

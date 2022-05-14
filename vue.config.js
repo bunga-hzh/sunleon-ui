@@ -2,7 +2,7 @@
  * 配置参考:
  * https://cli.vuejs.org/zh/config/
  */
-const url = 'http://172.16.1.8:9999'
+const url = 'http://sunleon-gateway:9999'
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
 module.exports = {

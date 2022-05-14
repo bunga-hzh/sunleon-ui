@@ -4,28 +4,36 @@ export const option = {
   searchSpan: 7,
   align: 'center',
   labelWidth: 120,
+  menuWidth: 140,
   index: true,
   column: [{
-      label: "工号",
-      prop: "gh",
-      search: true,
-      // type: 'number',
-    },
-    {
       label: "姓名",
       prop: "xm",
       search: true,
+      slotForm: true,
+    },
+    {
+      label: "工号",
+      prop: "gh",
+      search: true,
+      addDisabled: true,
+      editDisabled: true,
+      width: 120,
     },
     {
       label: "部门",
       prop: "deptId",
       search: true,
-      type: 'select',
-      dicUrl: '/admin/dict/type/post_type',
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
       props: {
-        "label": "label",
-        "value": "value"
+        label: "name",
+        value: "id",
+        children: "children"
       },
+      addDisabled: true,
+      editDisabled: true,
+      width: 120,
     },
     {
       label: "聘任名称",
@@ -42,6 +50,8 @@ export const option = {
     {
       label: "原因",
       prop: "reason",
+      type: 'textarea',
+      span: 24,
     },
     {
       searchLabelWidth: 120,
@@ -65,6 +75,7 @@ export const option = {
       label: "备注",
       prop: "memo",
       type: 'textarea',
+      span: 24,
     },
   ],
 }
