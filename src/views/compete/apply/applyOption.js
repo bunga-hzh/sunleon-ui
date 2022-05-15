@@ -214,6 +214,13 @@ export const applyFormOption = {
           message: "请选择部门",
           trigger: "blur"
         }],
+        props: {
+          label: 'name',
+          value: 'id'
+        },
+        filter:true,
+        type: 'tree',
+        dicUrl: '/act/jpGwgl/tree'
       },
       {
         label: "第一志愿",

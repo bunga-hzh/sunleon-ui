@@ -206,8 +206,9 @@ export default {
     },
     //提交数据
     handleExamine (type) {
+      console.log(type)
       if(type==1 || type==2){
-        if (this.formLabelAlign.okZy==''){
+        if (!this.formLabelAlign.okZy){
           this.$message.error('请选择通过的岗位!')
           return;
         }
@@ -218,6 +219,7 @@ export default {
           return;
         }
       }
+
       const postData = {
         comment:this.formLabelAlign.remark, //审核意见
         // postId:this.formLabelAlign.okZy, //通过的岗位ID

@@ -69,7 +69,7 @@ export default {
             title: '竞聘岗位申请意向表',
             width: '50%',
             data: {
-              name: this.userInfo.username,
+              name: this.userInfo.realName,
               ysgw:this.userInfo.deptId,
             },
             option: tempOption,

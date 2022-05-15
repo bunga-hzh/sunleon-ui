@@ -27,6 +27,15 @@ export default [{
     path: 'induction-info/:id',
     component: () => import('@/components/induction-components/inductionView')
   }]
+},
+{
+  path: '/mail',
+  component: Layout,
+  redirect:'/mail/handoff',
+  children: [{
+    path:'handoff/:id',
+    component:()=>import('@/views/recruit/common/handoff')
+  }]
 }
 
 ]

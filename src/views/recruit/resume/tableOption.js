@@ -178,7 +178,7 @@ export const resumeOption = {
           label:'筛选不通过'
         },
         {
-          value:'12',
+          value:'19',
           label:'待定'
         }
       ]

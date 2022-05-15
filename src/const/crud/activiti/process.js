@@ -82,10 +82,10 @@ export const settingReviewerOption = {
           type:'select',
           remote:true,
           props:{
-            label:'username',
-            value:'username'
+            label:'realName',
+            value:'userName'
           },
-          dicUrl:`/act/resume/select/user?username={{key}}`,
+          dicUrl:`/act/resume/select/user?realName={{key}}`,
         }]
       }
     }

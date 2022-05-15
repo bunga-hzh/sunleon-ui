@@ -85,7 +85,7 @@ export default {
     },
     getList(page, params) {
       this.listLoading = true
-      fetchEmployList(Object.assign({}, params, this.searchForm),{
+      fetchEmployList(Object.assign({}, params),{
         current: page.currentPage,
         size: page.pageSize
       }).then(response => {

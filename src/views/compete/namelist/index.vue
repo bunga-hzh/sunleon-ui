@@ -33,7 +33,7 @@
           </el-popover>
           <el-button icon="el-icon-check" :size="size" @click="handleConfirm(row,true)" style="margin-left: 10px" :type="type" v-if="row.state=='2'">成功确认</el-button>
           <el-button icon="el-icon-sort" :size="size" @click="handleWorkHandover(row,true)" style="margin-left: 10px" :type="type" v-if="row.state=='4'">开始交接</el-button>
-          <el-button icon="el-icon-sort" :size="size" @click="handleWorkHandover(row,false)" style="margin-left: 10px" :type="type" v-if="row.state=='6'">完成交接</el-button>
+<!--          <el-button icon="el-icon-sort" :size="size" @click="handleWorkHandover(row,false)" style="margin-left: 10px" :type="type" v-if="row.state=='6'">完成交接</el-button>-->
           <el-button icon="el-icon-view" :size="size" @click="handleExamAssets(row)" style="margin-left: 10px" :type="type" v-if="row.state=='8'">审核资料</el-button>
           <el-button icon="el-icon-edit" :size="size" @click="handlePinqi(row,true)" style="margin-left: 10px" :type="type" v-if="row.state=='7'">转入聘期</el-button>
           <el-button icon="el-icon-close" :size="size" v-if="row.state=='1' || row.state=='2' || row.state=='4'" style="color:#F56C6C;margin-left: 10px" @click="handleRefuse(row,false)" :type="type">竞聘结束</el-button>

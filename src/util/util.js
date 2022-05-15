@@ -362,3 +362,36 @@ export function getQueryString(url, paraName) {
     return ''
   }
 }
+
+
+/**
+ *
+ * @param url 目标下载接口
+ * @param query 查询参数
+ * @param fileName 文件名称
+ * @returns {*}
+ */
+export function downBlobFile(url, query, fileName) {
+  return request({
+    url: url,
+    method: "get",
+    responseType: "blob",
+    params: query
+  }).then(response => {
+    // 处理返回的文件流
+    const blob = response.data;
+    if (blob && blob.size === 0) {
+      this.$notify.error("内容为空，无法下载");
+      return;
+    }
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    window.setTimeout(function () {
+      URL.revokeObjectURL(blob);
+      document.body.removeChild(link);
+    }, 0);
+  });
+}

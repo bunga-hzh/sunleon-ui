@@ -40,7 +40,7 @@
         <template slot-scope="{type,size,row,index}" slot="menu">
           <el-button icon="el-icon-s-promotion" :size="size" @click="handleRelease(row)" :type="type">{{row.isRelease =='1' ? '撤销发布':'发布'}}</el-button>
           <el-button icon="el-icon-edit" :size="size" @click="$refs.crud.rowEdit(row,index)" :type="type">编辑</el-button>
-          <el-button icon="el-icon-delete" :size="size" @click="handleDel(row)" :disabled="row.isRelease =='1'" :type="type">删除</el-button>
+          <el-button icon="el-icon-delete" :size="size  " @click="handleDel(row)" :disabled="row.isRelease =='1'" :type="type">删除</el-button>
         </template>
       </avue-crud>
       <!--excel 模板导入 -->
@@ -49,7 +49,7 @@
         title="竞聘岗位导入"
         url="/act/jpGwgl/batchImport"
         temp-name="竞聘岗位导入模板.xls"
-        temp-url="/admin/sys-file/res/template/jpgwmb.xls"
+        temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/jpgwmb.xls"
         @refreshDataList="handleRefreshChange"
       ></excel-upload>
     </basic-container>

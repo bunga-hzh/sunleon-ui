@@ -57,6 +57,10 @@ export const examineOption = {
       type:'select',
       dicData:[
         {
+          label:'他人审核中',
+          value:'-1'
+        },
+        {
           label:'待审核',
           value:'0'
         },

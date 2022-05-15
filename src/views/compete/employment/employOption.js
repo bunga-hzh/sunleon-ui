@@ -7,7 +7,7 @@ export const employOptionOption = {
   menuAlign: 'center',
   selection: true,
   searchMenuSpan: 6,
-  editBtn: false,
+  editBtn: true,
   delBtn: false,
   viewBtn: false,
   addBtn: false,
@@ -45,16 +45,61 @@ export const employOptionOption = {
       span: 24,
     },
     {
-      label: '岗位名称',
-      prop:'postName'
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
+      search: true,
+      span: 12,
+      cascader: ['gwId'],
+      dicUrl: "/admin/dict/type/POST_TYPE",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
     },
     {
-      label: '岗位类别',
-      prop:'postTypeName'
+      label: '所属岗位',
+      prop:'postName',
+      addDisplay: false,
+      editDisplay: false
     },
+    {
+      label: '所属岗位',
+      prop:'gwId',
+      search: true,
+      type: "select",
+      searchMultiple:true,
+      hide:true,
+      rules: [{
+        required: true,
+        message: '请选择岗位'
+      }],
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      dicUrl: "/act/gwFb/get_list/{{key}}",
+      span: 12
+    },
+    // {
+    //   label: '岗位名称',
+    //   prop:'postName'
+    // },
+    // {
+    //   label: '岗位类别',
+    //   prop:'postTypeName'
+    // },
     {
       label: '所属部门',
-      prop:'ssbm',
+      prop:'bmId',
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      filter:true,
+      type: 'tree',
+      dicUrl: '/act/jpGwgl/tree'
     },
     {
       label: '开始日期',

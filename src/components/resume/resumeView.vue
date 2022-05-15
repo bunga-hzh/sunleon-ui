@@ -43,15 +43,14 @@
             </el-row>
           </el-card>
           <div>
-            <el-card style="margin-top: 20px;" v-if="showView.indexOf('4')!=-1">
+            <el-card style="margin-top: 20px;" v-if="showView.indexOf('4')!=-1 && row.deliveryId">
               <div slot="header" class="clearfix">
                 <span>当前环节评分</span>
               </div>
-<!--              <el-empty v-if="currentList.length<1" description="暂无记录"></el-empty>-->
               <avue-crud :data="currentData" :option="option" ></avue-crud>
 
             </el-card>
-            <el-card style="margin-top: 20px;" v-if="showView.indexOf('2')!=-1">
+            <el-card style="margin-top: 20px;" v-if="showView.indexOf('2')!=-1 && row.deliveryId">
               <div slot="header" class="clearfix">
                 <span>面试记录</span>
               </div>

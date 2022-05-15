@@ -9,7 +9,7 @@ import './error' // 日志
 import './cache'//页面缓冲
 import router from './router/router'
 import store from './store'
-import { loadStyle } from './util/util'
+import { loadStyle,downBlobFile } from './util/util'
 import * as urls from '@/config/env'
 import { iconfontUrl, iconfontVersion } from '@/config/env'
 import * as filters from './filters' // 全局filter
@@ -21,6 +21,7 @@ import basicContainer from './components/basic-container/main'
 import AvueUeditor from 'avue-plugin-ueditor'
 import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/index.css';
+Vue.prototype.downBlobFile = downBlobFile;
 
 // 插件 json 展示
 Vue.use(router)

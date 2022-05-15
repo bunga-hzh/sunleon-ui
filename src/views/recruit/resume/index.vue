@@ -269,8 +269,9 @@ export default {
       }
       let array = [];
       let isStatus = false;
+      console.log(tempList)
       tempList.map((item)=>{
-        if(item.status==0 || item.status == 12){
+        if(item.status==0 || item.status == 19){
           array.push(item.id)
         }else{
           isStatus = true;

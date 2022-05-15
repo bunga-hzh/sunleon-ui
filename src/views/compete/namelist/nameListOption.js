@@ -75,7 +75,7 @@ export const nameListOption = {
           value:'6'
         },
         {
-          label:'交接完成，待转入',
+          label:'待转入',
           value:'7'
         },
         {
