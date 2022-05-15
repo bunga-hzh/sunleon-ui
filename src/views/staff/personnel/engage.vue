@@ -2,8 +2,8 @@
   <div class="engage_container">
     <basic-container>
       <avue-crud
+        v-model="form"
         :option="option"
-        :search.sync="search"
         :data="data"
         :page.sync="page"
         @on-load="loadList"
@@ -13,6 +13,16 @@
         @refresh-change="refreshChange"
         @search-change="searchChange"
       >
+        <template slot="xmForm" slot-scope="{ type }">
+          <el-autocomplete
+            :disabled="type === 'edit' ? true : false"
+            v-model="form.xm"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="请输入姓名"
+            @select="handleSelect"
+            clearable
+          ></el-autocomplete>
+        </template>
       </avue-crud>
     </basic-container>
   </div>
@@ -22,6 +32,8 @@
 import { option } from "@/const/crud/staff/personnel/engage";
 import { get, add, edit, del } from "@/const/staff/crud";
 import { result } from "@/const/staff/message";
+import { fetchList } from "@/api/staff/crud";
+import { jzg_page } from "@/const/staff/page";
 
 export default {
   name: "TableEngage",
@@ -35,8 +47,11 @@ export default {
       // 数据源
       data: undefined,
       option: option,
-      // 搜索的表单对象
-      search: {},
+      // 表单对象
+      form: {},
+
+      restaurants: [],
+      timeout: null,
     };
   },
   methods: {
@@ -50,7 +65,7 @@ export default {
         query,
         this.search
       );
-      if (!result(this, res, "get")) return true;
+      if (res.code !== 0) return this.$message.error(res.msg);
       this.data = res.data.records;
       this.page.total = res.data.total;
     },
@@ -106,6 +121,45 @@ export default {
       this.getList(this.page, form);
       done();
     },
+
+    async loadAll() {
+      const { data: res } = await fetchList("info", jzg_page);
+      if (res.code !== 0) return true;
+      res.data.records.forEach((item) => {
+        this.restaurants.push({
+          value: item.xm,
+          gh: item.gh,
+          deptId: item.orgId,
+          staffId: item.id,
+        });
+      });
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString
+        ? restaurants.filter(this.createStateFilter(queryString))
+        : restaurants;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 1000);
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    handleSelect(item) {
+      this.form.gh = item.gh;
+      this.form.deptId = item.deptId;
+      this.form.staffId = item.staffId;
+    },
+  },
+  mounted() {
+    this.loadAll();
   },
 };
 </script>

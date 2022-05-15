@@ -1,6 +1,7 @@
 export const banknoOption = {
   submitText: '保存',
   labelWidth: 140,
+  detail: false,
   column: [{
       label: "中国建设银行卡号",
       prop: "zgjsyhkh",

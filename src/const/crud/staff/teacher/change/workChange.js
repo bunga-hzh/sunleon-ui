@@ -26,6 +26,13 @@ export const optionList = [{
         search: true,
         addDisabled: true,
         editDisabled: true,
+        type: 'tree',
+        dicUrl: 'admin/dept/tree',
+        props: {
+          label: "name",
+          value: "id",
+          children: "children"
+        },
       },
       {
         label: "实习期（月）",
@@ -88,6 +95,13 @@ export const optionList = [{
         search: true,
         addDisabled: true,
         editDisabled: true,
+        type: 'tree',
+        dicUrl: 'admin/dept/tree',
+        props: {
+          label: "name",
+          value: "id",
+          children: "children"
+        },
       },
       {
         label: "试用期(月)",
@@ -150,6 +164,13 @@ export const optionList = [{
         search: true,
         addDisabled: true,
         editDisabled: true,
+        type: 'tree',
+        dicUrl: 'admin/dept/tree',
+        props: {
+          label: "name",
+          value: "id",
+          children: "children"
+        },
       },
       {
         label: "岗位",
@@ -205,6 +226,13 @@ export const optionList = [{
         search: true,
         addDisabled: true,
         editDisabled: true,
+        type: 'tree',
+        dicUrl: 'admin/dept/tree',
+        props: {
+          label: "name",
+          value: "id",
+          children: "children"
+        },
       },
       {
         label: "薪资",
@@ -261,6 +289,13 @@ export const optionList = [{
         search: true,
         addDisabled: true,
         editDisabled: true,
+        type: 'tree',
+        dicUrl: 'admin/dept/tree',
+        props: {
+          label: "name",
+          value: "id",
+          children: "children"
+        },
       },
       {
         label: "转岗时间",
@@ -318,6 +353,13 @@ export const optionList = [{
         search: true,
         addDisabled: true,
         editDisabled: true,
+        type: 'tree',
+        dicUrl: 'admin/dept/tree',
+        props: {
+          label: "name",
+          value: "id",
+          children: "children"
+        },
       },
       {
         label: "异动时间",

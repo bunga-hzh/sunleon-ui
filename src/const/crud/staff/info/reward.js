@@ -1,6 +1,7 @@
 export const rewardOption = {
   submitText: '保存',
-  labelWidth: 120,
+  detail: false,
+  labelWidth: 130,
   column: [{
       label: "奖励名称",
       prop: "jlmc",

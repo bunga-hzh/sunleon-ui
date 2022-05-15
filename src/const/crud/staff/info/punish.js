@@ -1,6 +1,7 @@
 export const punishOption = {
   submitText: '保存',
-  labelWidth: 100,
+  detail: false,
+  labelWidth: 110,
   column: [{
       label: "处分类别",
       prop: "cflb",

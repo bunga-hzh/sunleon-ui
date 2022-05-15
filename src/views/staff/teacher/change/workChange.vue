@@ -23,8 +23,9 @@
             @refresh-change="refreshChange"
             @search-change="searchChange"
           >
-            <template slot="xmForm">
+            <template slot="xmForm" slot-scope="{ type }">
               <el-autocomplete
+                :disabled="type === 'edit' ? true : false"
                 v-model="form.xm"
                 :fetch-suggestions="querySearchAsync"
                 placeholder="请输入姓名"
@@ -86,7 +87,7 @@ import {
 
 import { add, edit, getList, delData, searchData } from "@/const/staff/crud";
 import { fetchList } from "@/api/staff/crud";
-import { page } from "@/const/staff/page";
+import { jzg_page } from "@/const/staff/page";
 import { result } from "@/const/staff/message";
 
 export default {
@@ -170,7 +171,7 @@ export default {
     },
 
     async loadAll() {
-      const { data: res } = await fetchList("info", page);
+      const { data: res } = await fetchList("info", jzg_page);
       if (res.code !== 0) return true;
       res.data.records.forEach((item) => {
         this.restaurants.push({
@@ -261,6 +262,7 @@ export default {
     },
     refreshChange() {
       getList(this.apiUrlList[this.activeName - 1], this);
+      this.$message.success("刷新成功！");
     },
     searchChange(form, done) {
       searchData(this.apiUrlList[this.activeName - 1], this, form, done);

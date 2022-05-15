@@ -1,5 +1,6 @@
 export const salaryOption = {
   submitText: '保存',
+  detail: false,
   labelWidth: 120,
   column: [{
       label: "岗位绩点",
@@ -87,7 +88,8 @@ export const salaryOption = {
         res: 'data'
       },
       tip: '只能上传jpg/png格式，且不超过500kb',
-      action: '/imgupload'
+      action: '/imgupload',
+      span: 24
     },
   ]
 }

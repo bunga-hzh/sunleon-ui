@@ -1,5 +1,6 @@
 export const examineOption = {
   submitText: '保存',
+  detail: false,
   column: [{
       label: "姓名",
       prop: "xm",

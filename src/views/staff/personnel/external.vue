@@ -2,8 +2,8 @@
   <div class="engage_container">
     <basic-container>
       <avue-crud
+        v-model="form"
         :option="option"
-        :search.sync="search"
         :data="data"
         :page.sync="page"
         @on-load="getList"
@@ -13,6 +13,16 @@
         @refresh-change="refreshChange"
         @search-change="searchChange"
       >
+        <template slot="xmForm" slot-scope="{ type }">
+          <el-autocomplete
+            :disabled="type === 'edit' ? true : false"
+            v-model="form.xm"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="请输入姓名"
+            @select="handleSelect"
+            clearable
+          ></el-autocomplete>
+        </template>
         <template slot="zyzgzsxgxq" slot-scope="scope">
           <el-button type="text" @click="view('wpjsworks', scope.row)"
             >查看</el-button
@@ -49,7 +59,6 @@
 import { option, childOption } from "@/const/crud/staff/personnel/external";
 
 import {
-  get,
   add,
   edit,
   del,
@@ -61,7 +70,7 @@ import {
 } from "@/const/staff/crud";
 
 import { fetchList } from "@/api/staff/crud";
-
+import { jzg_page } from "@/const/staff/page";
 import { result } from "@/const/staff/message";
 
 export default {
@@ -80,8 +89,7 @@ export default {
       data: [],
       // crud配置对象
       option: option,
-      // 搜索的表单对象
-      search: {},
+
       childOption: undefined,
       childData: undefined,
 
@@ -89,6 +97,9 @@ export default {
       dialogVisible: false,
       requestUrl: undefined,
       wpjsId: undefined,
+
+      restaurants: [],
+      timeout: null,
     };
   },
   methods: {
@@ -108,6 +119,7 @@ export default {
     },
     refreshChange() {
       this.getList();
+      this.$message.success("刷新成功！");
     },
     searchChange(form, done) {
       searchData("wpjs", this, form, done);
@@ -149,6 +161,7 @@ export default {
     },
     refreshChangeChild() {
       this.getListChild();
+      this.$message.success("刷新成功！");
     },
 
     changeRequestUrl(type) {
@@ -169,6 +182,42 @@ export default {
       }
       this.dialogVisible = true;
     },
+    async loadAll() {
+      const { data: res } = await fetchList("info", jzg_page);
+      if (res.code !== 0) return true;
+      res.data.records.forEach((item) => {
+        this.restaurants.push({
+          value: item.xm,
+          gh: item.gh,
+          orgId: item.orgId,
+        });
+      });
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString
+        ? restaurants.filter(this.createStateFilter(queryString))
+        : restaurants;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 1000);
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    handleSelect(item) {
+      this.form.gh = item.gh;
+      this.form.orgId = item.orgId;
+    },
+  },
+  mounted() {
+    this.loadAll();
   },
 };
 </script>

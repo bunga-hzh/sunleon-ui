@@ -1,6 +1,7 @@
 export const jsfzxxOption = {
-  labelWidth: 160,
+  labelWidth: 170,
   submitText: '保存',
+  detail: false,
   column: [{
       label: "师训帐号",
       prop: "sxzh",
@@ -20,6 +21,10 @@ export const jsfzxxOption = {
       dicUrl: '/admin/dict/type/account_sh_type',
     },
     {
+      label: "名师工作室主持人级别",
+      prop: "msgzszcrjb",
+    },
+    {
       label: "是否名师工作室主持人",
       prop: "sfmsgzszcr",
       type: "radio",
@@ -28,10 +33,6 @@ export const jsfzxxOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/account_sh_type',
-    },
-    {
-      label: "名师工作室主持人级别",
-      prop: "msgzszcrjb",
     },
     {
       label: "名师工作室主持人备注",

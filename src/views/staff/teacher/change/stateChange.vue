@@ -4,7 +4,6 @@
       <avue-crud
         v-model="form"
         :option="option"
-        :search.sync="search"
         :data="data"
         :page.sync="page"
         @on-load="loadList"
@@ -14,14 +13,15 @@
         @refresh-change="refreshChange"
         @search-change="searchChange"
       >
-        <template slot="changeEvidenceForm">
-          <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
-            list-type="picture"
-          >
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+        <template slot="xmForm" slot-scope="{ type }">
+          <el-autocomplete
+            :disabled="type === 'edit' ? true : false"
+            v-model="form.xm"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="请输入姓名"
+            @select="handleSelect"
+            clearable
+          ></el-autocomplete>
         </template>
       </avue-crud>
     </basic-container>
@@ -30,12 +30,10 @@
 
 <script>
 import { option } from "@/const/crud/staff/teacher/change/stateChange";
-import {
-  fetchList,
-  addObj,
-  putObj,
-  delObj,
-} from "@/api/staff/teacher/change/stateChange";
+import { add, edit, getList, delData, searchData } from "@/const/staff/crud";
+import { fetchList } from "@/api/staff/crud";
+import { jzg_page } from "@/const/staff/page";
+import { result } from "@/const/staff/message";
 
 export default {
   name: "StateChange",
@@ -45,8 +43,6 @@ export default {
       option: option,
       // 表格数据源集合
       data: undefined,
-      // 搜索的表单对象
-      search: {},
       // 分页查询对象
       page: {
         total: 0,
@@ -55,83 +51,90 @@ export default {
       },
       // 表单对象
       form: {},
-      // 下拉对象
-      objIdOption: undefined,
-      ydlxOption: undefined,
+
+      restaurants: [],
+      timeout: null,
     };
   },
   methods: {
-    async getList(page, params) {
-      const { data: res } = await fetchList(
-        Object.assign(
-          {
-            current: page.currentPage,
-            size: page.pageSize,
-          },
-          params,
-          this.search
-        )
-      );
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.data = res.data.records;
-      this.page.total = res.data.total;
-    },
-
     loadList() {
-      this.getList(this.page);
+      getList("change", this);
     },
 
     // 新增
     async add(form, done, loading) {
-      const { data: res } = await addObj(form);
-      if (res.code !== 0) {
+      const { data: res } = await add("change", form);
+      if (!result(this, res, "add")) {
+        done();
         loading();
-        return this.$message.error(res.msg);
       }
-      this.$message.success("添加成功！");
       done(form);
+      loading();
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const { data: res } = await putObj(form);
-      if (res.code !== 0) {
-        this.$message.error(res.code);
+      const { data: res } = await edit("change", form);
+      if (!result(this, res, "edit")) {
+        done();
         loading();
       }
-      this.$message.success("修改成功！");
-      loading();
       done(form);
+      loading();
     },
     // 删除
     rowDel(form, index) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(async () => {
-          const { data: res } = await delObj(form.id);
-          if (res.code !== 0) return this.message.error(res.msg);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-          this.loadList();
-        })
-        .catch(() => {});
+      delData("change", this, form, index, () => {
+        getList("change", this);
+      });
     },
     // 刷新
     refreshChange() {
-      this.loadList();
+      getList("change", this);
       this.$message.success("刷新成功！");
     },
     // 搜索
     searchChange(form, done) {
-      this.search = form;
-      this.page.currentPage = 1;
-      this.getList(this.page, form);
-      done();
+      searchData("change", this, form, done);
     },
+
+    async loadAll() {
+      const { data: res } = await fetchList("info", jzg_page);
+      if (res.code !== 0) return true;
+      res.data.records.forEach((item) => {
+        this.restaurants.push({
+          value: item.xm,
+          gh: item.gh,
+          orgId: item.orgId,
+          staffId: item.id,
+        });
+      });
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString
+        ? restaurants.filter(this.createStateFilter(queryString))
+        : restaurants;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 1000 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    handleSelect(item) {
+      this.form.gh = item.gh;
+      this.form.orgId = item.orgId;
+      this.form.staffId = item.staffId;
+    },
+  },
+  mounted() {
+    this.loadAll();
   },
 };
 </script>

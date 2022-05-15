@@ -6,20 +6,20 @@ export const option = {
   searchMenuSpan: 4,
   labelWidth: 120,
   searchSpan: 7,
+  menuWidth: 140,
   column: [{
       label: "姓名",
       prop: "xm",
       search: true,
       searchSpan: 7,
-      editDisabled: true,
+      slotForm: true,
     },
     {
       label: "工号",
       prop: "staffId",
       search: true,
-      // addDisabled: true,
+      addDisabled: true,
       editDisabled: true,
-      // type: 'number',
     },
     {
       label: "部门名称",
@@ -27,6 +27,14 @@ export const option = {
       search: true,
       addDisabled: true,
       editDisabled: true,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      width: 120,
     },
     {
       label: "异动类型",
@@ -67,12 +75,19 @@ export const option = {
     {
       label: "备注",
       prop: "memo",
-
+      type: "textarea",
+      span: 24,
     },
     {
       label: "证明附件",
       prop: "changeEvidence",
-      formslot: true,
+      type: 'upload',
+      propsHttp: {
+        res: 'data'
+      },
+      tip: '只能上传jpg/png格式，且不超过500kb',
+      action: '/imgupload',
+      span: 24,
     },
   ],
 }
