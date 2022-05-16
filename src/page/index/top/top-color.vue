@@ -3,31 +3,32 @@
     :predefine="predefineColors"
     v-model="themeVal"
     size="mini"
-    style="padding-top:18px;"
+    style="padding-top: 18px"
     class="theme-picker"
-    popper-class="theme-picker-dropdown"/>
+    popper-class="theme-picker-dropdown"
+  />
 </template>
 
 <script>
-import color from '@/mixins/color'
+import color from "@/mixins/color";
 export default {
-  name: 'TopColor',
+  name: "TopColor",
   mixins: [color()],
   data() {
     return {
-      chalk: '',
+      chalk: "",
       predefineColors: [
-        '#ff4500',
-        '#ff8c00',
-        '#ffd700',
-        '#90ee90',
-        '#00ced1',
-        '#1e90ff',
-        '#c71585'
-      ]
-    }
-  }
-}
+        "#56BF99",
+        "#ff8c00",
+        "#ffd700",
+        "#90ee90",
+        "#00ced1",
+        "#1e90ff",
+        "#c71585",
+      ],
+    };
+  },
+};
 </script>
 
 <style>

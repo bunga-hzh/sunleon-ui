@@ -1,7 +1,9 @@
-import { mapGetters } from 'vuex'
+import {
+  mapGetters
+} from 'vuex'
 const version = require('element-ui/package.json').version // element-ui version from node_modules
-const ORIGINAL_THEME = '#56bf99' // default color
-export default function() {
+const ORIGINAL_THEME = '#409EFF' // default color
+export default function () {
   return {
     data() {
       return {
