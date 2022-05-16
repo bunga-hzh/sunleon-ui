@@ -1,8 +1,9 @@
 export const parttimejobOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 130,
+  addBtn: true,
   column: [{
       label: "社会兼职起始日期",
       prop: 'shjzqsrq',

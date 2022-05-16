@@ -64,7 +64,7 @@
       </template>
 
       <el-tabs v-model="activeName" type="card" @tab-click="tabChange">
-        <el-tab-pane label="人员基本情况" name="1">
+        <el-tab-pane label="人员基本情况" name="info">
           <table>
             <tr>
               <th>
@@ -121,8 +121,12 @@
               </td>
             </tr>
           </table>
-          <el-collapse accordion>
-            <el-collapse-item title="学历及学位子集">
+          <el-collapse
+            v-model="collapseActiveName"
+            @change="collapseActive"
+            accordion
+          >
+            <el-collapse-item title="学历及学位子集" name="xljxw">
               <avue-crud
                 :data="xljxw_tableData"
                 :option="xljxwOption"
@@ -132,7 +136,7 @@
                 @row-del="xljxwRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="个人履历子集（校外）">
+            <el-collapse-item title="个人履历子集（校外）" name="grll">
               <avue-crud
                 :data="grll_tableData"
                 :option="grllOption"
@@ -142,7 +146,7 @@
                 @row-del="grllRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="家属子集">
+            <el-collapse-item title="家属子集" name="family">
               <avue-crud
                 :data="family_tableData"
                 :option="familyOption"
@@ -154,7 +158,7 @@
             </el-collapse-item>
           </el-collapse>
         </el-tab-pane>
-        <el-tab-pane label="任职信息" name="2">
+        <el-tab-pane label="任职信息" name="office">
           <table>
             <tr>
               <th>
@@ -175,8 +179,12 @@
               </td>
             </tr>
           </table>
-          <el-collapse accordion>
-            <el-collapse-item title="校内职务表">
+          <el-collapse
+            v-model="collapseActiveName"
+            @change="collapseActive"
+            accordion
+          >
+            <el-collapse-item title="校内职务表" name="leader">
               <avue-crud
                 :data="leader_tableData"
                 :option="leaderOption"
@@ -186,7 +194,7 @@
                 @row-del="leaderRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="专业技术职务子集">
+            <el-collapse-item title="专业技术职务子集" name="professionduty">
               <avue-crud
                 :data="professionduty_tableData"
                 :option="professiondutyOption"
@@ -196,7 +204,10 @@
                 @row-del="professiondutyRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="工人技术等级及职务子集">
+            <el-collapse-item
+              title="工人技术等级及职务子集"
+              name="workerskillgrade"
+            >
               <avue-crud
                 :data="workerskillgrade_tableData"
                 :option="workerskillgradeOption"
@@ -206,7 +217,7 @@
                 @row-del="workerskillgradeRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="社会兼职子集">
+            <el-collapse-item title="社会兼职子集" name="parttimejob">
               <avue-crud
                 :data="parttimejob_tableData"
                 :option="parttimejobOption"
@@ -216,7 +227,7 @@
                 @row-del="parttimejobRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="服务协议子集">
+            <el-collapse-item title="服务协议子集" name="servicetoenterprise">
               <avue-crud
                 :data="servicetoenterprise_tableData"
                 :option="servicetoenterpriseOption"
@@ -228,7 +239,7 @@
             </el-collapse-item>
           </el-collapse>
         </el-tab-pane>
-        <el-tab-pane label="年度考核" name="3">
+        <el-tab-pane label="年度考核" name="examine">
           <table>
             <tr>
               <th>
@@ -250,7 +261,7 @@
             </tr>
           </table>
         </el-tab-pane>
-        <el-tab-pane label="教师发展信息" name="4">
+        <el-tab-pane label="教师发展信息" name="jsfzxx">
           <table>
             <tr>
               <th>
@@ -271,8 +282,12 @@
               </td>
             </tr>
           </table>
-          <el-collapse accordion>
-            <el-collapse-item title="教师资格证子集">
+          <el-collapse
+            v-model="collapseActiveName"
+            @change="collapseActive"
+            accordion
+          >
+            <el-collapse-item title="教师资格证子集" name="jszgz">
               <avue-crud
                 :data="jszgz_tableData"
                 :option="jszgzOption"
@@ -282,7 +297,7 @@
                 @row-del="jszgzRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="职业资格证子集">
+            <el-collapse-item title="职业资格证子集" name="certificate">
               <avue-crud
                 :data="certificate_tableData"
                 :option="certificateOption"
@@ -292,7 +307,7 @@
                 @row-del="certificateRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="教育培训子集">
+            <el-collapse-item title="教育培训子集" name="train">
               <avue-crud
                 :data="train_tableData"
                 :option="trainOption"
@@ -304,7 +319,7 @@
             </el-collapse-item>
           </el-collapse>
         </el-tab-pane>
-        <el-tab-pane label="奖惩信息" name="5">
+        <el-tab-pane label="奖惩信息" name="punish_reward">
           <table>
             <tr>
               <th>
@@ -344,7 +359,7 @@
             </tr>
           </table>
         </el-tab-pane>
-        <el-tab-pane label="薪酬福利信息" name="6">
+        <el-tab-pane label="薪酬福利信息" name="salary">
           <table>
             <tr>
               <th>
@@ -366,7 +381,7 @@
             </tr>
           </table>
         </el-tab-pane>
-        <el-tab-pane label="财务信息" name="7">
+        <el-tab-pane label="财务信息" name="bankno">
           <table>
             <tr>
               <th>
@@ -388,9 +403,13 @@
             </tr>
           </table>
         </el-tab-pane>
-        <el-tab-pane label="其他信息" name="8">
-          <el-collapse accordion>
-            <el-collapse-item title="因公/因私护照">
+        <el-tab-pane label="其他信息" name="other">
+          <el-collapse
+            v-model="collapseActiveName"
+            @change="collapseActive"
+            accordion
+          >
+            <el-collapse-item title="因公/因私护照" name="furtherstudyforeign">
               <avue-crud
                 :data="furtherstudyforeign_tableData"
                 :option="furtherstudyforeignOption"
@@ -400,7 +419,10 @@
                 @row-del="furtherstudyforeignRowDel"
               ></avue-crud>
             </el-collapse-item>
-            <el-collapse-item title="组织考察（考核）子集">
+            <el-collapse-item
+              title="组织考察（考核）子集"
+              name="organiseinspect"
+            >
               <avue-crud
                 :data="organiseinspect_tableData"
                 :option="organiseinspectOption"
@@ -454,9 +476,11 @@ export default {
     return {
       title: undefined,
       // 用户id
-      staff_id: undefined,
+      staffId: undefined,
       // 标签页激活项
-      activeName: "1",
+      activeName: "info",
+      // 折叠面板激活项
+      collapseActiveName: undefined,
       // 控制弹窗全屏
       dialogFull: false,
 
@@ -487,6 +511,7 @@ export default {
       bankno_obj: {},
       reward_obj: {},
       obj: {},
+
       //主表 option
       infoOption: infoOption,
       educateOption: educateOption,
@@ -558,7 +583,7 @@ export default {
   methods: {
     // 获取表格数据
     async get(form) {
-      const { data: res } = await get("info", this.page, form, this.search);
+      const { data: res } = await get("info", this.page, form);
       if (res.code !== 0)
         return this.$message.error("获取数据失败！--" + res.message);
       this.data = res.data.records;
@@ -566,7 +591,6 @@ export default {
     },
     // 表格刷新
     searchChange(form, done) {
-      this.search = form;
       this.page.currentPage = 1;
       this.get(form);
       done();
@@ -595,26 +619,36 @@ export default {
       if (this.infoOption.submitText === "添加") {
         setTimeout(async () => {
           const { data: res } = await add("info", form);
-          if (!result(this, res, "add")) return true;
+          if (
+            !result(this, res, "save", () => {
+              loading();
+            })
+          )
+            return true;
           loading();
           this.infoOption.submitText = "修改";
-          this.staff_id = res.data;
+          this.staffId = res.data;
         }, 1000);
       }
       if (this.infoOption.submitText === "修改") {
         setTimeout(async () => {
-          form.id = this.staff_id;
+          form.id = this.staffId;
           const { data: res } = await edit("info", form);
-          if (!result(this, res, "edit")) return true;
+          if (
+            !result(this, res, "save", () => {
+              loading();
+            })
+          )
+            return true;
           loading();
         }, 1000);
       }
     },
 
-    // 判断 staff_id 是否存在
+    // 判断 staffId 是否存在
     existId(loading, cb) {
       setTimeout(async () => {
-        if (this.staff_id === undefined) {
+        if (this.staffId === undefined) {
           this.$message.error("请先添加基本信息");
           loading();
         } else {
@@ -625,20 +659,44 @@ export default {
     // 修改 基本信息
     editInfo(type, form, loading) {
       setTimeout(async () => {
-        form.id = this.staff_id;
+        form.id = this.staffId;
         const { data: res } = await edit(type, form);
-        if (!result(this, res, "save")) return true;
+        if (
+          !result(this, res, "save", () => {
+            loading();
+          })
+        )
+          return true;
         loading();
       }, 1000);
     },
     // 添加 基本信息
     addInfo(type, form, loading) {
       setTimeout(async () => {
-        form.staff_id = this.staff_id;
-        const { data: res } = await edit(type, form);
-        if (!result(this, res, "save")) return true;
+        form.staffId = this.staffId;
+        const { data: res } = await add(type, form);
+        if (
+          !result(this, res, "add", () => {
+            loading();
+          })
+        )
+          return true;
         loading();
+        this[`${type}Option`].submitText = "修改";
       }, 1000);
+    },
+    // 保存信息
+    saveInfo(type, form, loading) {
+      if (this[`${type}Option`].submitText === "添加") {
+        this.existId(loading, () => {
+          this.addInfo(type, form, loading);
+        });
+      }
+      if (this[`${type}Option`].submitText === "修改") {
+        this.existId(loading, () => {
+          this.editInfo(type, form, loading);
+        });
+      }
     },
 
     // 添加 教育信息
@@ -655,63 +713,92 @@ export default {
     },
     // 添加 任职信息
     officeSubmit(form, loading) {
-      this.existId(loading, () => {
-        this.addInfo("office", form, loading);
-      });
+      this.saveInfo("office", form, loading);
     },
     // 添加 年度信息
     examineSubmit(form, loading) {
-      this.existId(loading, () => {
-        this.addInfo("examine", form, loading);
-      });
+      this.saveInfo("examine", form, loading);
     },
     // 添加 教师发展 信息
     jsfzxxSubmit(form, loading) {
-      this.existId(loading, () => {
-        this.addInfo("jsfzxx", form, loading);
-      });
+      this.saveInfo("jsfzxx", form, loading);
     },
     // 添加 处分（行政及党内）信息
     punishSubmit(form, loading) {
-      this.existId(loading, () => {
-        this.addInfo("punish", form, loading);
-      });
+      this.saveInfo("punish", form, loading);
     },
     // 添加 奖励和荣誉 信息
     rewardSubmit(form, loading) {
-      this.existId(loading, () => {
-        this.addInfo("reward", form, loading);
-      });
+      this.saveInfo("reward", form, loading);
     },
     // 添加 薪酬福利 信息
     salarySubmit(form, loading) {
-      this.existId(loading, () => {
-        this.addInfo("salary", form, loading);
-      });
+      this.saveInfo("salary", form, loading);
     },
     // 添加 财务 信息
     banknoSubmit(form, loading) {
-      this.existId(loading, () => {
-        this.addInfo("bankno", form, loading);
-      });
+      this.saveInfo("bankno", form, loading);
     },
 
     addChild(type, form, done, loading) {
+      setTimeout(() => {
+        this.existId(loading, async () => {
+          form.staffId = this.staffId;
+          const { data: res } = await add(type, form);
+          if (
+            !result(this, res, "add", () => {
+              loading();
+            })
+          )
+            return true;
+          loading();
+          form.id = res.data;
+          done(form);
+        });
+      }, 1000);
+    },
+    editChild(type, form, done, loading) {
       setTimeout(async () => {
-        form.staff_id = this.staff_id;
-        const { data: res } = await add(type, form);
-        if (!result(this, res, "add")) return true;
+        const { data: res } = await edit(type, form);
+        if (
+          !result(this, res, "edit", () => {
+            loading();
+          })
+        )
+          return true;
         loading();
         done(form);
       }, 1000);
     },
-    editChild() {
-      setTimeout(async () => {
-        const { data: res } = await edit(type, form);
-        if (!result(this, res, "add")) return true;
-        loading();
-        done(form);
-      }, 1000);
+    delChild(type, form, index) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const { data: res } = await del(type, form.id);
+          if (res.code !== 0)
+            return this.$message.error("删除失败！" + res.msg);
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          this.getChild(type);
+        })
+        .catch(() => {});
+    },
+    async getChild(type) {
+      const { data: res } = await get(
+        type,
+        {
+          currentPage: 1,
+          pageSize: 20,
+        },
+        { staffId: this.staffId }
+      );
+      if (res.code !== 0) return this.$message.error("获取失败！" + res.msg);
+      this[`${type}_tableData`] = res.data.records;
     },
 
     // 子表 添加
@@ -755,96 +842,230 @@ export default {
       this.addChild("servicetoenterprise", form, done, loading);
     },
     // 子表 修改
-    xljxwRowUpdate(form, done, loading) {},
-    grllRowUpdate(form, done, loading) {},
-    familyRowUpdate(form, done, loading) {},
-    leaderRowUpdate(form, done, loading) {},
-    professiondutyRowUpdate(form, done, loading) {},
-    workerskillgradeRowUpdate(form, done, loading) {},
-    parttimejobRowUpdate(form, done, loading) {},
-    jszgzRowUpdate(form, done, loading) {},
-    certificateRowUpdate(form, done, loading) {},
-    trainRowUpdate(form, done, loading) {},
-    furtherstudyforeignRowUpdate(form, done, loading) {},
-    organiseinspectRowUpdate(form, done, loading) {},
-    servicetoenterpriseRowUpdate(form, done, loading) {},
+    xljxwRowUpdate(form, index, done, loading) {
+      this.editChild("xljxw", form, done, loading);
+    },
+    grllRowUpdate(form, index, done, loading) {
+      this.editChild("grll", form, done, loading);
+    },
+    familyRowUpdate(form, index, done, loading) {
+      this.editChild("family", form, done, loading);
+    },
+    leaderRowUpdate(form, index, done, loading) {
+      this.editChild("leader", form, done, loading);
+    },
+    professiondutyRowUpdate(form, index, done, loading) {
+      this.editChild("professionduty", form, done, loading);
+    },
+    workerskillgradeRowUpdate(form, index, done, loading) {
+      this.editChild("workerskillgrade", form, done, loading);
+    },
+    parttimejobRowUpdate(form, index, done, loading) {
+      this.editChild("parttimejob", form, done, loading);
+    },
+    jszgzRowUpdate(form, index, done, loading) {
+      this.editChild("jszgz", form, done, loading);
+    },
+    certificateRowUpdate(form, index, done, loading) {
+      this.editChild("certificate", form, done, loading);
+    },
+    trainRowUpdate(form, index, done, loading) {
+      this.editChild("train", form, done, loading);
+    },
+    furtherstudyforeignRowUpdate(form, index, done, loading) {
+      this.editChild("furtherstudyforeign", form, done, loading);
+    },
+    organiseinspectRowUpdate(form, index, done, loading) {
+      this.editChild("organiseinspect", form, done, loading);
+    },
+    servicetoenterpriseRowUpdate(form, index, done, loading) {
+      this.editChild("servicetoenterprise", form, done, loading);
+    },
     // 子表 删除
-    xljxwRowDel() {},
-    grllRowDel() {},
-    familyRowDel() {},
-    leaderRowDel() {},
-    professiondutyRowDel() {},
-    workerskillgradeRowDel() {},
-    parttimejobRowDel() {},
-    jszgzRowDel() {},
-    certificateRowDel() {},
-    trainRowDel() {},
-    furtherstudyforeignRowDel() {},
-    organiseinspectRowDel() {},
-    servicetoenterpriseRowDel() {},
+    xljxwRowDel(form, index, done, loading) {
+      this.delChild("xljxw", form, done, loading);
+    },
+    grllRowDel(form, index, done, loading) {
+      this.delChild("grll", form, done, loading);
+    },
+    familyRowDel(form, index, done, loading) {
+      this.delChild("family", form, done, loading);
+    },
+    leaderRowDel(form, index, done, loading) {
+      this.delChild("leader", form, done, loading);
+    },
+    professiondutyRowDel(form, index, done, loading) {
+      this.delChild("professionduty", form, done, loading);
+    },
+    workerskillgradeRowDel(form, index, done, loading) {
+      this.delChild("workerskillgrade", form, done, loading);
+    },
+    parttimejobRowDel(form, index, done, loading) {
+      this.delChild("parttimejob", form, done, loading);
+    },
+    jszgzRowDel(form, index, done, loading) {
+      this.delChild("jszgz", form, done, loading);
+    },
+    certificateRowDel(form, index, done, loading) {
+      this.delChild("certificate", form, done, loading);
+    },
+    trainRowDel(form, index, done, loading) {
+      this.delChild("train", form, done, loading);
+    },
+    furtherstudyforeignRowDel(form, index, done, loading) {
+      this.delChild("furtherstudyforeign", form, done, loading);
+    },
+    organiseinspectRowDel(form, index, done, loading) {
+      this.delChild("organiseinspect", form, done, loading);
+    },
+    servicetoenterpriseRowDel(form, index, done, loading) {
+      this.delChild("servicetoenterprise", form, done, loading);
+    },
     // 子表 刷新
-    xljxwRefresh() {},
-    grllRefresh() {},
-    familyRefresh() {},
-    leaderRefresh() {},
-    professiondutyRefresh() {},
-    workerskillgradeRefresh() {},
-    parttimejobRefresh() {},
-    jszgzRefresh() {},
-    certificateRefresh() {},
-    trainRefresh() {},
-    furtherstudyforeignRefresh() {},
-    organiseinspectRefresh() {},
-    servicetoenterpriseRefresh() {},
+    xljxwRefresh() {
+      this.getChild("xljxw");
+    },
+    grllRefresh() {
+      this.getChild("grll");
+    },
+    familyRefresh() {
+      this.getChild("family");
+    },
+    leaderRefresh() {
+      this.getChild("leader");
+    },
+    professiondutyRefresh() {
+      this.getChild("professionduty");
+    },
+    workerskillgradeRefresh() {
+      this.getChild("workerskillgrade");
+    },
+    parttimejobRefresh() {
+      this.getChild("parttimejob");
+    },
+    jszgzRefresh() {
+      this.getChild("jszgz");
+    },
+    certificateRefresh() {
+      this.getChild("certificate");
+    },
+    trainRefresh() {
+      this.getChild("train");
+    },
+    furtherstudyforeignRefresh() {
+      this.getChild("furtherstudyforeign");
+    },
+    organiseinspectRefresh() {
+      this.getChild("organiseinspect");
+    },
+    servicetoenterpriseRefresh() {
+      this.getChild("servicetoenterprise");
+    },
 
-    // 清空表单
+    // 关闭对话框
     closeDialog() {
       this.get();
-      this.staff_id = undefined;
+      this.staffId = undefined;
+      this.activeName = "info";
+      this.collapseActiveName = undefined;
       this.$refs.infoFormRef.resetForm();
       this.$refs.educateFormRef.resetForm();
       this.$refs.otherFormRef.resetForm();
-      this.infoOption.submitText = "添加";
+      this.primaryOptionList.forEach((item) => {
+        this[item].submitText = "添加";
+      });
       this.primaryOptionList.forEach((item) => {
         this[item].detail = false;
       });
-      // this.childOptionList.forEach((item) => {
-      //   console.log(item);
-      //   this[item].addBtn = true;
-      // });
+      this.childOptionList.forEach((item) => {
+        this[item].addBtn = true;
+        this[item].menu = true;
+      });
     },
-
-    // 标签切换 触发
-    tabChange() {},
 
     // 添加按钮
     add() {
-      this.activeName = "1";
       this.title = "添加";
       this.dialogVisible = true;
     },
     // 编辑行信息
     editRow(row) {
       this.title = "编辑";
-      this.activeName = "1";
-      this.infoOption.submitText = "修改";
+      this.primaryOptionList.forEach((item) => {
+        this[item].submitText = "修改";
+      });
       this.dialogVisible = true;
       this.info_obj = row;
-      this.staff_id = row.id;
+      this.staffId = row.id;
     },
     // 查看行信息
     viewRow(row) {
-      this.activeName = "1";
-      this.infoOption.submitText = "查看";
+      this.title = "查看";
       this.primaryOptionList.forEach((item) => {
         this[item].detail = true;
       });
-      // this.childOptionList.forEach((item) => {
-      //   this[item].addBtn = false;
-      // });
+      this.childOptionList.forEach((item) => {
+        this[item].addBtn = false;
+        this[item].menu = false;
+      });
       this.dialogVisible = true;
       this.info_obj = row;
-      this.staff_id = row.id;
+      this.staffId = row.id;
+    },
+
+    async getPrimary(type) {
+      const { data: res } = await get(
+        type,
+        {
+          currentPage: 1,
+          pageSize: 1,
+        },
+        { staffId: this.staffId }
+      );
+      if (res.code !== 0) return this.$message.error("获取失败！" + res.msg);
+      this[`${type}_obj`] = res.data.records[0];
+    },
+
+    // 标签切换 触发
+    tabChange() {
+      if (this.title === "编辑" || this.title === "查看") {
+        if (this.activeName === "office")
+          return this.getPrimary(this.activeName);
+        if (this.activeName === "examine")
+          return this.getPrimary(this.activeName);
+        if (this.activeName === "jsfzxx")
+          return this.getPrimary(this.activeName);
+        if (this.activeName === "punish_reward") {
+          this.getPrimary("punish");
+          this.getPrimary("reward");
+          return;
+        }
+        if (this.activeName === "salary")
+          return this.getPrimary(this.activeName);
+        if (this.activeName === "bankno")
+          return this.getPrimary(this.activeName);
+      }
+    },
+
+    // 折叠面板激活事件
+    collapseActive(activeName) {
+      if (this.title === "编辑" || this.title === "查看") {
+        if (activeName === "xljxw") return this.getChild(activeName);
+        if (activeName === "grll") return this.getChild(activeName);
+        if (activeName === "family") return this.getChild(activeName);
+        if (activeName === "leader") return this.getChild(activeName);
+        if (activeName === "professionduty") return this.getChild(activeName);
+        if (activeName === "workerskillgrade") return this.getChild(activeName);
+        if (activeName === "parttimejob") return this.getChild(activeName);
+        if (activeName === "servicetoenterprise")
+          return this.getChild(activeName);
+        if (activeName === "jszgz") return this.getChild(activeName);
+        if (activeName === "certificate") return this.getChild(activeName);
+        if (activeName === "train") return this.getChild(activeName);
+        if (activeName === "furtherstudyforeign")
+          return this.getChild(activeName);
+        if (activeName === "organiseinspect") return this.getChild(activeName);
+      }
     },
   },
 };

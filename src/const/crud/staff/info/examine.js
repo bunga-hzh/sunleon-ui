@@ -1,5 +1,5 @@
 export const examineOption = {
-  submitText: '保存',
+  submitText: '添加',
   detail: false,
   column: [{
       label: "姓名",

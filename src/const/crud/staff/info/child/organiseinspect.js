@@ -1,7 +1,8 @@
 export const organiseinspectOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
+  addBtn: true,
   column: [{
       label: "考察事由",
       prop: 'kcsy',

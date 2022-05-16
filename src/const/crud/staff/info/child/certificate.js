@@ -1,8 +1,9 @@
 export const certificateOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 160,
+  addBtn: true,
   column: [{
       label: "职业工种",
       prop: 'zygz',

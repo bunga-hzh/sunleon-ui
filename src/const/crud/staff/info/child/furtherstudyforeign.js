@@ -1,8 +1,9 @@
 export const furtherstudyforeignOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 160,
+  addBtn: true,
   column: [{
       label: "护照证件种类代码",
       prop: 'hzzjzldm',

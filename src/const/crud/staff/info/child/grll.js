@@ -1,7 +1,9 @@
 export const grllOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
+  labelWidth: 100,
+  addBtn: true,
   column: [{
       label: "起始时间",
       prop: 'qssj',
@@ -34,7 +36,6 @@ export const grllOption = {
       label: "上传电子证明",
       prop: 'scdzzm',
       type: 'upload',
-      listType: 'picture-img',
       propsHttp: {
         url: 'url',
         name: 'name',

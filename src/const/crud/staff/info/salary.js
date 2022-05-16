@@ -1,5 +1,5 @@
 export const salaryOption = {
-  submitText: '保存',
+  submitText: '添加',
   detail: false,
   labelWidth: 120,
   column: [{

@@ -1,8 +1,9 @@
 export const professiondutyOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 130,
+  addBtn: true,
   column: [{
       label: "专业技术资格名称",
       prop: 'zyjszgmc',

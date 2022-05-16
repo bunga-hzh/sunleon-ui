@@ -1,5 +1,5 @@
 export const punishOption = {
-  submitText: '保存',
+  submitText: '添加',
   detail: false,
   labelWidth: 110,
   column: [{

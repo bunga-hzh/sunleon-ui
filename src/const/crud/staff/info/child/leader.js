@@ -1,8 +1,9 @@
 export const leaderOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 100,
+  addBtn: true,
   column: [{
       label: "部门",
       prop: 'bm',
@@ -13,7 +14,7 @@ export const leaderOption = {
     },
     {
       label: "任职方式",
-      prop: 'rzfs',
+      prop: 'rzfsm',
     },
     {
       label: "任免职文号",
@@ -25,7 +26,7 @@ export const leaderOption = {
     },
     {
       label: "任本职级时间",
-      prop: 'rbzsj',
+      prop: 'rbzjsj',
       type: 'date',
       valueFormat: 'yyyy-MM-dd',
     },

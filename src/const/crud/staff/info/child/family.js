@@ -1,7 +1,9 @@
 export const familyOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
+  labelWidth: 100,
+  addBtn: true,
   column: [{
       label: "称谓",
       prop: 'cw',

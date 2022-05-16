@@ -1,5 +1,5 @@
 export const banknoOption = {
-  submitText: '保存',
+  submitText: '添加',
   labelWidth: 140,
   detail: false,
   column: [{

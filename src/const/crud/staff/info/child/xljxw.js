@@ -2,6 +2,7 @@ export const xljxwOption = {
   align: 'center',
   border: true,
   menuWidth: 160,
+  addBtn: true,
   column: [{
       label: "学历",
       prop: 'xlm',

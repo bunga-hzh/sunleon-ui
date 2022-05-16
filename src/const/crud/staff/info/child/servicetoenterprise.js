@@ -1,8 +1,9 @@
 export const servicetoenterpriseOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 160,
+  addBtn: true,
   column: [{
       label: "起始时间",
       prop: 'qssj',
@@ -22,6 +23,7 @@ export const servicetoenterpriseOption = {
     {
       label: "总金额",
       prop: 'zje',
+      type: 'number',
     },
     {
       label: "备注",

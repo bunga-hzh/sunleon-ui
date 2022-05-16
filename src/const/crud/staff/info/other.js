@@ -1,5 +1,5 @@
 export const otherOption = {
-  submitText: '保存',
+  submitText: '添加',
   detail: false,
   labelWidth: 140,
   column: [{
@@ -70,7 +70,7 @@ export const otherOption = {
     },
     {
       label: "居住证起始时间",
-      prop: "jzzqssj",
+      prop: "jjzqssj",
       type: 'date',
       valueFormat: "yyyy-MM-dd",
     },

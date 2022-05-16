@@ -1,6 +1,6 @@
 export const jsfzxxOption = {
   labelWidth: 170,
-  submitText: '保存',
+  submitText: '添加',
   detail: false,
   column: [{
       label: "师训帐号",

@@ -1,12 +1,8 @@
 export const educateOption = {
   labelWidth: 140,
   detail: false,
-  submitText: '保存',
+  submitText: '添加',
   column: [{
-      label: "毕业院校",
-      prop: "qrzbyyx",
-    },
-    {
       label: "最高学历",
       prop: "zgxl",
     },
@@ -51,7 +47,8 @@ export const educateOption = {
         res: 'data'
       },
       tip: '只能上传jpg/png文件，且不超过500kb',
-      action: '/imgupload'
+      action: '/imgupload',
+      span: 24,
     },
     {
       label: "全日制学历证上传",
@@ -62,7 +59,8 @@ export const educateOption = {
         res: 'data'
       },
       tip: '只能上传jpg/png文件，且不超过500kb',
-      action: '/imgupload'
+      action: '/imgupload',
+      span: 24,
     },
   ]
 }

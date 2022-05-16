@@ -1,5 +1,5 @@
 export const officeOption = {
-  submitText: '保存',
+  submitText: '添加',
   labelWidth: 150,
   detail: false,
   column: [{
@@ -122,7 +122,6 @@ export const officeOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/is_type',
-      dicFlag: false,
     },
     {
       label: "是否留学回国",
@@ -133,7 +132,6 @@ export const officeOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/is_type',
-      dicFlag: false,
     },
     {
       label: "是否为应届毕业生",
@@ -144,7 +142,7 @@ export const officeOption = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/is_type',
-      dicFlag: false,
+
     },
     {
       label: "减员材料上传",

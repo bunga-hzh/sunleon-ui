@@ -1,15 +1,16 @@
 export const workerskillgradeOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 160,
+  addBtn: true,
   column: [{
       label: "工人技术等级名称",
       prop: 'grjsdjmc',
     },
     {
-      label: "工人技术等级名称",
-      prop: 'grjsdjmc',
+      label: "工人技术职务名称",
+      prop: 'grjszwmc',
     },
     {
       label: "取得技术职务时间",

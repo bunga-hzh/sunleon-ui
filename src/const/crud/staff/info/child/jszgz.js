@@ -1,8 +1,9 @@
 export const jszgzOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 160,
+  addBtn: true,
   column: [{
       label: "资格证种类",
       prop: 'zgzzl',

@@ -1,5 +1,5 @@
 export const rewardOption = {
-  submitText: '保存',
+  submitText: '添加',
   detail: false,
   labelWidth: 130,
   column: [{

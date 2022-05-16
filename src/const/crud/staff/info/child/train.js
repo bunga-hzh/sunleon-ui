@@ -1,8 +1,9 @@
 export const trainOption = {
   align: 'center',
   border: true,
-  menuWidth: 120,
+  menuWidth: 160,
   labelWidth: 140,
+  addBtn: true,
   column: [{
       label: "学习起始时间",
       prop: 'xxqssj',
