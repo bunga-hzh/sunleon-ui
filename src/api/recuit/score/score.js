@@ -71,3 +71,30 @@ export function finalPass(data){
     params:data
   })
 }
+
+
+/**
+ * 批量转入
+ * @param data
+ * @returns {*}
+ */
+export function batchReservation(data){
+  return request({
+    url:'/resume/batch/again/reserve',
+    method:'put',
+    data:data
+  })
+}
+
+/**
+ * 批量结束
+ * @param data
+ * @returns {*}
+ */
+export function batchEnd(data){
+  return request({
+    url:'/resume/batch/end',
+    method:'put',
+    data:data
+  })
+}
