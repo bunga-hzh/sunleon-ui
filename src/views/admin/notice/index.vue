@@ -2,6 +2,7 @@
   <div class="notice_container">
     <basic-container>
       <avue-crud
+        ref="crud"
         v-model="form"
         :data="data"
         :option="option"
@@ -33,10 +34,29 @@
           </el-row>
         </template>
 
-        <template slot="menu">
-          <el-button type="text" icon="el-icon-s-promotion">发布</el-button>
-          <el-button type="text" icon="el-icon-circle-close">撤稿</el-button>
-          <el-button type="text" icon="el-icon-view">查看</el-button>
+        <template slot="menuForm" slot-scope="{ type }">
+          <el-button
+            v-show="type === 'add'"
+            type="primary"
+            icon="el-icon-s-promotion"
+            @click="saveRelease"
+            >保存并发布</el-button
+          >
+        </template>
+
+        <template slot="menu" slot-scope="scope">
+          <el-button
+            type="text"
+            icon="el-icon-s-promotion"
+            @click="release(scope.row)"
+            >发布</el-button
+          >
+          <el-button
+            type="text"
+            icon="el-icon-circle-close"
+            @click="withdraw(scope.row)"
+            >撤回</el-button
+          >
         </template>
       </avue-crud>
     </basic-container>
@@ -44,6 +64,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { fetchList, addObj, putObj, delObj } from "@/api/admin/notice";
 import { addObj as addObjMsgUser } from "@/api/admin/msguser";
 import { fetchList as fetchListUser } from "@/api/admin/user";
@@ -95,6 +116,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(["userInfo"]),
+  },
   methods: {
     // 获取表格数据
     async get(page, params) {
@@ -112,10 +136,13 @@ export default {
       this.showLoading = false;
       this.data = res.data.records;
     },
+
     // 添加
     async rowSave(form, done, loading) {
       if (form.noticeObj === "2" && !this.user_form.userId)
         return this.$message.error("请选择用户");
+      form.createUserName = this.userInfo.realName;
+      form.createUserId = this.userInfo.userId;
       const { data: res } = await addObj(form);
       if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
       this.user_form.msgId = res.data;
@@ -124,7 +151,8 @@ export default {
         if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
       }
       this.$message.success("添加成功！");
-      done(form);
+      this.refreshChange();
+      done();
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
@@ -164,7 +192,6 @@ export default {
     },
     // 表格选择器
     async onLoadUser({ page, value, data }, callback) {
-      console.log(data);
       if (page) {
         // 首次加载去查询对应的值
         const { data: res } = await fetchListUser({
@@ -194,6 +221,28 @@ export default {
       this.user_form.msgId = undefined;
       this.user_form.userId = undefined;
       done();
+    },
+
+    //发布
+    async release(row) {
+      row.status = "1";
+      const { data: res } = await putObj(row);
+      if (res.code !== 0) return this.$message.error("发布失败！" + res.msg);
+      this.$message.success("发布成功！");
+    },
+    //撤回
+    async withdraw(row) {
+      if (row.status === "2")
+        return this.$message.warning("已撤回,无需再撤回！");
+      row.status = "2";
+      const { data: res } = await putObj(row);
+      if (res.code !== 0) return this.$message.error("撤回失败！" + res.msg);
+      this.$message.success("撤回成功！");
+    },
+    // 保存并发布
+    async saveRelease() {
+      this.form.status = "1";
+      this.$refs.crud.rowSave();
     },
   },
 };

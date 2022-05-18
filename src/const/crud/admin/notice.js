@@ -2,8 +2,9 @@ export const option = {
   align: "center",
   searchMenuSpan: 4,
   border: true,
-  menuWidth: 300,
+  menuWidth: 320,
   searchSpan: 7,
+  viewBtn: true,
   column: [{
       label: "标题",
       prop: "title",
@@ -34,12 +35,14 @@ export const option = {
       prop: "createUserName",
       addDisplay: false,
       editDisplay: false,
+      span: 24,
     },
     {
       label: "发布人ID",
       prop: "createUserId",
       addDisplay: false,
       editDisplay: false,
+      viewDisplay: false,
       hide: true,
     },
     {
@@ -82,6 +85,7 @@ export const option = {
       dicUrl: '/admin/dict/type/release_status',
       search: true,
       value: '0',
+      span: 24,
     },
     {
       label: "发布时间",
@@ -116,6 +120,7 @@ export const option = {
       prop: "resId",
       addDisplay: false,
       editDisplay: false,
+      viewDisplay: false,
       hide: true,
     },
   ],
