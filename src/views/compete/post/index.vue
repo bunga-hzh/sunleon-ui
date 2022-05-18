@@ -79,7 +79,7 @@ export default {
         isAsc: false// 是否倒序
       },
       list: [],
-      tableOption:competePostOption,
+      tableOption:{},
       listLoading: true,
     }
   },
@@ -97,6 +97,20 @@ export default {
         })
       }
     },
+  },
+  created() {
+    var validateDate = (rule, value, callback)=>  {
+      if (value === '') {
+        callback(new Error('请输入结束时间!'));
+      } else if (new Date(value) < new Date(this.form.startTime)) {
+        callback(new Error('结束时间需大于开始时间！'));
+      } else {
+        callback();
+      }
+    };
+    let option = competePostOption;
+    option.column[8].rules.push({validator:validateDate,trigger: 'blur'});
+    this.tableOption = option;
   },
   methods:{
     //编辑

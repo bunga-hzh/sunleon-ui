@@ -130,21 +130,26 @@ export default {
       });
     },
     handleSaveAndRe(){
-      const data = {
-        postCode:this.form.postCode, //岗位编号
-        postNameId:this.form.postNameId, //所属岗位ID
-        recruitNumber:this.form.recruitNumber, //招聘人数
-        startTime:this.form.startTime[0], //开始时间
-        endTime:this.form.startTime[1], // 结束时间
-        recruitRequire:this.form.recruitRequire, //招聘要求
-        isRelease:1, //保存及发布
-        gwlxId:this.form.gwlxId,
-      };
-      addObj(data).then(res=>{
-        this.getList(this.page)
-        done()
-        this.$notify.success('创建成功!')
-      })
+      this.$refs.crud.validate((resxx)=>{
+        if(resxx){
+          const data = {
+            postCode:this.form.postCode, //岗位编号
+            postNameId:this.form.postNameId, //所属岗位ID
+            recruitNumber:this.form.recruitNumber, //招聘人数
+            startTime:this.form.startTime[0], //开始时间
+            endTime:this.form.startTime[1], // 结束时间
+            recruitRequire:this.form.recruitRequire, //招聘要求
+            isRelease:1, //保存及发布
+            gwlxId:this.form.gwlxId,
+          };
+          addObj(data).then(res=>{
+            this.getList(this.page)
+            this.$refs.crud.closeDialog();
+            this.$notify.success('创建成功!')
+          })
+        }
+      });
+
     },
     handleDel: function (row) {
       this.$confirm('是否确认删除岗位编号为"' + row.postCode + '"的信息吗?', '警告', {
