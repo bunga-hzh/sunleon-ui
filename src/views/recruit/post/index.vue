@@ -21,7 +21,7 @@
           <el-button type="primary" icon="el-icon-download" @click="handleExportExcel" :size="size">导出</el-button>
         </template>
         <template slot-scope="scope" slot="menuForm">
-          <el-button @click="handleSaveAndRe">保存并发布</el-button>
+          <el-button @click="handleSaveAndRe(scope)" v-if="scope.type!='view'">保存并发布</el-button>
         </template>
         <template slot-scope="scope" slot="startTime">
           <span>{{scope.row.startTime | datePipe('yyyy-MM-dd')}} ~ {{scope.row.endTime | datePipe('yyyy-MM-dd')}}</span>
@@ -99,8 +99,11 @@ export default {
       if(type=='edit'){
         this.form.startTime = [this.form.startTime,this.form.endTime];
         done();
-      }else {
+      }else if(type=='view'){
+        this.form.startTime = [this.form.startTime,this.form.endTime];
         done();
+      }else{
+        done()
       }
     },
     //导出
@@ -129,7 +132,8 @@ export default {
         document.body.removeChild(linkNode);
       });
     },
-    handleSaveAndRe(){
+    handleSaveAndRe(sco){
+      console.log(sco);
       this.$refs.crud.validate((resxx)=>{
         if(resxx){
           const data = {
