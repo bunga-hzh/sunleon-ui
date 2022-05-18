@@ -27,7 +27,7 @@
                 :column="column"
                 :on-load="onLoadUser"
                 v-model="user_form.userId"
-                placeholder="请选择数据"
+                placeholder="请选择用户"
               ></avue-input-table>
             </el-col>
           </el-row>
