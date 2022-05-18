@@ -36,16 +36,6 @@ export const competePostOption = {
       hide:true,
       span: 24
     },
-    // {
-    //   label:'岗位名称',
-    //   prop:'postName',
-    //   search: true,
-    //   span: 24,
-    //   rules: [{
-    //     required: true,
-    //     message: '请输入岗位名称'
-    //   }]
-    // },
     {
       label: '工作部门',
       prop:'gzbmId',

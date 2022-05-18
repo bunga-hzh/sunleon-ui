@@ -5,6 +5,44 @@ export const otherOption = {
   column: [{
       label: "户口所在地",
       prop: "hkszdm",
+      type: "cascader",
+      props: {
+        label: 'regionName',
+        value: 'id'
+      },
+      lazy: true,
+      lazyLoad(node, resolve) {
+        let stop_level = 2;
+        let level = node.level;
+        let data = node.data || {}
+        let id = data.id;
+        let list = [];
+        let callback = () => {
+          resolve((list || []).map(ele => {
+            return Object.assign(ele, {
+              leaf: level >= stop_level
+            })
+          }));
+        }
+        if (level == 0) {
+          axios.get(`act/sysRegion/getRegionTree`).then(res => {
+            list = res.data;
+            callback()
+          })
+        } else if (level == 1) {
+          axios.get(`act/sysRegion/getRegionTree/${id}`).then(res => {
+            list = res.data;
+            callback()
+          })
+        } else if (level == 2) {
+          axios.get(`act/sysRegion/getRegionTree/${id}`).then(res => {
+            list = res.data;
+            callback()
+          })
+        } else {
+          callback()
+        }
+      }
     },
     {
       label: "户籍类别",

@@ -14,15 +14,15 @@
         @size-change="sizeChange"
         @current-change="currentChange">
         <template slot="menuLeft" slot-scope="{size}">
-          <el-button type="primary" :size="size">转入面试预约</el-button>
-          <el-button type="danger" :size="size">结束面试</el-button>
+          <el-button type="primary" @click="handleAdoptArray" :size="size">转入面试预约</el-button>
+          <el-button type="danger" @click="handleRefuseArray" :size="size">结束面试</el-button>
         </template>
         <template slot-scope="{type,size,row}" slot="menu">
           <el-button icon="el-icon-edit" :size="size" v-if="row.resumeStatus==8" :type="type" @click="handleScore(row)">评分</el-button>
           <el-button icon="el-icon-view" :size="size" @click="$refs.resumeView.show(row,'current')" :type="type">详情</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.resumeStatus==9 && !row.isFinalRound" :type="type" @click="handleAdopt(row)" >转入面试预约({{ row.isNextRoundFinal ? '终面':(Number.parseInt(row.interviewNumber)+1)+'面'}})</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.isFinalRound" :type="type" @click="handleFinalPass(row)" >终面通过</el-button>
-          <el-button icon="el-icon-close" v-if="row.resumeStatus!=11" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
+          <el-button icon="el-icon-close" v-if="row.resumeStatus ==-1 ? false:row.resumeStatus!=11" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
         </template>
       </avue-crud>
       <resume-view
@@ -38,10 +38,19 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {fetchScoreList, finalPass, getGradingTeacher, postScoreData, transferInReserve} from "@/api/recuit/score/score";
+import {
+  batchEnd,
+  batchReservation,
+  fetchScoreList,
+  finalPass,
+  getGradingTeacher,
+  postScoreData,
+  transferInReserve
+} from "@/api/recuit/score/score";
 import {scoreFormOption, scoreOption} from "@/views/recruit/score/tableOption";
 import resumeView from '@/components/resume/resumeView'
 import {examState} from "@/api/recuit/reserve/reserve";
+import {delObj} from "@/api/recuit/post/post";
 
 export default {
   name:'Score',
@@ -137,6 +146,73 @@ export default {
     },
     currentChange(current) {
       this.page.currentPage = current
+    },
+    //结束面试
+    handleRefuseArray(){
+
+      const tempList = this.$refs.crud.tableSelect;
+      if(tempList.length<1){
+        this.$message.error("请勾选列表！")
+        return;
+      }
+
+      let array = [];
+      let isStatus = false;
+      tempList.map((item)=>{
+        if(item.resumeStatus!=11 && item.resumeStatus!= -1){
+          array.push(item.deliveryId)
+        }else{
+          isStatus = true;
+        }
+      })
+
+      if(array.length<1){
+        this.$message.warning("所选择的应聘者已处理，无法再次处理!")
+        return;
+      }else{
+        this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
+      }
+
+      this.$confirm('是否确认结束所选的应聘者?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function () {
+        return batchEnd(array)
+      }).then(() => {
+        this.getList(this.page)
+        this.$message.success('操作成功!')
+      })
+    },
+    //转入面试预约
+    handleAdoptArray(){
+      const tempList = this.$refs.crud.tableSelect;
+      if(tempList.length<1){
+        this.$message.error("请勾选列表！")
+        return;
+      }
+
+      let array = [];
+      let isStatus = false;
+      tempList.map((item)=>{
+        if(item.resumeStatus==9 && !item.isFinalRound && item.resumeStatus!= -1){
+          array.push(item.deliveryId)
+        }else{
+          isStatus = true;
+        }
+      })
+
+      if(array.length<1){
+        this.$message.warning("所选择的应聘者已处理，无法再次处理!")
+        return;
+      }else{
+        this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
+      }
+
+      batchReservation(array).then(res=>{
+        this.$message.success("转入成功!")
+        this.getList(this.page)
+      })
     },
     //转入预约
     handleAdopt(row) {
