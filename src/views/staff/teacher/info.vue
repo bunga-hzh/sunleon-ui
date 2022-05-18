@@ -5,6 +5,7 @@
         :option="option"
         :data="data"
         :page.sync="page"
+        :table-loading="showLoading"
         @on-load="get"
         @row-del="rowDel"
         @refresh-change="get"
@@ -484,6 +485,8 @@ export default {
       // 控制弹窗全屏
       dialogFull: false,
 
+      showLoading: false,
+
       // 控制对话框的显示与隐藏
       dialogVisible: false,
 
@@ -583,9 +586,11 @@ export default {
   methods: {
     // 获取表格数据
     async get(form) {
+      this.showLoading = true;
       const { data: res } = await get("info", this.page, form);
       if (res.code !== 0)
         return this.$message.error("获取数据失败！--" + res.message);
+      this.showLoading = false;
       this.data = res.data.records;
       this.page.total = res.data.total;
     },

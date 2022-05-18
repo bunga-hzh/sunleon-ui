@@ -20,7 +20,9 @@ module.exports = {
   },
   css: {
     // 忽略 CSS order 顺序警告
-    extract: { ignoreOrder: true }
+    extract: {
+      ignoreOrder: true
+    }
   },
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {

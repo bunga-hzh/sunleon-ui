@@ -2,290 +2,199 @@
   <div class="notice_container">
     <basic-container>
       <avue-crud
+        v-model="form"
         :data="data"
         :option="option"
-        :search.sync="search"
-        :page.sync="page_notice"
+        :page.sync="page"
+        :table-loading="showLoading"
+        :before-close="beforeClose"
+        @on-load="get"
+        @row-save="rowSave"
+        @row-update="rowUpdate"
+        @row-del="rowDel"
+        @refresh-change="refreshChange"
+        @search-change="searchChange"
       >
-        <template slot="menu">
-          <el-button type="text">撤稿</el-button>
-          <el-button type="text">查看</el-button>
+        <template slot="noticeObjForm">
+          <el-row>
+            <el-col :span="24">
+              <el-radio v-model="form.noticeObj" label="1">全体用户</el-radio>
+              <el-radio v-model="form.noticeObj" label="2">指定用户</el-radio>
+            </el-col>
+            <el-col :span="24" v-show="form.noticeObj === '2'">
+              <avue-input-table
+                :props="props"
+                :column="column"
+                :on-load="onLoadUser"
+                v-model="user_form.userId"
+                placeholder="请选择数据"
+              ></avue-input-table>
+            </el-col>
+          </el-row>
         </template>
-        <template slot="menuLeft">
-          <el-button type="primary" @click="openDialog">添加</el-button>
-          <!-- 添加对话框 -->
+
+        <template slot="menu">
+          <el-button type="text" icon="el-icon-s-promotion">发布</el-button>
+          <el-button type="text" icon="el-icon-circle-close">撤稿</el-button>
+          <el-button type="text" icon="el-icon-view">查看</el-button>
         </template>
       </avue-crud>
     </basic-container>
-    <el-dialog
-      title="新增"
-      @open="createEditer"
-      :visible.sync="dialogVisible_add"
-      width="60%"
-      class="avue-dialog"
-      :dialogFullscreen="true"
-    >
-      <el-form
-        ref="form"
-        :rules="rules"
-        size="small "
-        :model="form"
-        label-width="120px"
-      >
-        <el-form-item label="消息类型" prop="type">
-          <el-radio v-model="form.type" label="1">通知公告</el-radio>
-          <el-radio v-model="form.type" label="2">系统消息</el-radio>
-        </el-form-item>
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入标题"></el-input>
-        </el-form-item>
-        <el-form-item label="摘要" prop="summary">
-          <el-input
-            type="textarea"
-            :rows="3"
-            placeholder="请输入摘要"
-            v-model="form.summary"
-          >
-          </el-input>
-        </el-form-item>
-        <el-form-item label="截至日期" prop="up_by_time">
-          <el-date-picker
-            v-model="form.up_by_time"
-            type="date"
-            placeholder="请选择结束时间"
-            style="width: 100%"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="接受用户" prop="user_type">
-          <el-radio v-model="form.user_type" label="1">指定用户</el-radio>
-          <el-radio v-model="form.user_type" label="2">全体用户</el-radio>
-        </el-form-item>
-        <el-form-item
-          label="指定用户"
-          prop="user_type"
-          v-show="form.user_type === '1'"
-        >
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <el-select
-                ref="select"
-                size="small"
-                style="width: 100%"
-                v-model="form.uids"
-                multiple
-                placeholder="请选择指定用户"
-                clearable
-              >
-                <el-option
-                  v-for="item in selectUserOptions"
-                  :key="item.uid"
-                  :label="item.name"
-                  :value="item.uid"
-                >
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="2">
-              <el-button
-                type="primary"
-                icon="el-icon-search"
-                @click="selectUser"
-                >选择</el-button
-              >
-            </el-col>
-          </el-row>
-        </el-form-item>
-        <el-form-item label="优先级">
-          <el-radio v-model="form.priority" label="1">低</el-radio>
-          <el-radio v-model="form.priority" label="2">中</el-radio>
-          <el-radio v-model="form.priority" label="3">高</el-radio>
-        </el-form-item>
-        <el-form-item label="内容">
-          <div id="editor"></div>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible_add = false">取 消</el-button>
-        <el-button type="primary" @click="submit">保存</el-button>
-        <el-button type="primary">保存并提交</el-button>
-      </span>
-    </el-dialog>
-    <!-- 选择指定用户对话框 -->
-    <el-dialog
-      title="用户选择"
-      append-to-body
-      :visible.sync="dialogVisible_select"
-      width="80%"
-      class="avue-dialog"
-      @open="clearSelectData"
-      @close="clearCheck"
-    >
-      <el-row :gutter="20">
-        <el-col :span="17">
-          <avue-crud
-            ref="crud"
-            :option="selectUserOption"
-            :search.sync="selectUserSearch"
-            :data="selectUserData"
-            :page.sync="page_user"
-            @row-click="handleRowClick"
-            @selection-change="selectionChange"
-          >
-            <template slot="depSearch">
-              <el-select v-model="selectUserSearch.dep" placeholder="请选择">
-                <el-option
-                  v-for="item in depOptions"
-                  :key="item.id"
-                  :label="item.depName"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </template>
-          </avue-crud>
-        </el-col>
-        <el-col :span="6">
-          <p>已选用户</p>
-          <avue-crud
-            :option="selectOption"
-            :data="selectData"
-            @row-del="delRowSelect"
-          >
-          </avue-crud>
-        </el-col>
-      </el-row>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible_select = false">取 消</el-button>
-        <el-button type="primary" @click="getSelectUids">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import E from "wangeditor";
-import {
-  data,
-  option,
-  rules,
-  selectUserOption,
-  selectUserData,
-  depOptions,
-  selectOption,
-  selectUserOptions,
-} from "@/const/crud/admin/notice";
+import { fetchList, addObj, putObj, delObj } from "@/api/admin/notice";
+import { addObj as addObjMsgUser } from "@/api/admin/msguser";
+import { fetchList as fetchListUser } from "@/api/admin/user";
+import { option } from "@/const/crud/admin/notice";
 
 export default {
   name: "Notice",
   data() {
     return {
-      form: {
-        type: "1",
-        title: undefined,
-        summary: undefined,
-        up_by_time: undefined,
-        user_type: "2",
-        uids: [],
-        priority: "3",
+      showLoading: false,
+      form: {},
+      data: [],
+      option: option,
+      page: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+      },
+      user_form: {
+        msgId: undefined,
         userId: undefined,
       },
-      // 控制添加对话框的显示与隐藏
-      dialogVisible_add: false,
-      // 控制选择用户对话框的显示与隐藏
-      dialogVisible_select: false,
-      search: {
-        title: "",
+      props: {
+        label: "realName",
+        value: "userId",
       },
-      data: data,
-      option: option,
-      rules: rules,
-      selectUserOption: selectUserOption,
-      selectUserData: selectUserData,
-      selectUserSearch: {
-        uid: undefined,
-        name: undefined,
-        dep: undefined,
-      },
-      depOptions: depOptions,
-      selectOption: selectOption,
-      selectData: [],
-      selectList: [],
-      isEdit: true,
-      selectUserOptions: [],
-      page_notice: {
-        total: 1000,
-        currentPage: 1,
-        pageSize: 10,
-      },
-      page_user: {
-        total: 1000,
-        currentPage: 1,
-        pageSize: 10,
+      column: {
+        children: {
+          border: true,
+          searchMenuSpan: 4,
+          column: [
+            {
+              label: "姓名",
+              search: true,
+              prop: "realName",
+            },
+            {
+              label: "用户ID",
+              prop: "userId",
+              hide: true,
+            },
+            {
+              label: "教职工号",
+              search: true,
+              prop: "username",
+            },
+          ],
+        },
       },
     };
   },
   methods: {
-    openDialog() {
-      this.dialogVisible_add = true;
-      this.$nextTick(() => {
-        this.$refs.form.resetFields();
-      });
+    // 获取表格数据
+    async get(page, params) {
+      this.showLoading = true;
+      const { data: res } = await fetchList(
+        Object.assign(
+          {
+            current: page.currentPage,
+            size: page.pageSize,
+          },
+          params
+        )
+      );
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.showLoading = false;
+      this.data = res.data.records;
     },
-    // 提交
-    submit() {
-      this.dialogVisible_add = false;
+    // 添加
+    async rowSave(form, done, loading) {
+      if (form.noticeObj === "2" && !this.user_form.userId)
+        return this.$message.error("请选择用户");
+      const { data: res } = await addObj(form);
+      if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
+      this.user_form.msgId = res.data;
+      if (form.noticeObj === "2" && this.user_form.userId) {
+        const { data: res } = await addObjMsgUser(this.user_form);
+        if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
+      }
+      this.$message.success("添加成功！");
+      done(form);
     },
-    selectUser() {
-      this.dialogVisible_select = true;
-      this.selectData = [];
-      this.selectUserOptions = selectUserOptions;
+    // 修改
+    async rowUpdate(form, index, done, loading) {
+      const { data: res } = await putObj(form);
+      if (res.code !== 0) return this.$message.error("修改失败！" + res.msg);
+      this.$message.success("修改成功！");
+      done(form);
     },
-    selectionChange(row) {
-      console.log(row);
-      this.selectData = [];
-      row.forEach((item) => {
-        const obj = {};
-        obj.uid = item.uid;
-        obj.name = item.name;
-        this.selectData.push(obj);
-      });
+    // 删除
+    rowDel(form, index) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const { data: res } = await delObj(form.id);
+          if (res.code !== 0)
+            return this.$message.error("删除失败！" + res.msg);
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          this.get(this.page);
+        })
+        .catch(() => {});
     },
-    handleRowClick(row) {
-      this.$refs.crud.toggleSelection([this.selectUserData[row.$index]]);
+    // 刷新
+    refreshChange() {
+      this.get(this.page);
     },
-    delRowSelect(row) {
-      console.log(row);
+    // 搜索
+    searchChange(params, done) {
+      this.page.currentPage = 1;
+      this.get(this.page, params);
+      done();
     },
-    getSelectUids() {
-      this.dialogVisible_select = false;
-      const uids = [];
-      this.selectData.forEach((item) => {
-        uids.push(item.uid);
-      });
-      this.form.uids = uids;
+    // 表格选择器
+    async onLoadUser({ page, value, data }, callback) {
+      console.log(data);
+      if (page) {
+        // 首次加载去查询对应的值
+        const { data: res } = await fetchListUser({
+          current: page.currentPage,
+          size: page.pageSize,
+        });
+        if (res.code !== 0) return this.$message.error(res.msg);
+        callback({ total: res.data.total, data: res.data.records });
+      }
+
+      if (data) {
+        // return this.$message.error("Bug修复中！");
+        const { data: res } = await fetchListUser(
+          Object.assign(
+            {
+              current: page.currentPage,
+              size: page.pageSize,
+            },
+            data
+          )
+        );
+        callback({ total: res.data.total, data: res.data.records });
+      }
     },
-    createEditer() {
-      this.$nextTick(() => {
-        if (this.isEdit) {
-          const editor = new E("#editor");
-          editor.create();
-          this.isEdit = false;
-        }
-      });
-    },
-    clearSelectData() {
-      this.selectData = [];
-    },
-    clearCheck() {
-      this.$refs.crud.toggleSelection();
+    // 关闭Dialog
+    beforeClose(done, type) {
+      this.user_form.msgId = undefined;
+      this.user_form.userId = undefined;
+      done();
     },
   },
 };
 </script>
-
-<style scoped>
-#editor {
-  width: 100%;
-}
-</style>

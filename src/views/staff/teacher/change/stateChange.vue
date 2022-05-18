@@ -6,6 +6,7 @@
         :option="option"
         :data="data"
         :page.sync="page"
+        :table-loading="showLoading"
         @on-load="loadList"
         @row-save="add"
         @row-update="rowUpdate"
@@ -49,6 +50,7 @@ export default {
         currentPage: 1,
         pageSize: 10,
       },
+      showLoading: false,
       // 表单对象
       form: {},
 
