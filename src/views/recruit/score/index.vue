@@ -22,7 +22,7 @@
           <el-button icon="el-icon-view" :size="size" @click="$refs.resumeView.show(row,'current')" :type="type">详情</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.resumeStatus==9 && !row.isFinalRound" :type="type" @click="handleAdopt(row)" >转入面试预约({{ row.isNextRoundFinal ? '终面':(Number.parseInt(row.interviewNumber)+1)+'面'}})</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.isFinalRound" :type="type" @click="handleFinalPass(row)" >终面通过</el-button>
-          <el-button icon="el-icon-close" v-if="row.resumeStatus!=11" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
+          <el-button icon="el-icon-close" v-if="row.resumeStatus ==-1 ? false:row.resumeStatus!=11" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
         </template>
       </avue-crud>
       <resume-view
@@ -156,28 +156,28 @@ export default {
         return;
       }
 
+      let array = [];
+      let isStatus = false;
+      tempList.map((item)=>{
+        if(item.resumeStatus!=11 && item.resumeStatus!= -1){
+          array.push(item.deliveryId)
+        }else{
+          isStatus = true;
+        }
+      })
+
+      if(array.length<1){
+        this.$message.warning("所选择的应聘者已处理，无法再次处理!")
+        return;
+      }else{
+        this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
+      }
+
       this.$confirm('是否确认结束所选的应聘者?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function () {
-        let array = [];
-        let isStatus = false;
-        tempList.map((item)=>{
-          if(row.resumeStatus!=11){
-            array.push(item.deliveryId)
-          }else{
-            isStatus = true;
-          }
-        })
-
-        if(array.length<1){
-          this.$message.warning("所选择的应聘者已处理，无法再次处理!")
-          return;
-        }else{
-          this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
-        }
-
         return batchEnd(array)
       }).then(() => {
         this.getList(this.page)
@@ -195,7 +195,7 @@ export default {
       let array = [];
       let isStatus = false;
       tempList.map((item)=>{
-        if(item.resumeStatus==9 && !item.isFinalRound){
+        if(item.resumeStatus==9 && !item.isFinalRound && item.resumeStatus!= -1){
           array.push(item.deliveryId)
         }else{
           isStatus = true;

@@ -80,7 +80,7 @@ export function finalPass(data){
  */
 export function batchReservation(data){
   return request({
-    url:'/resume/batch/again/reserve',
+    url:'/act/resume/batch/net',
     method:'put',
     data:data
   })
@@ -93,7 +93,7 @@ export function batchReservation(data){
  */
 export function batchEnd(data){
   return request({
-    url:'/resume/batch/end',
+    url:'/act/resume/batch/end',
     method:'put',
     data:data
   })
