@@ -129,7 +129,7 @@ export default {
         document.body.removeChild(linkNode);
       });
     },
-    handleSaveAndRe(){
+    handleSaveAndRe(row, done, loading){
       const data = {
         postCode:this.form.postCode, //岗位编号
         postNameId:this.form.postNameId, //所属岗位ID

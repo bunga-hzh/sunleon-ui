@@ -130,11 +130,11 @@ export const formOption = {
         span:24,
         type:'tree',
         props:{
-          label:'username',
+          label:'realName',
           value:'userId'
         },
         dicMethod:'get',
-        dicUrl:`/act/resume/select/user?username={{key}}`,
+        dicUrl:`/act/resume/select/user?realName={{key}}`,
         rules: [
           {
             required: true,
