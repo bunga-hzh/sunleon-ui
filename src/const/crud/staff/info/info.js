@@ -1,3 +1,10 @@
+import {
+  newVersionCardId
+} from "@/util/validate";
+import {
+  getRegionTreeApi
+} from "@/api/recuit/common/commonApi";
+
 export const infoOption = {
   submitText: '添加',
   detail: false,
@@ -55,11 +62,46 @@ export const infoOption = {
     },
     {
       label: "籍贯",
-      prop: "jg",
+      prop: "jgm",
+      type: 'cascader',
+      lazy: true,
+      lazyLoad: async (node, resolve) => {
+        const {
+          level
+        } = node;
+        let parent = "";
+        if (level > 0) {
+          parent = node.data.id;
+        } else {
+          parent = "-1";
+        }
+        await getRegionTreeApi(parent).then((res) => {
+          if (res.data.code == 0) {
+            let nodes = res.data.data.map((item) => {
+              return {
+                value: item.regionCode,
+                label: item.regionName,
+                id: item.id,
+                leaf: item.leaf,
+              };
+            });
+            resolve(nodes);
+          }
+        });
+      }
     },
     {
       label: "民族",
       prop: "mzm",
+      type: "select",
+      props: {
+        label: 'label',
+        value: 'value'
+      },
+      dicFormatter: (data) => {
+        return data.data.items;
+      },
+      dicUrl: `/admin/dict/type_with_dict_id/nation_type`
     },
     {
       label: "政治面貌",

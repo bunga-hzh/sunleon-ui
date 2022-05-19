@@ -1,5 +1,13 @@
 import request from '@/router/axios'
 
+export function getMsg(query) {
+  return request({
+    url: '/admin/sysmsguser/page',
+    method: 'get',
+    params: query
+  })
+}
+
 export function fetchList(query) {
   return request({
     url: '/admin/sysmsg/page',

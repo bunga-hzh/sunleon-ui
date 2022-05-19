@@ -23,6 +23,16 @@
               <el-radio v-model="form.noticeObj" label="2">指定用户</el-radio>
             </el-col>
             <el-col :span="24" v-show="form.noticeObj === '2'">
+              <!-- <avue-select
+                all
+                multiple
+                v-model="form.userId"
+                placeholder="请选择用户"
+                type="tree"
+                :dic="dicUser"
+                @focus="getUser"
+                :props="props"
+              ></avue-select> -->
               <avue-input-table
                 :props="props"
                 :column="column"
@@ -46,12 +56,14 @@
 
         <template slot="menu" slot-scope="scope">
           <el-button
+            :disabled="scope.row.status === '1'"
             type="text"
             icon="el-icon-s-promotion"
             @click="release(scope.row)"
             >发布</el-button
           >
           <el-button
+            :disabled="scope.row.status === '2'"
             type="text"
             icon="el-icon-circle-close"
             @click="withdraw(scope.row)"
@@ -86,7 +98,9 @@ export default {
       user_form: {
         msgId: undefined,
         userId: undefined,
+        // userId: [],
       },
+      dicUser: [],
       props: {
         label: "realName",
         value: "userId",
@@ -193,7 +207,6 @@ export default {
     // 表格选择器
     async onLoadUser({ page, value, data }, callback) {
       if (page) {
-        // 首次加载去查询对应的值
         const { data: res } = await fetchListUser({
           current: page.currentPage,
           size: page.pageSize,
@@ -203,7 +216,6 @@ export default {
       }
 
       if (data) {
-        // return this.$message.error("Bug修复中！");
         const { data: res } = await fetchListUser(
           Object.assign(
             {
@@ -232,8 +244,6 @@ export default {
     },
     //撤回
     async withdraw(row) {
-      if (row.status === "2")
-        return this.$message.warning("已撤回,无需再撤回！");
       row.status = "2";
       const { data: res } = await putObj(row);
       if (res.code !== 0) return this.$message.error("撤回失败！" + res.msg);
@@ -243,6 +253,15 @@ export default {
     async saveRelease() {
       this.form.status = "1";
       this.$refs.crud.rowSave();
+    },
+    // 获取用户
+    async getUser() {
+      const { data: res } = await fetchListUser({
+        current: 1,
+        size: 1000,
+      });
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.dicUser = res.data.records;
     },
   },
 };

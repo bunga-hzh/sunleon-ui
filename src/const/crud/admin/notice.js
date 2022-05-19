@@ -9,7 +9,7 @@ export const option = {
       label: "标题",
       prop: "title",
       search: true,
-      width: 200,
+      width: 300,
       span: 24,
       rules: [{
         required: true,
@@ -90,13 +90,6 @@ export const option = {
     {
       label: "发布时间",
       prop: "createTime",
-      width: 150,
-      addDisplay: false,
-      editDisplay: false,
-    },
-    {
-      label: "撤销时间",
-      prop: "revokeTime",
       width: 150,
       addDisplay: false,
       editDisplay: false,

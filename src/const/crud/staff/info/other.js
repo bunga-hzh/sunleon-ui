@@ -1,3 +1,10 @@
+import {
+  newVersionCardId
+} from "@/util/validate";
+import {
+  getRegionTreeApi
+} from "@/api/recuit/common/commonApi";
+
 export const otherOption = {
   submitText: '添加',
   detail: false,
@@ -5,43 +12,31 @@ export const otherOption = {
   column: [{
       label: "户口所在地",
       prop: "hkszdm",
-      type: "cascader",
-      props: {
-        label: 'regionName',
-        value: 'id'
-      },
+      type: 'cascader',
       lazy: true,
-      lazyLoad(node, resolve) {
-        let stop_level = 2;
-        let level = node.level;
-        let data = node.data || {}
-        let id = data.id;
-        let list = [];
-        let callback = () => {
-          resolve((list || []).map(ele => {
-            return Object.assign(ele, {
-              leaf: level >= stop_level
-            })
-          }));
-        }
-        if (level == 0) {
-          axios.get(`act/sysRegion/getRegionTree`).then(res => {
-            list = res.data;
-            callback()
-          })
-        } else if (level == 1) {
-          axios.get(`act/sysRegion/getRegionTree/${id}`).then(res => {
-            list = res.data;
-            callback()
-          })
-        } else if (level == 2) {
-          axios.get(`act/sysRegion/getRegionTree/${id}`).then(res => {
-            list = res.data;
-            callback()
-          })
+      lazyLoad: async (node, resolve) => {
+        const {
+          level
+        } = node;
+        let parent = "";
+        if (level > 0) {
+          parent = node.data.id;
         } else {
-          callback()
+          parent = "-1";
         }
+        await getRegionTreeApi(parent).then((res) => {
+          if (res.data.code == 0) {
+            let nodes = res.data.data.map((item) => {
+              return {
+                value: item.regionCode,
+                label: item.regionName,
+                id: item.id,
+                leaf: item.leaf,
+              };
+            });
+            resolve(nodes);
+          }
+        });
       }
     },
     {
@@ -101,6 +96,16 @@ export const otherOption = {
     {
       label: "合同类型",
       prop: "htlx",
+      type: 'select',
+      span: 12,
+      props: {
+        label: 'label',
+        value: 'value'
+      },
+      dicFormatter: (data) => {
+        return data.data.items;
+      },
+      dicUrl: `/admin/dict/type_with_dict_id/htlx`
     },
     {
       label: "专技人员专业类别",
