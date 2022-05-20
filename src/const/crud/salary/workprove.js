@@ -4,36 +4,55 @@ export const option = {
   index: true,
   indexLabel: '序号',
   searchMenuSpan: 4,
-  menuWidth: 160,
+  menuWidth: 200,
   searchSpan: 7,
   labelWidth: 120,
+  viewBtn: true,
   column: [{
-      label: '姓名',
-      prop: 'xm',
+      label: "姓名",
+      prop: "xm",
       search: true,
+      slotForm: true,
     },
     {
-      label: '职工编码',
-      prop: 'zgbh',
+      label: "工号",
+      prop: "gh",
       search: true,
+      addDisabled: true,
+      editDisabled: true,
+      width: 120,
     },
     {
-      label: '部门名称',
-      prop: 'bmmc',
-      search: true,
-      type: 'select',
-    },
-    {
-      label: '证件号码',
-      prop: 'zjhm',
-      search: true,
+      label: "部门",
+      prop: "orgId",
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      addDisabled: true,
+      editDisabled: true,
+      width: 120,
     },
     {
       label: '人员分类',
-      prop: 'ryfl',
+      prop: 'rylb',
       search: true,
       type: 'select',
-      dicUrl: '/admin/dict/type/rygwlx_type',
+      dicUrl: '/admin/dict/type/rylb_type',
+      props: {
+        "label": "label",
+        "value": "value"
+      },
+    },
+    {
+      label: '证明类型',
+      prop: 'proveType',
+      search: true,
+      type: 'select',
+      dicUrl: '/admin/dict/type/prove_type',
       props: {
         "label": "label",
         "value": "value"
@@ -41,18 +60,16 @@ export const option = {
     },
     {
       label: '生成时间',
-      prop: 'scsj',
-    },
-    {
-      label: '证明文件',
-      prop: 'zmwj',
-      span: 24,
-      formslot: true,
+      prop: 'createTime',
+      addDisplay: false,
+      editDisabled: true,
+      width: 150,
     },
     {
       label: '事由',
       prop: 'sy',
       type: 'textarea',
+      span: 24,
     }
   ]
 }

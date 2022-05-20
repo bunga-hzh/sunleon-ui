@@ -4,10 +4,12 @@ export const examineOption = {
   column: [{
       label: "姓名",
       prop: "xm",
+      disabled: true,
     },
     {
       label: "身份证号",
       prop: "sfzjh",
+      disabled: true,
     },
     {
       label: "考核年度",

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { getMsg } from "@/api/admin/notice";
+// import { getMsg } from "@/api/admin/notice";
 
 export default {
   name: "Wel",
@@ -110,21 +110,21 @@ export default {
   },
   methods: {
     // 获取消息
-    async getMsg() {
-      const { data: res } = await getMsg({
-        current: 1,
-        size: 6,
-      });
-      if (res.code !== 0) return this.$message.error(res.msg);
-      res.data.records.forEach((item) => {
-        if (item.msgType === "1") {
-          this.notifyList.push(item);
-        }
-        if (item.msgType === "2") {
-          this.upcomingList.push(item);
-        }
-      });
-    },
+    // async getMsg() {
+    //   const { data: res } = await getMsg({
+    //     current: 1,
+    //     size: 6,
+    //   });
+    //   if (res.code !== 0) return this.$message.error(res.msg);
+    //   res.data.records.forEach((item) => {
+    //     if (item.msgType === "1") {
+    //       this.notifyList.push(item);
+    //     }
+    //     if (item.msgType === "2") {
+    //       this.upcomingList.push(item);
+    //     }
+    //   });
+    // },
     // 显示 更多
     showMore() {
       this.upcomingMore = "点击查看更多  ·····";
@@ -141,7 +141,7 @@ export default {
     },
   },
   created() {
-    this.getMsg();
+    // this.getMsg();
   },
 };
 </script>

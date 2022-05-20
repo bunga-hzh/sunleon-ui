@@ -1,3 +1,11 @@
+const account_sh_type = [{
+  label: '是',
+  value: "1",
+}, {
+  label: '否',
+  value: "2",
+}]
+
 export const jsfzxxOption = {
   labelWidth: 170,
   submitText: '添加',
@@ -18,7 +26,7 @@ export const jsfzxxOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/account_sh_type',
+      dicData: account_sh_type,
     },
     {
       label: "名师工作室主持人级别",
@@ -32,7 +40,7 @@ export const jsfzxxOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/account_sh_type',
+      dicData: account_sh_type,
     },
     {
       label: "名师工作室主持人备注",
@@ -46,7 +54,7 @@ export const jsfzxxOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/account_sh_type',
+      dicData: account_sh_type,
     },
     {
       label: "学科带头人备注",
@@ -60,7 +68,7 @@ export const jsfzxxOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/account_sh_type',
+      dicData: account_sh_type,
     },
     {
       label: "骨干教师备注",
@@ -74,7 +82,7 @@ export const jsfzxxOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/account_sh_type',
+      dicData: account_sh_type,
     },
     {
       label: "学术委员会成员备注",
@@ -88,7 +96,7 @@ export const jsfzxxOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/account_sh_type',
+      dicData: account_sh_type,
     },
     {
       label: "督导组成员备注",

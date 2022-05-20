@@ -1,8 +1,15 @@
 import request from '@/router/axios'
 
-export function getMsg(query) {
+export function getNoticeMsg(query) {
   return request({
-    url: '/admin/sysmsguser/page',
+    url: '/admin/sysmsguser/notice/page',
+    method: 'get',
+    params: query
+  })
+}
+export function getSysNoticeMsg(query) {
+  return request({
+    url: '/admin/sysmsguser/sysnotice/page',
     method: 'get',
     params: query
   })
@@ -41,6 +48,14 @@ export function delObj(id) {
 export function putObj(obj) {
   return request({
     url: '/admin/sysmsg',
+    method: 'put',
+    data: obj
+  })
+}
+
+export function putMsgUserObj(obj) {
+  return request({
+    url: '/admin/sysmsguser',
     method: 'put',
     data: obj
   })

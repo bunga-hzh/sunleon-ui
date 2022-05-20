@@ -264,5 +264,8 @@ export default {
       this.dicUser = res.data.records;
     },
   },
+  method() {
+    this.getMsg();
+  },
 };
 </script>

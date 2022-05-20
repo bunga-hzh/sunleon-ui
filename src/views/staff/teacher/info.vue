@@ -538,6 +538,18 @@ export default {
         "salaryOption",
         "banknoOption",
       ],
+      primaryRefList: [
+        "info",
+        "educate",
+        "other",
+        "office",
+        "examine",
+        "jsfzxx",
+        "punish",
+        "reward",
+        "salary",
+        "bankno",
+      ],
       // 子表 option
       xljxwOption: xljxwOption,
       grllOption: grllOption,
@@ -631,6 +643,8 @@ export default {
           )
             return true;
           loading();
+          this.examine_obj.xm = form.xm;
+          this.examine_obj.sfzjh = form.sfzjh;
           this.infoOption.submitText = "修改";
           this.staffId = res.data;
         }, 1000);
@@ -978,9 +992,10 @@ export default {
       this.$refs.otherFormRef.resetForm();
       this.primaryOptionList.forEach((item) => {
         this[item].submitText = "添加";
-      });
-      this.primaryOptionList.forEach((item) => {
         this[item].detail = false;
+      });
+      this.primaryRefList.forEach((item) => {
+        this.$refs[`${item}FormRef`].resetForm();
       });
       this.childOptionList.forEach((item) => {
         this[item].addBtn = true;

@@ -1,3 +1,11 @@
+const account_sh_type = [{
+  label: '是',
+  value: "1",
+}, {
+  label: '否',
+  value: "2",
+}]
+
 export const officeOption = {
   submitText: '添加',
   labelWidth: 150,
@@ -111,7 +119,7 @@ export const officeOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/is_type',
+      dicData: account_sh_type,
     },
     {
       label: "是否残疾人",
@@ -121,7 +129,7 @@ export const officeOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/is_type',
+      dicData: account_sh_type,
     },
     {
       label: "是否留学回国",
@@ -131,7 +139,7 @@ export const officeOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/is_type',
+      dicData: account_sh_type,
     },
     {
       label: "是否为应届毕业生",
@@ -141,7 +149,7 @@ export const officeOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/is_type',
+      dicData: account_sh_type,
 
     },
     {

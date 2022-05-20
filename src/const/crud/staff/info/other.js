@@ -1,9 +1,14 @@
 import {
-  newVersionCardId
-} from "@/util/validate";
-import {
   getRegionTreeApi
 } from "@/api/recuit/common/commonApi";
+
+const account_sh_type = [{
+  label: '是',
+  value: "1",
+}, {
+  label: '否',
+  value: "2",
+}]
 
 export const otherOption = {
   submitText: '添加',
@@ -131,7 +136,7 @@ export const otherOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/account_sh_type',
+      dicData: account_sh_type,
     },
     {
       label: "是否具有职业资格",
@@ -141,7 +146,7 @@ export const otherOption = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/is_profession_qualifications',
+      dicData: account_sh_type,
     },
     {
       label: "备注",
