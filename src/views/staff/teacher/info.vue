@@ -64,8 +64,7 @@
                        @change="collapseActive"
                        accordion>
             <el-collapse-item title="学历及学位子集"
-                              name="xljxw"
-                              :tableData="xljxw">
+                              name="xljxw">
               <xljxw />
             </el-collapse-item>
             <el-collapse-item title="个人履历子集（校外）"
@@ -317,7 +316,8 @@ export default {
         size: 20,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
-      this[`${activeName}`] = res.data.records;
+      // this.$store.commit('setActiveName',res.data.records)
+      // this.$store.commit('setData',res.data.records)
     },
   },
   components: {

@@ -13,12 +13,11 @@ import { option } from "../option/xljxw";
 import { get, add, edit, del } from "@/const/staff/crud";
 
 export default {
-  props: ["tableData"],
   data() {
     return {
       obj: {},
       option: option,
-      data: tableData,
+      data: [],
     };
   },
   computed: {
