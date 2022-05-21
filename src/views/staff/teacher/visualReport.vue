@@ -3,7 +3,7 @@
     <basic-container>
       <div class="top_box">
         <div id="bmrs">
-          <span>部门人数分析</span>
+          <span>各年龄段人数分布</span>
         </div>
         <div id="jslx">
           <span>教师类型比例</span>
@@ -34,7 +34,7 @@
           <span>学历人数分布</span>
         </div>
         <div id="nlfb">
-          <span>各年龄段人数分布</span>
+          <span>部门人数分析</span>
         </div>
       </div>
     </basic-container>
@@ -48,40 +48,38 @@ export default {
   name: "Report",
   data() {
     return {
-      bmrsData: [
-        { type: "校长", value: 654, percent: 0.02 },
-        { type: "17 岁以下", value: 654, percent: 0.02 },
-        { type: "18-24 岁", value: 4400, percent: 0.2 },
-        { type: "25-29 岁", value: 5300, percent: 0.24 },
-        { type: "30-39 岁", value: 6200, percent: 0.28 },
-        { type: "40-49 岁", value: 3300, percent: 0.14 },
-        { type: "50 岁以上", value: 1500, percent: 0.06 },
+      ageData: [
+        { type: "25-29 岁", value: 53, percent: 0.24 },
+        { type: "30-39 岁", value: 62, percent: 0.28 },
+        { type: "40-49 岁", value: 33, percent: 0.14 },
+        { type: "50-59 岁", value: 15, percent: 0.06 },
+        { type: "60 岁以上", value: 15, percent: 0.06 },
       ],
-      jslxData: [
-        { type: "一线城市", value: 0.19 },
-        { type: "二线城市", value: 0.21 },
-        { type: "三线城市", value: 0.27 },
-        { type: "四线及以下", value: 0.33 },
+      teacherTypeData: [
+        { type: "外聘教师", value: 0.34 },
+        { type: "非外聘教师", value: 0.66 },
       ],
-      xlfbData: [
+      educationData: [
         { type: "博士", value: 12 },
         { type: "硕士", value: 21 },
         { type: "研究生", value: 32 },
         { type: "本科", value: 123 },
       ],
-      nlfbData: [
-        { type: "未知", value: 654, percent: 0.02 },
-        { type: "17 岁以下", value: 654, percent: 0.02 },
-        { type: "18-24 岁", value: 4400, percent: 0.2 },
-        { type: "25-29 岁", value: 5300, percent: 0.24 },
-        { type: "30-39 岁", value: 6200, percent: 0.28 },
-        { type: "40-49 岁", value: 3300, percent: 0.14 },
-        { type: "50 岁以上", value: 1500, percent: 0.06 },
+      deptData: [
+        { type: "书记校长室", value: 2, percent: 0.007 },
+        { type: "行政管理中心", value: 14, percent: 0.047 },
+        { type: "人力资源部", value: 27, percent: 0.09 },
+        { type: "财务部", value: 6, percent: 0.02 },
+        { type: "教学运行中心", value: 45, percent: 0.15 },
+        { type: "教师发展中心", value: 36, percent: 0.12 },
+        { type: "学生发展中心", value: 47, percent: 0.06 },
+        { type: "信息管控中心", value: 54, percent: 0.16 },
+        { type: "服务保障中心", value: 69, percent: 0.23 },
       ],
     };
   },
   methods: {
-    bmrsChart(id, data) {
+    deptChar(id, data) {
       const chart = new Chart({
         container: id,
         autoFit: true,
@@ -129,7 +127,7 @@ export default {
       });
       chart.render();
     },
-    jslxChart(id, data) {
+    teacherTypeChart(id, data) {
       const chart = new Chart({
         container: id,
         autoFit: true,
@@ -182,7 +180,7 @@ export default {
 
       chart.render();
     },
-    xlfbChart(id, data) {
+    educationChart(id, data) {
       const chart = new Chart({
         container: id,
         autoFit: true,
@@ -228,7 +226,7 @@ export default {
       chart.interaction("element-active");
       chart.render();
     },
-    nlfbChart(id, data) {
+    ageChart(id, data) {
       const chart = new Chart({
         container: id,
         autoFit: true,
@@ -278,10 +276,10 @@ export default {
     },
   },
   mounted() {
-    this.bmrsChart("bmrs", this.bmrsData);
-    this.jslxChart("jslx", this.jslxData);
-    this.xlfbChart("xlfb", this.xlfbData);
-    this.nlfbChart("nlfb", this.nlfbData);
+    this.deptChar("bmrs", this.ageData);
+    this.teacherTypeChart("jslx", this.teacherTypeData);
+    this.educationChart("xlfb", this.educationData);
+    this.ageChart("nlfb", this.deptData);
   },
 };
 </script>

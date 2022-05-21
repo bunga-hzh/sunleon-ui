@@ -12,7 +12,14 @@ export const officeOption = {
   detail: false,
   column: [{
       label: "部门（处室）",
-      prop: "bm",
+      prop: "orgId",
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
     },
     {
       label: "人员类别",

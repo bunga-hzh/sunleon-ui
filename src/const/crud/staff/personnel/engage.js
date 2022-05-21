@@ -6,6 +6,8 @@ export const option = {
   labelWidth: 120,
   menuWidth: 140,
   index: true,
+  viewBtn: true,
+  menuWidth: 200,
   column: [{
       label: "姓名",
       prop: "xm",
@@ -54,23 +56,43 @@ export const option = {
       span: 24,
     },
     {
-      searchLabelWidth: 120,
-      label: "聘任开始时间",
+      label: "招聘起止时间",
       prop: "sarteDate",
-      type: "date",
+      type: "daterange",
+      format: 'yyyy-MM-dd',
+      valueFormat: 'yyyy-MM-dd',
+      startPlaceholder: '招聘开始日期',
+      endPlaceholder: '招聘结束日期',
       search: true,
-      width: 200,
-      valueFormat: 'yyyy-MM-dd'
-    },
-    {
+      span: 24,
       searchLabelWidth: 120,
-      label: "聘任结束时间",
-      prop: "endDate",
-      type: "date",
-      search: true,
-      width: 200,
-      valueFormat: 'yyyy-MM-dd'
+      slot: true,
+      width: 160,
+      rules: [{
+        required: true,
+        message: '请选择招聘起止时间'
+      }]
     },
+    // {
+    //   searchLabelWidth: 120,
+    //   label: "聘任开始时间",
+    //   prop: "sarteDate",
+    //   type: "date",
+    //   addDisplay: false,
+    //   editDisplay: false,
+    //   width: 200,
+    //   valueFormat: 'yyyy-MM-dd'
+    // },
+    // {
+    //   searchLabelWidth: 120,
+    //   label: "聘任结束时间",
+    //   prop: "endDate",
+    //   type: "date",
+    //   addDisplay: false,
+    //   editDisplay: false,
+    //   width: 200,
+    //   valueFormat: 'yyyy-MM-dd'
+    // },
     {
       label: "备注",
       prop: "memo",

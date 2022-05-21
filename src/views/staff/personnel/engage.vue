@@ -6,6 +6,7 @@
         :option="option"
         :data="data"
         :page.sync="page"
+        :before-open="beforeOpen"
         @on-load="loadList"
         @row-save="add"
         @row-update="rowUpdate"
@@ -22,6 +23,9 @@
             @select="handleSelect"
             clearable
           ></el-autocomplete>
+        </template>
+        <template slot="sarteDate" slot-scope="scope">
+          {{ scope.row.sarteDate }} - {{ scope.row.endDate }}
         </template>
       </avue-crud>
     </basic-container>
@@ -55,6 +59,12 @@ export default {
     };
   },
   methods: {
+    beforeOpen(done, type) {
+      if (type === "edit" || type === "view") {
+        this.form.sarteDate = [this.form.sarteDate, this.form.endDate];
+      }
+      done();
+    },
     async getList(page, query) {
       const { data: res } = await get(
         "expert",
@@ -76,20 +86,47 @@ export default {
 
     // 新增
     async add(form, done, loading) {
-      const { data: res } = await add("expert", form);
+      const addForm = {
+        xm: form.xm,
+        gh: form.gh,
+        deptId: form.deptId,
+        engageName: form.engageName,
+        expertLevel: form.expertLevel,
+        salary: form.salary,
+        reason: form.reason,
+        sarteDate: form.sarteDate[0],
+        endDate: form.sarteDate[1],
+        memo: form.memo,
+      };
+      const { data: res } = await add("expert", addForm);
       if (!result(this, res, "add")) return true;
       this.$message.success("添加成功！");
-      done(form);
+      done(addForm);
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const { data: res } = await edit("expert", form);
+      const editForm = {
+        id: form.id,
+        xm: form.xm,
+        gh: form.gh,
+        deptId: form.deptId,
+        engageName: form.engageName,
+        expertLevel: form.expertLevel,
+        salary: form.salary,
+        reason: form.reason,
+        sarteDate: form.sarteDate[0],
+        endTime: form.sarteDate[1],
+        memo: form.memo,
+      };
+      console.log(editForm);
+      const { data: res } = await edit("expert", editForm);
       if (!result(this, res, "edit")) {
         loading();
         return true;
       }
       loading();
-      done(form);
+      this.refreshChange();
+      done();
     },
     // 删除
     rowDel(form, index) {

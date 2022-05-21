@@ -4,14 +4,15 @@
       <el-col :span="12">
         <el-card shadow="hover">
           <p class="title">
-            待办事项&nbsp;&nbsp;(<span>{{ upcomingList.length }}</span
+            待办事项&nbsp;&nbsp;(<span>{{ sysNotifyList.length }}</span
             >)
           </p>
-          <li v-for="(item, index) in upcomingList" :key="item.id">
+          <li v-for="(item, index) in sysNotifyList" :key="item.id">
             <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
           <li
-            v-show="upcomingList.length === 6"
+            class="viewMore"
+            v-show="sysNotifyList.length === 6"
             @mouseenter="showMore"
             @mouseleave="hideMore"
             @click="viewMore"
@@ -30,6 +31,7 @@
             <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
           <li
+            class="viewMore"
             v-show="notifyList.length === 6"
             @mouseenter="showMore"
             @mouseleave="hideMore"
@@ -52,16 +54,21 @@
 </template>
 
 <script>
-// import { getMsg } from "@/api/admin/notice";
+import { getNoticeMsg, getSysNoticeMsg } from "@/api/admin/notice";
 
 export default {
   name: "Wel",
   data() {
     return {
       // 系统消息
-      upcomingList: [],
+      sysNotifyList: [],
       // 通知公告
       notifyList: [],
+
+      page: {
+        current: 1,
+        size: 6,
+      },
       iconList: [
         {
           id: 1,
@@ -109,22 +116,18 @@ export default {
     };
   },
   methods: {
-    // 获取消息
-    // async getMsg() {
-    //   const { data: res } = await getMsg({
-    //     current: 1,
-    //     size: 6,
-    //   });
-    //   if (res.code !== 0) return this.$message.error(res.msg);
-    //   res.data.records.forEach((item) => {
-    //     if (item.msgType === "1") {
-    //       this.notifyList.push(item);
-    //     }
-    //     if (item.msgType === "2") {
-    //       this.upcomingList.push(item);
-    //     }
-    //   });
-    // },
+    // 获取通知公告
+    async getNoticeMsg(page) {
+      const { data: res } = await getNoticeMsg(page);
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.notifyList = res.data.records;
+    },
+    // 获取系统消息
+    async getSysNoticeMsg(page) {
+      const { data: res } = await getSysNoticeMsg(page);
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.sysNotifyList = res.data.records;
+    },
     // 显示 更多
     showMore() {
       this.upcomingMore = "点击查看更多  ·····";
@@ -140,8 +143,9 @@ export default {
       this.$router.push("/admin/notice/myMassage");
     },
   },
-  created() {
-    // this.getMsg();
+  mounted() {
+    this.getNoticeMsg(this.page);
+    this.getSysNoticeMsg(this.page);
   },
 };
 </script>
@@ -188,7 +192,6 @@ export default {
         display: inline-block;
         width: 100px;
         height: 80px;
-        // border: #409eff solid 1px;
         margin: 50px;
 
         img {

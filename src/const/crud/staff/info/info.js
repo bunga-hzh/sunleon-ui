@@ -71,7 +71,7 @@ export const infoOption = {
       maxRows: 120,
       rules: [{
         required: true,
-        message: "请选择性别",
+        message: "请输入年龄",
         trigger: "blur",
       }],
     },
@@ -82,7 +82,7 @@ export const infoOption = {
       valueFormat: "yyyy-MM-dd",
       rules: [{
         required: true,
-        message: "请选择性别",
+        message: "请选择出生日期",
         trigger: "blur",
       }],
     },
@@ -106,7 +106,7 @@ export const infoOption = {
       prop: "csd",
       rules: [{
         required: true,
-        message: "请选择性别",
+        message: "请输入出生地",
         trigger: "blur",
       }],
     },
