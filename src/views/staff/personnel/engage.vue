@@ -1,30 +1,29 @@
 <template>
   <div class="engage_container">
     <basic-container>
-      <avue-crud
-        v-model="form"
-        :option="option"
-        :data="data"
-        :page.sync="page"
-        :before-open="beforeOpen"
-        @on-load="loadList"
-        @row-save="add"
-        @row-update="rowUpdate"
-        @row-del="rowDel"
-        @refresh-change="refreshChange"
-        @search-change="searchChange"
-      >
-        <template slot="xmForm" slot-scope="{ type }">
-          <el-autocomplete
-            :disabled="type === 'edit' ? true : false"
-            v-model="form.xm"
-            :fetch-suggestions="querySearchAsync"
-            placeholder="请输入姓名"
-            @select="handleSelect"
-            clearable
-          ></el-autocomplete>
+      <avue-crud v-model="form"
+                 :option="option"
+                 :data="data"
+                 :page.sync="page"
+                 :before-open="beforeOpen"
+                 :table-loading="showLoading"
+                 @on-load="onLoad"
+                 @row-save="add"
+                 @row-update="rowUpdate"
+                 @row-del="rowDel"
+                 @refresh-change="refreshChange"
+                 @search-change="searchChange">
+        <template slot="xmForm"
+                  slot-scope="{ type }">
+          <el-autocomplete :disabled="type === 'edit' ? true : false"
+                           v-model="form.xm"
+                           :fetch-suggestions="querySearchAsync"
+                           placeholder="请输入姓名"
+                           @select="handleSelect"
+                           clearable></el-autocomplete>
         </template>
-        <template slot="sarteDate" slot-scope="scope">
+        <template slot="sarteDate"
+                  slot-scope="scope">
           {{ scope.row.sarteDate }} - {{ scope.row.endDate }}
         </template>
       </avue-crud>
@@ -34,9 +33,9 @@
 
 <script>
 import { option } from "@/const/crud/staff/personnel/engage";
-import { get, add, edit, del } from "@/const/staff/crud";
-import { result } from "@/const/staff/message";
+import { getList, searchData, delData, add, edit } from "@/const/staff/crud";
 import { fetchList } from "@/api/staff/crud";
+import { result } from "@/const/staff/message";
 import { jzg_page } from "@/const/staff/page";
 
 export default {
@@ -51,6 +50,7 @@ export default {
       // 数据源
       data: undefined,
       option: option,
+      showLoading: false,
       // 表单对象
       form: {},
 
@@ -65,23 +65,12 @@ export default {
       }
       done();
     },
-    async getList(page, query) {
-      const { data: res } = await get(
-        "expert",
-        {
-          current: page.currentPage,
-          size: page.pageSize,
-        },
-        query,
-        this.search
-      );
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.data = res.data.records;
-      this.page.total = res.data.total;
+    getList() {
+      getList("expert", this);
     },
 
-    loadList() {
-      this.getList(this.page);
+    onLoad() {
+      this.getList();
     },
 
     // 新增
@@ -130,33 +119,18 @@ export default {
     },
     // 删除
     rowDel(form, index) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(async () => {
-          const { data: res } = await del("expert", form.id);
-          if (!result(this, res, "del")) return true;
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-          this.loadList();
-        })
-        .catch(() => {});
+      delData("expert", this, form, index, () => {
+        this.getList();
+      });
     },
     // 刷新
     refreshChange() {
-      this.loadList();
+      this.onLoad();
       this.$message.success("刷新成功！");
     },
     // 搜索
     searchChange(form, done) {
-      this.search = form;
-      this.page.currentPage = 1;
-      this.getList(this.page, form);
-      done();
+      searchData("expert", this, form, done);
     },
 
     async loadAll() {

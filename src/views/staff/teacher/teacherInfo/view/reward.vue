@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { fetchList } from "@/api/staff/crud";
 import { mapGetters } from "vuex";
 import { option } from "../option/reward";
 import { get, add, edit } from "@/const/staff/crud";
@@ -21,14 +22,43 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ staffId: "getStaffId" }),
+    ...mapGetters({
+      type: "getDialogType",
+      staffId: "getStaffId",
+      activeName: "getActiveItem",
+      formObj: "getObj",
+    }),
   },
   watch: {
+    type: {
+      handler(newValue) {
+        if (newValue === undefined) return true;
+        if (newValue === "view") {
+          this.option.detail = true;
+        } else {
+          this.option.detail = false;
+        }
+      },
+      immediate: true,
+    },
     staffId(newValue) {
       if (newValue == undefined) {
         this.option.submitText = "添加";
         this.$refs.form.resetForm();
         this.id = undefined;
+      }
+    },
+    activeName(newValue) {
+      if (newValue === undefined) return true;
+      if (newValue == "punish_reward") {
+        this.getRewardObj();
+      }
+    },
+    formObj(newValue) {
+      if (JSON.stringify(newValue) === "{}") {
+        for (let key in this.obj) {
+          this.obj[key] = undefined;
+        }
       }
     },
   },
@@ -61,6 +91,15 @@ export default {
           this.$message.success("添加成功!");
         }
       }, 1000);
+    },
+    async getRewardObj() {
+      const { data: res } = await fetchList("reward", {
+        current: 1,
+        size: 1,
+        staffId: this.staffId,
+      });
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.obj = res.data.records[0];
     },
   },
 };

@@ -32,7 +32,7 @@ export const option = {
     },
     {
       label: "上传电子证件",
-      prop: 'scdzzj',
+      prop: 'szdczj',
       type: 'upload',
       propsHttp: {
         url: 'url',

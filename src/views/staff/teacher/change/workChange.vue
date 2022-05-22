@@ -1,74 +1,65 @@
 <template>
   <div class="engage_container">
     <basic-container>
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-        <el-tab-pane
-          v-for="(item, index) in tabList"
-          :key="item.id"
-          :label="item.label"
-          :name="item.value"
-        >
-          <avue-crud
-            :ref="index === 3 ? 'crud' : ''"
-            :option="optionList[index]"
-            :data="data"
-            :page.sync="page"
-            v-model="form"
-            :before-close="beforeClose"
-            @on-load="loadList(index, apiUrlList[index])"
-            @row-save="add"
-            @row-update="edit"
-            @row-del="del"
-            @selection-change="selectionChange"
-            @refresh-change="refreshChange"
-            @search-change="searchChange"
-          >
-            <template slot="xmForm" slot-scope="{ type }">
-              <el-autocomplete
-                :disabled="type === 'edit' ? true : false"
-                v-model="form.xm"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入姓名"
-                @select="handleSelect"
-                clearable
-              ></el-autocomplete>
+      <el-tabs v-model="activeName"
+               @tab-click="handleClick"
+               type="card">
+        <el-tab-pane v-for="(item, index) in tabList"
+                     :key="item.id"
+                     :label="item.label"
+                     :name="item.value">
+          <avue-crud :ref="index === 3 ? 'crud' : ''"
+                     :option="optionList[index]"
+                     :data="data"
+                     :page.sync="page"
+                     v-model="form"
+                     :before-close="beforeClose"
+                     @on-load="loadList(index, apiUrlList[index])"
+                     @row-save="add"
+                     @row-update="edit"
+                     @row-del="del"
+                     @selection-change="selectionChange"
+                     @refresh-change="refreshChange"
+                     @search-change="searchChange">
+            <template slot="xmForm"
+                      slot-scope="{ type }">
+              <el-autocomplete :disabled="type === 'edit' ? true : false"
+                               v-model="form.xm"
+                               :fetch-suggestions="querySearchAsync"
+                               placeholder="请输入姓名"
+                               @select="handleSelect"
+                               clearable></el-autocomplete>
             </template>
 
-            <template slot="menu" slot-scope="scope">
-              <el-button
-                v-show="index === 3"
-                type="text"
-                @click="renewRow(scope.row)"
-                icon="el-icon-finished"
-                >续签</el-button
-              >
+            <template slot="menu"
+                      slot-scope="scope">
+              <el-button v-show="index === 3"
+                         type="text"
+                         @click="renewRow(scope.row)"
+                         icon="el-icon-finished">续签</el-button>
             </template>
 
-            <template slot="menuLeft" v-if="item.value == 4">
-              <el-button
-                v-show="index === 3"
-                type="primary"
-                icon="el-icon-finished"
-                @click="batchRenew"
-                >批量续签</el-button
-              >
+            <template slot="menuLeft"
+                      v-if="item.value == 4">
+              <el-button v-show="index === 3"
+                         type="primary"
+                         icon="el-icon-finished"
+                         @click="batchRenew">批量续签</el-button>
               <!-- 批量续签对话框 -->
-              <el-dialog
-                title="续签至"
-                :visible.sync="dialogVisible"
-                width="20%"
-                @close="toggleSelection()"
-              >
+              <el-dialog title="续签至"
+                         :visible.sync="dialogVisible"
+                         width="20%"
+                         @close="toggleSelection()">
                 <!-- 日期选择器 -->
-                <avue-date
-                  v-model="period"
-                  format="yyyy年MM月dd日"
-                  value-format="yyyy-MM-dd"
-                  placeholder="请选择日期"
-                ></avue-date>
-                <span slot="footer" class="dialog-footer">
+                <avue-date v-model="period"
+                           format="yyyy年MM月dd日"
+                           value-format="yyyy-MM-dd"
+                           placeholder="请选择日期"></avue-date>
+                <span slot="footer"
+                      class="dialog-footer">
                   <el-button @click="dialogVisible = false">取 消</el-button>
-                  <el-button type="primary" @click="renew">批量续签</el-button>
+                  <el-button type="primary"
+                             @click="renew">批量续签</el-button>
                 </span>
               </el-dialog>
             </template>

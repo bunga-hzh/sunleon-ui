@@ -31,22 +31,8 @@ export const option = {
         dicData: is_type,
       },
       {
-        label: "名师工作室主持人级别",
-        prop: "msgzszcrjb",
-      },
-      {
-        label: "是否名师工作室主持人",
-        prop: "sfmsgzszcr",
-        type: "radio",
-        props: {
-          label: "label",
-          value: 'value'
-        },
-        dicData: is_type,
-      },
-      {
-        label: "名师工作室主持人备注",
-        prop: "msgzszcrbz",
+        label: "教研组长备注",
+        prop: "jyzzbz",
       },
       {
         label: "是否学科带头人",
@@ -105,6 +91,24 @@ export const option = {
         prop: "ddzcybz",
       },
       {
+        label: "是否名师工作室主持人",
+        prop: "sfmsgzszcr",
+        type: "radio",
+        props: {
+          label: "label",
+          value: 'value'
+        },
+        dicData: is_type,
+      },
+      {
+        label: "名师工作室主持人备注",
+        prop: "msgzszcrbz",
+      },
+      {
+        label: "名师工作室主持人级别",
+        prop: "msgzszcrjb",
+      },
+      {
         label: "教师资格证上传",
         prop: "jszgzsc",
         type: 'upload',
@@ -114,7 +118,6 @@ export const option = {
         },
         tip: '只能上传jpg/png文件，且不超过500kb',
         action: '/imgupload',
-        span: 24,
       },
     ]
   }]

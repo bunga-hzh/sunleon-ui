@@ -21,14 +21,43 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ staffId: "getStaffId" }),
+    ...mapGetters({
+      type: "getDialogType",
+      staffId: "getStaffId",
+      activeName: "getActiveItem",
+      formObj: "getObj",
+    }),
   },
   watch: {
+    type: {
+      handler(newValue) {
+        if (newValue === undefined) return true;
+        if (newValue === "view") {
+          this.option.detail = true;
+        } else {
+          this.option.detail = false;
+        }
+      },
+      immediate: true,
+    },
     staffId(newValue) {
       if (newValue == undefined) {
         this.option.submitText = "添加";
         this.$refs.form.resetForm();
         this.id = undefined;
+      }
+    },
+    activeName(newValue) {
+      if (newValue === undefined) return true;
+      if (newValue == "examine") {
+        this.obj = this.formObj;
+      }
+    },
+    formObj(newValue) {
+      if (JSON.stringify(newValue) === "{}") {
+        for (let key in this.obj) {
+          this.obj[key] = undefined;
+        }
       }
     },
   },

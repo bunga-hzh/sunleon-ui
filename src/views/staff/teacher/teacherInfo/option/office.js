@@ -70,18 +70,23 @@ export const option = {
         prop: "gwdjm",
       },
       {
-        label: "校内职务",
-        prop: "xnzw",
-      },
-      {
         label: "参加工作时间",
         prop: "cjgzsj",
         type: "date",
         valueFormat: 'yyyy-MM-dd',
       },
       {
+        label: "实际工作年限",
+        prop: "cjgzny",
+        type: "number",
+      },
+      {
+        label: "校内职务",
+        prop: "xnzw",
+      },
+      {
         label: "任现职务时间",
-        prop: "xrzwsj",
+        prop: "rxzwsj",
         type: "date",
         valueFormat: 'yyyy-MM-dd',
       },
@@ -114,7 +119,7 @@ export const option = {
       },
       {
         label: "专业技术职务",
-        prop: "zyjszw",
+        prop: "xrzyjszw",
       },
       {
         label: "专业技术等级",
@@ -122,7 +127,7 @@ export const option = {
       },
       {
         label: "是否为内设机构领导",
-        prop: "sfwjgld",
+        prop: "sfwnsjgld",
         type: "radio",
         props: {
           label: "label",
@@ -152,7 +157,7 @@ export const option = {
       },
       {
         label: "是否为应届毕业生",
-        prop: "sfwyjbys",
+        prop: "sfyjbys",
         type: "radio",
         props: {
           label: "label",

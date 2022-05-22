@@ -14,7 +14,7 @@ export const option = {
       },
       {
         label: "岗位等级",
-        prop: "gwdj",
+        prop: "gwdjm",
       },
       {
         label: "岗位工资",

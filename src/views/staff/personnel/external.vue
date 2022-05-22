@@ -1,55 +1,53 @@
 <template>
   <div class="engage_container">
     <basic-container>
-      <avue-crud
-        v-model="form"
-        :option="option"
-        :data="data"
-        :page.sync="page"
-        @on-load="getList"
-        @row-save="add"
-        @row-update="rowUpdate"
-        @row-del="rowDel"
-        @refresh-change="refreshChange"
-        @search-change="searchChange"
-      >
-        <template slot="xmForm" slot-scope="{ type }">
-          <el-autocomplete
-            :disabled="type === 'edit' ? true : false"
-            v-model="form.xm"
-            :fetch-suggestions="querySearchAsync"
-            placeholder="请输入姓名"
-            @select="handleSelect"
-            clearable
-          ></el-autocomplete>
+      <avue-crud v-model="form"
+                 :option="option"
+                 :data="data"
+                 :page.sync="page"
+                 :table-loading="showLoading"
+                 @on-load="onLoad"
+                 @row-save="add"
+                 @row-update="rowUpdate"
+                 @row-del="rowDel"
+                 @refresh-change="refreshChange"
+                 @search-change="searchChange">
+        <template slot="xmForm"
+                  slot-scope="{ type }">
+          <el-autocomplete :disabled="type === 'edit' ? true : false"
+                           v-model="form.xm"
+                           :fetch-suggestions="querySearchAsync"
+                           placeholder="请输入姓名"
+                           @select="handleSelect"
+                           clearable></el-autocomplete>
         </template>
-        <template slot="zyzgzsxgxq" slot-scope="scope">
-          <el-button type="text" @click="view('wpjsworks', scope.row)"
-            >查看</el-button
-          >
+        <template slot="zyzgzsxgxq"
+                  slot-scope="scope">
+          <el-button type="text"
+                     @click="view('wpjsworks', scope.row)">查看</el-button>
         </template>
-        <template slot="dqzzgbj" slot-scope="scope">
-          <el-button type="text" @click="view('wpjscertificate', scope.row)"
-            >查看</el-button
-          >
+        <template slot="dqzzgbj"
+                  slot-scope="scope">
+          <el-button type="text"
+                     @click="view('wpjscertificate', scope.row)">查看</el-button>
         </template>
       </avue-crud>
     </basic-container>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="60%">
-      <avue-crud
-        :option="childOption"
-        :data="childData"
-        @row-save="addChild"
-        @row-update="editChild"
-        @row-del="delChild"
-        @refresh-change="refreshChangeChild"
-      >
+    <el-dialog title="提示"
+               :visible.sync="dialogVisible"
+               width="60%">
+      <avue-crud :option="childOption"
+                 :data="childData"
+                 @row-save="addChild"
+                 @row-update="editChild"
+                 @row-del="delChild"
+                 @refresh-change="refreshChangeChild">
       </avue-crud>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer"
+            class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="primary"
+                   @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -89,6 +87,7 @@ export default {
       data: [],
       // crud配置对象
       option: option,
+      showLoading: false,
 
       childOption: undefined,
       childData: undefined,
@@ -103,7 +102,10 @@ export default {
     };
   },
   methods: {
-    getList() {
+    onLoad() {
+      this.get();
+    },
+    get() {
       getList("wpjs", this);
     },
     add(form, done, loading) {
@@ -114,12 +116,11 @@ export default {
     },
     rowDel(form, index) {
       delData("wpjs", this, form, index, () => {
-        this.getList();
+        this.get();
       });
     },
     refreshChange() {
-      this.getList();
-      this.$message.success("刷新成功！");
+      this.get();
     },
     searchChange(form, done) {
       searchData("wpjs", this, form, done);

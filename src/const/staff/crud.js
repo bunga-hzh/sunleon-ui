@@ -1,7 +1,6 @@
 import {
   fetchList,
   addObj,
-  getObj,
   delObj,
   putObj
 } from '@/api/staff/crud'
@@ -33,12 +32,18 @@ export function del(type, id) {
 
 // 获取列表
 export async function getList(type, _this, query) {
+  _this.showLoading = true
   const {
     data: res
-  } = await get(type, _this.page, query, _this.search);
-  if (res.code !== 0) return this.$message.error('获取数据失败');
+  } = await fetchList(type, Object.assign({
+      current: _this.page.currentPage,
+      size: _this.page.pageSize,
+    },
+    query));
+  if (res.code !== 0) return this.$message.error(res.msg);
   _this.data = res.data.records
   _this.page.total = res.data.total;
+  _this.showLoading = false
 }
 
 // 添加

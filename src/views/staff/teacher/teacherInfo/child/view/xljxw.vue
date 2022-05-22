@@ -21,12 +21,34 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ staffId: "getStaffId" }),
+    ...mapGetters({
+      type: "getDialogType",
+      staffId: "getStaffId",
+      activeName: "getActiveItem",
+      tableData: "getData",
+    }),
   },
   watch: {
+    type: {
+      handler(newValue) {
+        if (newValue === undefined) return true;
+        if (newValue === "view") {
+          this.option.addBtn = false;
+        } else {
+          this.option.addBtn = true;
+        }
+      },
+      immediate: true,
+    },
     staffId(newValue) {
       if (newValue == undefined) {
-        this.$refs.crud.resetForm();
+        this.data = undefined;
+      }
+    },
+    activeName(newValue) {
+      if (newValue === undefined) return true;
+      if (newValue == "xljxw") {
+        this.data = this.tableData;
       }
     },
   },

@@ -7,6 +7,13 @@ export const option = {
   column: [{
       label: "部门",
       prop: 'bm',
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
     },
     {
       label: "职务名称",

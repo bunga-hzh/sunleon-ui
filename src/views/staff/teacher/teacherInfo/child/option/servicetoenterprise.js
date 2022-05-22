@@ -12,7 +12,7 @@ export const option = {
     },
     {
       label: "终止时间",
-      prop: 'zzjs',
+      prop: 'zzsj',
       type: 'date',
       valueFormat: 'yyyy-MM-dd',
     },

@@ -1,3 +1,11 @@
+const is_type = [{
+  label: '是',
+  value: "1",
+}, {
+  label: '否',
+  value: "2",
+}]
+
 export const option = {
   align: 'center',
   border: true,
@@ -44,7 +52,7 @@ export const option = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/is_type',
+      dicData: is_type,
     },
   ]
 }

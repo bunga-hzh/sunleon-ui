@@ -40,11 +40,11 @@ export const option = {
         {
           label: "姓名",
           prop: "xm",
-          // rules: [{
-          //   required: true,
-          //   message: "请填写姓名",
-          //   trigger: "blur"
-          // }],
+          rules: [{
+            required: true,
+            message: "请填写姓名",
+            trigger: "blur"
+          }],
         },
         {
           label: "曾用名",
@@ -59,10 +59,10 @@ export const option = {
             value: "value"
           },
           dicUrl: '/admin/dict/type/sex_type',
-          // rules: [{
-          //   required: true,
-          //   message: "请选择性别",
-          // }],
+          rules: [{
+            required: true,
+            message: "请选择性别",
+          }],
         },
         {
           label: "年龄",
@@ -70,50 +70,50 @@ export const option = {
           type: "number",
           minRows: 0,
           maxRows: 120,
-          // rules: [{
-          //   required: true,
-          //   message: "请输入年龄",
-          //   trigger: "blur",
-          // }],
+          rules: [{
+            required: true,
+            message: "请输入年龄",
+            trigger: "blur",
+          }],
         },
         {
           label: "出生日期",
           prop: "csrq",
           type: "date",
           valueFormat: "yyyy-MM-dd",
-          // rules: [{
-          //   required: true,
-          //   message: "请选择出生日期",
-          //   trigger: "blur",
-          // }],
+          rules: [{
+            required: true,
+            message: "请选择出生日期",
+            trigger: "blur",
+          }],
         },
 
         {
           label: "身份证号",
           prop: "sfzjh",
-          // rules: [{
-          //     required: true,
-          //     message: "请填写",
-          //     trigger: "blur"
-          //   },
-          //   {
-          //     validator: validateIdCard,
-          //     trigger: 'blur'
-          //   }
-          // ],
+          rules: [{
+              required: true,
+              message: "请填写",
+              trigger: "blur"
+            },
+            {
+              validator: validateIdCard,
+              trigger: 'blur'
+            }
+          ],
         },
         {
           label: "出生地",
           prop: "csd",
-          // rules: [{
-          //   required: true,
-          //   message: "请输入出生地",
-          //   trigger: "blur",
-          // }],
+          rules: [{
+            required: true,
+            message: "请输入出生地",
+            trigger: "blur",
+          }],
         },
         {
           label: "籍贯",
-          prop: "jgm",
+          prop: "jg",
           type: 'cascader',
           lazy: true,
           lazyLoad: async (node, resolve) => {
@@ -393,17 +393,35 @@ export const option = {
           label: "专技人员专业类别",
           prop: "zyjsrylb",
         },
+        // {
+        //   label: "居住证起始时间",
+        //   prop: "jjzqssj",
+        //   type: 'date',
+        //   valueFormat: "yyyy-MM-dd",
+        // },
+        // {
+        //   label: "居住证截止时间",
+        //   prop: "jjzjzsj",
+        //   type: 'date',
+        //   valueFormat: "yyyy-MM-dd",
+        // },
         {
-          label: "居住证起始时间",
+          label: "居住证起止时间",
           prop: "jjzqssj",
-          type: 'date',
-          valueFormat: "yyyy-MM-dd",
-        },
-        {
-          label: "居住证截止时间",
-          prop: "jjzjzsj",
-          type: 'date',
-          valueFormat: "yyyy-MM-dd",
+          type: "daterange",
+          format: 'yyyy-MM-dd',
+          valueFormat: 'yyyy-MM-dd',
+          startPlaceholder: '招聘开始日期',
+          endPlaceholder: '招聘结束日期',
+          search: true,
+          span: 24,
+          searchLabelWidth: 120,
+          slot: true,
+          width: 160,
+          rules: [{
+            required: true,
+            message: '请选择招聘起止时间'
+          }]
         },
         {
           label: "是否落户",

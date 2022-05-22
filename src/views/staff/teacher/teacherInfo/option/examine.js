@@ -20,7 +20,7 @@ export const option = {
       },
       {
         label: "考核结果",
-        prop: "khjg",
+        prop: "khjgm",
       },
       {
         label: "备注",

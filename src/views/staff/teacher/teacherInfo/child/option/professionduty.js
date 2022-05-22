@@ -14,7 +14,7 @@ export const option = {
     },
     {
       label: "取得资格时间",
-      prop: 'qdzgsj',
+      prop: 'hdzgsj',
       type: 'date',
       valueFormat: 'yyyy-MM-dd',
     },
@@ -30,13 +30,13 @@ export const option = {
     },
     {
       label: "聘任起始日期",
-      prop: 'prsqsj',
+      prop: 'prqsrq',
       type: 'date',
       valueFormat: 'yyyy-MM-dd',
     },
     {
       label: "聘任终止日期",
-      prop: 'przzsj',
+      prop: 'przzrq',
       type: 'date',
       valueFormat: 'yyyy-MM-dd',
     },

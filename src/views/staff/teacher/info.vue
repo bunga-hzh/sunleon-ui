@@ -5,9 +5,9 @@
                  :data="data"
                  :page.sync="page"
                  :table-loading="showLoading"
-                 @on-load="get"
+                 @on-load="onLoad"
                  @row-del="rowDel"
-                 @refresh-change="get"
+                 @refresh-change="refreshChange"
                  @search-change="searchChange">
         <template slot="menuLeft">
           <el-button type="primary"
@@ -54,7 +54,8 @@
         </div>
       </template>
 
-      <el-tabs v-model="activeName"
+      <el-tabs ref="tabs"
+               v-model="activeName"
                type="card"
                @tab-click="tabChange">
         <el-tab-pane label="人员基本情况"
@@ -166,8 +167,7 @@
 import { mapGetters, mapMutations } from "vuex";
 import { option } from "@/const/crud/staff/teacher/info";
 
-import { fetchList } from "@/api/staff/crud";
-import { get, del } from "@/const/staff/crud";
+import { fetchList, delObj } from "@/api/staff/crud";
 
 import info from "./teacherInfo/view/info";
 import office from "./teacherInfo/view/office";
@@ -197,8 +197,6 @@ export default {
   data() {
     return {
       title: undefined,
-      // 用户id
-      staffId: undefined,
       // 标签页激活项
       activeName: "info",
       // 折叠面板激活项
@@ -217,20 +215,24 @@ export default {
       // 分页对象
       page: {
         total: 0,
-        current: 1,
-        size: 10,
+        currentPage: 1,
+        pageSize: 10,
       },
-
-      xljxw: [],
     };
   },
   computed: {
-    ...mapGetters(["getDialogType"]),
+    ...mapGetters({ dialogType: "getDialogType", staffId: "getStaffId" }),
     ...mapMutations([
       "emptyStaffId",
       "setStaffId",
       "setDialogType",
       "emptyDialogType",
+      "setActiveItem",
+      "emptyActiveItem",
+      "setData",
+      "emptyData",
+      "setObj",
+      "emptyObj",
     ]),
   },
   methods: {
@@ -238,12 +240,28 @@ export default {
       this.$store.commit("setStaffId", 1);
       this.$message.success("获得成功!");
     },
+    // 加载表格
+    onLoad(page) {
+      this.get(page);
+    },
+    // 刷新
+    refreshChange() {
+      this.get(this.page);
+    },
     // 获取表格数据
-    async get(form) {
+    async get(page, form) {
       this.showLoading = true;
-      const { data: res } = await get("info", this.page, form);
-      if (res.code !== 0)
-        return this.$message.error("获取数据失败！--" + res.msg);
+      const { data: res } = await fetchList(
+        "info",
+        Object.assign(
+          {
+            current: page.currentPage,
+            size: page.pageSize,
+          },
+          form
+        )
+      );
+      if (res.code !== 0) return this.$message.error(res.msg);
       this.data = res.data.records;
       this.page.total = res.data.total;
       this.showLoading = false;
@@ -262,14 +280,14 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await del("info", form.id);
+          const { data: res } = await delObj("info", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
             type: "success",
             message: "删除成功!",
           });
-          this.get();
+          this.get(this.page);
         })
         .catch(() => {});
     },
@@ -278,6 +296,9 @@ export default {
     closeDialog() {
       this.$store.commit("emptyStaffId");
       this.$store.commit("emptyDialogType");
+      this.$store.commit("emptyActiveItem");
+      this.$store.commit("emptyData");
+      this.$store.commit("emptyObj");
       this.activeName = "info";
     },
 
@@ -290,34 +311,52 @@ export default {
     // 编辑行信息
     editRow(row) {
       this.title = "编辑";
+      this.$store.commit("setStaffId", row.id);
       this.$store.commit("setDialogType", "edit");
+      this.$store.commit("setObj", row);
+      this.$store.commit("setActiveItem", "info");
       this.dialogVisible = true;
     },
     // 查看行信息
     viewRow(row) {
       this.title = "查看";
+      this.$store.commit("setStaffId", row.id);
       this.$store.commit("setDialogType", "view");
+      this.$store.commit("setObj", row);
+      this.$store.commit("setActiveItem", "info");
       this.dialogVisible = true;
     },
 
     // 标签切换 触发
-    tabChange(tab) {
-      console.log(tab.name);
-    },
-
-    // // 折叠面板激活事件
-    async collapseActive(activeName) {
-      if (this.getDialogType === "add") return;
-      if (!activeName) return true;
-      console.log(this[`${activeName}`]);
-      return;
-      const { data: res } = await fetchList("info", {
+    async tabChange(tab) {
+      if (this.dialogType === "add") return;
+      if (tab.name === "other") return;
+      if (tab.name === "punish_reward") {
+        this.$store.commit("setActiveItem", tab.name);
+        return;
+      }
+      const { data: res } = await fetchList(tab.name, {
         current: 1,
-        size: 20,
+        size: 1,
+        staffId: this.staffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
-      // this.$store.commit('setActiveName',res.data.records)
-      // this.$store.commit('setData',res.data.records)
+      this.$store.commit("setActiveItem", tab.name);
+      this.$store.commit("setObj", res.data.records[0]);
+    },
+
+    // 折叠面板激活事件
+    async collapseActive(activeName) {
+      if (this.dialogType === "add") return;
+      if (!activeName) return true;
+      const { data: res } = await fetchList(activeName, {
+        current: 1,
+        size: 20,
+        staffId: this.staffId,
+      });
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.$store.commit("setActiveItem", activeName);
+      this.$store.commit("setData", res.data.records);
     },
   },
   components: {

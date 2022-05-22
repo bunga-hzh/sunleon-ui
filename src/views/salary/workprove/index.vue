@@ -1,27 +1,24 @@
 <template>
   <basic-container>
-    <avue-crud
-      v-model="form"
-      :data="data"
-      :option="option"
-      :page.sync="page"
-      :table-loading="showLoading"
-      @on-load="get"
-      @row-save="rowSave"
-      @row-update="rowUpdate"
-      @row-del="rowDel"
-      @refresh-change="refreshChange"
-      @search-change="searchChange"
-    >
-      <template slot="xmForm" slot-scope="{ type }">
-        <el-autocomplete
-          :disabled="type === 'edit' ? true : false"
-          v-model="form.xm"
-          :fetch-suggestions="querySearchAsync"
-          placeholder="请输入姓名"
-          @select="handleSelect"
-          clearable
-        ></el-autocomplete>
+    <avue-crud v-model="form"
+               :data="data"
+               :option="option"
+               :page.sync="page"
+               :table-loading="showLoading"
+               @on-load="get"
+               @row-save="rowSave"
+               @row-update="rowUpdate"
+               @row-del="rowDel"
+               @refresh-change="refreshChange"
+               @search-change="searchChange">
+      <template slot="xmForm"
+                slot-scope="{ type }">
+        <el-autocomplete :disabled="type === 'edit' ? true : false"
+                         v-model="form.xm"
+                         :fetch-suggestions="querySearchAsync"
+                         placeholder="请输入姓名"
+                         @select="handleSelect"
+                         clearable></el-autocomplete>
       </template>
     </avue-crud>
   </basic-container>
@@ -75,6 +72,7 @@ export default {
       if (res.code !== 0) return this.$message.error(res.msg);
       this.showLoading = false;
       this.data = res.data.records;
+      this.total = res.data.total;
     },
     // 添加
     async rowSave(form, done, loading) {
