@@ -4,66 +4,29 @@
       <el-tabs v-model="activeName"
                @tab-click="handleClick"
                type="card">
-        <el-tab-pane v-for="(item, index) in tabList"
-                     :key="item.id"
-                     :label="item.label"
-                     :name="item.value">
-          <avue-crud :ref="index === 3 ? 'crud' : ''"
-                     :option="optionList[index]"
-                     :data="data"
-                     :page.sync="page"
-                     v-model="form"
-                     :before-close="beforeClose"
-                     @on-load="loadList(index, apiUrlList[index])"
-                     @row-save="add"
-                     @row-update="edit"
-                     @row-del="del"
-                     @selection-change="selectionChange"
-                     @refresh-change="refreshChange"
-                     @search-change="searchChange">
-            <template slot="xmForm"
-                      slot-scope="{ type }">
-              <el-autocomplete :disabled="type === 'edit' ? true : false"
-                               v-model="form.xm"
-                               :fetch-suggestions="querySearchAsync"
-                               placeholder="请输入姓名"
-                               @select="handleSelect"
-                               clearable></el-autocomplete>
-            </template>
-
-            <template slot="menu"
-                      slot-scope="scope">
-              <el-button v-show="index === 3"
-                         type="text"
-                         @click="renewRow(scope.row)"
-                         icon="el-icon-finished">续签</el-button>
-            </template>
-
-            <template slot="menuLeft"
-                      v-if="item.value == 4">
-              <el-button v-show="index === 3"
-                         type="primary"
-                         icon="el-icon-finished"
-                         @click="batchRenew">批量续签</el-button>
-              <!-- 批量续签对话框 -->
-              <el-dialog title="续签至"
-                         :visible.sync="dialogVisible"
-                         width="20%"
-                         @close="toggleSelection()">
-                <!-- 日期选择器 -->
-                <avue-date v-model="period"
-                           format="yyyy年MM月dd日"
-                           value-format="yyyy-MM-dd"
-                           placeholder="请选择日期"></avue-date>
-                <span slot="footer"
-                      class="dialog-footer">
-                  <el-button @click="dialogVisible = false">取 消</el-button>
-                  <el-button type="primary"
-                             @click="renew">批量续签</el-button>
-                </span>
-              </el-dialog>
-            </template>
-          </avue-crud>
+        <el-tab-pane label="实习期不合格"
+                     name="1">
+          <Internship />
+        </el-tab-pane>
+        <el-tab-pane label="试用期不合格"
+                     name="2">
+          <Tryout />
+        </el-tab-pane>
+        <el-tab-pane label="转正"
+                     name="3">
+          <Positive />
+        </el-tab-pane>
+        <el-tab-pane label="合同续签"
+                     name="4">
+          <Contract />
+        </el-tab-pane>
+        <el-tab-pane label="转岗"
+                     name="5">
+          <Transfer />
+        </el-tab-pane>
+        <el-tab-pane label="其他"
+                     name="6">
+          <Other />
         </el-tab-pane>
       </el-tabs>
     </basic-container>
@@ -76,10 +39,16 @@ import {
   tabList,
 } from "@/const/crud/staff/teacher/change/workChange";
 
+import Internship from "./workChangeComponents/view/Internship";
+import Tryout from "./workChangeComponents/view/Tryout";
+import Positive from "./workChangeComponents/view/Positive";
+import Contract from "./workChangeComponents/view/Contract";
+import Transfer from "./workChangeComponents/view/Transfer";
+import Other from "./workChangeComponents/view/Other";
+
 import { add, edit, getList, delData, searchData } from "@/const/staff/crud";
-import { fetchList } from "@/api/staff/crud";
-import { jzg_page } from "@/const/staff/page";
 import { result } from "@/const/staff/message";
+import { loadAll } from "@/const/staff/getAllUser";
 
 export default {
   name: "TableEngage",
@@ -117,8 +86,15 @@ export default {
       ],
 
       restaurants: [],
-      timeout: null,
     };
+  },
+  components: {
+    Internship,
+    Tryout,
+    Positive,
+    Contract,
+    Transfer,
+    Other,
   },
   methods: {
     get(type) {
@@ -161,41 +137,6 @@ export default {
       });
     },
 
-    async loadAll() {
-      const { data: res } = await fetchList("info", jzg_page);
-      if (res.code !== 0) return true;
-      res.data.records.forEach((item) => {
-        this.restaurants.push({
-          value: item.xm,
-          gh: item.gh,
-          orgId: item.orgId,
-          staffId: item.id,
-        });
-      });
-    },
-    querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
-
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 1000 * Math.random());
-    },
-    createStateFilter(queryString) {
-      return (state) => {
-        return (
-          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
-    },
-    handleSelect(item) {
-      this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
-      this.form.staffId = item.staffId;
-    },
     beforeClose(done, type) {
       if (type === "add") {
         Object.keys(this.form).forEach((key) => (this.form[key] = ""));
@@ -259,11 +200,8 @@ export default {
       searchData(this.apiUrlList[this.activeName - 1], this, form, done);
     },
   },
-  mounted() {
-    this.option = this.optionList[0];
-    this.loadAll();
+  created() {
+    loadAll();
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

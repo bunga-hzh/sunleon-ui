@@ -25,7 +25,7 @@ const is_type = [{
 export const option = {
   submitText: '添加',
   detail: false,
-  labelWidth: 130,
+  labelWidth: 140,
   group: [{
       label: '个人基本信息',
       column: [{
@@ -413,15 +413,7 @@ export const option = {
           valueFormat: 'yyyy-MM-dd',
           startPlaceholder: '招聘开始日期',
           endPlaceholder: '招聘结束日期',
-          search: true,
           span: 24,
-          searchLabelWidth: 120,
-          slot: true,
-          width: 160,
-          rules: [{
-            required: true,
-            message: '请选择招聘起止时间'
-          }]
         },
         {
           label: "是否落户",

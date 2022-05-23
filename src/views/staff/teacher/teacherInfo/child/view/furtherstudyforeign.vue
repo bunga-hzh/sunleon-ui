@@ -1,16 +1,23 @@
 <template>
-  <avue-crud :data="data"
+  <avue-crud v-model="form"
+             :data="data"
              :option="option"
+             :table-loading="showLoading"
+             :before-open="beforeOpen"
              @refresh-change="refresh"
              @row-save="rowSave"
              @row-update="rowUpdate"
              @row-del="rowDel">
+    <template slot="qfrq"
+              slot-scope="scope">
+      {{ scope.row.qfrq }} - {{ scope.row.zzrq }}
+    </template>
   </avue-crud>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { option } from "../option/furtherstudyforeign";
-import { get, add, edit, del } from "@/const/staff/crud";
+import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 
 export default {
   data() {
@@ -18,6 +25,8 @@ export default {
       obj: {},
       option: option,
       data: [],
+      form: {},
+      showLoading: false,
     };
   },
   computed: {
@@ -34,8 +43,10 @@ export default {
         if (newValue === undefined) return true;
         if (newValue === "view") {
           this.option.addBtn = false;
+          this.option.menu = false;
         } else {
           this.option.addBtn = true;
+          this.option.menu = true;
         }
       },
       immediate: true,
@@ -48,11 +59,26 @@ export default {
     activeName(newValue) {
       if (newValue === undefined) return true;
       if (newValue == "furtherstudyforeign") {
-        this.data = this.tableData;
+        this.showLoading = true;
+        fetchList("furtherstudyforeign", {
+          current: 1,
+          size: 20,
+          staffId: this.staffId,
+        }).then((res) => {
+          if (res.data.code !== 0) return this.$message.error(res.msg);
+          this.showLoading = false;
+          this.data = res.data.data.records;
+        });
       }
     },
   },
   methods: {
+    beforeOpen(done, type) {
+      if (type === "edit" || type === "view") {
+        this.form.qfrq = [this.form.qfrq, this.form.zzrq];
+      }
+      done();
+    },
     // 添加
     rowSave(form, done, loading) {
       if (this.staffId == undefined) {
@@ -64,8 +90,16 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = { ...form, staffId: this.staffId };
-        const { data: res } = await add("furtherstudyforeign", newForm);
+        const newForm = {
+          staffId: this.staffId,
+          hzzjzldm: form.hzzjzldm,
+          hzhtxzh: form.hzhtxzh,
+          qfdd: form.qfdd,
+          qfjg: form.qfjg,
+          qfrq: form.qfrq[0],
+          zzrq: form.qfrq[1],
+        };
+        const { data: res } = await addObj("furtherstudyforeign", newForm);
         if (res.code !== 0) return this.$message.error(res.msg);
         done({ ...newForm, id: res.data });
         this.$message.success("添加成功！");
@@ -78,7 +112,17 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const { data: res } = await edit("furtherstudyforeign", form);
+        const newForm = {
+          id: form.id,
+          staffId: this.staffId,
+          hzzjzldm: form.hzzjzldm,
+          hzhtxzh: form.hzhtxzh,
+          qfdd: form.qfdd,
+          qfjg: form.qfjg,
+          qfrq: form.qfrq[0],
+          zzrq: form.qfrq[1],
+        };
+        const { data: res } = await putObj("furtherstudyforeign", newForm);
         if (res.code !== 0) return this.$message.error(res.msg);
         done(form);
         this.$message.success("修改成功！");
@@ -92,7 +136,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await del("furtherstudyforeign", form.id);
+          const { data: res } = await delObj("furtherstudyforeign", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
@@ -105,11 +149,15 @@ export default {
     },
     // 刷新
     async refresh() {
-      const { data: res } = await get("furtherstudyforeign", {
+      if (!this.staffId) return true;
+      this.showLoading = true;
+      const { data: res } = await fetchList("furtherstudyforeign", {
         current: 1,
         size: 20,
+        staffId: this.staffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
+      this.showLoading = false;
       this.data = res.data.records;
     },
   },

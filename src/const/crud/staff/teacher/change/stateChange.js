@@ -16,7 +16,7 @@ export const option = {
     },
     {
       label: "工号",
-      prop: "staffId",
+      prop: "gh",
       search: true,
       addDisabled: true,
       editDisabled: true,
@@ -55,22 +55,38 @@ export const option = {
       valueFormat: 'yyyy-MM-dd'
     },
     {
-      label: "异动开始时间",
-      prop: "changeStartDate",
-      width: 170,
-      type: 'date',
-      valueFormat: 'yyyy-MM-dd'
-    },
-    {
-      label: "异动结束时间",
-      prop: "changeEndDate",
-      width: 170,
-      type: 'date',
-      valueFormat: 'yyyy-MM-dd'
-    },
-    {
       label: "异动原因",
       prop: "changeReason",
+    },
+    // {
+    //   label: "异动开始时间",
+    //   prop: "changeStartDate",
+    //   width: 170,
+    //   type: 'date',
+    //   valueFormat: 'yyyy-MM-dd'
+    // },
+    // {
+    //   label: "异动结束时间",
+    //   prop: "changeEndDate",
+    //   width: 170,
+    //   type: 'date',
+    //   valueFormat: 'yyyy-MM-dd'
+    // },
+    {
+      label: "异动起止时间",
+      prop: "changeStartDate",
+      type: "daterange",
+      format: 'yyyy-MM-dd',
+      valueFormat: 'yyyy-MM-dd',
+      startPlaceholder: '异动开始时间',
+      endPlaceholder: '异动结束时间',
+      slot: true,
+      width: 160,
+      span: 24,
+      rules: [{
+        required: true,
+        message: '请选择异动起止时间'
+      }]
     },
     {
       label: "备注",

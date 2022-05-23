@@ -38,6 +38,9 @@ export default {
         } else {
           this.option.detail = false;
         }
+        if (newValue === "edit") {
+          this.option.submitText = "保存";
+        }
       },
       immediate: true,
     },
@@ -72,17 +75,30 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
+      const startTime = form.cfrq[0];
+      const endTiem = form.cfrq[1];
+      delete form.cfrq;
       setTimeout(async () => {
         if (this.id) {
+          const editForm = {
+            ...form,
+            id: this.id,
+            cfrq: startTime,
+            cfcxrq: endTiem,
+          };
           //编辑
-          const editForm = { ...form, id: this.id };
           const { data: res } = await edit("punish", editForm);
           if (res.code !== 0) return this.$message.error(res.msg);
           loading();
           this.$message.success("保存成功!");
         } else {
+          const addForm = {
+            ...form,
+            staffId: this.staffId,
+            cfrq: startTime,
+            cfcxrq: endTiem,
+          };
           //添加
-          const addForm = { ...form, staffId: this.staffId };
           const { data: res } = await add("punish", addForm);
           if (res.code !== 0) return this.$message.error(res.msg);
           this.id = res.data;
@@ -99,7 +115,11 @@ export default {
         staffId: this.staffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
-      this.obj = res.data.records[0];
+      this.id = res.data.records[0].id;
+      const time = [res.data.records[0].cfrq, res.data.records[0].cfcxrq];
+      delete res.data.records[0].cfrq;
+      delete res.data.records[0].cfcxrq;
+      this.obj = { ...res.data.records[0], cfrq: time };
     },
   },
 };

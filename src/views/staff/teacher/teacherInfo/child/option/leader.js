@@ -22,6 +22,8 @@ export const option = {
     {
       label: "任职方式",
       prop: 'rzfsm',
+      type: "select",
+      dicUrl: "/admin/dict/type/appointment_type"
     },
     {
       label: "任免职文号",

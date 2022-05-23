@@ -3,30 +3,54 @@ export const option = {
   border: true,
   menuWidth: 160,
   addBtn: true,
+  labelWidth: 160,
   column: [{
       label: "学历",
       prop: 'xlm',
-    },
-    {
-      label: "入学时间",
-      prop: 'rxsj',
-      type: 'date',
-      valueFormat: 'yyyy-MM-dd',
-    },
-    {
-      label: "毕业时间",
-      prop: 'bysj',
-      type: 'date',
-      valueFormat: 'yyyy-MM-dd',
+      type: "select",
+      dicUrl: "/admin/dict/type/education_type",
       rules: [{
         required: true,
-        message: "请输入毕业时间",
-        trigger: "blur"
+        message: "请选择学历",
+        trigger: "change"
       }],
     },
     {
       label: "学校",
       prop: 'xx',
+    },
+    // {
+    //   label: "入学时间",
+    //   prop: 'rxsj',
+    //   type: 'date',
+    //   valueFormat: 'yyyy-MM-dd',
+    // },
+    // {
+    //   label: "毕业时间",
+    //   prop: 'bysj',
+    //   type: 'date',
+    //   valueFormat: 'yyyy-MM-dd',
+    //   rules: [{
+    //     required: true,
+    //     message: "请输入毕业时间",
+    //     trigger: "blur"
+    //   }],
+    // },
+    {
+      label: "入学时间-毕业时间",
+      prop: "rxsj",
+      type: "daterange",
+      format: 'yyyy-MM-dd',
+      valueFormat: 'yyyy-MM-dd',
+      startPlaceholder: '入学时间',
+      endPlaceholder: '毕业时间',
+      slot: true,
+      width: 160,
+      span: 24,
+      rules: [{
+        required: true,
+        message: '请选择入学时间-毕业时间'
+      }]
     },
     {
       label: "专业/系",

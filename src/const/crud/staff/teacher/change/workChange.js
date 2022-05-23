@@ -261,70 +261,7 @@ export const optionList = [{
       },
     ],
   },
-  {
-    align: 'center',
-    border: true,
-    searchMenuSpan: 4,
-    searchSpan: 6,
-    index: true,
-    labelWidth: 150,
-    menuWidth: 160,
-    column: [{
-        label: "姓名",
-        prop: "xm",
-        search: true,
-        formslot: true,
-        editDisabled: true,
-      },
-      {
-        label: "工号",
-        prop: "gh",
-        search: true,
-        addDisabled: true,
-        editDisabled: true,
-      },
-      {
-        label: "所属部门",
-        prop: "orgId",
-        search: true,
-        addDisabled: true,
-        editDisabled: true,
-        type: 'tree',
-        dicUrl: 'admin/dept/tree',
-        props: {
-          label: "name",
-          value: "id",
-          children: "children"
-        },
-      },
-      {
-        label: "转岗时间",
-        prop: "zgsj",
-        type: 'date',
-        valueFormat: "yyyy-MM-dd",
-      },
-      {
-        label: "薪资",
-        prop: "xz",
-        type: 'number',
-        minRows: 0,
-        valueDefault: 0,
-      },
-      {
-        label: "原岗位名称",
-        prop: "ygwmc",
-      },
-      {
-        label: "新岗位名称",
-        prop: "xgwmc",
-      },
-      {
-        label: "备注",
-        prop: "bz",
-        type: 'textarea',
-      },
-    ],
-  },
+
   {
     align: 'center',
     border: true,

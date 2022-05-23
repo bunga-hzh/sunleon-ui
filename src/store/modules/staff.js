@@ -5,6 +5,8 @@ const teacherInfo = {
     activeItem: undefined, //激活项
     data: [], // 表格数据
     obj: {}, // 对象数据
+    xm: undefined, //姓名
+    sfzjh: undefined, //身份证号
   },
   getters: {
     // 获取教职工ID
@@ -26,6 +28,14 @@ const teacherInfo = {
     // 获取对象数据
     getObj: state => {
       return state.obj
+    },
+    // 获取姓名
+    getXm: state => {
+      return state.xm
+    },
+    // 获取身份证号
+    getSfzjh: state => {
+      return state.sfzjh
     },
   },
   mutations: {
@@ -68,6 +78,14 @@ const teacherInfo = {
     // 清空对象数据
     emptyObj(state) {
       state.obj = {}
+    },
+    // 设置姓名
+    setXm(state, value) {
+      state.xm = value
+    },
+    // 设置身份证号
+    setSfzjh(state, value) {
+      state.sfzjh = value
     },
   }
 }

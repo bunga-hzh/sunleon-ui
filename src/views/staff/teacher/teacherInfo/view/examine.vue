@@ -26,6 +26,8 @@ export default {
       staffId: "getStaffId",
       activeName: "getActiveItem",
       formObj: "getObj",
+      xm: "getXm",
+      sfzjh: "getSfzjh",
     }),
   },
   watch: {
@@ -36,6 +38,9 @@ export default {
           this.option.detail = true;
         } else {
           this.option.detail = false;
+        }
+        if (newValue === "edit") {
+          this.option.submitText = "保存";
         }
       },
       immediate: true,
@@ -50,6 +55,8 @@ export default {
     activeName(newValue) {
       if (newValue === undefined) return true;
       if (newValue == "examine") {
+        if (!this.formObj) return true;
+        this.id = this.formObj.id;
         this.obj = this.formObj;
       }
     },
@@ -59,6 +66,12 @@ export default {
           this.obj[key] = undefined;
         }
       }
+    },
+    xm(newValue) {
+      this.obj.xm = newValue;
+    },
+    sfzjh(newValue) {
+      this.obj.sfzjh = newValue;
     },
   },
   methods: {

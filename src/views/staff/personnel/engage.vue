@@ -24,7 +24,7 @@
         </template>
         <template slot="sarteDate"
                   slot-scope="scope">
-          {{ scope.row.sarteDate }} - {{ scope.row.endDate }}
+          {{ scope.row.sarteDate }} - {{ scope.row.changeEndDate }}
         </template>
       </avue-crud>
     </basic-container>

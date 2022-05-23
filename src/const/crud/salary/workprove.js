@@ -25,6 +25,7 @@ export const option = {
     {
       label: "部门",
       prop: "orgId",
+      search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
       props: {

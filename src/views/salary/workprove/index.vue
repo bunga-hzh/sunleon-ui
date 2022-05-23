@@ -27,7 +27,6 @@
 <script>
 import { option } from "@/const/crud/salary/workprove";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/zzjgworkprove";
-import { fetchList as fetchUserList } from "@/api/staff/crud";
 import { jzg_page } from "@/const/staff/page";
 
 export default {
@@ -119,7 +118,7 @@ export default {
       done();
     },
     async loadAll() {
-      const { data: res } = await fetchUserList("info", jzg_page);
+      const { data: res } = await fetchList("info", jzg_page);
       if (res.code !== 0) return true;
       res.data.records.forEach((item) => {
         this.restaurants.push({

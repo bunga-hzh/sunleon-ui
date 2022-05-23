@@ -1,7 +1,8 @@
 <template>
   <div class="engage_container">
     <basic-container>
-      <avue-crud :option="option"
+      <avue-crud ref="crud"
+                 :option="option"
                  :data="data"
                  :page.sync="page"
                  :table-loading="showLoading"
@@ -14,16 +15,10 @@
                      icon="el-icon-plus"
                      size="small"
                      @click="add">添加</el-button>
-          <el-button type="primary"
-                     icon="el-icon-download"
-                     size="small">导出</el-button>
-          <el-button type="primary"
-                     icon="el-icon-upload2"
-                     size="small">导入</el-button>
-          <el-button type="primary"
+          <!-- <el-button type="primary"
                      icon="el-icon-upload2"
                      size="small"
-                     @click="getStaffId">获得staffId</el-button>
+                     @click="getStaffId">获得staffId</el-button> -->
         </template>
         <template slot="menu"
                   slot-scope="scope">
@@ -236,10 +231,10 @@ export default {
     ]),
   },
   methods: {
-    getStaffId() {
-      this.$store.commit("setStaffId", 1);
-      this.$message.success("获得成功!");
-    },
+    // getStaffId() {
+    //   this.$store.commit("setStaffId", 1);
+    //   this.$message.success("获得成功!");
+    // },
     // 加载表格
     onLoad(page) {
       this.get(page);
@@ -268,8 +263,8 @@ export default {
     },
     // 搜索
     searchChange(form, done) {
-      this.page.current = 1;
-      this.get(form);
+      this.page.currentPage = 1;
+      this.get(this.page, form);
       done();
     },
     // 删除教职工基本信息
@@ -300,6 +295,8 @@ export default {
       this.$store.commit("emptyData");
       this.$store.commit("emptyObj");
       this.activeName = "info";
+      this.collapseActiveName = undefined;
+      this.get(this.page);
     },
 
     // 添加按钮
@@ -349,14 +346,7 @@ export default {
     async collapseActive(activeName) {
       if (this.dialogType === "add") return;
       if (!activeName) return true;
-      const { data: res } = await fetchList(activeName, {
-        current: 1,
-        size: 20,
-        staffId: this.staffId,
-      });
-      if (res.code !== 0) return this.$message.error(res.msg);
       this.$store.commit("setActiveItem", activeName);
-      this.$store.commit("setData", res.data.records);
     },
   },
   components: {

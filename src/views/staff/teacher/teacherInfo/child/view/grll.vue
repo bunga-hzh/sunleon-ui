@@ -1,16 +1,23 @@
 <template>
-  <avue-crud :data="data"
+  <avue-crud v-model="form"
+             :data="data"
              :option="option"
+             :table-loading="showLoading"
+             :before-open="beforeOpen"
              @refresh-change="refresh"
              @row-save="rowSave"
              @row-update="rowUpdate"
              @row-del="rowDel">
+    <template slot="qssj"
+              slot-scope="scope">
+      {{ scope.row.qssj }} - {{ scope.row.zzsj }}
+    </template>
   </avue-crud>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { option } from "../option/grll";
-import { get, add, edit, del } from "@/const/staff/crud";
+import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 
 export default {
   data() {
@@ -18,6 +25,8 @@ export default {
       obj: {},
       option: option,
       data: [],
+      form: {},
+      showLoading: false,
     };
   },
   computed: {
@@ -34,8 +43,10 @@ export default {
         if (newValue === undefined) return true;
         if (newValue === "view") {
           this.option.addBtn = false;
+          this.option.menu = false;
         } else {
           this.option.addBtn = true;
+          this.option.menu = true;
         }
       },
       immediate: true,
@@ -48,11 +59,26 @@ export default {
     activeName(newValue) {
       if (newValue === undefined) return true;
       if (newValue == "grll") {
-        this.data = this.tableData;
+        this.showLoading = true;
+        fetchList("grll", {
+          current: 1,
+          size: 20,
+          staffId: this.staffId,
+        }).then((res) => {
+          if (res.data.code !== 0) return this.$message.error(res.msg);
+          this.showLoading = false;
+          this.data = res.data.data.records;
+        });
       }
     },
   },
   methods: {
+    beforeOpen(done, type) {
+      if (type === "edit" || type === "view") {
+        this.form.qssj = [this.form.qssj, this.form.zzsj];
+      }
+      done();
+    },
     // 添加
     rowSave(form, done, loading) {
       if (this.staffId == undefined) {
@@ -64,8 +90,17 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = { ...form, staffId: this.staffId };
-        const { data: res } = await add("grll", newForm);
+        const newForm = {
+          staffId: this.staffId,
+          szdw: form.szdw,
+          zw: form.zw,
+          dwszsf: form.dwszsf,
+          zmr: form.zmr,
+          scdzzm: form.scdzzm,
+          qssj: form.qssj[0],
+          zzsj: form.qssj[1],
+        };
+        const { data: res } = await addObj("grll", newForm);
         if (res.code !== 0) return this.$message.error(res.msg);
         done({ ...newForm, id: res.data });
         this.$message.success("添加成功！");
@@ -78,9 +113,20 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const { data: res } = await edit("grll", form);
+        const newForm = {
+          id: form.id,
+          staffId: this.staffId,
+          szdw: form.szdw,
+          zw: form.zw,
+          dwszsf: form.dwszsf,
+          zmr: form.zmr,
+          scdzzm: form.scdzzm,
+          qssj: form.qssj[0],
+          zzsj: form.qssj[1],
+        };
+        const { data: res } = await putObj("grll", newForm);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(form);
+        done(newForm);
         this.$message.success("修改成功！");
       }, 1000);
     },
@@ -92,7 +138,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await del("grll", form.id);
+          const { data: res } = await delObj("grll", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
@@ -105,11 +151,15 @@ export default {
     },
     // 刷新
     async refresh() {
-      const { data: res } = await get("grll", {
+      if (!this.staffId) return true;
+      this.showLoading = true;
+      const { data: res } = await fetchList("grll", {
         current: 1,
         size: 20,
+        staffId: this.staffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
+      this.showLoading = false;
       this.data = res.data.records;
     },
   },

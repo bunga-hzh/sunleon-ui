@@ -38,6 +38,9 @@ export default {
         } else {
           this.option.detail = false;
         }
+        if (newValue === "edit") {
+          this.option.submitText = "保存";
+        }
       },
       immediate: true,
     },
@@ -99,6 +102,7 @@ export default {
         staffId: this.staffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
+      this.id = res.data.records[0].id;
       this.obj = res.data.records[0];
     },
   },

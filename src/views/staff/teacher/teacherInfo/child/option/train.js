@@ -12,17 +12,34 @@ export const option = {
   menuWidth: 160,
   labelWidth: 140,
   addBtn: true,
-  column: [{
-      label: "学习起始时间",
-      prop: 'xxqssj',
-      type: 'date',
-      valueFormat: 'yyyy-MM-dd',
-    },
+  column: [
+    // {
+    //   label: "学习起始时间",
+    //   prop: 'xxqssj',
+    //   type: 'date',
+    //   valueFormat: 'yyyy-MM-dd',
+    // },
+    // {
+    //   label: "学习终止时间",
+    //   prop: 'xxzzsj',
+    //   type: 'date',
+    //   valueFormat: 'yyyy-MM-dd',
+    // },
     {
-      label: "学习终止时间",
-      prop: 'xxzzsj',
-      type: 'date',
+      label: "学习起止时间",
+      prop: "xxqssj",
+      type: "daterange",
+      format: 'yyyy-MM-dd',
       valueFormat: 'yyyy-MM-dd',
+      startPlaceholder: '学习起始时间',
+      endPlaceholder: '学习终止时间',
+      slot: true,
+      width: 160,
+      span: 24,
+      rules: [{
+        required: true,
+        message: '请选择学习起止时间'
+      }]
     },
     {
       label: "培训班名称",

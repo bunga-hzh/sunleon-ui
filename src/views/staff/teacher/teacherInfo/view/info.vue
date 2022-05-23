@@ -25,8 +25,10 @@ export default {
       id: "getStaffId",
       activeName: "getActiveItem",
       formObj: "getObj",
+      xm: "getXm",
+      sfzjh: "getSfzjh",
     }),
-    ...mapMutations(["setStaffId"]),
+    ...mapMutations(["setStaffId", "setXm", "setSfzjh"]),
   },
   watch: {
     type: {
@@ -36,6 +38,9 @@ export default {
           this.option.detail = true;
         } else {
           this.option.detail = false;
+        }
+        if (newValue === "edit") {
+          this.option.submitText = "保存";
         }
       },
       immediate: true,
@@ -50,8 +55,10 @@ export default {
       handler(newValue) {
         if (newValue === undefined) return true;
         if (newValue === "info") {
-          console.log(this.formObj);
-          this.obj = this.formObj;
+          const time = [this.formObj.jjzqssj, this.formObj.jjzjzsj];
+          delete this.formObj.jjzqssj;
+          delete this.formObj.jjzjzsj;
+          this.obj = { ...this.formObj, jjzqssj: time };
         }
       },
       immediate: true,
@@ -66,36 +73,58 @@ export default {
   },
   methods: {
     submit(form, loading) {
+      var startTime,
+        endTiem,
+        hkszdm,
+        jg = undefined;
+      if (form.jjzqssj !== undefined) {
+        startTime = form.jjzqssj[0];
+        endTiem = form.jjzqssj[1];
+        delete form.jjzqssj;
+      }
+      if (form.hkszdm !== undefined) {
+        hkszdm = JSON.stringify(form.hkszdm);
+        delete form.hkszdm;
+      }
+      if (form.jg !== undefined) {
+        jg = JSON.stringify(form.jg);
+        delete form.jg;
+      }
       setTimeout(async () => {
+        loading();
         if (this.id) {
           //编辑
-          const startTime = form.jjzqssj[0];
-          const endTiem = form.jjzqssj[1];
-          delete form.jjzqssj;
           const editForm = {
-            ...obj,
+            ...form,
             id: this.id,
             jjzqssj: startTime,
             jjzjzsj: endTiem,
+            jg: jg,
+            hkszdm: hkszdm,
           };
           const { data: res } = await edit("info", editForm);
           if (res.code !== 0) return this.$message.error(res.msg);
-          loading();
+          if (editForm) {
+            this.$store.commit("setXm", editForm.xm);
+            this.$store.commit("setSfzjh", editForm.sfzjh);
+          }
           this.$message.success("保存成功!");
         } else {
-          const startTime = form.jjzqssj[0];
-          const endTiem = form.jjzqssj[1];
-          delete form.jjzqssj;
           const addForm = {
             ...form,
             jjzqssj: startTime,
             jjzjzsj: endTiem,
+            jg: jg,
+            hkszdm: hkszdm,
           };
           //添加
           const { data: res } = await add("info", addForm);
           if (res.code !== 0) return this.$message.error(res.msg);
+          if (addForm) {
+            this.$store.commit("setXm", addForm.xm);
+            this.$store.commit("setSfzjh", addForm.sfzjh);
+          }
           this.$store.commit("setStaffId", res.data);
-          loading();
           this.option.submitText = "保存";
           this.$message.success("添加成功!");
         }

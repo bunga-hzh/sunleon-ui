@@ -7,10 +7,20 @@ export const option = {
   column: [{
       label: "工人技术等级名称",
       prop: 'grjsdjmc',
+      type: 'select',
+      dicData: [{
+        value: 0,
+        label: '初级技术工人'
+      }]
     },
     {
       label: "工人技术职务名称",
       prop: 'grjszwmc',
+      type: 'select',
+      dicData: [{
+        value: 0,
+        label: '中级技术工人'
+      }]
     },
     {
       label: "取得技术职务时间",

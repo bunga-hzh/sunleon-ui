@@ -1,16 +1,23 @@
 <template>
-  <avue-crud :data="data"
+  <avue-crud v-model="form"
+             :data="data"
              :option="option"
+             :table-loading="showLoading"
+             :before-open="beforeOpen"
              @refresh-change="refresh"
              @row-save="rowSave"
              @row-update="rowUpdate"
              @row-del="rowDel">
+    <template slot="prqsrq"
+              slot-scope="scope">
+      {{ scope.row.prqsrq }} - {{ scope.row.przzrq }}
+    </template>
   </avue-crud>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { option } from "../option/professionduty";
-import { get, add, edit, del } from "@/const/staff/crud";
+import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 
 export default {
   data() {
@@ -18,6 +25,8 @@ export default {
       obj: {},
       option: option,
       data: [],
+      form: {},
+      showLoading: false,
     };
   },
   computed: {
@@ -34,8 +43,10 @@ export default {
         if (newValue === undefined) return true;
         if (newValue === "view") {
           this.option.addBtn = false;
+          this.option.menu = false;
         } else {
           this.option.addBtn = true;
+          this.option.menu = true;
         }
       },
       immediate: true,
@@ -48,11 +59,26 @@ export default {
     activeName(newValue) {
       if (newValue === undefined) return true;
       if (newValue == "professionduty") {
-        this.data = this.tableData;
+        this.showLoading = true;
+        fetchList("professionduty", {
+          current: 1,
+          size: 20,
+          staffId: this.staffId,
+        }).then((res) => {
+          if (res.data.code !== 0) return this.$message.error(res.msg);
+          this.showLoading = false;
+          this.data = res.data.data.records;
+        });
       }
     },
   },
   methods: {
+    beforeOpen(done, type) {
+      if (type === "edit" || type === "view") {
+        this.form.prqsrq = [this.form.prqsrq, this.form.przzrq];
+      }
+      done();
+    },
     // 添加
     rowSave(form, done, loading) {
       if (this.staffId == undefined) {
@@ -64,8 +90,19 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = { ...form, staffId: this.staffId };
-        const { data: res } = await add("professionduty", newForm);
+        const newForm = {
+          staffId: this.staffId,
+          zyjszgmc: form.zyjszgmc,
+          qdzgtjm: form.qdzgtjm,
+          hdzgsj: form.hdzgsj,
+          rzzgmcm: form.rzzgmcm,
+          scprsj: form.scprsj,
+          prqkm: form.prqkm,
+          scdzzj: form.scdzzj,
+          prqsrq: form.prqsrq[0],
+          przzrq: form.prqsrq[1],
+        };
+        const { data: res } = await addObj("professionduty", newForm);
         if (res.code !== 0) return this.$message.error(res.msg);
         done({ ...newForm, id: res.data });
         this.$message.success("添加成功！");
@@ -78,9 +115,22 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const { data: res } = await edit("professionduty", form);
+        const newForm = {
+          id: form.id,
+          staffId: this.staffId,
+          zyjszgmc: form.zyjszgmc,
+          qdzgtjm: form.qdzgtjm,
+          hdzgsj: form.hdzgsj,
+          rzzgmcm: form.rzzgmcm,
+          scprsj: form.scprsj,
+          prqkm: form.prqkm,
+          scdzzj: form.scdzzj,
+          prqsrq: form.prqsrq[0],
+          przzrq: form.prqsrq[1],
+        };
+        const { data: res } = await putObj("professionduty", newForm);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(form);
+        done(newForm);
         this.$message.success("修改成功！");
       }, 1000);
     },
@@ -92,7 +142,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await del("professionduty", form.id);
+          const { data: res } = await delObj("professionduty", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
@@ -105,11 +155,15 @@ export default {
     },
     // 刷新
     async refresh() {
-      const { data: res } = await get("professionduty", {
+      if (!this.staffId) return true;
+      this.showLoading = true;
+      const { data: res } = await fetchList("professionduty", {
         current: 1,
         size: 20,
+        staffId: this.staffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
+      this.showLoading = false;
       this.data = res.data.records;
     },
   },

@@ -37,6 +37,9 @@ export default {
         } else {
           this.option.detail = false;
         }
+        if (newValue === "edit") {
+          this.option.submitText = "保存";
+        }
       },
       immediate: true,
     },
@@ -50,6 +53,8 @@ export default {
     activeName(newValue) {
       if (newValue === undefined) return true;
       if (newValue == "salary") {
+        if (!this.formObj) return true;
+        this.id = this.formObj.id;
         this.obj = this.formObj;
       }
     },
