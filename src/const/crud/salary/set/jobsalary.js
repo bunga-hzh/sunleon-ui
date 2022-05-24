@@ -5,7 +5,7 @@ export const option = {
   indexLabel: '序号',
   searchMenuSpan: 4,
   labelWidth: 120,
-  menuWidth: 340,
+  menuWidth: 360,
   column: [{
       label: '编号',
       prop: 'bh',

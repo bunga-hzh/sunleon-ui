@@ -1,5 +1,7 @@
 import {
-  newVersionCardId
+  newVersionCardId,
+  isMobile,
+  isEmail
 } from "@/util/validate";
 import {
   getRegionTreeApi
@@ -11,6 +13,22 @@ var validateIdCard = (rule, value, callback) => {
     callback();
   } else {
     callback(new Error('身份证号格式有误，请检查!'));
+  }
+}
+
+var vaildataPhone = (rule, value, callback) => {
+  if (isMobile(value)) {
+    callback()
+  } else {
+    callback(new Error('手机号格式有误，请检查!'));
+  }
+}
+
+var vaildataEmail = (rule, value, callback) => {
+  if (isEmail(value)) {
+    callback()
+  } else {
+    callback(new Error('邮箱格式有误，请检查!'));
   }
 }
 
@@ -171,10 +189,18 @@ export const option = {
         {
           label: "联系电话",
           prop: "lxdh",
+          rules: [{
+            validator: vaildataPhone,
+            trigger: 'blur'
+          }]
         },
         {
           label: "电子邮箱",
           prop: "dzyx",
+          rules: [{
+            validator: vaildataEmail,
+            trigger: 'blur'
+          }]
         },
         {
           label: "紧急联系人姓名",
@@ -183,6 +209,10 @@ export const option = {
         {
           label: "紧急联系人电话",
           prop: "jjlxrdh",
+          rules: [{
+            validator: vaildataPhone,
+            trigger: 'blur'
+          }]
         },
         {
           label: "组织机构",
@@ -199,26 +229,33 @@ export const option = {
           label: "身份证正面上传",
           prop: "sfzFrontImg",
           type: 'upload',
+          accept: 'image/png, image/jpg',
+          limit: 1,
+          fileSize: 500,
           propsHttp: {
-            url: 'url',
-            name: 'name',
+            url: 'res_id',
+            name: 'originalName',
             res: 'data'
           },
-          tip: '只能上传jpg/png格式，且不超过500kb',
-          action: '/imgupload',
+          tip: '只能上传jpg/png格式，且不超过500KB',
+          action: '/admin/sys-file/upload',
           span: 24,
         },
         {
           label: "身份证反面上传",
           prop: "sfzBackImg",
           type: 'upload',
+          accept: 'image/png, image/jpg',
+          limit: 1,
+          fileSize: 500,
           propsHttp: {
-            url: 'url',
-            name: 'name',
+            home: 'localhost:8080/',
+            url: 'res_id',
+            name: 'originalName',
             res: 'data'
           },
-          tip: '只能上传jpg/png格式，且不超过500kb',
-          action: '/imgupload',
+          tip: '只能上传jpg/png格式，且不超过500KB',
+          action: '/admin/sys-file/upload',
           span: 24,
         },
       ]
@@ -266,24 +303,30 @@ export const option = {
           label: "最高学历证上传",
           prop: "zgxlzsc",
           type: 'upload',
-          loadText: '附件上传中，请稍等',
+          limit: 1,
+          fileSize: 5120,
           propsHttp: {
+            url: 'res_id',
+            name: 'originalName',
             res: 'data'
           },
-          tip: '只能上传jpg/png文件，且不超过500kb',
-          action: '/imgupload',
+          tip: '不超过5M',
+          action: '/admin/sys-file/upload',
           span: 24,
         },
         {
           label: "全日制学历证上传",
           prop: "qrzxlzsc",
           type: 'upload',
-          loadText: '附件上传中，请稍等',
+          limit: 1,
+          fileSize: 5120,
           propsHttp: {
+            url: 'res_id',
+            name: 'originalName',
             res: 'data'
           },
-          tip: '只能上传jpg/png文件，且不超过500kb',
-          action: '/imgupload',
+          tip: '不超过5M',
+          action: '/admin/sys-file/upload',
           span: 24,
         },
       ]

@@ -26,6 +26,11 @@
               slot-scope="scope">
       {{ scope.row.startDate }} - {{ scope.row.endDate }}
     </template>
+    <template slot="menuLeft">
+      <el-button type="primary"
+                 icon="el-icon-s-claim"
+                 @click="bulkRenewal">批量续签</el-button>
+    </template>
 
   </avue-crud>
 </template>
@@ -138,7 +143,11 @@ export default {
         .catch(() => {});
     },
     // 多选
-    selectionChange() {},
+    selectionChange(row) {
+      row.forEach((item) => {});
+    },
+    // 批量续签
+    bulkRenewal() {},
     // 刷新
     refreshChange() {
       this.fetchList();

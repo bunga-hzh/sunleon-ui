@@ -15,7 +15,9 @@ export const option = {
         required: true,
         message: '请填写标题',
         trigger: 'blur'
-      }]
+      }],
+      maxlength: 30,
+      showWordLimit: true
     },
     {
       label: "消息类型",
@@ -63,6 +65,7 @@ export const option = {
       prop: "noticeObj",
       type: 'radio',
       formslot: true,
+      editDisabled: true,
       props: {
         label: 'label',
         value: 'value'
@@ -100,6 +103,8 @@ export const option = {
       hide: true,
       component: 'avueUeditor',
       options: {
+        maxlength: 30,
+        showWordLimit: true,
         action: "/admin/sys-file/upload",
         props: {
           res: "data",

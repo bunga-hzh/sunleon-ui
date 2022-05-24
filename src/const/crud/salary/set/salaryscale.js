@@ -5,6 +5,7 @@ export const option = {
   indexLabel: '序号',
   searchMenuSpan: 4,
   labelWidth: 120,
+  menuWidth: 360,
   column: [{
       label: '编号',
       prop: 'bh',
@@ -22,6 +23,10 @@ export const option = {
     {
       label: '结束时间',
       prop: 'jssj',
+    },
+    {
+      label: '使用状态',
+      prop: 'syzt',
     },
   ]
 }

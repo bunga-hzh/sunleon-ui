@@ -4,6 +4,9 @@
              :option="option"
              :table-loading="showLoading"
              :before-open="beforeOpen"
+             :upload-after="uploadAfter"
+             :upload-preview="uploadPreview"
+             :upload-error="uploadError"
              @refresh-change="refresh"
              @row-save="rowSave"
              @row-update="rowUpdate"
@@ -18,6 +21,7 @@
 import { mapGetters } from "vuex";
 import { option } from "../option/grll";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -89,20 +93,26 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
+      let obj = {};
+      Object.keys(form).forEach((key) => {
+        if (key === "scdzzm") {
+          obj[key] = form[key][0].value;
+          return;
+        }
+        if (key === "qssj") {
+          obj["qssj"] = form[key][0];
+          obj["zzsj"] = form[key][1];
+          return;
+        }
+        obj[key] = form[key];
+      });
       setTimeout(async () => {
-        const newForm = {
+        const { data: res } = await addObj("grll", {
+          ...obj,
           staffId: this.staffId,
-          szdw: form.szdw,
-          zw: form.zw,
-          dwszsf: form.dwszsf,
-          zmr: form.zmr,
-          scdzzm: form.scdzzm,
-          qssj: form.qssj[0],
-          zzsj: form.qssj[1],
-        };
-        const { data: res } = await addObj("grll", newForm);
+        });
         if (res.code !== 0) return this.$message.error(res.msg);
-        done({ ...newForm, id: res.data });
+        done({ ...obj, staffId: this.staffId, id: res.data });
         this.$message.success("添加成功！");
       }, 1000);
     },
@@ -112,21 +122,23 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
+      let obj = {};
+      Object.keys(form).forEach((key) => {
+        if (key === "scdzzm") {
+          obj[key] = form[key][0].value;
+          return;
+        }
+        if (key === "qssj") {
+          obj["qssj"] = form[key][0];
+          obj["zzsj"] = form[key][1];
+          return;
+        }
+        obj[key] = form[key];
+      });
       setTimeout(async () => {
-        const newForm = {
-          id: form.id,
-          staffId: this.staffId,
-          szdw: form.szdw,
-          zw: form.zw,
-          dwszsf: form.dwszsf,
-          zmr: form.zmr,
-          scdzzm: form.scdzzm,
-          qssj: form.qssj[0],
-          zzsj: form.qssj[1],
-        };
-        const { data: res } = await putObj("grll", newForm);
+        const { data: res } = await putObj("grll", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(newForm);
+        done(obj);
         this.$message.success("修改成功！");
       }, 1000);
     },
@@ -162,7 +174,19 @@ export default {
       this.showLoading = false;
       this.data = res.data.records;
     },
+    // 上传后
+    uploadAfter(res, done, loading, column) {
+      if (!validatenull(res.fileName)) {
+        this.$message.success("上传成功");
+      }
+      done();
+    },
+    // 预览
+    uploadPreview(file, column, done) {},
+    // 上传失败
+    uploadError(error, column) {
+      this.$message.success("上传失败" + error);
+    },
   },
-  created() {},
 };
 </script>

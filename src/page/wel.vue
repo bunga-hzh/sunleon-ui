@@ -4,47 +4,56 @@
       <el-col :span="12">
         <el-card shadow="hover">
           <p class="title">
-            待办事项&nbsp;&nbsp;(<span>{{ sysNotifyList.length }}</span
-            >)
+            待办事项
+            <!-- &nbsp;&nbsp;(<span>{{ sysNotifyList.length }}</span>) -->
           </p>
-          <li v-for="(item, index) in sysNotifyList" :key="item.id">
-            <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
+          <el-empty v-show="sysNotifyList.length<= 0"
+                    description="这里空空如也"></el-empty>
+          <li v-for="(item, index) in sysNotifyList"
+              v-show="sysNotifyList.length > 0"
+              :key="item.id">
+            <router-link :to="`/notice/index/${item.msgId}`">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
-          <li
-            class="viewMore"
-            v-show="sysNotifyList.length === 6"
-            @mouseenter="showMore"
-            @mouseleave="hideMore"
-            @click="viewMore"
-          >
+          <li class="viewMore"
+              v-show="sysNotifyList.length === 6"
+              @mouseenter="showMore"
+              @mouseleave="hideMore"
+              @click="viewMore">
             {{ upcomingMore }}
           </li>
         </el-card>
       </el-col>
       <el-col :span="12">
         <el-card shadow="hover">
+
           <p class="title">
-            通知公告&nbsp;&nbsp;(<span>{{ notifyList.length }}</span
-            >)
+            通知公告
+            <!-- &nbsp;&nbsp;(<span>{{ notifyList.length }}</span>) -->
           </p>
-          <li v-for="(item, index) in notifyList" :key="item.id">
-            <router-link to="#">{{ index + 1 }}. {{ item.title }}</router-link>
+          <el-empty v-show="notifyList.length<= 0"
+                    description="这里空空如也"></el-empty>
+          <li v-for="(item, index) in notifyList"
+              v-show="notifyList.length > 0"
+              :key="item.id">
+            <router-link :to="`/notice/index/${item.msgId}`">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
-          <li
-            class="viewMore"
-            v-show="notifyList.length === 6"
-            @mouseenter="showMore"
-            @mouseleave="hideMore"
-            @click="viewMore"
-          >
+          <li class="viewMore"
+              v-show="notifyList.length === 6"
+              @mouseenter="showMore"
+              @mouseleave="hideMore"
+              @click="viewMore">
             {{ notifyMore }}
           </li>
         </el-card>
       </el-col>
     </el-row>
-    <el-card shadow="hover" class="fast_icon">
+    <el-card shadow="hover"
+             class="fast_icon">
       <div class="icon_box">
-        <a href="#" class="icon" v-for="item in iconList" :key="item.id">
+        <a href="#"
+           class="icon"
+           v-for="item in iconList"
+           :key="item.id">
           <img :src="item.icon" />
           <span>{{ item.title }}</span>
         </a>

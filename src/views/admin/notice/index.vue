@@ -1,28 +1,32 @@
 <template>
   <div class="notice_container">
     <basic-container>
-      <avue-crud
-        ref="crud"
-        v-model="form"
-        :data="data"
-        :option="option"
-        :page.sync="page"
-        :table-loading="showLoading"
-        :before-close="beforeClose"
-        @on-load="get"
-        @row-save="rowSave"
-        @row-update="rowUpdate"
-        @row-del="rowDel"
-        @refresh-change="refreshChange"
-        @search-change="searchChange"
-      >
-        <template slot="noticeObjForm">
+      <avue-crud ref="crud"
+                 v-model="form"
+                 :data="data"
+                 :option="option"
+                 :page.sync="page"
+                 :table-loading="showLoading"
+                 :before-close="beforeClose"
+                 @on-load="onLoad"
+                 @row-save="rowSave"
+                 @row-update="rowUpdate"
+                 @row-del="rowDel"
+                 @refresh-change="refreshChange"
+                 @search-change="searchChange">
+        <template slot="noticeObjForm"
+                  scope="{ type }">
           <el-row>
             <el-col :span="24">
-              <el-radio v-model="form.noticeObj" label="1">全体用户</el-radio>
-              <el-radio v-model="form.noticeObj" label="2">指定用户</el-radio>
+              <el-radio v-model="form.noticeObj"
+                        label="1"
+                        :disabled="type === 'edit' || type === 'view'">全体用户</el-radio>
+              <el-radio v-model="form.noticeObj"
+                        label="2"
+                        :disabled="type === 'edit' || type === 'view'">指定用户</el-radio>
             </el-col>
-            <el-col :span="24" v-show="form.noticeObj === '2'">
+            <el-col :span="24"
+                    v-show="form.noticeObj === '2'">
               <!-- <avue-select
                 all
                 multiple
@@ -33,42 +37,35 @@
                 @focus="getUser"
                 :props="props"
               ></avue-select> -->
-              <avue-input-table
-                :props="props"
-                :column="column"
-                :on-load="onLoadUser"
-                v-model="user_form.userId"
-                placeholder="请选择用户"
-              ></avue-input-table>
+              <avue-input-table :props="props"
+                                :column="column"
+                                :on-load="onLoadUser"
+                                v-model="user_form.userId"
+                                :disabled="type === 'view'"
+                                placeholder="请选择用户"></avue-input-table>
             </el-col>
           </el-row>
         </template>
 
-        <template slot="menuForm" slot-scope="{ type }">
-          <el-button
-            v-show="type === 'add'"
-            type="primary"
-            icon="el-icon-s-promotion"
-            @click="saveRelease"
-            >保存并发布</el-button
-          >
+        <template slot="menuForm"
+                  slot-scope="{ type, disabled }">
+          <el-button :disabled="disabled"
+                     v-show="type === 'add'"
+                     type="primary"
+                     icon="el-icon-s-promotion"
+                     @click="saveRelease">保存并发布</el-button>
         </template>
 
-        <template slot="menu" slot-scope="scope">
-          <el-button
-            :disabled="scope.row.status === '1'"
-            type="text"
-            icon="el-icon-s-promotion"
-            @click="release(scope.row)"
-            >发布</el-button
-          >
-          <el-button
-            :disabled="scope.row.status === '2'"
-            type="text"
-            icon="el-icon-circle-close"
-            @click="withdraw(scope.row)"
-            >撤回</el-button
-          >
+        <template slot="menu"
+                  slot-scope="scope">
+          <el-button :disabled="scope.row.status === '1'"
+                     type="text"
+                     icon="el-icon-s-promotion"
+                     @click="release(scope.row)">发布</el-button>
+          <el-button :disabled="scope.row.status === '2'"
+                     type="text"
+                     icon="el-icon-circle-close"
+                     @click="withdraw(scope.row)">撤回</el-button>
         </template>
       </avue-crud>
     </basic-container>
@@ -134,6 +131,10 @@ export default {
     ...mapGetters(["userInfo"]),
   },
   methods: {
+    // 初次加载执行
+    onLoad() {
+      this.get(this.page);
+    },
     // 获取表格数据
     async get(page, params) {
       this.showLoading = true;
@@ -147,8 +148,9 @@ export default {
         )
       );
       if (res.code !== 0) return this.$message.error(res.msg);
-      this.showLoading = false;
+      this.page.total = res.data.total;
       this.data = res.data.records;
+      this.showLoading = false;
     },
 
     // 添加

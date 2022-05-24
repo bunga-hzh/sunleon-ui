@@ -1,11 +1,13 @@
 export const option = {
   align: 'center',
   border: true,
+  selection: true,
   searchMenuSpan: 4,
-  searchSpan: 6,
+  searchSpan: 7,
   index: true,
   labelWidth: 150,
-  menuWidth: 160,
+  menuWidth: 200,
+  viewBtn: true,
   column: [{
       label: "姓名",
       prop: "xm",
@@ -62,6 +64,8 @@ export const option = {
     {
       label: "开始时间-结束时间",
       prop: "startDate",
+      search: true,
+      searchLabelWidth: 140,
       type: "daterange",
       format: 'yyyy-MM-dd',
       valueFormat: 'yyyy-MM-dd',

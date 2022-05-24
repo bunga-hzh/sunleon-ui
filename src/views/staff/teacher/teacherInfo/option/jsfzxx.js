@@ -112,12 +112,16 @@ export const option = {
         label: "教师资格证上传",
         prop: "jszgzsc",
         type: 'upload',
-        loadText: '附件上传中，请稍等',
+        limit: 1,
+        fileSize: 5120,
         propsHttp: {
+          url: 'res_id',
+          name: 'originalName',
           res: 'data'
         },
-        tip: '只能上传jpg/png文件，且不超过500kb',
-        action: '/imgupload',
+        tip: '不超过5M',
+        action: '/admin/sys-file/upload',
+        span: 24,
       },
     ]
   }]

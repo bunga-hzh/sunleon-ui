@@ -84,14 +84,16 @@ export const option = {
         label: "薪级等级附件",
         prop: "xjdjfj",
         type: 'upload',
+        limit: 1,
+        fileSize: 5120,
         propsHttp: {
-          url: 'url',
-          name: 'name',
+          url: 'res_id',
+          name: 'originalName',
           res: 'data'
         },
-        tip: '只能上传jpg/png格式，且不超过500kb',
-        action: '/imgupload',
-        span: 24
+        tip: '不超过5M',
+        action: '/admin/sys-file/upload',
+        span: 24,
       },
     ]
   }]

@@ -2,6 +2,9 @@
   <avue-form ref="form"
              v-model="obj"
              :option="option"
+             :upload-after="uploadAfter"
+             :upload-preview="uploadPreview"
+             :upload-error="uploadError"
              @submit="submit">
   </avue-form>
 </template>
@@ -11,12 +14,15 @@ import { fetchList } from "@/api/staff/crud";
 import { mapGetters, mapMutations } from "vuex";
 import { option } from "../option/info";
 import { get, add, edit } from "@/const/staff/crud";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
     return {
       obj: {},
       option: option,
+
+      uploads: ["sfzFrontImg", "sfzBackImg", "zgxlzsc", "qrzxlzsc"],
     };
   },
   computed: {
@@ -73,56 +79,45 @@ export default {
   },
   methods: {
     submit(form, loading) {
-      var startTime,
-        endTiem,
-        hkszdm,
-        jg = undefined;
-      if (form.jjzqssj !== undefined) {
-        startTime = form.jjzqssj[0];
-        endTiem = form.jjzqssj[1];
-        delete form.jjzqssj;
-      }
-      if (form.hkszdm !== undefined) {
-        hkszdm = JSON.stringify(form.hkszdm);
-        delete form.hkszdm;
-      }
-      if (form.jg !== undefined) {
-        jg = JSON.stringify(form.jg);
-        delete form.jg;
-      }
+      let obj = {};
+      Object.keys(form).forEach((key) => {
+        if (this.isInArray(this.uploads, key)) {
+          obj[key] = form[key][0].value;
+          return;
+        }
+        if (key === "jjzqssj") {
+          obj["jjzqssj"] = form[key][0];
+          obj["jjzjzsj"] = form[key][1];
+          return;
+        }
+        if (key === "jg" || key === "hkszdm") {
+          obj[key] = JSON.stringify(form[key]);
+          return;
+        }
+        obj[key] = form[key];
+      });
+
       setTimeout(async () => {
         loading();
         if (this.id) {
           //编辑
-          const editForm = {
-            ...form,
+          const { data: res } = await edit("info", {
+            ...obj,
             id: this.id,
-            jjzqssj: startTime,
-            jjzjzsj: endTiem,
-            jg: jg,
-            hkszdm: hkszdm,
-          };
-          const { data: res } = await edit("info", editForm);
+          });
           if (res.code !== 0) return this.$message.error(res.msg);
           if (editForm) {
-            this.$store.commit("setXm", editForm.xm);
-            this.$store.commit("setSfzjh", editForm.sfzjh);
+            this.$store.commit("setXm", obj.xm);
+            this.$store.commit("setSfzjh", obj.sfzjh);
           }
           this.$message.success("保存成功!");
         } else {
-          const addForm = {
-            ...form,
-            jjzqssj: startTime,
-            jjzjzsj: endTiem,
-            jg: jg,
-            hkszdm: hkszdm,
-          };
           //添加
-          const { data: res } = await add("info", addForm);
+          const { data: res } = await add("info", obj);
           if (res.code !== 0) return this.$message.error(res.msg);
-          if (addForm) {
-            this.$store.commit("setXm", addForm.xm);
-            this.$store.commit("setSfzjh", addForm.sfzjh);
+          if (obj) {
+            this.$store.commit("setXm", obj.xm);
+            this.$store.commit("setSfzjh", obj.sfzjh);
           }
           this.$store.commit("setStaffId", res.data);
           this.option.submitText = "保存";
@@ -137,6 +132,29 @@ export default {
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       this.obj = res.data.records[0];
+    },
+    // 上传后
+    uploadAfter(res, done, loading, column) {
+      console.log(res);
+      if (!validatenull(res.fileName)) {
+        this.$message.success("上传成功");
+      }
+      done();
+    },
+    // 预览
+    uploadPreview(file, column, done) {},
+    // 上传失败
+    uploadError(error, column) {
+      this.$message.success("上传失败" + error);
+    },
+    // 判断一个值是否存在数组中
+    isInArray(arr, value) {
+      for (var i = 0; i < arr.length; i++) {
+        if (value === arr[i]) {
+          return true;
+        }
+      }
+      return false;
     },
   },
 };

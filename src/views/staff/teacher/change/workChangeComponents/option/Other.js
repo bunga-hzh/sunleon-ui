@@ -5,7 +5,8 @@ export const option = {
   searchSpan: 6,
   index: true,
   labelWidth: 150,
-  menuWidth: 160,
+  menuWidth: 200,
+  viewBtn: true,
   column: [{
       label: "姓名",
       prop: "xm",
@@ -44,6 +45,7 @@ export const option = {
       label: "备注",
       prop: "bz",
       type: 'textarea',
+      span: 24,
     },
   ],
 }
