@@ -102,6 +102,7 @@ export default {
         staffId: this.staffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
+      if (res.data.records.length === 0) return;
       this.id = res.data.records[0].id;
       this.obj = res.data.records[0];
     },
