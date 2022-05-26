@@ -15,7 +15,7 @@
                  @refresh-change="refreshChange"
                  @search-change="searchChange">
         <template slot="noticeObjForm"
-                  scope="{ type }">
+                  slot-scope="{ type }">
           <el-row>
             <el-col :span="24">
               <el-radio v-model="form.noticeObj"

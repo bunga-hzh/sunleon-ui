@@ -1,23 +1,15 @@
-/**
- * 配置参考:
- * https://cli.vuejs.org/zh/config/
- */
-const url = 'http://sunleon-gateway:9999'
-// const url = 'http://172.16.1.8:9999'
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const productionGzipExtensions = ['js', 'css']
-module.exports = {
+const url = "http://sunleon-gateway:9999";
 
-  lintOnSave: true,
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const productionGzipExtensions = ["js", "css"];
+module.exports = {
+  runtimeCompiler: true,
+  lintOnSave: false,
   productionSourceMap: false,
-  chainWebpack: config => {
-    const entry = config.entry('app')
-    entry
-      .add('babel-polyfill')
-      .end()
-    entry
-      .add('classlist-polyfill')
-      .end()
+  chainWebpack: (config) => {
+    const entry = config.entry("app");
+    entry.add("babel-polyfill").end();
+    entry.add("classlist-polyfill").end();
   },
   css: {
     // 忽略 CSS order 顺序警告
@@ -26,7 +18,7 @@ module.exports = {
     }
   },
   configureWebpack: (config) => {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       // 仅在生产环境下启用该配置
       return {
         performance: {
@@ -35,30 +27,33 @@ module.exports = {
         },
         plugins: [
           new CompressionWebpackPlugin({
-            filename: '[path].gz[query]',
-            algorithm: 'gzip',
-            test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+            filename: '[path][base].gz',
+            algorithm: "gzip",
+            test: new RegExp(
+              "\\.(" + productionGzipExtensions.join("|") + ")$"
+            ),
             threshold: 1024, // 只有大小大于该值的资源会被处理,当前配置为对于超过1k的数据进行处理，不足1k的可能会越压缩越大
             minRatio: 0.99, // 只有压缩率小于这个值的资源才会被处理
-            deleteOriginalAssets: true // 删除原文件
-          })
-        ]
-      }
+            deleteOriginalAssets: true, // 删除原文件
+          }),
+        ],
+      };
     }
   },
+  publicPath: "./",
   // 配置转发代理
   devServer: {
     disableHostCheck: true,
+    open: false,
     port: 8080,
     proxy: {
-      '/': {
+      "/": {
         target: url,
         ws: false, // 需要websocket 开启
         pathRewrite: {
-          '^/': '/'
-        }
-      }
-      // 3.5 以后不需要再配置
-    }
+          "^/": "/",
+        },
+      },
+    },
   }
-}
+};

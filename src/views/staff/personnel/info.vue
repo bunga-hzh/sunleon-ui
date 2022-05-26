@@ -61,7 +61,7 @@ table {
 .el-dialog__headerbtn {
   top: 15px;
 }
-/deep/.avue-crud__dialog__header {
+::v-deep.avue-crud__dialog__header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -72,24 +72,24 @@ table {
   -ms-flex-pack: justify;
   justify-content: space-between;
 }
-/deep/.el-dialog__title {
+::v-deep.el-dialog__title {
   color: rgba(0, 0, 0, 0.85);
   font-weight: 500;
   word-wrap: break-word;
 }
-/deep/.avue-crud__dialog__menu {
+::v-deep.avue-crud__dialog__menu {
   padding-right: 20px;
   float: left;
 }
-/deep/.avue-crud__dialog__menu i {
+::v-deep.avue-crud__dialog__menu i {
   color: #909399;
   font-size: 15px;
 }
-/deep/.el-icon-full-screen {
+::v-deep.el-icon-full-screen {
   cursor: pointer;
   margin-bottom: 20px;
 }
-/deep/.el-icon-full-screen:before {
+::v-deep.el-icon-full-screen:before {
   content: "\e719";
 }
 </style>
