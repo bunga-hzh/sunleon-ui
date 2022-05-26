@@ -18,6 +18,7 @@
 import { mapGetters } from "vuex";
 import { option } from "../option/xljxw";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -90,21 +91,15 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
+        let obj = {
+          ...form,
           staffId: this.staffId,
-          xlm: form.xlm,
-          xx: form.xx,
-          sxzym: form.sxzym,
-          hdxwm: form.hdxwm,
-          xxxsm: form.xxxsm,
-          zmr: form.zmr,
-          bz: form.bz,
-          rxsj: form.rxsj[0],
-          bysj: form.rxsj[1],
+          rxsj: validatenull(form.rxsj) ? undefined : form.rxsj[0],
+          bysj: validatenull(form.rxsj) ? undefined : form.rxsj[1],
         };
-        const { data: res } = await addObj("xljxw", newForm);
+        const { data: res } = await addObj("xljxw", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done({ ...newForm, id: res.data });
+        done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
       }, 1000);
     },
@@ -115,22 +110,14 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
-          id: form.id,
-          staffId: this.staffId,
-          xlm: form.xlm,
-          xx: form.xx,
-          sxzym: form.sxzym,
-          hdxwm: form.hdxwm,
-          xxxsm: form.xxxsm,
-          zmr: form.zmr,
-          bz: form.bz,
-          rxsj: form.rxsj[0],
-          bysj: form.rxsj[1],
+        let obj = {
+          ...form,
+          rxsj: validatenull(form.rxsj) ? undefined : form.rxsj[0],
+          bysj: validatenull(form.rxsj) ? undefined : form.rxsj[1],
         };
-        const { data: res } = await putObj("xljxw", newForm);
+        const { data: res } = await putObj("xljxw", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(newForm);
+        done(obj);
         this.$message.success("修改成功！");
       }, 1000);
     },

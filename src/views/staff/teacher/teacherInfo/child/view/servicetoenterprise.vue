@@ -18,6 +18,7 @@
 import { mapGetters } from "vuex";
 import { option } from "../option/servicetoenterprise";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -90,17 +91,15 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
+        const obj = {
+          ...form,
           staffId: this.staffId,
-          sy: form.sy,
-          zje: form.zje,
-          bz: form.bz,
-          qssj: form.qssj[0],
-          zzsj: form.qssj[1],
+          qssj: validatenull(form.qssj) ? undefined : form.qssj[0],
+          zzsj: validatenull(form.qssj) ? undefined : form.qssj[1],
         };
-        const { data: res } = await addObj("servicetoenterprise", newForm);
+        const { data: res } = await addObj("servicetoenterprise", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done({ ...newForm, id: res.data });
+        done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
       }, 1000);
     },
@@ -111,18 +110,14 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
-          id: form.id,
-          staffId: this.staffId,
-          sy: form.sy,
-          zje: form.zje,
-          bz: form.bz,
-          qssj: form.qssj[0],
-          zzsj: form.qssj[1],
+        const obj = {
+          ...form,
+          qssj: validatenull(form.qssj) ? undefined : form.qssj[0],
+          zzsj: validatenull(form.qssj) ? undefined : form.qssj[1],
         };
-        const { data: res } = await putObj("servicetoenterprise", newForm);
+        const { data: res } = await putObj("servicetoenterprise", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(newForm);
+        done(obj);
         this.$message.success("修改成功！");
       }, 1000);
     },

@@ -18,6 +18,7 @@
 import { mapGetters } from "vuex";
 import { option } from "../option/furtherstudyforeign";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -90,18 +91,15 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
+        const obj = {
+          ...form,
           staffId: this.staffId,
-          hzzjzldm: form.hzzjzldm,
-          hzhtxzh: form.hzhtxzh,
-          qfdd: form.qfdd,
-          qfjg: form.qfjg,
-          qfrq: form.qfrq[0],
-          zzrq: form.qfrq[1],
+          qfrq: validatenull(form.qfrq) ? undefined : form.qfrq[0],
+          zzrq: validatenull(form.qfrq) ? undefined : form.qfrq[1],
         };
-        const { data: res } = await addObj("furtherstudyforeign", newForm);
+        const { data: res } = await addObj("furtherstudyforeign", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done({ ...newForm, id: res.data });
+        done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
       }, 1000);
     },
@@ -112,19 +110,15 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
-          id: form.id,
+        const obj = {
+          ...form,
           staffId: this.staffId,
-          hzzjzldm: form.hzzjzldm,
-          hzhtxzh: form.hzhtxzh,
-          qfdd: form.qfdd,
-          qfjg: form.qfjg,
-          qfrq: form.qfrq[0],
-          zzrq: form.qfrq[1],
+          qfrq: validatenull(form.qfrq) ? undefined : form.qfrq[0],
+          zzrq: validatenull(form.qfrq) ? undefined : form.qfrq[1],
         };
-        const { data: res } = await putObj("furtherstudyforeign", newForm);
+        const { data: res } = await putObj("furtherstudyforeign", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(form);
+        done(obj);
         this.$message.success("修改成功！");
       }, 1000);
     },
