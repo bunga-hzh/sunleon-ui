@@ -86,19 +86,19 @@ export const tableOption = {
       }]
     },
     {
-      label: '所属岗位',
+      label: '岗位名称',
       prop:'postName',
       addDisplay: false,
       editDisplay: false
     },
     {
-      label: '所属岗位',
+      label: '岗位名称',
       prop: 'postNameId',
       search: true,
       type: 'select',
       rules: [{
         required: true,
-        message: '请选择部门',
+        message: '请选择岗位',
         trigger: 'change'
       }],
       hide:true,
