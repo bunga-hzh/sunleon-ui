@@ -29,6 +29,7 @@
           <el-button icon="el-icon-check" v-if="row.status==0 || row.status==12" :size="size" :type="type" @click="handleAdopt(row)">通过筛选</el-button>
           <el-button icon="el-icon-check" v-if="row.status==0" :size="size" :type="type" @click="handleUndetermined(row)">转为待定</el-button>
           <el-button icon="el-icon-close"  v-if="row.status==0 || row.status==12" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束筛选</el-button>
+          <el-button icon="el-icon-sort"  v-if="row.status== 2" :size="size" style="color: #F56C6C;" @click="handlecallBack(row)" :type="type">撤回</el-button>
         </template>
       </avue-crud>
       <resume-view
@@ -69,10 +70,11 @@
 <script>
 import {mapGetters} from "vuex";
 import {resumeOption, tableOption} from "@/views/recruit/resume/tableOption";
-import {examine, fetchList} from "@/api/recuit/resume/resume";
+import {callBack, examine, fetchList} from "@/api/recuit/resume/resume";
 import resumeView from '@/components/resume/resumeView'
 import {exportExcel, sendPlatFormNotice} from "@/api/recuit/post/post";
 import {fetchList as fetchUserList} from '@/api/admin/user'
+import {batchEnd} from "@/api/recuit/score/score";
 
 /**
  * 简历筛选
@@ -110,6 +112,12 @@ export default {
     ...mapGetters(['permissions'])
   },
   methods:{
+    handlecallBack(row){
+      callBack(row.id).then(res=>{
+        this.$message.success("撤回成功！");
+        this.getList(this.page, this.form)
+      })
+    },
     handleForwardDialog(done){
       this.userPage = {
         total: 0, // 总页数
@@ -255,10 +263,20 @@ export default {
       })
     },
     handleRefuse(row){
-      examine("0",[row.id]).then(res=>{
-        this.getList(this.page, this.form)
-      }).catch(err=>{
+      this.$confirm('是否确认结束所选的应聘者?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function () {
+        return examine("0",[row.id])
+      }).then(() => {
+        this.getList(this.page)
+        this.$message.success('操作成功!')
       })
+      // examine("0",[row.id]).then(res=>{
+      //   this.getList(this.page, this.form)
+      // }).catch(err=>{
+      // })
     },
     //批量审核
     handleExamineList(type){
@@ -269,7 +287,6 @@ export default {
       }
       let array = [];
       let isStatus = false;
-      console.log(tempList)
       tempList.map((item)=>{
         if(item.status==0 || item.status == 19){
           array.push(item.id)
@@ -284,12 +301,27 @@ export default {
       }else{
         this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
       }
-      examine(type,array).then(res=>{
-        this.$message.success("筛选成功!")
-        this.getList(this.page, this.form)
-      }).catch(err=>{
 
-      })
+
+      if(type=='0'){
+        this.$confirm('是否确认结束所选的应聘者?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(function () {
+          return examine(type,array)
+        }).then(() => {
+          this.getList(this.page)
+          this.$message.success('操作成功!')
+        })
+      }else{
+        examine(type,array).then(res=>{
+          this.$message.success("筛选成功!")
+          this.getList(this.page, this.form)
+        }).catch(err=>{
+
+        })
+      }
     },
     searchChange(form, done) {
       this.page.currentPage = 1
