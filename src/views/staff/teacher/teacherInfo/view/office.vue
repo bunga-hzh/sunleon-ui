@@ -14,6 +14,7 @@ import { mapGetters } from "vuex";
 import { option } from "../option/office";
 import { get, add, edit } from "@/const/staff/crud";
 import { validatenull } from "@/util/validate";
+import { splitUploadData } from "../util/util";
 
 export default {
   data() {
@@ -59,7 +60,12 @@ export default {
       if (newValue == "office") {
         if (!this.formObj) return true;
         this.id = this.formObj.id;
-        this.obj = this.formObj;
+        this.obj = {
+          ...this.formObj,
+          jyclsc: validatenull(this.formObj.jyclsc)
+            ? undefined
+            : splitUploadData(this.formObj.jyclsc),
+        };
       }
     },
     formObj(newValue) {
@@ -80,30 +86,26 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
-      let obj = {};
-      Object.keys(form).forEach((key) => {
-        if (key === "jyclsc") {
-          obj[key] = form[key][0].value;
-          return;
-        }
-        obj[key] = form[key];
-      });
+      let obj = {
+        ...form,
+        jyclsc: validatenull(form.jyclsc) ? undefined : form.jyclsc[0].value,
+      };
       setTimeout(async () => {
+        loading();
         if (this.id) {
           //编辑
-          const editForm = { ...obj, id: this.id };
-          const { data: res } = await edit("office", editForm);
+          const { data: res } = await edit("office", { ...obj, id: this.id });
           if (res.code !== 0) return this.$message.error(res.msg);
-          loading();
           this.$message.success("保存成功!");
         } else {
           //添加
-          const addForm = { ...obj, staffId: this.staffId };
-          const { data: res } = await add("office", addForm);
+          const { data: res } = await add("office", {
+            ...obj,
+            staffId: this.staffId,
+          });
           if (res.code !== 0) return this.$message.error(res.msg);
           this.id = res.data;
           this.option.submitText = "保存";
-          loading();
           this.$message.success("添加成功!");
         }
       }, 1000);
@@ -116,7 +118,28 @@ export default {
       done();
     },
     // 预览
-    uploadPreview(file, column, done) {},
+    uploadPreview(file, column, done) {
+      // 图片
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
+              url: `http://sunleon-gateway:9999${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        this.downFile(
+          `http://sunleon-gateway:9999${file.url}`,
+          splitUploadData(file.name)
+        );
+      }
+    },
     // 上传失败
     uploadError(error, column) {
       this.$message.success("上传失败" + error);

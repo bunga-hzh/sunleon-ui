@@ -16,6 +16,7 @@ import { mapGetters } from "vuex";
 import { option } from "../option/leader";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
+import { splitUploadData, isArray } from "../../util/util";
 
 export default {
   data() {
@@ -80,26 +81,15 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
-      let obj = {};
-      Object.keys(form).forEach((key) => {
-        if (key === "scdzzm") {
-          obj[key] = form[key][0].value;
-          return;
-        }
-        if (key === "qssj") {
-          obj["qssj"] = form[key][0];
-          obj["zzsj"] = form[key][1];
-          return;
-        }
-        obj[key] = form[key];
-      });
+      let obj = {
+        ...form,
+        staffId: this.staffId,
+        ldrzwj: validatenull(form.ldrzwj) ? "" : form.ldrzwj[0].value,
+      };
       setTimeout(async () => {
-        const { data: res } = await addObj("leader", {
-          ...obj,
-          staffId: this.staffId,
-        });
+        const { data: res } = await addObj("leader", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done({ ...obj, staffId: this.staffId, id: res.data });
+        done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
       }, 1000);
     },
@@ -109,10 +99,19 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
+      let obj = {};
+      if (isArray(form.ldrzwj)) {
+        obj = {
+          ...form,
+          ldrzwj: validatenull(form.ldrzwj) ? undefined : form.ldrzwj[0].value,
+        };
+      } else {
+        obj = form;
+      }
       setTimeout(async () => {
-        const { data: res } = await putObj("leader", form);
+        const { data: res } = await putObj("leader", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(form);
+        done(obj);
         this.$message.success("修改成功！");
       }, 1000);
     },
@@ -156,7 +155,27 @@ export default {
       done();
     },
     // 预览
-    uploadPreview(file, column, done) {},
+    uploadPreview(file, column, done) {
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
+              url: `http://sunleon-gateway:9999${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        this.downFile(
+          `http://sunleon-gateway:9999${file.url}`,
+          splitUploadData(file.name)
+        );
+      }
+    },
     // 上传失败
     uploadError(error, column) {
       this.$message.success("上传失败" + error);

@@ -305,7 +305,7 @@ export const option = {
           limit: 1,
           fileSize: 5120,
           propsHttp: {
-            url: 'res_id',
+            url: 'url',
             name: 'originalName',
             res: 'data'
           },
@@ -320,7 +320,7 @@ export const option = {
           limit: 1,
           fileSize: 5120,
           propsHttp: {
-            url: 'res_id',
+            url: 'url',
             name: 'originalName',
             res: 'data'
           },

@@ -18,6 +18,7 @@
 import { mapGetters } from "vuex";
 import { option } from "../option/parttimejob";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -90,18 +91,15 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
+        const obj = {
+          ...form,
           staffId: this.staffId,
-          rzzz: form.rzzz,
-          zzlx: form.zzlx,
-          jzzw: form.jzzw,
-          sfqc: form.sfqc,
-          shjzqsrq: form.shjzqsrq[0],
-          shjzzzrq: form.shjzqsrq[1],
+          shjzqsrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[0],
+          shjzzzrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[1],
         };
-        const { data: res } = await addObj("parttimejob", newForm);
+        const { data: res } = await addObj("parttimejob", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done({ ...newForm, id: res.data });
+        done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
       }, 1000);
     },
@@ -112,19 +110,14 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        const newForm = {
-          id: form.id,
-          staffId: this.staffId,
-          rzzz: form.rzzz,
-          zzlx: form.zzlx,
-          jzzw: form.jzzw,
-          sfqc: form.sfqc,
-          shjzqsrq: form.shjzqsrq[0],
-          shjzzzrq: form.shjzqsrq[1],
+        const obj = {
+          ...form,
+          shjzqsrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[0],
+          shjzzzrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[1],
         };
-        const { data: res } = await putObj("parttimejob", newForm);
+        const { data: res } = await putObj("parttimejob", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(newForm);
+        done(obj);
         this.$message.success("修改成功！");
       }, 1000);
     },

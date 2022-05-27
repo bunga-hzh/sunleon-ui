@@ -22,6 +22,7 @@ import { mapGetters } from "vuex";
 import { option } from "../option/professionduty";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
+import { splitUploadData, isArray } from "../../util/util";
 
 export default {
   data() {
@@ -93,26 +94,17 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
-      let obj = {};
-      Object.keys(form).forEach((key) => {
-        if (key === "scdzzm") {
-          obj[key] = form[key][0].value;
-          return;
-        }
-        if (key === "qssj") {
-          obj["qssj"] = form[key][0];
-          obj["zzsj"] = form[key][1];
-          return;
-        }
-        obj[key] = form[key];
-      });
+      let obj = {
+        ...obj,
+        staffId: this.staffId,
+        prqsrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[0],
+        przzrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[1],
+        scdzzj: validatenull(form.scdzzj) ? undefined : form.scdzzj[0].value,
+      };
       setTimeout(async () => {
-        const { data: res } = await addObj("professionduty", {
-          ...obj,
-          staffId: this.staffId,
-        });
+        const { data: res } = await addObj("professionduty", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done({ ...newForm, id: res.data });
+        done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
       }, 1000);
     },
@@ -123,22 +115,20 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       let obj = {};
-      Object.keys(form).forEach((key) => {
-        if (key === "scdzzm") {
-          obj[key] = form[key][0].value;
-          return;
-        }
-        if (key === "qssj") {
-          obj["qssj"] = form[key][0];
-          obj["zzsj"] = form[key][1];
-          return;
-        }
-        obj[key] = form[key];
-      });
+      if (isArray(form.scdzzj)) {
+        obj = {
+          ...form,
+          prqsrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[0],
+          prqsrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[1],
+          scdzzj: validatenull(form.scdzzj) ? undefined : form.scdzzj[0].value,
+        };
+      } else {
+        obj = form;
+      }
       setTimeout(async () => {
         const { data: res } = await putObj("professionduty", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
-        done(newForm);
+        done(obj);
         this.$message.success("修改成功！");
       }, 1000);
     },
@@ -182,7 +172,27 @@ export default {
       done();
     },
     // 预览
-    uploadPreview(file, column, done) {},
+    uploadPreview(file, column, done) {
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
+              url: `http://sunleon-gateway:9999${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        this.downFile(
+          `http://sunleon-gateway:9999${file.url}`,
+          splitUploadData(file.name)
+        );
+      }
+    },
     // 上传失败
     uploadError(error, column) {
       this.$message.success("上传失败" + error);
