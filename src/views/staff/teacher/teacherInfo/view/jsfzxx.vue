@@ -88,7 +88,7 @@ export default {
       }
       let obj = {
         ...form,
-        jszgzsc: validatenull(form.jszgzsc) ? "" : form.jszgzsc[0].value,
+        jszgzsc: validatenull(form.jszgzsc) ? undefined : form.jszgzsc[0].value,
       };
       setTimeout(async () => {
         loading();

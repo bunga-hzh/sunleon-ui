@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { option } from "@/const/crud/salary/workprove";
+import { option } from "@/const/crud/staff/workprove";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/zzjgworkprove";
 import { jzg_page } from "@/const/staff/page";
 

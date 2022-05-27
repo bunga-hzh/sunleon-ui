@@ -47,6 +47,5 @@ export default [{
       path: 'index/:id',
       component: () => import('@/components/notice/index')
     }]
-  }
-
+  },
 ]
