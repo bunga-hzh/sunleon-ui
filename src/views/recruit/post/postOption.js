@@ -77,7 +77,7 @@ export const tableOption = {
       prop: 'gwlxId',
       type: 'select',
       search: true,
-      cascader: ['postNameId'],
+      cascader: ['postNameIds'],
       dicUrl: "/admin/dict/type/POST_TYPE",
       rules: [{
         required: true,
@@ -93,7 +93,7 @@ export const tableOption = {
     },
     {
       label: '岗位名称',
-      prop: 'postNameId',
+      prop: 'postNameIds',
       search: true,
       type: 'select',
       rules: [{
@@ -102,6 +102,7 @@ export const tableOption = {
         trigger: 'change'
       }],
       hide:true,
+      multiple:true,
       // filters:true,
       searchFilterable:true,
       filterable:true,

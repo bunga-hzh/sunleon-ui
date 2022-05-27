@@ -27,3 +27,16 @@ export function examine(type,array) {
     data:array
   })
 }
+
+
+/**
+ * 撤回状态
+ * @param id
+ * @returns {AxiosPromise}
+ */
+export function callBack(id){
+  return request({
+    url:'/act/resume/withdraw?id='+id,
+    method:'put'
+  })
+}

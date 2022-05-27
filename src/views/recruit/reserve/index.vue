@@ -82,13 +82,15 @@ export default {
       let queryParams = {
         "token":null,
         "yearTime": this.searchForm.yearTime,
+        "candidateName": this.searchForm.hasOwnProperty("candidateName")  ? this.searchForm.candidateName:"",
+        "interviewTimeStr":this.searchForm.hasOwnProperty("interviewTime") ? this.searchForm.interviewTime.toString():"",
         "user_id":1,
         "pageNo":this.page.currentPage,
         "pageSize":this.page.pageSize,
         "currentPageNo":"1",
         "currentPageSize":10
       };
-      exportExcel("671004993319235584",queryParams).then(res=>{
+      exportExcel("676591499043233792",queryParams).then(res=>{
         const blob = new Blob([res.data]);
         const fileName = '面试预约统计表.xlsx';
         const linkNode = document.createElement('a');
@@ -181,6 +183,7 @@ export default {
       if(a.postNameIds==''){
         a.postNameIds = [];
       }
+      this.searchForm = a;
       this.getList(this.page, a)
       done()
     },

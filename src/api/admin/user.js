@@ -70,3 +70,5 @@ export function editInfo(obj) {
     data: obj
   })
 }
+
+

@@ -91,7 +91,7 @@ export const resumeOption = {
       valueFormat: 'yyyy-MM-dd HH:mm:ss',
     },
     {
-      label: '专业',
+      label: '最高专业',
       prop:'major'
     },
     {
@@ -121,8 +121,108 @@ export const resumeOption = {
 
     },
     {
+      label:'出生日期',
+      prop:'ageTime',
+      hide:true,
+      search: true,
+      searchType: "daterange",
+      format:'yyyy-MM-dd',
+      valueFormat:'yyyy-MM-dd',
+      startPlaceholder: '出生日期开始',
+      endPlaceholder: '出生日期结束',
+    },
+    {
+      label:'全日制学历学位',
+      prop:'qrzxlxw',
+      search: true,
+      type:'select',
+      props:{
+        label:'label',
+        value:'value'
+      },
+      dicFormatter:(data)=>{
+        return data.data.items;
+      },
+      dicUrl:`/admin/dict/type_with_dict_id/jl_xwAll`
+    },
+    {
+      label: '全日制专业',
+      prop: 'qrzzy',
+      search: true,
+    },
+    {
+      label:'最高学历学位',
+      prop:'zgxlxw',
+      search: true,
+      type:'select',
+      props:{
+        label:'label',
+        value:'value'
+      },
+      dicFormatter:(data)=>{
+        return data.data.items;
+      },
+      dicUrl:`/admin/dict/type_with_dict_id/jl_xwAll`
+    },
+    {
+      label: '最高专业',
+      prop: 'zgzy',
+      hide:true,
+      search: true,
+    },
+    {
+      label:'政治面貌',
+      prop:'zzmmm',
+      search: true,
+      hide:true,
+      type:'select',
+      props:{
+        label:'label',
+        value:'value'
+      },
+      dicFormatter:(data)=>{
+        return data.data.items;
+      },
+      dicUrl:`/admin/dict/type_with_dict_id/politics_type`
+    },
+    {
+      label:'性别',
+      prop:'xbm',
+      hide:true,
+      search: true,
+      type:'select',
+      props:{
+        label:'label',
+        value:'value'
+      },
+      dicFormatter:(data)=>{
+        return data.data.items;
+      },
+      dicUrl:`/admin/dict/type_with_dict_id/gender`
+    },
+    {
+      label:'教师资格证类别',
+      prop:'jszgzlb',
+      search: true,
+      type:'select',
+      props:{
+        label:'label',
+        value:'value'
+      },
+      dicFormatter:(data)=>{
+        return data.data.items;
+      },
+      dicUrl:`/admin/dict/type_with_dict_id/jl_jszgz`
+    },
+    {
       label: '年龄',
       prop: 'age'
+    },
+    {
+      label: '出生日期',
+      prop:'birthday',
+      format:'yyyy-MM-dd',
+      valueFormat:'yyyy-MM-dd',
     },
     {
       label: '学历',
