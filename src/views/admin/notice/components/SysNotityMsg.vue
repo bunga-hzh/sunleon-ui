@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import { getSysNoticeMsg } from "@/api/admin/notice";
+import { getSysNoticeMsg, setReadStatus } from "@/api/admin/notice";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -16,6 +17,7 @@ export default {
           title: "title",
           subtitle: "createTime",
           tag: "tag",
+          status: "status",
         },
       },
       data: [],
@@ -35,8 +37,18 @@ export default {
         size: this.page.size,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
+      console.log(res.data.records);
       this.page = res.data.total;
-      this.data = res.data.records;
+      res.data.records.forEach((item) => {
+        if (validatenull(item.status)) {
+          this.data.push(item);
+        } else {
+          this.data.push({
+            ...item,
+            tag: item.status === "0" ? "未读" : "已读",
+          });
+        }
+      });
     },
     // 加载更多
     pageChange(page, done) {
@@ -65,6 +77,9 @@ export default {
       }, 1000);
     },
     handleClick(item) {
+      if (!validatenull(item.id) && item.status === "0") {
+        setReadStatus(item.id);
+      }
       this.$router.push(`/notice/index/${item.mid}`);
     },
   },

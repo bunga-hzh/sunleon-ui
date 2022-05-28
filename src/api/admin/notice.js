@@ -1,4 +1,7 @@
 import request from '@/router/axios'
+import {
+  dateFormat
+} from "@/util/date"
 
 export function getNoticeMsg(query) {
   return request({
@@ -12,6 +15,19 @@ export function getSysNoticeMsg(query) {
     url: '/admin/sysmsguser/sysnotice/page',
     method: 'get',
     params: query
+  })
+}
+
+// 修改阅读状态
+export function setReadStatus(id) {
+  return request({
+    url: '/admin/sysmsguser',
+    method: 'put',
+    data: {
+      id: id,
+      status: 1,
+      finishTime: dateFormat(new Date()).substring(0, dateFormat(new Date()).indexOf(' '))
+    }
   })
 }
 
