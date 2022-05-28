@@ -7,9 +7,9 @@
             <el-avatar :size="140"
                        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
           </div>
-          <div class="name">张三</div>
+          <div class="name">{{userInfo.realName}}</div>
         </div>
-        <div class="other_info">
+        <!-- <div class="other_info">
           <ul>
             <li><i class="el-icon-user" /> 工号：<span>123456</span></li>
             <li>
@@ -17,7 +17,7 @@
             </li>
             <li><i class="el-icon-suitcase" /> 职务：<span>教师</span></li>
           </ul>
-        </div>
+        </div> -->
       </div>
       <el-divider><i class="el-icon-s-promotion"></i></el-divider>
       <el-menu default-active="info"
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -75,6 +77,9 @@ export default {
     activeMenu(index, indexPath) {
       this.bindComp = index;
     },
+  },
+  computed: {
+    ...mapGetters(["userInfo"]),
   },
   components: {
     info: () => import("./view/info.vue"),

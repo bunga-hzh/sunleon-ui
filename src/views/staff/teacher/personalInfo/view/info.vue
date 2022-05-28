@@ -53,7 +53,6 @@ export default {
           ? undefined
           : splitUploadData(res.data.qrzxlzsc),
       };
-      console.log(this.obj);
     },
     submit(form, loading) {
       if (JSON.stringify(form) === "{}") {

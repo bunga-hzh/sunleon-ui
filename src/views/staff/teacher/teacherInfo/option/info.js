@@ -261,7 +261,6 @@ export const option = {
     },
     {
       label: '个人教育经历',
-      collapse: false,
       column: [{
           label: "最高学历",
           prop: "zgxl",
@@ -332,7 +331,6 @@ export const option = {
     },
     {
       label: '个人其他信息',
-      collapse: false,
       column: [{
           label: "户口所在地",
           prop: "hkszdm",
