@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import { getNoticeMsg } from "@/api/admin/notice";
+import { getNoticeMsg, setReadStatus } from "@/api/admin/notice";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -16,6 +17,7 @@ export default {
           title: "title",
           subtitle: "createTime",
           tag: "tag",
+          status: "status",
         },
       },
       data: [],
@@ -36,7 +38,16 @@ export default {
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       this.page = res.data.total;
-      this.data = res.data.records;
+      res.data.records.forEach((item) => {
+        if (validatenull(item.status)) {
+          this.data.push(item);
+        } else {
+          this.data.push({
+            ...item,
+            tag: item.status === "0" ? "未读" : "已读",
+          });
+        }
+      });
     },
     // 加载更多
     pageChange(page, done) {
@@ -65,6 +76,18 @@ export default {
       }, 1000);
     },
     handleClick(item) {
+      if (!validatenull(item.id) && item.status === "0") {
+        setReadStatus(item.id).then((res) => {
+          if (res.data.code !== 0)
+            return this.$message.error(res.data.data.msg);
+          this.data.forEach((val, index) => {
+            if (val.mid === item.mid) {
+              this.data[index].status = "1";
+              this.data[index].tag = "已读";
+            }
+          });
+        });
+      }
       this.$router.push(`/notice/index/${item.mid}`);
     },
   },

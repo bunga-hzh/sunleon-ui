@@ -37,7 +37,6 @@ export default {
         size: this.page.size,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
-      console.log(res.data.records);
       this.page = res.data.total;
       res.data.records.forEach((item) => {
         if (validatenull(item.status)) {
@@ -78,7 +77,16 @@ export default {
     },
     handleClick(item) {
       if (!validatenull(item.id) && item.status === "0") {
-        setReadStatus(item.id);
+        setReadStatus(item.id).then((res) => {
+          if (res.data.code !== 0)
+            return this.$message.error(res.data.data.msg);
+          this.data.forEach((val, index) => {
+            if (val.mid === item.mid) {
+              this.data[index].status = "1";
+              this.data[index].tag = "已读";
+            }
+          });
+        });
       }
       this.$router.push(`/notice/index/${item.mid}`);
     },
