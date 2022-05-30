@@ -22,6 +22,8 @@
          <template slot-scope="{type,size,row}" slot="menu">
           <el-button icon="el-icon-view" :size="size" :type="type" @click="$refs.resumeView.show(row)">查看简历</el-button>
           <span v-if="row.resumeStatus!=-1">
+            <el-button v-if="row.resumeStatus== -3" icon="el-icon-view" :size="size" :type="type" @click="handleConfirm(row,true)">审核成功</el-button>
+            <el-button v-if="row.resumeStatus== -3" icon="el-icon-view" :size="size" :type="type" @click="handleConfirm(row,false)">审核错误</el-button>
             <el-button v-if="row.resumeStatus==3 || row.resumeStatus==-2" :disabled="row.resumeStatus==-2" icon="el-icon-check" :size="size" :type="type" @click="handleAdopt(row,0)">预约</el-button>
             <el-button v-if="row.resumeStatus==4" icon="el-icon-edit" :size="size" :type="type" @click="handleAdopt(row,1)">修改预约</el-button>
             <el-button icon="el-icon-close" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
@@ -44,7 +46,7 @@
 <script>
 import {mapGetters} from "vuex";
 import {reserveOption,formOption} from './tableOption'
-import {examState, fetchList, postReserveData} from "@/api/recuit/reserve/reserve";
+import {confirmResume, examState, fetchList, postReserveData} from "@/api/recuit/reserve/reserve";
 import {getConstantByKey} from "@/api/recuit/common/commonApi";
 import resumeView from '@/components/resume/resumeView'
 import {examine} from "@/api/recuit/resume/resume";
@@ -77,6 +79,17 @@ export default {
     this.getFixedAddress();
   },
   methods:{
+    handleConfirm(row,type){
+      confirmResume({
+        reserveId:row.reserveId,
+        deliveryId:row.deliveryId,
+        userId:row.userId,
+        isAdopt: type,
+        content:'请填写所有信息!'
+      }).then((res=>{
+        this.getList(this.page);
+      }))
+    },
     //导出
     handleExportExcel(){
       let queryParams = {

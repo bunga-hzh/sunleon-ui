@@ -77,7 +77,7 @@ export const scoreOption = {
       prop: 'fraction'
     },
     {
-      label: '评分状态',
+      label: '状态',
       prop: 'resumeStatusName'
     }
   ]

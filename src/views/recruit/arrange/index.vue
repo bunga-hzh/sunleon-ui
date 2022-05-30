@@ -140,7 +140,7 @@ export default {
 
         this.$DialogForm.show({
           title: `面试安排`,
-          width: '50%',
+          width: '80%',
           option: formOption.option,
           data: {
             list:data,
