@@ -16,10 +16,10 @@
           </li>
           <li class="viewMore"
               v-show="sysNotifyList.length === 6"
-              @mouseenter="showMore"
-              @mouseleave="hideMore"
+              @mouseenter="showMore('sysnotify')"
+              @mouseleave="hideMore('sysnotify')"
               @click="viewMore">
-            {{ upcomingMore }}
+            {{ sysNotityMore }}
           </li>
         </el-card>
       </el-col>
@@ -39,8 +39,8 @@
           </li>
           <li class="viewMore"
               v-show="notifyList.length === 6"
-              @mouseenter="showMore"
-              @mouseleave="hideMore"
+              @mouseenter="showMore('notify')"
+              @mouseleave="hideMore('notify')"
               @click="viewMore">
             {{ notifyMore }}
           </li>
@@ -120,7 +120,7 @@ export default {
           icon: "https://s1.ax1x.com/2022/03/12/b7ZmC9.png",
         },
       ],
-      upcomingMore: "......",
+      sysNotityMore: "......",
       notifyMore: "......",
     };
   },
@@ -138,14 +138,22 @@ export default {
       this.sysNotifyList = res.data.records;
     },
     // 显示 更多
-    showMore() {
-      this.upcomingMore = "点击查看更多  ·····";
-      this.notifyMore = "点击查看更多  ······";
+    showMore(type) {
+      if (type === "sysnotify") {
+        this.sysNotityMore = "点击查看更多  ·····";
+      }
+      if (type === "notify") {
+        this.notifyMore = "点击查看更多  ·····";
+      }
     },
     // 隐藏 更多
-    hideMore() {
-      this.upcomingMore = "......";
-      this.notifyMore = "......";
+    hideMore(type) {
+      if (type === "sysnotity") {
+        this.sysNotityMore = "......";
+      }
+      if (type === "notify") {
+        this.notifyMore = "......";
+      }
     },
     // 查看更多
     viewMore() {

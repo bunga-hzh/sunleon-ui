@@ -4,7 +4,6 @@ export const option = {
   labelWidth: 130,
   group: [{
     label: '奖励信息',
-    collapse: false,
     column: [{
         label: "奖励名称",
         prop: "jlmc",

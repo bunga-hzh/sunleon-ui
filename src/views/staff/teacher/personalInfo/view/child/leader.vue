@@ -1,23 +1,25 @@
 <template>
-  <avue-crud v-model="form"
-             :data="data"
+  <avue-crud :data="data"
              :option="option"
              :table-loading="showLoading"
-             :before-open="beforeOpen"
+             :upload-after="uploadAfter"
+             :upload-preview="uploadPreview"
+             :upload-error="uploadError"
              @refresh-change="refresh"
              @row-save="rowSave"
              @row-update="rowUpdate"
              @row-del="rowDel">
-    <template slot="xxqssj"
-              slot-scope="scope">
-      {{ scope.row.xxqssj }} - {{ scope.row.xxzzsj }}
-    </template>
   </avue-crud>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { option } from "../option/train";
+import { option } from "@/views/staff/teacher/teacherInfo/child/option/leader";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
+import {
+  splitUploadData,
+  isArray,
+} from "@/views/staff/teacher/teacherInfo/util/util";
 
 export default {
   data() {
@@ -25,60 +27,21 @@ export default {
       obj: {},
       option: option,
       data: [],
-      form: {},
       showLoading: false,
     };
   },
   computed: {
-    ...mapGetters({
-      type: "getDialogType",
-      staffId: "getStaffId",
-      activeName: "getActiveItem",
-      tableData: "getData",
-    }),
+    ...mapGetters(["userInfo", "getActiveItem"]),
   },
   watch: {
-    type: {
-      handler(newValue) {
-        if (newValue === undefined) return true;
-        if (newValue === "view") {
-          this.option.addBtn = false;
-          this.option.menu = false;
-        } else {
-          this.option.addBtn = true;
-          this.option.menu = true;
-        }
-      },
-      immediate: true,
-    },
-    staffId(newValue) {
-      if (newValue == undefined) {
-        this.data = undefined;
-      }
-    },
-    activeName(newValue) {
+    getActiveItem(newValue) {
       if (newValue === undefined) return true;
-      if (newValue == "train") {
-        this.showLoading = true;
-        fetchList("train", {
-          current: 1,
-          size: 20,
-          staffId: this.staffId,
-        }).then((res) => {
-          if (res.data.code !== 0) return this.$message.error(res.msg);
-          this.showLoading = false;
-          this.data = res.data.data.records;
-        });
+      if (newValue == "leader") {
+        this.refresh();
       }
     },
   },
   methods: {
-    beforeOpen(done, type) {
-      if (type === "edit" || type === "view") {
-        this.form.xxqssj = [this.form.xxqssj, this.form.xxzzsj];
-      }
-      done();
-    },
     // 添加
     rowSave(form, done, loading) {
       if (this.staffId == undefined) {
@@ -89,14 +52,13 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
+      let obj = {
+        ...form,
+        staffId: this.userInfo.userId,
+        ldrzwj: validatenull(form.ldrzwj) ? "" : form.ldrzwj[0].value,
+      };
       setTimeout(async () => {
-        const obj = {
-          ...form,
-          staffId: this.userInfo.userId,
-          xxqssj: validatenull(form.xxqssj) ? undefined : form.xxqssj[0],
-          xxzzsj: validatenull(form.xxqssj) ? undefined : form.xxqssj[1],
-        };
-        const { data: res } = await addObj("train", obj);
+        const { data: res } = await addObj("leader", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
         done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
@@ -108,13 +70,17 @@ export default {
         loading();
         return this.$message.warning("请输入信息!");
       }
-      setTimeout(async () => {
-        const obj = {
+      let obj = {};
+      if (isArray(form.ldrzwj)) {
+        obj = {
           ...form,
-          xxqssj: form.xxqssj[0],
-          xxzzsj: form.xxqssj[1],
+          ldrzwj: validatenull(form.ldrzwj) ? undefined : form.ldrzwj[0].value,
         };
-        const { data: res } = await putObj("train", obj);
+      } else {
+        obj = form;
+      }
+      setTimeout(async () => {
+        const { data: res } = await putObj("leader", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
         done(obj);
         this.$message.success("修改成功！");
@@ -128,7 +94,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("train", form.id);
+          const { data: res } = await delObj("leader", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
@@ -141,18 +107,49 @@ export default {
     },
     // 刷新
     async refresh() {
-      if (!this.staffId) return true;
       this.showLoading = true;
-      const { data: res } = await fetchList("train", {
+      const { data: res } = await fetchList("leader", {
         current: 1,
         size: 20,
-        staffId: this.staffId,
+        staffId: this.userInfo.userId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       this.showLoading = false;
       this.data = res.data.records;
     },
+    // 上传后
+    uploadAfter(res, done, loading, column) {
+      if (!validatenull(res.fileName)) {
+        this.$message.success("上传成功");
+      }
+      done();
+    },
+    // 预览
+    uploadPreview(file, column, done) {
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
+              url: `http://sunleon-gateway:9999${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        this.downFile(
+          `http://sunleon-gateway:9999${file.url}`,
+          splitUploadData(file.name)
+        );
+      }
+    },
+    // 上传失败
+    uploadError(error, column) {
+      this.$message.success("上传失败" + error);
+    },
   },
-  created() {},
 };
 </script>

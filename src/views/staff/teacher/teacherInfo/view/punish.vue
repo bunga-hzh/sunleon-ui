@@ -108,11 +108,16 @@ export default {
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       if (res.data.records.length === 0) return;
-      this.id = res.data.records[0].id;
-      const time = [res.data.records[0].cfrq, res.data.records[0].cfcxrq];
-      delete res.data.records[0].cfrq;
-      delete res.data.records[0].cfcxrq;
-      this.obj = { ...res.data.records[0], cfrq: time };
+      if (validatenull(res.data.records[0])) return;
+      this.obj = {
+        ...res.data.records[0],
+        cfrq: validatenull(res.data.records[0].cfrq)
+          ? undefined
+          : res.data.records[0].cfrq[0],
+        cfcxrq: validatenull(res.data.records[0].cfrq)
+          ? undefined
+          : res.data.records[0].cfrq[1],
+      };
     },
   },
 };

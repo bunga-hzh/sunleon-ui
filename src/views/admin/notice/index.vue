@@ -7,7 +7,7 @@
                  :option="option"
                  :page.sync="page"
                  :table-loading="showLoading"
-                 :before-close="beforeClose"
+                 :before-open="beforeOpen"
                  @on-load="onLoad"
                  @row-save="rowSave"
                  @row-update="rowUpdate"
@@ -26,23 +26,14 @@
                         :disabled="type === 'edit' || type === 'view'">指定用户</el-radio>
             </el-col>
             <el-col :span="24"
-                    v-show="form.noticeObj === '2'">
-              <!-- <avue-select
-                all
-                multiple
-                v-model="form.userId"
-                placeholder="请选择用户"
-                type="tree"
-                :dic="dicUser"
-                @focus="getUser"
-                :props="props"
-              ></avue-select> -->
-              <avue-input-table :props="props"
-                                :column="column"
-                                :on-load="onLoadUser"
-                                v-model="user_form.userId"
-                                :disabled="type === 'view'"
-                                placeholder="请选择用户"></avue-input-table>
+                    v-show="form.noticeObj === '2' && type === 'add'">
+              <avue-select all
+                           multiple
+                           v-model="ids"
+                           placeholder="请选择用户"
+                           type="tree"
+                           :dic="dicUser"
+                           :props="props"></avue-select>
             </el-col>
           </el-row>
         </template>
@@ -51,9 +42,10 @@
                   slot-scope="{ type, disabled }">
           <el-button :disabled="disabled"
                      v-show="type === 'add'"
-                     type="primary"
                      icon="el-icon-s-promotion"
-                     @click="saveRelease">保存并发布</el-button>
+                     @click="saveRelease"
+                     type="info"
+                     plain>保存并发布</el-button>
         </template>
 
         <template slot="menu"
@@ -62,7 +54,7 @@
                      type="text"
                      icon="el-icon-s-promotion"
                      @click="release(scope.row)">发布</el-button>
-          <el-button :disabled="scope.row.status === '2'"
+          <el-button :disabled="scope.row.status === '0' || scope.row.status === '2'"
                      type="text"
                      icon="el-icon-circle-close"
                      @click="withdraw(scope.row)">撤回</el-button>
@@ -75,7 +67,6 @@
 <script>
 import { mapGetters } from "vuex";
 import { fetchList, addObj, putObj, delObj } from "@/api/admin/notice";
-import { addObj as addObjMsgUser } from "@/api/admin/msguser";
 import { fetchList as fetchListUser } from "@/api/admin/user";
 import { option } from "@/const/crud/admin/notice";
 
@@ -92,38 +83,11 @@ export default {
         currentPage: 1,
         pageSize: 10,
       },
-      user_form: {
-        msgId: undefined,
-        userId: undefined,
-        // userId: [],
-      },
+      ids: [],
       dicUser: [],
       props: {
         label: "realName",
         value: "userId",
-      },
-      column: {
-        children: {
-          border: true,
-          searchMenuSpan: 4,
-          column: [
-            {
-              label: "姓名",
-              search: true,
-              prop: "realName",
-            },
-            {
-              label: "用户ID",
-              prop: "userId",
-              hide: true,
-            },
-            {
-              label: "教职工号",
-              search: true,
-              prop: "username",
-            },
-          ],
-        },
       },
     };
   },
@@ -155,20 +119,20 @@ export default {
 
     // 添加
     async rowSave(form, done, loading) {
-      if (form.noticeObj === "2" && !this.user_form.userId)
+      if (form.noticeObj === "2" && !this.ids)
         return this.$message.error("请选择用户");
-      form.createUserName = this.userInfo.realName;
-      form.createUserId = this.userInfo.userId;
-      const { data: res } = await addObj(form);
-      if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
-      this.user_form.msgId = res.data;
-      if (form.noticeObj === "2" && this.user_form.userId) {
-        const { data: res } = await addObjMsgUser(this.user_form);
-        if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
-      }
-      this.$message.success("添加成功！");
-      this.refreshChange();
+      const obj = {
+        ...form,
+        createUserName: this.userInfo.realName,
+        createUserId: this.userInfo.userId,
+        userIds: this.ids,
+      };
+      const { data: res } = await addObj(obj);
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.$message.success("发布成功");
       done();
+      done();
+      this.refreshChange();
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
@@ -206,36 +170,6 @@ export default {
       this.get(this.page, params);
       done();
     },
-    // 表格选择器
-    async onLoadUser({ page, value, data }, callback) {
-      if (page) {
-        const { data: res } = await fetchListUser({
-          current: page.currentPage,
-          size: page.pageSize,
-        });
-        if (res.code !== 0) return this.$message.error(res.msg);
-        callback({ total: res.data.total, data: res.data.records });
-      }
-
-      if (data) {
-        const { data: res } = await fetchListUser(
-          Object.assign(
-            {
-              current: page.currentPage,
-              size: page.pageSize,
-            },
-            data
-          )
-        );
-        callback({ total: res.data.total, data: res.data.records });
-      }
-    },
-    // 关闭Dialog
-    beforeClose(done, type) {
-      this.user_form.msgId = undefined;
-      this.user_form.userId = undefined;
-      done();
-    },
 
     //发布
     async release(row) {
@@ -265,9 +199,11 @@ export default {
       if (res.code !== 0) return this.$message.error(res.msg);
       this.dicUser = res.data.records;
     },
-  },
-  method() {
-    this.getMsg();
+    beforeOpen(done, type) {
+      this.ids = [];
+      this.getUser();
+      done();
+    },
   },
 };
 </script>

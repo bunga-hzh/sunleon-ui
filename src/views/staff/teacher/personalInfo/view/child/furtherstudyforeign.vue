@@ -8,16 +8,17 @@
              @row-save="rowSave"
              @row-update="rowUpdate"
              @row-del="rowDel">
-    <template slot="xxqssj"
+    <template slot="qfrq"
               slot-scope="scope">
-      {{ scope.row.xxqssj }} - {{ scope.row.xxzzsj }}
+      {{ scope.row.qfrq }} - {{ scope.row.zzrq }}
     </template>
   </avue-crud>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { option } from "../option/train";
+import { option } from "@/views/staff/teacher/teacherInfo/child/option/furtherstudyforeign";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -30,61 +31,25 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      type: "getDialogType",
-      staffId: "getStaffId",
-      activeName: "getActiveItem",
-      tableData: "getData",
-    }),
+    ...mapGetters(["userInfo", "getActiveItem"]),
   },
   watch: {
-    type: {
-      handler(newValue) {
-        if (newValue === undefined) return true;
-        if (newValue === "view") {
-          this.option.addBtn = false;
-          this.option.menu = false;
-        } else {
-          this.option.addBtn = true;
-          this.option.menu = true;
-        }
-      },
-      immediate: true,
-    },
-    staffId(newValue) {
-      if (newValue == undefined) {
-        this.data = undefined;
-      }
-    },
-    activeName(newValue) {
+    getActiveItem(newValue) {
       if (newValue === undefined) return true;
-      if (newValue == "train") {
-        this.showLoading = true;
-        fetchList("train", {
-          current: 1,
-          size: 20,
-          staffId: this.staffId,
-        }).then((res) => {
-          if (res.data.code !== 0) return this.$message.error(res.msg);
-          this.showLoading = false;
-          this.data = res.data.data.records;
-        });
+      if (newValue == "futurestudyforeign") {
+        this.refresh();
       }
     },
   },
   methods: {
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
-        this.form.xxqssj = [this.form.xxqssj, this.form.xxzzsj];
+        this.form.qfrq = [this.form.qfrq, this.form.zzrq];
       }
       done();
     },
     // 添加
     rowSave(form, done, loading) {
-      if (this.staffId == undefined) {
-        done();
-        return this.$message.warning("请先填写个人基本信息!");
-      }
       if (JSON.stringify(form) === "{}") {
         loading();
         return this.$message.warning("请输入信息!");
@@ -93,10 +58,10 @@ export default {
         const obj = {
           ...form,
           staffId: this.userInfo.userId,
-          xxqssj: validatenull(form.xxqssj) ? undefined : form.xxqssj[0],
-          xxzzsj: validatenull(form.xxqssj) ? undefined : form.xxqssj[1],
+          qfrq: validatenull(form.qfrq) ? undefined : form.qfrq[0],
+          zzrq: validatenull(form.qfrq) ? undefined : form.qfrq[1],
         };
-        const { data: res } = await addObj("train", obj);
+        const { data: res } = await addObj("furtherstudyforeign", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
         done({ ...obj, id: res.data });
         this.$message.success("添加成功！");
@@ -111,10 +76,11 @@ export default {
       setTimeout(async () => {
         const obj = {
           ...form,
-          xxqssj: form.xxqssj[0],
-          xxzzsj: form.xxqssj[1],
+          staffId: this.staffId,
+          qfrq: validatenull(form.qfrq) ? undefined : form.qfrq[0],
+          zzrq: validatenull(form.qfrq) ? undefined : form.qfrq[1],
         };
-        const { data: res } = await putObj("train", obj);
+        const { data: res } = await putObj("furtherstudyforeign", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
         done(obj);
         this.$message.success("修改成功！");
@@ -128,7 +94,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("train", form.id);
+          const { data: res } = await delObj("furtherstudyforeign", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
@@ -141,12 +107,11 @@ export default {
     },
     // 刷新
     async refresh() {
-      if (!this.staffId) return true;
       this.showLoading = true;
-      const { data: res } = await fetchList("train", {
+      const { data: res } = await fetchList("furtherstudyforeign", {
         current: 1,
         size: 20,
-        staffId: this.staffId,
+        staffId: this.userInfo.userId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       this.showLoading = false;
