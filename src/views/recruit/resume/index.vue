@@ -299,7 +299,7 @@ export default {
         this.$message.warning("所选择的应聘者已处理，无法再次处理!")
         return;
       }else{
-        this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
+        // this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
       }
 
 
@@ -337,8 +337,6 @@ export default {
     currentChange(current) {
       this.page.currentPage = current
     },
-
-
   }
 }
 

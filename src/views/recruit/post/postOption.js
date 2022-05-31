@@ -77,7 +77,7 @@ export const tableOption = {
       prop: 'gwlxId',
       type: 'select',
       search: true,
-      cascader: ['postNameIds'],
+      cascader: ['postNameId'],
       dicUrl: "/admin/dict/type/POST_TYPE",
       rules: [{
         required: true,
@@ -89,11 +89,12 @@ export const tableOption = {
       label: '岗位名称',
       prop:'postName',
       addDisplay: false,
-      editDisplay: false
+      editDisplay: false,
+      viewDisplay: false,
     },
     {
       label: '岗位名称',
-      prop: 'postNameIds',
+      prop: 'postNameId',
       search: true,
       type: 'select',
       rules: [{
@@ -102,7 +103,8 @@ export const tableOption = {
         trigger: 'change'
       }],
       hide:true,
-      multiple:true,
+      searchMultiple:true,
+      // multiple:true,
       // filters:true,
       searchFilterable:true,
       filterable:true,
@@ -158,6 +160,7 @@ export const tableOption = {
       valueFormat: 'yyyy-MM-dd',
       type: "daterange",
       slot:true,
+      span:24,
       startPlaceholder: '招聘开始日期',
       endPlaceholder: '招聘结束日期',
       rules: [{

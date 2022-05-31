@@ -21,7 +21,7 @@
               <span>操作</span>
               <el-button style="float: right;" @click="resume.open=false" size="mini" icon="el-icon-close" circle></el-button>
             </div>
-            <el-row :gutter="16" type="flex" justify="start">
+            <el-row :gutter="120">
               <el-col :span="4" v-if="menuView.indexOf('0')!= -1" >
                 <el-button type="primary" icon="el-icon-check" v-if="row.status==0" @click="handleExamine" plain>通过筛选</el-button>
               </el-col>

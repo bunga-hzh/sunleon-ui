@@ -40,3 +40,16 @@ export function examState(deliveryId){
 
   })
 }
+
+/**
+ * 简历确认
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export function confirmResume(data){
+  return request({
+    url:'/act/resume/send_perfect',
+    method:'put',
+    data:data
+  })
+}

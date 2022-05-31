@@ -10,9 +10,8 @@ export const resumeOption = {
   delBtn: false,
   viewBtn: false,
   align: 'center',
-  menuWidth: 180,
+  menuWidth: 320,
   menuHeaderAlign: 'center',
-  labelWidth: 120,
   searchLabelWidth: 120,
   reserveSelection:true,
   gutter: 10,
@@ -52,16 +51,19 @@ export const resumeOption = {
       prop: 'candidateName',
       searchLabelWidth:120,
       search: true,
+      width:180,
     },
     {
       label: '应聘岗位',
       prop:'postName',
+      width:180,
     },
     {
       label: '岗位类型',
       prop: 'gwlxId',
       type: 'select',
       search: true,
+      width:180,
       cascader: ['postNameIds'],
       dicUrl: "/admin/dict/type/POST_TYPE",
       rules: [{
@@ -74,6 +76,7 @@ export const resumeOption = {
       label: '应聘岗位',
       prop:'postNameIds',
       type: 'select',
+      width:180,
       multiple:true,
       search: true,
       showColumn: false,
@@ -86,18 +89,21 @@ export const resumeOption = {
     },
     {
       label: '投递时间',
+      width:180,
       prop:'deliveryTime',
       format: 'yyyy-MM-dd HH:mm:ss',
       valueFormat: 'yyyy-MM-dd HH:mm:ss',
     },
     {
       label: '最高专业',
-      prop:'major'
+      prop:'major',
+      width:180,
     },
     {
       label: '政治面貌',
       prop:'politics',
       type:'select',
+      width:180,
       props:{
         label:'label',
         value:'value'
@@ -110,6 +116,7 @@ export const resumeOption = {
     {
       label: '性别',
       prop:'sex',
+      width:180,
       props:{
         label:'label',
         value:'value'
@@ -121,19 +128,36 @@ export const resumeOption = {
 
     },
     {
-      label:'出生日期',
+      label:'年龄',
       prop:'ageTime',
       hide:true,
+      width:180,
       search: true,
-      searchType: "daterange",
-      format:'yyyy-MM-dd',
-      valueFormat:'yyyy-MM-dd',
-      startPlaceholder: '出生日期开始',
-      endPlaceholder: '出生日期结束',
+      searchType: "slider",
+      // format:'yyyy-MM-dd',
+      // valueFormat:'yyyy-MM-dd',
+      // startPlaceholder: '出生日期开始',
+      // endPlaceholder: '出生日期结束',
     },
     {
-      label:'全日制学历学位',
-      prop:'qrzxlxw',
+      label:'全日制学历',
+      prop:'qrzxl',
+      search: true,
+      width:180,
+      type:'select',
+      props:{
+        label:'label',
+        value:'value'
+      },
+      dicFormatter:(data)=>{
+        return data.data.items;
+      },
+      dicUrl:`/admin/dict/type_with_dict_id/education_type`
+    },
+    {
+      label:'全日制学位',
+      prop:'qrzxw',
+      width:180,
       search: true,
       type:'select',
       props:{
@@ -148,13 +172,30 @@ export const resumeOption = {
     {
       label: '全日制专业',
       prop: 'qrzzy',
+      width:180,
       search: true,
     },
     {
-      label:'最高学历学位',
-      prop:'zgxlxw',
+      label:'最高学历',
+      prop:'zgxl',
       search: true,
       type:'select',
+      width:180,
+      props:{
+        label:'label',
+        value:'value'
+      },
+      dicFormatter:(data)=>{
+        return data.data.items;
+      },
+      dicUrl:`/admin/dict/type_with_dict_id/education_type`
+    },
+    {
+      label:'最高学位',
+      prop:'zgxw',
+      search: true,
+      type:'select',
+      width:180,
       props:{
         label:'label',
         value:'value'
@@ -167,14 +208,17 @@ export const resumeOption = {
     {
       label: '最高专业',
       prop: 'zgzy',
+      width:180,
       hide:true,
       search: true,
     },
     {
       label:'政治面貌',
-      prop:'zzmmm',
+      prop:'zzmmms',
       search: true,
+      width:180,
       hide:true,
+      searchMultiple:true,
       type:'select',
       props:{
         label:'label',
@@ -188,6 +232,7 @@ export const resumeOption = {
     {
       label:'性别',
       prop:'xbm',
+      width:180,
       hide:true,
       search: true,
       type:'select',
@@ -204,6 +249,7 @@ export const resumeOption = {
       label:'教师资格证类别',
       prop:'jszgzlb',
       search: true,
+      width:180,
       type:'select',
       props:{
         label:'label',
@@ -216,32 +262,35 @@ export const resumeOption = {
     },
     {
       label: '年龄',
+      width:180,
       prop: 'age'
     },
     {
       label: '出生日期',
       prop:'birthday',
+      width:180,
       format:'yyyy-MM-dd',
       valueFormat:'yyyy-MM-dd',
     },
-    {
-      label: '学历',
-      prop: 'education',
-      search: true,
-      type:'select',
-      props:{
-        label:'label',
-        value:'value'
-      },
-      dicFormatter:(data)=>{
-        return data.data.items;
-      },
-      dicUrl:`/admin/dict/type_with_dict_id/education_type`
-    },
+    // {
+    //   label: '学历',
+    //   prop: 'education',
+    //   search: true,
+    //   type:'select',
+    //   props:{
+    //     label:'label',
+    //     value:'value'
+    //   },
+    //   dicFormatter:(data)=>{
+    //     return data.data.items;
+    //   },
+    //   dicUrl:`/admin/dict/type_with_dict_id/education_type`
+    // },
     {
       label: '上海户口',
       prop: 'isShHousehold',
       type:'radio',
+      width:180,
       search:true,
       searchType:"radio",
       searchSpan:6,
@@ -256,6 +305,7 @@ export const resumeOption = {
     },
     {
       label: '状态',
+      width:180,
       prop: 'status',
       searchLabelWidth:120,
       search: true,
@@ -293,6 +343,7 @@ export const resumeOption = {
       prop: 'residencePermitSh',
       searchLabelWidth:120,
       search: true,
+      width:180,
       type:'select',
       props:{
         label:'label',
@@ -307,6 +358,7 @@ export const resumeOption = {
       label: '教师资格证',
       prop: 'isTeacherCertificate',
       searchLabelWidth:120,
+      width:180,
       searchType:"radio",
       type:'select',
       search: true,

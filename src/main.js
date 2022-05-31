@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import 'classlist-polyfill'
 import Vue from 'vue'
+import VueCompositionApi from '@vue/composition-api'
 import axios from './router/axios'
 import VueAxios from 'vue-axios'
 import App from './App'
@@ -61,6 +62,8 @@ iconfontVersion.forEach(ele => {
 })
 
 Vue.config.productionTip = false
+
+Vue.use(VueCompositionApi)
 
 new Vue({
   router,

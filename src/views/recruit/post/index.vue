@@ -133,7 +133,6 @@ export default {
       });
     },
     handleSaveAndRe(sco){
-      console.log(sco);
       this.$refs.crud.validate((resxx)=>{
         if(resxx){
           const data = {
@@ -143,14 +142,26 @@ export default {
             startTime:this.form.startTime[0], //开始时间
             endTime:this.form.startTime[1], // 结束时间
             recruitRequire:this.form.recruitRequire, //招聘要求
+            postRequire:this.form.postRequire, //岗位要求
+            id:this.form.id,
             isRelease:1, //保存及发布
             gwlxId:this.form.gwlxId,
           };
-          addObj(data).then(res=>{
-            this.getList(this.page)
-            this.$refs.crud.closeDialog();
-            this.$notify.success('创建成功!')
-          })
+          if(this.form.id){
+            putObj(data).then(res=>{
+              this.getList(this.page)
+              this.$refs.crud.closeDialog();
+              this.$notify.success('修改成功!')
+            }).catch(err=>{
+              done();
+            })
+          }else{
+            addObj(data).then(res=>{
+              this.getList(this.page)
+              this.$refs.crud.closeDialog();
+              this.$notify.success('创建成功!')
+            })
+          }
         }
       });
 
@@ -206,6 +217,7 @@ export default {
         startTime:this.form.startTime[0], //开始时间
         endTime:this.form.startTime[1], // 结束时间
         recruitRequire:this.form.recruitRequire, //招聘要求
+        postRequire:this.form.postRequire,//岗位要求
         id:this.form.id,
         gwlxId:this.form.gwlxId,
       };
@@ -225,6 +237,7 @@ export default {
         startTime:this.form.startTime[0], //开始时间
         endTime:this.form.startTime[1], // 结束时间
         recruitRequire:this.form.recruitRequire, //招聘要求
+        postRequire:this.form.postRequire,//岗位要求
         gwlxId:this.form.gwlxId,
       };
       addObj(data).then(res=>{
