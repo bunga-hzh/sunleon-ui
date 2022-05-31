@@ -1,7 +1,7 @@
 <template>
   <div class="personal_container">
     <el-card class="personal_left">
-      <div>
+      <!-- <div>
         <div class="avatar_name">
           <div>
             <el-avatar :size="140"
@@ -9,17 +9,8 @@
           </div>
           <div class="name">{{userInfo.realName}}</div>
         </div>
-        <!-- <div class="other_info">
-          <ul>
-            <li><i class="el-icon-user" /> 工号：<span>123456</span></li>
-            <li>
-              <i class="el-icon-office-building" /> 部门：<span>部门一</span>
-            </li>
-            <li><i class="el-icon-suitcase" /> 职务：<span>教师</span></li>
-          </ul>
-        </div> -->
-      </div>
-      <el-divider><i class="el-icon-s-promotion"></i></el-divider>
+      </div> -->
+      <!-- <el-divider><i class="el-icon-s-promotion"></i></el-divider> -->
       <el-menu default-active="info"
                @select="activeMenu">
         <el-menu-item index="info">

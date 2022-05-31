@@ -1,3 +1,15 @@
+import {
+  newVersionCardId,
+} from "@/util/validate";
+
+var validateIdCard = (rule, value, callback) => {
+  if (newVersionCardId(value)) {
+    callback();
+  } else {
+    callback(new Error('身份证号格式有误，请检查!'));
+  }
+}
+
 export const option = {
   menuWidth: 160,
   align: 'center',
@@ -47,6 +59,15 @@ export const option = {
     {
       label: "民族",
       prop: "mzm",
+      type: "select",
+      props: {
+        label: 'label',
+        value: 'value'
+      },
+      dicFormatter: (data) => {
+        return data.data.items;
+      },
+      dicUrl: `/admin/dict/type_with_dict_id/nation_type`
     },
     {
       label: "出生日期",
@@ -59,6 +80,16 @@ export const option = {
       label: "身份证号码",
       prop: "sfzjh",
       width: 150,
+      rules: [{
+          required: true,
+          message: "请填写",
+          trigger: "blur"
+        },
+        {
+          validator: validateIdCard,
+          trigger: 'blur'
+        }
+      ],
     },
     {
       label: "性质",

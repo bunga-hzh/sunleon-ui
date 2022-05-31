@@ -111,13 +111,14 @@
           <el-collapse v-model="collapseActiveName"
                        @change="collapseActive"
                        accordion>
-            <el-collapse-item title="教师资格证子集"
-                              name="jszgz">
-              <jszgz />
-            </el-collapse-item>
+
             <el-collapse-item title="职业资格证子集"
                               name="certificate">
               <certificate />
+            </el-collapse-item>
+            <el-collapse-item title="教师资格证子集"
+                              name="jszgz">
+              <jszgz />
             </el-collapse-item>
             <el-collapse-item title="教育培训子集"
                               name="train">

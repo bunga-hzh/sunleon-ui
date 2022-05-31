@@ -4,7 +4,7 @@ export const option = {
   index: true,
   indexLabel: '序号',
   searchMenuSpan: 4,
-  menuWidth: 200,
+  menuWidth: 260,
   searchSpan: 7,
   labelWidth: 120,
   viewBtn: true,

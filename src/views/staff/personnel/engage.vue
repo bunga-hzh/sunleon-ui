@@ -24,7 +24,7 @@
         </template>
         <template slot="sarteDate"
                   slot-scope="scope">
-          {{ scope.row.sarteDate }} - {{ scope.row.changeEndDate }}
+          {{ scope.row.sarteDate }} - {{ scope.row.endDate }}
         </template>
       </avue-crud>
     </basic-container>
@@ -126,7 +126,6 @@ export default {
     // 刷新
     refreshChange() {
       this.onLoad();
-      this.$message.success("刷新成功！");
     },
     // 搜索
     searchChange(form, done) {

@@ -28,7 +28,7 @@ export const option = {
       dicUrl: '/admin/dict/type/sex_type',
     },
     {
-      label: "组织机构",
+      label: "所属部门",
       prop: "orgId",
       search: true,
       type: 'tree',

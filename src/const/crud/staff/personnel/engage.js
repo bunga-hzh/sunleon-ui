@@ -1,7 +1,7 @@
 export const option = {
   border: true,
   searchMenuSpan: 4,
-  searchSpan: 7,
+  searchSpan: 6,
   align: 'center',
   labelWidth: 120,
   menuWidth: 140,
@@ -56,21 +56,19 @@ export const option = {
       span: 24,
     },
     {
-      label: "招聘起止时间",
+      label: "聘任起止时间",
       prop: "sarteDate",
       type: "daterange",
       format: 'yyyy-MM-dd',
       valueFormat: 'yyyy-MM-dd',
-      startPlaceholder: '招聘开始日期',
-      endPlaceholder: '招聘结束日期',
-      search: true,
+      startPlaceholder: '聘任开始日期',
+      endPlaceholder: '聘任结束日期',
       span: 24,
       searchLabelWidth: 120,
-      slot: true,
       width: 160,
       rules: [{
         required: true,
-        message: '请选择招聘起止时间'
+        message: '请选择聘任起止时间'
       }]
     },
     // {

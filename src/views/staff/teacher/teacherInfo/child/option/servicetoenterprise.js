@@ -36,11 +36,21 @@ export const option = {
     {
       label: "事由",
       prop: 'sy',
+      rules: [{
+        required: true,
+        message: '请输入 事由',
+        trigger: "blur",
+      }]
     },
     {
       label: "总金额",
       prop: 'zje',
       type: 'number',
+      rules: [{
+        required: true,
+        message: '请输入 总金额',
+        trigger: "blur",
+      }]
     },
     {
       label: "备注",

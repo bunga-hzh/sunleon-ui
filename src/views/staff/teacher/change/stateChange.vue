@@ -7,6 +7,9 @@
                  :page.sync="page"
                  :before-open="beforeOpen"
                  :table-loading="showLoading"
+                 :upload-after="uploadAfter"
+                 :upload-preview="uploadPreview"
+                 :upload-error="uploadError"
                  @on-load="loadList"
                  @row-save="add"
                  @row-update="rowUpdate"
@@ -36,6 +39,7 @@ import { option } from "@/const/crud/staff/teacher/change/stateChange";
 import { getList, delData, searchData } from "@/const/staff/crud";
 import { fetchList, addObj, putObj } from "@/api/staff/crud";
 import { jzg_page } from "@/const/staff/page";
+import { validatenull } from "@/util/validate";
 
 export default {
   name: "StateChange",
@@ -165,6 +169,40 @@ export default {
       this.form.gh = item.gh;
       this.form.orgId = item.orgId;
       this.form.staffId = item.staffId;
+    },
+    // 上传后
+    uploadAfter(res, done, loading, column) {
+      if (!validatenull(res.fileName)) {
+        this.$message.success("上传成功");
+      }
+      done();
+    },
+    // 预览
+    async uploadPreview(file, column, done) {
+      // 图片
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
+              url: `http://sunleon-gateway:9999${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        this.downFile(
+          `http://sunleon-gateway:9999${file.url}`,
+          splitUploadData(file.name)
+        );
+      }
+    },
+    // 上传失败
+    uploadError(error, column) {
+      this.$message.error("上传失败" + error);
     },
   },
   mounted() {

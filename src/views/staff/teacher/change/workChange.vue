@@ -4,28 +4,24 @@
       <el-tabs v-model="activeName"
                @tab-click="handleClick"
                type="card">
-        <el-tab-pane label="实习期不合格"
-                     name="1">
-          <Internship />
-        </el-tab-pane>
         <el-tab-pane label="试用期不合格"
-                     name="2">
+                     name="1">
           <Tryout />
         </el-tab-pane>
         <el-tab-pane label="转正"
-                     name="3">
+                     name="2">
           <Positive />
         </el-tab-pane>
-        <el-tab-pane label="合同续签"
-                     name="4">
+        <el-tab-pane label="人事合同管理"
+                     name="3">
           <Contract />
         </el-tab-pane>
         <el-tab-pane label="转岗"
-                     name="5">
+                     name="4">
           <Transfer />
         </el-tab-pane>
         <el-tab-pane label="其他"
-                     name="6">
+                     name="5">
           <Other />
         </el-tab-pane>
       </el-tabs>
@@ -76,14 +72,7 @@ export default {
       renewType: undefined,
       renewObj: {},
 
-      apiUrlList: [
-        "ywglsxqbhg",
-        "ywglsyqbhg",
-        "ywglzz",
-        "ywglhtxq",
-        "ywglzg",
-        "ywglzdy",
-      ],
+      apiUrlList: ["ywglsyqbhg", "ywglzz", "ywglhtxq", "ywglzg", "ywglzdy"],
 
       restaurants: [],
     };
@@ -146,12 +135,11 @@ export default {
 
     handleClick(val) {
       this.option = this.optionList[val.index];
-      if (val.index == 0) this.get("ywglsxqbhg");
-      if (val.index == 1) this.get("ywglsyqbhg");
-      if (val.index == 2) this.get("ywglzz");
-      if (val.index == 3) this.get("ywglhtxq");
-      if (val.index == 4) this.get("ywglzg");
-      if (val.index == 5) this.get("ywglzdy");
+      if (val.index == 0) this.get("ywglsyqbhg");
+      if (val.index == 1) this.get("ywglzz");
+      if (val.index == 2) this.get("ywglhtxq");
+      if (val.index == 3) this.get("ywglzg");
+      if (val.index == 4) this.get("ywglzdy");
     },
     // 批量续签
     batchRenew() {

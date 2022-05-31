@@ -11,6 +11,10 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
+      <template slot="menu">
+        <el-button icon="el-icon-download"
+                   type="text">下载</el-button>
+      </template>
       <template slot="xmForm"
                 slot-scope="{ type }">
         <el-autocomplete :disabled="type === 'edit' ? true : false"

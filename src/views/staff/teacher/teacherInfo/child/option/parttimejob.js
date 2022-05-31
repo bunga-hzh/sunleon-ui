@@ -44,6 +44,11 @@ export const option = {
     {
       label: "任职组织",
       prop: 'rzzz',
+      rules: [{
+        required: true,
+        message: '请输入 任职组织',
+        trigger: "blur",
+      }]
     },
     {
       label: "组织类型",
@@ -56,11 +61,21 @@ export const option = {
       dicFormatter: (data) => {
         return data.data.items;
       },
-      dicUrl: `/admin/dict/type_with_dict_id/zzlx_type`
+      dicUrl: `/admin/dict/type_with_dict_id/zzlx_type`,
+      rules: [{
+        required: true,
+        message: '请输入 组织类型',
+        trigger: "blur",
+      }]
     },
     {
       label: "兼职职务",
       prop: 'jzzw',
+      rules: [{
+        required: true,
+        message: '请输入 兼职职务',
+        trigger: "blur",
+      }]
     },
     {
       label: "是否取酬",
@@ -71,6 +86,11 @@ export const option = {
         value: 'value'
       },
       dicData: is_type,
+      rules: [{
+        required: true,
+        message: '请选择 是否取酬',
+        trigger: "change",
+      }]
     },
   ]
 }

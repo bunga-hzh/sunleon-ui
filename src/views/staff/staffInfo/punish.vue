@@ -1,17 +1,28 @@
 <template>
-  <div>
+  <basic-container>
     <avue-crud v-model="form"
                :data="data"
                :option="option"
                :page.sync="page"
-               :before-open="beforeOpen"
                :table-loading="showLoading"
-               @on-load="onload"
+               :before-open="beforeOpen"
+               :upload-after="uploadAfter"
+               :upload-preview="uploadPreview"
+               :upload-error="uploadError"
+               @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
+      <template slot="menuLeft">
+        <el-button type="primary"
+                   icon="el-icon-upload">导入</el-button>
+        <el-button type="primary"
+                   icon="el-icon-bottom">导出</el-button>
+        <el-button type="primary"
+                   icon="el-icon-download">下载模板</el-button>
+      </template>
       <template slot="xmForm"
                 slot-scope="{ type }">
         <el-autocomplete :disabled="type === 'edit' ? true : false"
@@ -21,56 +32,27 @@
                          @select="handleSelect"
                          clearable></el-autocomplete>
       </template>
-      <template slot="startDate"
+      <template slot="cfrq"
                 slot-scope="scope">
-        {{ scope.row.startDate }} - {{ scope.row.endDate }}
-      </template>
-      <template slot="menuLeft">
-        <el-button type="primary"
-                   icon="el-icon-s-claim"
-                   @click="bulkRenewal">批量续签</el-button>
+        {{scope.row.cfrq}}-{{scope.row.cfcxrq}}
       </template>
     </avue-crud>
-    <el-dialog title="批量续签"
-               :visible.sync="dialogVisible"
-               width="60%"
-               @open="loadAll">
-      <avue-form v-model="obj"
-                 :option="batchOption"
-                 @submit="submit">
-        <template slot="users">
-          <avue-select all
-                       multiple
-                       v-model="obj.users"
-                       type="tree"
-                       :props="{
-                             label: 'xm',
-                             desc: 'gh',
-                             value: 'id',
-                           }"
-                       :dic="usersList"></avue-select>
-        </template>
-      </avue-form>
-      <span slot="footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
-  </div>
+  </basic-container>
 </template>
 
 <script>
-import { option, batchOption, usersOption } from "../option/Contract";
-import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch } from "@/const/staff/getAllUser";
-import { jzg_page } from "@/const/staff/page";
+import { option } from "@/views/staff/staffInfo/option/punish";
+import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { url } from "@/api/baseUrl";
+import { validatenull } from "@/util/validate";
+import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
     return {
       form: {},
-      data: undefined,
+      data: [],
       option: option,
       page: {
         total: 0,
@@ -80,30 +62,23 @@ export default {
       showLoading: false,
 
       timeout: undefined,
-      dialogVisible: false,
-      innerVisible: false,
-
-      obj: {
-        users: [],
-      },
-      batchOption: batchOption,
-
       usersList: [],
     };
   },
   methods: {
-    // 弹框打开前
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
-        this.form.startDate = [this.form.startDate, this.form.endDate];
+        this.form =
+          validatenull(this.form.cfrq) && validatenull(this.form.cfcxrq)
+            ? undefined
+            : [this.form.cfrq, this.form.cfcxrq];
       }
-      done();
     },
-    // 获取列表
+    // 获取数据
     async fetchList(query) {
       this.showLoading = true;
       const { data: res } = await fetchList(
-        "ywglhtxq",
+        "punish",
         Object.assign(
           {
             current: this.page.currentPage,
@@ -117,56 +92,36 @@ export default {
       this.data = res.data.records;
       this.showLoading = false;
     },
-    // 初次加载
-    onload() {
+    // 加载
+    onLoad() {
       this.fetchList();
     },
     // 添加
     async rowSave(form, done, loading) {
-      const obj = {
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        xz: form.xz,
-        gwmc: form.gwmc,
-        startDate: form.startDate[0],
-        endDate: form.startDate[1],
-        bz: form.bz,
-      };
-      const { data: res } = await addObj("ywglhtxq", obj);
+      console.log(form);
+      return;
+      const { data: res } = await addObj("punish", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
       this.$message.success("添加成功！");
     },
-    // 编辑
+    // 修改
     async rowUpdate(form, index, done, loading) {
-      const obj = {
-        id: form.id,
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        xz: form.xz,
-        gwmc: form.gwmc,
-        startDate: form.startDate[0],
-        endDate: form.startDate[1],
-        bz: form.bz,
-      };
-      const { data: res } = await putObj("ywglhtxq", obj);
+      console.log(form);
+      return;
+      const { data: res } = await putObj("punish", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
-      this.$message.success("修改成功！");
     },
     // 删除
-    rowDel(form, index) {
+    async rowDel(form, index) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("ywglhtxq", form.id);
+          const { data: res } = await delObj("punish", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
@@ -177,25 +132,45 @@ export default {
         })
         .catch(() => {});
     },
-    // 批量续签
-    bulkRenewal() {
-      this.dialogVisible = true;
-    },
-    async loadAll() {
-      const { data: res } = await fetchList("info", jzg_page);
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.usersList = res.data.records;
-    },
-    submit() {},
     // 刷新
     refreshChange() {
       this.fetchList();
     },
     // 搜索
-    searchChange(form, done) {
+    searchChange(params, done) {
       this.page.currentPage = 1;
-      this.fetchList(form);
+      this.fetchList(params);
       done();
+    },
+    // 上传后
+    uploadAfter(res, done, loading, column) {
+      if (!validatenull(res.fileName)) {
+        this.$message.success("上传成功");
+      }
+      done();
+    },
+    // 预览
+    uploadPreview(file, column, done) {
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `${url}${file.url}`,
+              url: `${url}${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        this.downFile(`${url}${file.url}`, splitUploadData(file.name));
+      }
+    },
+    // 上传失败
+    uploadError(error, column) {
+      this.$message.success("上传失败" + error);
     },
     // 搜索姓名
     querySearchAsync(queryString, cb) {
@@ -210,6 +185,9 @@ export default {
       this.form.orgId = item.orgId;
       this.form.staffId = item.staffId;
     },
+  },
+  mounted() {
+    loadAll(this.usersList);
   },
 };
 </script>

@@ -17,8 +17,9 @@ export const option = {
         prop: "sxzh",
       },
       {
-        label: "双师型教师认定",
+        label: "校内聘任双师型教师",
         prop: "ssxjsrd",
+        // prop: "xnprssxjs",
       },
       {
         label: "是否教研组长",
@@ -107,6 +108,12 @@ export const option = {
       {
         label: "名师工作室主持人级别",
         prop: "msgzszcrjb",
+        type: "select",
+        props: {
+          label: "label",
+          value: 'value'
+        },
+        dicUrl: '/admin/dict/type/host_level',
       },
       {
         label: "教师资格证上传",

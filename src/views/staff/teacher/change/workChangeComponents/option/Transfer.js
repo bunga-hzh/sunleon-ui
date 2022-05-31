@@ -36,17 +36,15 @@ export const option = {
       },
     },
     {
-      label: "转岗时间",
-      prop: "zgsj",
-      type: 'date',
-      valueFormat: "yyyy-MM-dd",
-    },
-    {
-      label: "薪资",
-      prop: "xz",
-      type: 'number',
-      minRows: 0,
-      valueDefault: 0,
+      label: "现属部门",
+      prop: "xsbm",
+      // type: 'tree',
+      // dicUrl: 'admin/dept/tree',
+      // props: {
+      //   label: "name",
+      //   value: "id",
+      //   children: "children"
+      // },
     },
     {
       label: "原岗位名称",
@@ -57,9 +55,44 @@ export const option = {
       prop: "xgwmc",
     },
     {
+      label: "原薪资",
+      prop: "yxz",
+      type: 'number',
+      minRows: 0,
+      valueDefault: 0,
+    },
+    {
+      label: "现薪资",
+      prop: "xxz",
+      type: 'number',
+      minRows: 0,
+      valueDefault: 0,
+    },
+    {
+      label: "转岗时间",
+      prop: "zgsj",
+      type: 'date',
+      valueFormat: "yyyy-MM-dd",
+    },
+    {
       label: "备注",
       prop: "bz",
       type: 'textarea',
+      span: 24,
+    },
+    {
+      label: "附件",
+      prop: 'fj',
+      type: 'upload',
+      limit: 1,
+      fileSize: 5120,
+      propsHttp: {
+        url: 'url',
+        name: 'originalName',
+        res: 'data'
+      },
+      tip: '不超过5M',
+      action: '/admin/sys-file/upload',
       span: 24,
     },
   ],

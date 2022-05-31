@@ -18,6 +18,11 @@ export const option = {
     {
       label: "学校",
       prop: 'xx',
+      rules: [{
+        required: true,
+        message: '请输入 学校',
+        trigger: "blur"
+      }]
     },
     // {
     //   label: "入学时间",
@@ -55,29 +60,51 @@ export const option = {
     {
       label: "专业/系",
       prop: 'sxzym',
+      rules: [{
+        required: true,
+        message: '请输入 专业/系',
+        trigger: "blur",
+      }]
     },
     {
       label: "所获学位",
       prop: 'hdxwm',
+      rules: [{
+        required: true,
+        message: '请输入 所获学位',
+        trigger: "blur",
+      }]
     },
     {
       label: "学习形式",
       prop: 'xxxsm',
+      type: 'select',
       props: {
         label: "label",
         value: 'value'
       },
       dicUrl: '/admin/dict/type/learning_from',
+      rules: [{
+        required: true,
+        message: '请输入 所获学位',
+        trigger: "change",
+      }]
     },
     {
       label: "证明人",
       prop: 'zmr',
+      rules: [{
+        required: true,
+        message: '请输入 证明人',
+        trigger: "blur",
+      }]
     },
     {
       label: "备注",
       prop: 'bz',
       type: 'textarea',
       span: 24,
+      labelTip: '除全日制外应备注',
     },
   ]
 }

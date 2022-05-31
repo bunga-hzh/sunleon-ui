@@ -49,20 +49,22 @@ export const option = {
       column: [{
           label: "教职工编号",
           prop: "gh",
-          // rules: [{
-          //   required: true,
-          //   message: "请输入教职工编号",
-          //   trigger: "blur"
-          // }],
+          search: true,
+          rules: [{
+            required: true,
+            message: "请输入教职工编号",
+            trigger: "blur"
+          }],
         },
         {
           label: "姓名",
           prop: "xm",
-          // rules: [{
-          //   required: true,
-          //   message: "请填写姓名",
-          //   trigger: "blur"
-          // }],
+          search: true,
+          rules: [{
+            required: true,
+            message: "请填写姓名",
+            trigger: "blur"
+          }],
         },
         {
           label: "曾用名",
@@ -77,10 +79,22 @@ export const option = {
             value: "value"
           },
           dicUrl: '/admin/dict/type/sex_type',
-          // rules: [{
-          //   required: true,
-          //   message: "请选择性别",
-          // }],
+          rules: [{
+            required: true,
+            message: "请选择性别",
+          }],
+        },
+        {
+          label: "所属部门",
+          prop: "orgId",
+          search: true,
+          type: 'tree',
+          dicUrl: 'admin/dept/tree',
+          props: {
+            label: "name",
+            value: "id",
+            children: "children"
+          },
         },
         {
           label: "年龄",
@@ -88,46 +102,46 @@ export const option = {
           type: "number",
           minRows: 0,
           maxRows: 120,
-          // rules: [{
-          //   required: true,
-          //   message: "请输入年龄",
-          //   trigger: "blur",
-          // }],
+          rules: [{
+            required: true,
+            message: "请输入年龄",
+            trigger: "blur",
+          }],
         },
         {
           label: "出生日期",
           prop: "csrq",
           type: "date",
           valueFormat: "yyyy-MM-dd",
-          // rules: [{
-          //   required: true,
-          //   message: "请选择出生日期",
-          //   trigger: "blur",
-          // }],
+          rules: [{
+            required: true,
+            message: "请选择出生日期",
+            trigger: "blur",
+          }],
         },
 
         {
           label: "身份证号",
           prop: "sfzjh",
-          // rules: [{
-          //     required: true,
-          //     message: "请填写",
-          //     trigger: "blur"
-          //   },
-          //   {
-          //     validator: validateIdCard,
-          //     trigger: 'blur'
-          //   }
-          // ],
+          rules: [{
+              required: true,
+              message: "请填写",
+              trigger: "blur"
+            },
+            {
+              validator: validateIdCard,
+              trigger: 'blur'
+            }
+          ],
         },
         {
           label: "出生地",
           prop: "csd",
-          // rules: [{
-          //   required: true,
-          //   message: "请输入出生地",
-          //   trigger: "blur",
-          // }],
+          rules: [{
+            required: true,
+            message: "请输入出生地",
+            trigger: "blur",
+          }],
         },
         {
           label: "籍贯",
@@ -189,18 +203,18 @@ export const option = {
         {
           label: "联系电话",
           prop: "lxdh",
-          // rules: [{
-          //   validator: vaildataPhone,
-          //   trigger: 'blur'
-          // }]
+          rules: [{
+            validator: vaildataPhone,
+            trigger: 'blur'
+          }]
         },
         {
           label: "电子邮箱",
           prop: "dzyx",
-          // rules: [{
-          //   validator: vaildataEmail,
-          //   trigger: 'blur'
-          // }]
+          rules: [{
+            validator: vaildataEmail,
+            trigger: 'blur'
+          }]
         },
         {
           label: "紧急联系人姓名",
@@ -209,21 +223,10 @@ export const option = {
         {
           label: "紧急联系人电话",
           prop: "jjlxrdh",
-          // rules: [{
-          //   validator: vaildataPhone,
-          //   trigger: 'blur'
-          // }]
-        },
-        {
-          label: "组织机构",
-          prop: "orgId",
-          type: 'tree',
-          dicUrl: 'admin/dept/tree',
-          props: {
-            label: "name",
-            value: "id",
-            children: "children"
-          },
+          rules: [{
+            validator: vaildataPhone,
+            trigger: 'blur'
+          }]
         },
         {
           label: "身份证正面上传",

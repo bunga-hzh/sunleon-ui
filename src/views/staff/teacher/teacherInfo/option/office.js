@@ -44,6 +44,11 @@ export const option = {
         dicUrl: '/admin/dict/type/post_type',
       },
       {
+        label: "岗位名称",
+        prop: "gwmc",
+        type: 'select'
+      },
+      {
         label: "岗位聘任年月",
         prop: "gwprny",
         type: "date",
@@ -83,6 +88,11 @@ export const option = {
       {
         label: "校内职务",
         prop: "xnzw",
+      },
+      {
+        label: "聘任时限",
+        prop: "prsx",
+        type: 'number',
       },
       {
         label: "任现职务时间",

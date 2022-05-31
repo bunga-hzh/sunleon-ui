@@ -98,11 +98,15 @@ export const option = {
       label: "证明附件",
       prop: "changeEvidence",
       type: 'upload',
+      limit: 1,
+      fileSize: 5120,
       propsHttp: {
+        url: 'url',
+        name: 'originalName',
         res: 'data'
       },
-      tip: '只能上传jpg/png格式，且不超过500kb',
-      action: '/imgupload',
+      tip: '不超过5M',
+      action: '/admin/sys-file/upload',
       span: 24,
     },
   ],
