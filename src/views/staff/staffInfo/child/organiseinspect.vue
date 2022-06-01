@@ -85,20 +85,17 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
-      console.log(form);
-      return;
-      const { data: res } = await addObj("organiseinspect", obj);
+      const { data: res } = await addObj("organiseinspect", form);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done({ ...obj, id: res.data });
+      done({ ...form, id: res.data });
       this.$message.success("添加成功！");
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      console.log(form);
-      return;
-      const { data: res } = await putObj("organiseinspect", obj);
+      const { data: res } = await putObj("organiseinspect", form);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(obj);
+      done(form);
+      this.$message.success("修改成功！");
     },
     // 删除
     async rowDel(form, index) {
@@ -169,7 +166,7 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.orgId;
       this.form.staffId = item.staffId;
     },
   },

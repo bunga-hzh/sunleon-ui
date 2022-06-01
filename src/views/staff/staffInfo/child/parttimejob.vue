@@ -5,6 +5,7 @@
                :option="option"
                :page.sync="page"
                :table-loading="showLoading"
+               :before-open="beforeOpen"
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
@@ -30,6 +31,10 @@
                          placeholder="请输入姓名"
                          @select="handleSelect"
                          clearable></el-autocomplete>
+      </template>
+      <template slot="shjzqsrq"
+                slot-scope="scope">
+        {{scope.row.shjzqsrq}}-{{scope.row.shjzzzrq}}
       </template>
     </avue-crud>
   </basic-container>
@@ -61,6 +66,15 @@ export default {
     };
   },
   methods: {
+    beforeOpen(done, type) {
+      if (type === "edit" || type === "view") {
+        this.form.shjzqsrq =
+          validatenull(this.form.shjzqsrq) || validatenull(this.form.shjzzzrq)
+            ? undefined
+            : [this.form.shjzqsrq, this.form.shjzzzrq];
+      }
+      done();
+    },
     // 获取数据
     async fetchList(query) {
       this.showLoading = true;
@@ -85,8 +99,11 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
-      console.log(form);
-      return;
+      const obj = {
+        ...form,
+        shjzqsrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[0],
+        shjzzzrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[1],
+      };
       const { data: res } = await addObj("parttimejob", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
@@ -94,11 +111,15 @@ export default {
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      console.log(form);
-      return;
+      const obj = {
+        ...form,
+        shjzqsrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[0],
+        shjzzzrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[1],
+      };
       const { data: res } = await putObj("parttimejob", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
+      this.$message.success("修改成功！");
     },
     // 删除
     async rowDel(form, index) {
@@ -169,7 +190,7 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.orgId;
       this.form.staffId = item.staffId;
     },
   },

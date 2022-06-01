@@ -6,11 +6,24 @@ export const option = {
   searchLabelWidth: 120,
   viewBtn: true,
   column: [{
+      label: "教职工ID",
+      prop: "staffId",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
+    },
+    {
       label: "姓名",
       prop: "xm",
       search: true,
       slotForm: true,
       formslot: true,
+      rules: [{
+        required: true,
+        message: "请选择 用户",
+        trigger: "change"
+      }],
     },
     {
       label: "工号",
@@ -19,10 +32,15 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 工号",
+        trigger: "change"
+      }],
     },
     {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
@@ -34,7 +52,11 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
-      span: 24,
+      rules: [{
+        required: true,
+        message: "请选择 部门",
+        trigger: "change"
+      }],
     },
     {
       label: "职业工种",

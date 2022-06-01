@@ -10,15 +10,28 @@ export const option = {
   align: 'center',
   border: true,
   menuWidth: 200,
-  labelWidth: 130,
+  labelWidth: 140,
   searchLabelWidth: 120,
   viewBtn: true,
   column: [{
+      label: "教职工ID",
+      prop: "staffId",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
+    },
+    {
       label: "姓名",
       prop: "xm",
       search: true,
       slotForm: true,
       formslot: true,
+      rules: [{
+        required: true,
+        message: "请选择 用户",
+        trigger: "change"
+      }],
     },
     {
       label: "工号",
@@ -27,10 +40,15 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 工号",
+        trigger: "change"
+      }],
     },
     {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
@@ -42,7 +60,11 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
-      span: 24,
+      rules: [{
+        required: true,
+        message: "请选择 部门",
+        trigger: "change"
+      }],
     },
     // {
     //   label: "社会兼职起始日期",
@@ -66,7 +88,6 @@ export const option = {
       endPlaceholder: '社会兼职终止日期',
       slot: true,
       width: 160,
-      span: 24,
       rules: [{
         required: true,
         message: '请选择社会兼职起止时间'

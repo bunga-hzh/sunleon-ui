@@ -2,7 +2,7 @@ export const option = {
   align: 'center',
   border: true,
   menuWidth: 200,
-  labelWidth: 130,
+  labelWidth: 140,
   searchLabelWidth: 120,
   viewBtn: true,
   column: [{
@@ -80,7 +80,6 @@ export const option = {
       endPlaceholder: '聘任终止时间',
       slot: true,
       width: 160,
-      span: 24,
       rules: [{
         required: true,
         message: '请选择聘任起止日期'
@@ -138,19 +137,7 @@ export const option = {
       label: "聘任情况",
       prop: 'prqkm',
       type: 'select',
-      dicData: [{
-          label: '在聘',
-          value: 0
-        },
-        {
-          label: '不在聘',
-          value: 1
-        },
-        {
-          label: '高职低聘',
-          value: 2
-        }
-      ],
+      dicUrl: "/admin/dict/type/hire_type",
       rules: [{
         required: true,
         message: '请输入 聘任情况',

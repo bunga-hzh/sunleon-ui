@@ -120,6 +120,7 @@ export default {
       const { data: res } = await putObj("grll", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
+      this.$message.success("修改成功！");
     },
     // 删除
     async rowDel(form, index) {

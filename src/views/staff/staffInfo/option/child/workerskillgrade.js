@@ -2,15 +2,28 @@ export const option = {
   align: 'center',
   border: true,
   menuWidth: 200,
-  labelWidth: 130,
+  labelWidth: 180,
   searchLabelWidth: 120,
   viewBtn: true,
   column: [{
+      label: "教职工ID",
+      prop: "staffId",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
+    },
+    {
       label: "姓名",
       prop: "xm",
       search: true,
       slotForm: true,
       formslot: true,
+      rules: [{
+        required: true,
+        message: "请选择 用户",
+        trigger: "change"
+      }],
     },
     {
       label: "工号",
@@ -19,10 +32,15 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 工号",
+        trigger: "change"
+      }],
     },
     {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
@@ -34,16 +52,17 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
-      span: 24,
+      rules: [{
+        required: true,
+        message: "请选择 部门",
+        trigger: "change"
+      }],
     },
     {
       label: "职业技术等级名称",
-      prop: 'grjsdjmc',
+      prop: 'zyjsdjmc',
       type: 'select',
-      dicData: [{
-        value: 0,
-        label: '初级技术工人'
-      }],
+      dicUrl: '/admin/dict/type/profession_type',
       rules: [{
         required: true,
         message: '请输入 职业技术等级名称',
@@ -52,7 +71,7 @@ export const option = {
     },
     {
       label: "职业技术职务名称",
-      prop: 'grjszwmc',
+      prop: 'zyjszwmc',
       type: 'select',
       dicData: [{
         value: 0,
@@ -116,6 +135,7 @@ export const option = {
       tip: '不超过5M',
       action: '/admin/sys-file/upload',
       span: 24,
+      hide: true,
     },
   ]
 }
