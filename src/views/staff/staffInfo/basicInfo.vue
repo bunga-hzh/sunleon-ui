@@ -53,7 +53,7 @@ export default {
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
         this.form.jjzqssj =
-          validatenull(this.form.jjzqssj) && validatenull(this.form.jjzjzsj)
+          validatenull(this.form.jjzqssj) || validatenull(this.form.jjzjzsj)
             ? undefined
             : [this.form.jjzqssj, this.form.jjzjzsj];
         this.form.jg = validatenull(this.form.jg)
@@ -137,6 +137,7 @@ export default {
       const { data: res } = await putObj("info", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
+      this.$message.success("修改成功！");
     },
     // 删除
     async rowDel(form, index) {

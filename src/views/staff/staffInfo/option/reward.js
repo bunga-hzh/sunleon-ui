@@ -59,51 +59,36 @@ export const option = {
       }],
     },
     {
-      label: "处分类别",
-      prop: "cflb",
+      label: "奖励名称",
+      prop: "jlmc",
     },
     {
-      label: "处分原因",
-      prop: "cfyy",
+      label: "荣誉奖励级别",
+      prop: "jljbm",
+
     },
     {
-      label: "处分记录描述",
-      prop: "cfjlms",
+      label: "奖励类别",
+      prop: "jllbm",
     },
     {
-      label: "处分单位名称",
-      prop: "cfdwmc",
-    },
-    // {
-    //   label: "处分日期",
-    //   prop: "cfrq",
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    // {
-    //   label: "处分撤销日期",
-    //   prop: "cfcxrq",
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    {
-      label: "处分日期-撤销日期",
-      prop: "cfrq",
-      type: "daterange",
-      format: 'yyyy-MM-dd',
-      valueFormat: 'yyyy-MM-dd',
-      startPlaceholder: '处分日期',
-      endPlaceholder: '撤销日期',
-      rules: [{
-        required: true,
-        message: '请选择处分日期-撤销日期'
-      }],
-      slot: true,
-      width: 160,
+      label: "荣誉和奖励原因",
+      prop: "jlyy",
+      width: 120,
     },
     {
-      label: "处分撤销原因",
-      prop: "cfcxyy",
+      label: "奖励时间",
+      prop: "jlsj",
+      type: "date",
+      valueFormat: "yyyy-MM-dd",
+    },
+    {
+      label: "奖励单位",
+      prop: "jldw",
+    },
+    {
+      label: "备注",
+      prop: "bz",
       type: "textarea",
       span: 24,
     },

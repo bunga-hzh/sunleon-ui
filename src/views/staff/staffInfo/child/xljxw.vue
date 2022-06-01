@@ -32,16 +32,16 @@
                          @select="handleSelect"
                          clearable></el-autocomplete>
       </template>
-      <template slot="cfrq"
+      <template slot="rxsj"
                 slot-scope="scope">
-        {{scope.row.cfrq}}-{{scope.row.cfcxrq}}
+        {{scope.row.rxsj}}-{{scope.row.bysj}}
       </template>
     </avue-crud>
   </basic-container>
 </template>
 
 <script>
-import { option } from "@/views/staff/staffInfo/option/punish";
+import { option } from "@/views/staff/staffInfo/option/child/xljxw";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
@@ -68,10 +68,10 @@ export default {
   methods: {
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
-        this.form.cfrq =
-          validatenull(this.form.cfrq) || validatenull(this.form.cfcxrq)
+        this.form.rxsj =
+          validatenull(this.form.rxsj) || validatenull(this.form.bysj)
             ? undefined
-            : [this.form.cfrq, this.form.cfcxrq];
+            : [this.form.rxsj, this.form.bysj];
       }
       done();
     },
@@ -79,7 +79,7 @@ export default {
     async fetchList(query) {
       this.showLoading = true;
       const { data: res } = await fetchList(
-        "punish",
+        "xljxw",
         Object.assign(
           {
             current: this.page.currentPage,
@@ -101,10 +101,10 @@ export default {
     async rowSave(form, done, loading) {
       const obj = {
         ...form,
-        cfrq: validatenull(form.cfrq) ? undefined : form.cfrq[0],
-        cfcxrq: validatenull(form.cfrq) ? undefined : form.cfrq[1],
+        rxsj: validatenull(form.rxsj) ? undefined : form.rxsj[0],
+        bysj: validatenull(form.rxsj) ? undefined : form.rxsj[1],
       };
-      const { data: res } = await addObj("punish", obj);
+      const { data: res } = await addObj("xljxw", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
       this.$message.success("添加成功！");
@@ -113,10 +113,10 @@ export default {
     async rowUpdate(form, index, done, loading) {
       const obj = {
         ...form,
-        cfrq: validatenull(form.cfrq) ? undefined : form.cfrq[0],
-        cfcxrq: validatenull(form.cfrq) ? undefined : form.cfrq[1],
+        rxsj: validatenull(form.rxsj) ? undefined : form.rxsj[0],
+        bysj: validatenull(form.rxsj) ? undefined : form.rxsj[1],
       };
-      const { data: res } = await putObj("punish", obj);
+      const { data: res } = await putObj("xljxw", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
       this.$message.success("修改成功！");
@@ -129,7 +129,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("punish", form.id);
+          const { data: res } = await delObj("xljxw", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({

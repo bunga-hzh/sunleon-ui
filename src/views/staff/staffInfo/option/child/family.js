@@ -2,7 +2,7 @@ export const option = {
   align: 'center',
   border: true,
   menuWidth: 200,
-  labelWidth: 160,
+  labelWidth: 130,
   searchLabelWidth: 120,
   viewBtn: true,
   column: [{
@@ -59,53 +59,64 @@ export const option = {
       }],
     },
     {
-      label: "处分类别",
-      prop: "cflb",
-    },
-    {
-      label: "处分原因",
-      prop: "cfyy",
-    },
-    {
-      label: "处分记录描述",
-      prop: "cfjlms",
-    },
-    {
-      label: "处分单位名称",
-      prop: "cfdwmc",
-    },
-    // {
-    //   label: "处分日期",
-    //   prop: "cfrq",
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    // {
-    //   label: "处分撤销日期",
-    //   prop: "cfcxrq",
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    {
-      label: "处分日期-撤销日期",
-      prop: "cfrq",
-      type: "daterange",
-      format: 'yyyy-MM-dd',
-      valueFormat: 'yyyy-MM-dd',
-      startPlaceholder: '处分日期',
-      endPlaceholder: '撤销日期',
+      label: "称谓",
+      prop: 'cw',
       rules: [{
         required: true,
-        message: '请选择处分日期-撤销日期'
-      }],
-      slot: true,
-      width: 160,
+        message: '请输入 称谓'
+      }]
     },
     {
-      label: "处分撤销原因",
-      prop: "cfcxyy",
-      type: "textarea",
-      span: 24,
+      label: "家庭成员姓名",
+      prop: 'jtcyxm',
+      rules: [{
+        required: true,
+        message: '请输入 家庭成员姓名'
+      }]
+    },
+    {
+      label: "出生日期",
+      prop: 'csrq',
+      type: 'date',
+      valueFormat: 'yyyy-MM-dd',
+      rules: [{
+        required: true,
+        message: '请输入 出生日期'
+      }]
+    },
+    {
+      label: "政治面貌",
+      prop: 'zzmmm',
+      type: "select",
+      props: {
+        label: "label",
+        value: 'value'
+      },
+      dicUrl: '/admin/dict/type/politics_type',
+      rules: [{
+        required: true,
+        message: '请选择 政治面貌'
+      }]
+    },
+    {
+      label: "单位名称",
+      prop: 'dwmc',
+      rules: [{
+        required: true,
+        message: '请输入 单位名称'
+      }]
+    },
+    {
+      label: "职务",
+      prop: 'jtcyzym',
+      rules: [{
+        required: true,
+        message: '请输入 职务'
+      }]
+    },
+    {
+      label: "联系方式",
+      prop: 'lxfs',
     },
   ]
 }

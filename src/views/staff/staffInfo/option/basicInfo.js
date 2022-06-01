@@ -246,6 +246,11 @@ export const option = {
         value: "id",
         children: "children"
       },
+      rules: [{
+        required: true,
+        message: "请选择 所属部门",
+        trigger: "change"
+      }],
       // dicFormatter: (data) => {
       //   const dic = undefined
       //   data.forEach(item => {

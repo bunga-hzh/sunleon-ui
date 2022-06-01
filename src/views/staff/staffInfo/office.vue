@@ -85,8 +85,10 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
-      console.log(form);
-      return;
+      const obj = {
+        ...form,
+        jyclsc: validatenull(form.jyclsc) ? undefined : form.jyclsc[0].value,
+      };
       const { data: res } = await addObj("office", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
@@ -94,11 +96,10 @@ export default {
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      console.log(form);
-      return;
-      const { data: res } = await putObj("office", obj);
+      const { data: res } = await putObj("office", form);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(obj);
+      done(form);
+      this.$message.success("修改成功！");
     },
     // 删除
     async rowDel(form, index) {
@@ -169,11 +170,11 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.bm = item.orgId;
       this.form.staffId = item.staffId;
     },
   },
-  mounted() {
+  created() {
     loadAll(this.usersList);
   },
 };
