@@ -5,6 +5,7 @@
                :option="option"
                :page.sync="page"
                :table-loading="showLoading"
+               :before-open="beforeOpen"
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
@@ -31,12 +32,16 @@
                          @select="handleSelect"
                          clearable></el-autocomplete>
       </template>
+      <template slot="cfrq"
+                slot-scope="scope">
+        {{scope.row.cfrq}}-{{scope.row.cfcxrq}}
+      </template>
     </avue-crud>
   </basic-container>
 </template>
 
 <script>
-import { option } from "@/views/staff/staffInfo/option/reward";
+import { option } from "@/views/staff/staffInfo/option/child/punish";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
@@ -61,11 +66,20 @@ export default {
     };
   },
   methods: {
+    beforeOpen(done, type) {
+      if (type === "edit" || type === "view") {
+        this.form.cfrq =
+          validatenull(this.form.cfrq) || validatenull(this.form.cfcxrq)
+            ? undefined
+            : [this.form.cfrq, this.form.cfcxrq];
+      }
+      done();
+    },
     // 获取数据
     async fetchList(query) {
       this.showLoading = true;
       const { data: res } = await fetchList(
-        "reward",
+        "punish",
         Object.assign(
           {
             current: this.page.currentPage,
@@ -85,16 +99,26 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
-      const { data: res } = await addObj("reward", form);
+      const obj = {
+        ...form,
+        cfrq: validatenull(form.cfrq) ? undefined : form.cfrq[0],
+        cfcxrq: validatenull(form.cfrq) ? undefined : form.cfrq[1],
+      };
+      const { data: res } = await addObj("punish", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done({ ...form, id: res.data });
+      done({ ...obj, id: res.data });
       this.$message.success("添加成功！");
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const { data: res } = await putObj("reward", form);
+      const obj = {
+        ...form,
+        cfrq: validatenull(form.cfrq) ? undefined : form.cfrq[0],
+        cfcxrq: validatenull(form.cfrq) ? undefined : form.cfrq[1],
+      };
+      const { data: res } = await putObj("punish", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(form);
+      done(obj);
       this.$message.success("修改成功！");
     },
     // 删除
@@ -105,7 +129,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("reward", form.id);
+          const { data: res } = await delObj("punish", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({

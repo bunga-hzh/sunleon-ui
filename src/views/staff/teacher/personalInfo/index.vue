@@ -1,16 +1,6 @@
 <template>
   <div class="personal_container">
     <el-card class="personal_left">
-      <!-- <div>
-        <div class="avatar_name">
-          <div>
-            <el-avatar :size="140"
-                       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-          </div>
-          <div class="name">{{userInfo.realName}}</div>
-        </div>
-      </div> -->
-      <!-- <el-divider><i class="el-icon-s-promotion"></i></el-divider> -->
       <el-menu default-active="info"
                @select="activeMenu">
         <el-menu-item index="info">

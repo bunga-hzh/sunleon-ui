@@ -1,5 +1,5 @@
 import {
-  fetchList
+  getAll
 } from "@/api/staff/crud";
 import {
   jzg_page
@@ -21,10 +21,10 @@ function createStateFilter(queryString) {
 export async function loadAll(list) {
   const {
     data: res
-  } = await fetchList("info", jzg_page);
+  } = await getAll();
   if (res.code !== 0) return true;
   if (validatenull(list)) {
-    res.data.records.forEach((item) => {
+    res.data.forEach((item) => {
       users.push({
         value: item.xm,
         gh: item.gh,
