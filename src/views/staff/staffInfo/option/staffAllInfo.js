@@ -126,7 +126,7 @@ export const option = {
           trigger: 'blur'
         }
       ],
-      width: 140,
+      width: 200,
       search: true,
     },
     {

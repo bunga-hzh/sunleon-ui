@@ -4,6 +4,7 @@
              :option="option"
              :table-loading="showLoading"
              :before-open="beforeOpen"
+             @on-load="onLoad"
              @refresh-change="refresh"
              @row-save="rowSave"
              @row-update="rowUpdate"
@@ -16,7 +17,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { option } from "@/views/staff/teacher/teacherInfo/child/option/parttimejob";
+import { option } from "./option/parttimejob";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 
@@ -31,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "getActiveItem"]),
+    ...mapGetters(["getStaffObj"]),
   },
   watch: {
     getActiveItem(newValue) {
@@ -48,6 +49,22 @@ export default {
       }
       done();
     },
+    // 获取列表
+    async fetchList() {
+      this.showLoading = true;
+      const { data: res } = await fetchList("parttimejob", {
+        current: 1,
+        size: 20,
+        staffId: this.getStaffObj.staffId,
+      });
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.showLoading = false;
+      this.data = res.data.records;
+    },
+    // 初次加载
+    onLoad() {
+      this.fetchList();
+    },
     // 添加
     rowSave(form, done, loading) {
       if (JSON.stringify(form) === "{}") {
@@ -57,12 +74,11 @@ export default {
       setTimeout(async () => {
         const obj = {
           ...form,
-          staffId: this.userInfo.userId,
-          xm: this.userInfo.username,
-          deptId: this.userInfo.deptId,
+          ...this.getStaffObj,
           shjzqsrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[0],
           shjzzzrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[1],
         };
+        debugger;
         const { data: res } = await addObj("parttimejob", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
         done({ ...obj, id: res.data });
@@ -107,20 +123,9 @@ export default {
         .catch(() => {});
     },
     // 刷新
-    async refresh() {
-      this.showLoading = true;
-      const { data: res } = await fetchList("parttimejob", {
-        current: 1,
-        size: 20,
-        staffId: this.userInfo.userId,
-      });
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.showLoading = false;
-      this.data = res.data.records;
+    refresh() {
+      this.fetchList();
     },
-  },
-  created() {
-    console.log(this.userInfo);
   },
 };
 </script>
