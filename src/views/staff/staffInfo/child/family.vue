@@ -171,7 +171,7 @@ export default {
     },
   },
   created() {
-    loadAll(this.usersList);
+    loadAll();
   },
 };
 </script>

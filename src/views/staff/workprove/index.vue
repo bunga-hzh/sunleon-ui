@@ -31,7 +31,7 @@
 <script>
 import { option } from "@/const/crud/staff/workprove";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/zzjgworkprove";
-import { jzg_page } from "@/const/staff/page";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
@@ -121,52 +121,22 @@ export default {
       this.get(this.page, params);
       done();
     },
-    async loadAll() {
-      const { data: res } = await fetchList("info", jzg_page);
-      if (res.code !== 0) return true;
-      res.data.records.forEach((item) => {
-        this.restaurants.push({
-          value: item.xm,
-          gh: item.gh,
-          deptId: item.orgId,
-          staffId: item.id,
-        });
-      });
-    },
+    // 搜索姓名
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
-
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        cb(results);
-      }, 1000);
+        cb(querySearch(queryString));
+      }, 1000 * Math.random());
     },
-    createStateFilter(queryString) {
-      return (state) => {
-        return (
-          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
-    },
+    // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.deptId;
+      this.form.orgId = item.orgId;
+      this.form.staffId = item.staffId;
     },
   },
-  mounted() {
-    this.loadAll();
+  created() {
+    loadAll();
   },
 };
 </script>
-
-<style lang="scss" scoped>
-#employment_certificate {
-  display: none;
-}
-.el-row {
-  margin: 20px;
-}
-</style>

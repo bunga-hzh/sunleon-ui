@@ -48,7 +48,7 @@ export const option = {
     },
     {
       label: "所属部门",
-      prop: "deptId",
+      prop: "bm",
       search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',

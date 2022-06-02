@@ -20,96 +20,78 @@
     <basic-container>
       <div class="filter-container">
         <el-button-group>
-          <el-button
-            v-if="deptManager_btn_add"
-            type="primary"
-            icon="plus"
-            @click="handlerAdd">添加
+          <el-button v-if="deptManager_btn_add"
+                     type="primary"
+                     icon="plus"
+                     @click="handlerAdd">添加
           </el-button>
-          <el-button
-            v-if="deptManager_btn_edit"
-            type="primary"
-            icon="edit"
-            @click="handlerEdit">编辑
+          <el-button v-if="deptManager_btn_edit"
+                     type="primary"
+                     icon="edit"
+                     @click="handlerEdit">编辑
           </el-button>
-          <el-button
-            v-if="deptManager_btn_del"
-            type="primary"
-            icon="delete"
-            @click="handleDelete">删除
+          <el-button v-if="deptManager_btn_del"
+                     type="primary"
+                     icon="delete"
+                     @click="handleDelete">删除
           </el-button>
         </el-button-group>
       </div>
 
       <el-row>
-        <el-col
-          :span="8"
-          style="margin-top:15px;">
-          <el-tree
-            :data="treeData"
-            :props="defaultProps"
-            :filter-node-method="filterNode"
-            class="filter-tree"
-            node-key="id"
-            highlight-current
-            default-expand-all
-            @node-click="getNodeData"/>
+        <el-col :span="8"
+                style="margin-top:15px;">
+          <el-tree :data="treeData"
+                   :props="defaultProps"
+                   :filter-node-method="filterNode"
+                   class="filter-tree"
+                   node-key="id"
+                   highlight-current
+                   default-expand-all
+                   @node-click="getNodeData" />
         </el-col>
-        <el-col
-          :span="16"
-          style="margin-top:15px;">
+        <el-col :span="16"
+                style="margin-top:15px;">
           <el-card class="box-card">
-            <el-form
-              ref="form"
-              :label-position="labelPosition"
-              :rules="rules"
-              :model="form"
-              label-width="80px">
-              <el-form-item
-                label="父级节点"
-                prop="parentId">
-                <el-input
-                  v-model="form.parentId"
-                  disabled
-                  placeholder="请输入父级节点"/>
+            <el-form ref="form"
+                     :label-position="labelPosition"
+                     :rules="rules"
+                     :model="form"
+                     label-width="80px">
+              <el-form-item label="父级节点"
+                            prop="parentId">
+                <el-input v-model="form.parentId"
+                          disabled
+                          placeholder="请输入父级节点" />
               </el-form-item>
-              <el-form-item
-                v-if="formEdit"
-                label="节点编号"
-                prop="deptId">
-                <el-input
-                  v-model="form.deptId"
-                  :disabled="formEdit"
-                  placeholder="节点编号"/>
+              <el-form-item label="节点编号"
+                            prop="deptCode">
+                <el-input v-model="form.deptCode"
+                          :disabled="formEdit"
+                          placeholder="节点编号" />
               </el-form-item>
-              <el-form-item
-                label="部门名称"
-                prop="name">
-                <el-input
-                  v-model="form.name"
-                  :disabled="formEdit"
-                  placeholder="请输入名称"/>
+              <el-form-item label="部门名称"
+                            prop="name">
+                <el-input v-model="form.name"
+                          :disabled="formEdit"
+                          placeholder="请输入名称" />
               </el-form-item>
-              <el-form-item
-                label="排序"
-                prop="sort">
-                <el-input
-                  v-model="form.sort"
-                  :disabled="formEdit"
-                  type="number"
-                  placeholder="请输入排序"/>
+              <el-form-item label="排序"
+                            prop="sort">
+                <el-input v-model="form.sort"
+                          :disabled="formEdit"
+                          type="number"
+                          placeholder="请输入排序" />
               </el-form-item>
               <el-form-item v-if="formStatus == 'update'">
-                <el-button
-                  type="primary"
-                  @click="update">更新
+                <el-button type="primary"
+                           @click="update">更新
                 </el-button>
                 <el-button @click="onCancel">取消</el-button>
               </el-form-item>
               <el-form-item v-if="formStatus == 'create'">
-                <el-button
-                  type="primary"
-                  @click="create">保存
+                <el-button type="primary"
+                           @click="create">保存
                 </el-button>
                 <el-button @click="onCancel">取消</el-button>
               </el-form-item>
@@ -122,142 +104,142 @@
 </template>
 
 <script>
-import { addObj, delObj, fetchTree, getObj, putObj } from '@/api/admin/dept'
-import { mapGetters } from 'vuex'
+import { addObj, delObj, fetchTree, getObj, putObj } from "@/api/admin/dept";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'Dept',
+  name: "Dept",
   data() {
     return {
       list: null,
       total: null,
       formEdit: true,
       formAdd: true,
-      formStatus: '',
-      typeOptions: ['0', '1'],
-      methodOptions: ['GET', 'POST', 'PUT', 'DELETE'],
+      formStatus: "",
+      typeOptions: ["0", "1"],
+      methodOptions: ["GET", "POST", "PUT", "DELETE"],
       listQuery: {
-        name: undefined
+        name: undefined,
       },
       treeData: [],
       defaultProps: {
-        children: 'children',
-        label: 'name'
+        children: "children",
+        label: "name",
       },
       rules: {
         parentId: [
-          { required: true, message: '请输入父级节点', trigger: 'blur' }
+          { required: true, message: "请输入父级节点", trigger: "blur" },
         ],
-        deptId: [
-          { required: true, message: '请输入节点编号', trigger: 'blur' }
+        deptCode: [
+          { required: true, message: "请输入节点编号", trigger: "blur" },
         ],
         name: [
-          { required: true, message: '请输入部门名称', trigger: 'blur' },
-          { min: 3, max: 32, message: '长度在 3 到 32 个字符', trigger: 'blur'}
+          { required: true, message: "请输入部门名称", trigger: "blur" },
+          {
+            min: 3,
+            max: 32,
+            message: "长度在 3 到 32 个字符",
+            trigger: "blur",
+          },
         ],
-        sort: [
-          { required: true, message: '请输入排序值', trigger: 'blur' }
-        ]
+        sort: [{ required: true, message: "请输入排序值", trigger: "blur" }],
       },
-      labelPosition: 'right',
+      labelPosition: "right",
       form: {
         name: undefined,
         sort: undefined,
         parentId: undefined,
-        deptId: undefined
+        deptCode: undefined,
       },
       currentId: 0,
       deptManager_btn_add: false,
       deptManager_btn_edit: false,
-      deptManager_btn_del: false
-    }
+      deptManager_btn_del: false,
+    };
   },
   created() {
-    this.getList()
-    this.deptManager_btn_add = this.permissions['sys_dept_add']
-    this.deptManager_btn_edit = this.permissions['sys_dept_edit']
-    this.deptManager_btn_del = this.permissions['sys_dept_del']
+    this.getList();
+    this.deptManager_btn_add = this.permissions["sys_dept_add"];
+    this.deptManager_btn_edit = this.permissions["sys_dept_edit"];
+    this.deptManager_btn_del = this.permissions["sys_dept_del"];
   },
   computed: {
-    ...mapGetters([
-      'elements',
-      'permissions'
-    ])
+    ...mapGetters(["elements", "permissions"]),
   },
   methods: {
     getList() {
-      fetchTree(this.listQuery).then(response => {
-        this.treeData = response.data.data
-      })
+      fetchTree(this.listQuery).then((response) => {
+        this.treeData = response.data.data;
+      });
     },
     filterNode(value, data) {
-      if (!value) return true
-      return data.label.indexOf(value) !== -1
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
     },
     getNodeData(data) {
       if (!this.formEdit) {
-        this.formStatus = 'update'
+        this.formStatus = "update";
       }
-      getObj(data.id).then(response => {
-        this.form = response.data.data
-      })
-      this.currentId = data.id
+      getObj(data.id).then((response) => {
+        this.form = response.data.data;
+      });
+      this.currentId = data.id;
     },
     handlerEdit() {
-      if (this.form.deptId) {
-        this.formEdit = false
-        this.formStatus = 'update'
+      if (this.form.deptCode) {
+        this.formEdit = false;
+        this.formStatus = "update";
       }
     },
     handlerAdd() {
-      this.resetForm()
-      this.formEdit = false
-      this.formStatus = 'create'
+      this.resetForm();
+      this.formEdit = false;
+      this.formStatus = "create";
     },
     handleDelete() {
-      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       }).then(() => {
         delObj(this.currentId).then(() => {
-          this.getList()
-          this.resetForm()
-          this.onCancel()
-          this.$notify.success('删除成功')
-        })
-      })
+          this.getList();
+          this.resetForm();
+          this.onCancel();
+          this.$notify.success("删除成功");
+        });
+      });
     },
     update() {
       this.$refs.form.validate((valid) => {
-        if (!valid) return
+        if (!valid) return;
         putObj(this.form).then(() => {
-          this.getList()
-          this.onCancel()
-          this.$notify.success('更新成功')
-        })
-      })
+          this.getList();
+          this.onCancel();
+          this.$notify.success("更新成功");
+        });
+      });
     },
     create() {
       this.$refs.form.validate((valid) => {
-        if (!valid) return
+        if (!valid) return;
         addObj(this.form).then(() => {
-          this.getList()
-          this.onCancel()
-          this.$notify.success('创建成功')
-        })
-      })
+          this.getList();
+          this.onCancel();
+          this.$notify.success("创建成功");
+        });
+      });
     },
     onCancel() {
-      this.formEdit = true
-      this.formStatus = ''
+      this.formEdit = true;
+      this.formStatus = "";
     },
     resetForm() {
       this.form = {
-        parentId: this.currentId
-      }
-    }
-  }
-}
+        parentId: this.currentId,
+      };
+    },
+  },
+};
 </script>
 

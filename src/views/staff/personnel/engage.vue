@@ -8,7 +8,7 @@
                  :before-open="beforeOpen"
                  :table-loading="showLoading"
                  @on-load="onLoad"
-                 @row-save="add"
+                 @row-save="rowSave"
                  @row-update="rowUpdate"
                  @row-del="rowDel"
                  @refresh-change="refreshChange"
@@ -33,26 +33,23 @@
 
 <script>
 import { option } from "@/const/crud/staff/personnel/engage";
-import { getList, searchData, delData, add, edit } from "@/const/staff/crud";
-import { fetchList } from "@/api/staff/crud";
-import { result } from "@/const/staff/message";
-import { jzg_page } from "@/const/staff/page";
+import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   name: "TableEngage",
   data() {
     return {
+      form: {},
+      data: undefined,
+      option: option,
       page: {
         total: 0,
         currentPage: 1,
         pageSize: 10,
       },
-      // 数据源
-      data: undefined,
-      option: option,
       showLoading: false,
-      // 表单对象
-      form: {},
 
       restaurants: [],
       timeout: null,
@@ -65,113 +62,97 @@ export default {
       }
       done();
     },
-    getList() {
-      getList("expert", this);
+    // 获取列表
+    async fetchList(query) {
+      this.showLoading = true;
+      const { data: res } = await fetchList(
+        "expert",
+        Object.assign(
+          {
+            current: this.page.currentPage,
+            size: this.page.pageSize,
+          },
+          query
+        )
+      );
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.page.total = res.data.total;
+      this.data = res.data.records;
+      this.showLoading = false;
     },
-
+    // 初次加载
     onLoad() {
-      this.getList();
+      this.fetchList();
     },
-
     // 新增
-    async add(form, done, loading) {
-      const addForm = {
-        xm: form.xm,
-        gh: form.gh,
-        deptId: form.deptId,
-        engageName: form.engageName,
-        expertLevel: form.expertLevel,
-        salary: form.salary,
-        reason: form.reason,
-        sarteDate: form.sarteDate[0],
-        endDate: form.sarteDate[1],
-        memo: form.memo,
+    async rowSave(form, done, loading) {
+      const obj = {
+        ...form,
+        startDate: validatenull(form.startDate) ? undefined : form.startDate[0],
+        endDate: validatenull(form.startDate) ? undefined : form.startDate[1],
       };
-      const { data: res } = await add("expert", addForm);
-      if (!result(this, res, "add")) return true;
+      const { data: res } = await addObj("expert", obj);
+      if (res.code !== 0) return this.$message.error(res.msg);
+      done({ ...obj, id: res.data });
       this.$message.success("添加成功！");
-      done(addForm);
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const editForm = {
-        id: form.id,
-        xm: form.xm,
-        gh: form.gh,
-        deptId: form.deptId,
-        engageName: form.engageName,
-        expertLevel: form.expertLevel,
-        salary: form.salary,
-        reason: form.reason,
-        sarteDate: form.sarteDate[0],
-        endTime: form.sarteDate[1],
-        memo: form.memo,
+      const obj = {
+        ...form,
+        startDate: validatenull(form.startDate) ? undefined : form.startDate[0],
+        endDate: validatenull(form.startDate) ? undefined : form.startDate[1],
       };
-      console.log(editForm);
-      const { data: res } = await edit("expert", editForm);
-      if (!result(this, res, "edit")) {
-        loading();
-        return true;
-      }
-      loading();
-      this.refreshChange();
-      done();
+      const { data: res } = await putObj("expert", obj);
+      if (res.code !== 0) return this.$message.error(res.msg);
+      done(obj);
+      this.$message.success("修改成功！");
     },
     // 删除
     rowDel(form, index) {
-      delData("expert", this, form, index, () => {
-        this.getList();
-      });
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const { data: res } = await delObj("expert", form.id);
+          if (res.code !== 0)
+            return this.$message.error("删除失败！" + res.msg);
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          this.refreshChange();
+        })
+        .catch(() => {});
     },
     // 刷新
     refreshChange() {
-      this.onLoad();
+      this.fetchList();
     },
     // 搜索
     searchChange(form, done) {
-      searchData("expert", this, form, done);
+      this.page.currentPage = 1;
+      this.fetchList(form);
+      done();
     },
-
-    async loadAll() {
-      const { data: res } = await fetchList("info", jzg_page);
-      if (res.code !== 0) return true;
-      res.data.records.forEach((item) => {
-        this.restaurants.push({
-          value: item.xm,
-          gh: item.gh,
-          deptId: item.orgId,
-          staffId: item.id,
-        });
-      });
-    },
+    // 搜索姓名
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
-
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        cb(results);
-      }, 1000);
+        cb(querySearch(queryString));
+      }, 1000 * Math.random());
     },
-    createStateFilter(queryString) {
-      return (state) => {
-        return (
-          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
-    },
+    // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.deptId = item.deptId;
+      this.form.deptId = item.orgId;
       this.form.staffId = item.staffId;
     },
   },
-  mounted() {
-    this.loadAll();
+  created() {
+    loadAll();
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

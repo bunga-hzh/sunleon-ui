@@ -57,7 +57,7 @@ export const option = {
     },
     {
       label: "聘任起止时间",
-      prop: "sarteDate",
+      prop: "startDate",
       type: "daterange",
       format: 'yyyy-MM-dd',
       valueFormat: 'yyyy-MM-dd',
@@ -74,7 +74,7 @@ export const option = {
     // {
     //   searchLabelWidth: 120,
     //   label: "聘任开始时间",
-    //   prop: "sarteDate",
+    //   prop: "startDate",
     //   type: "date",
     //   addDisplay: false,
     //   editDisplay: false,

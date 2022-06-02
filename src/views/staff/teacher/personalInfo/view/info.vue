@@ -4,7 +4,8 @@
             justify="start"
             style="padding: 10px 0">
       <el-button type="primary"
-                 @click="editInfo">{{btnText}}</el-button>
+                 @click="editInfo"
+                 :icon="this.option.detail ? 'el-icon-edit' : 'el-icon-folder-checked' ">{{btnText}}</el-button>
     </el-row>
     <avue-form ref="form"
                v-model="obj"

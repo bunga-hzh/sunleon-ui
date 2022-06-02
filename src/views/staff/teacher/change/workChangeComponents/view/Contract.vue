@@ -31,7 +31,7 @@
                    @click="bulkRenewal">批量续签</el-button>
       </template>
     </avue-crud>
-    <el-dialog title="批量续签"
+    <!-- <el-dialog title="批量续签"
                :visible.sync="dialogVisible"
                width="60%"
                @open="loadAll">
@@ -56,15 +56,14 @@
         <el-button type="primary"
                    @click="dialogVisible = false">确 定</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
-import { option, batchOption, usersOption } from "../option/Contract";
+import { option, batchOption } from "../option/Contract";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch } from "@/const/staff/getAllUser";
-import { jzg_page } from "@/const/staff/page";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
@@ -80,7 +79,7 @@ export default {
       showLoading: false,
 
       timeout: undefined,
-      dialogVisible: false,
+      // dialogVisible: false,
       innerVisible: false,
 
       obj: {
@@ -181,11 +180,6 @@ export default {
     bulkRenewal() {
       this.dialogVisible = true;
     },
-    async loadAll() {
-      const { data: res } = await fetchList("info", jzg_page);
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.usersList = res.data.records;
-    },
     submit() {},
     // 刷新
     refreshChange() {
@@ -210,6 +204,9 @@ export default {
       this.form.orgId = item.orgId;
       this.form.staffId = item.staffId;
     },
+  },
+  created() {
+    loadAll();
   },
 };
 </script>
