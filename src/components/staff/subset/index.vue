@@ -116,14 +116,13 @@ export default {
   }
   .personal_box {
     display: flex;
-    .el-card {
-      margin: 10px 20px;
-    }
     .personal_left {
       flex: 1;
+      margin: 10px 5px 10px 20px;
     }
     .personal_right {
       flex: 4;
+      margin: 10px 20px 10px 5px;
     }
   }
 }

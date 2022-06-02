@@ -5,35 +5,15 @@
                @select="activeMenu">
         <el-menu-item index="info">
           <i class="el-icon-menu"></i>
-          <span slot="title">人员基本情况</span>
+          <span slot="title">个人基本情况</span>
         </el-menu-item>
-        <el-menu-item index="office">
+        <el-menu-item index="parttimejob">
           <i class="el-icon-menu"></i>
-          <span slot="title">任职信息</span>
+          <span slot="title">社会兼职</span>
         </el-menu-item>
-        <el-menu-item index="examine">
+        <el-menu-item index="professionduty">
           <i class="el-icon-menu"></i>
-          <span slot="title">年度考核</span>
-        </el-menu-item>
-        <el-menu-item index="jsfzxx">
-          <i class="el-icon-menu"></i>
-          <span slot="title">教师发展信息</span>
-        </el-menu-item>
-        <el-menu-item index="punishReward">
-          <i class="el-icon-menu"></i>
-          <span slot="title">奖惩信息</span>
-        </el-menu-item>
-        <el-menu-item index="salary">
-          <i class="el-icon-menu"></i>
-          <span slot="title">薪酬福利信息</span>
-        </el-menu-item>
-        <el-menu-item index="bankno">
-          <i class="el-icon-menu"></i>
-          <span slot="title">财务信息</span>
-        </el-menu-item>
-        <el-menu-item index="child">
-          <i class="el-icon-menu"></i>
-          <span slot="title">子集</span>
+          <span slot="title">专业技术职务</span>
         </el-menu-item>
       </el-menu>
     </el-card>
@@ -59,18 +39,10 @@ export default {
       this.bindComp = index;
     },
   },
-  computed: {
-    ...mapGetters(["userInfo"]),
-  },
   components: {
     info: () => import("./view/info.vue"),
-    office: () => import("./view/office"),
-    examine: () => import("./view/examine"),
-    jsfzxx: () => import("./view/jsfzxx"),
-    punishReward: () => import("./view/punishReward"),
-    salary: () => import("./view/salary"),
-    bankno: () => import("./view/bankno"),
-    child: () => import("./view/child"),
+    parttimejob: () => import("./view/child/parttimejob"),
+    professionduty: () => import("./view/child/professionduty"),
   },
 };
 </script>
@@ -80,36 +52,11 @@ export default {
   display: flex;
   .personal_left {
     flex: 1;
-    margin: 10px;
-    .avatar_name {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .name {
-        margin-top: 5px;
-        font-size: 20px;
-        font-family: Extra large;
-        color: #56bf99;
-      }
-    }
-    .other_info {
-      ul {
-        li {
-          list-style: none;
-          font-size: 16px;
-          font-family: Medium;
-          line-height: 30px;
-          span {
-            font-size: 13px;
-            font-family: Small;
-          }
-        }
-      }
-    }
+    margin: 10px 10px 10px 20px;
   }
   .personal_right {
     flex: 4;
-    margin: 10px;
+    margin: 10px 20px 10px 10px;
   }
 }
 </style>

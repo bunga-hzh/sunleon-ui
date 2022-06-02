@@ -58,6 +58,8 @@ export default {
         const obj = {
           ...form,
           staffId: this.userInfo.userId,
+          xm: this.userInfo.username,
+          deptId: this.userInfo.deptId,
           shjzqsrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[0],
           shjzzzrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[1],
         };
@@ -117,6 +119,8 @@ export default {
       this.data = res.data.records;
     },
   },
-  created() {},
+  created() {
+    console.log(this.userInfo);
+  },
 };
 </script>

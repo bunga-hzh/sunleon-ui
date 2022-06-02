@@ -55,6 +55,7 @@ export const option = {
             message: "请输入教职工编号",
             trigger: "blur"
           }],
+          disabled: true,
         },
         {
           label: "姓名",
@@ -65,10 +66,12 @@ export const option = {
             message: "请填写姓名",
             trigger: "blur"
           }],
+          disabled: true,
         },
         {
           label: "曾用名",
           prop: "cym",
+          disabled: true,
         },
         {
           label: "性别",
@@ -83,6 +86,7 @@ export const option = {
             required: true,
             message: "请选择性别",
           }],
+          disabled: true,
         },
         {
           label: "所属部门",
@@ -95,6 +99,7 @@ export const option = {
             value: "id",
             children: "children"
           },
+          disabled: true,
         },
         {
           label: "年龄",
@@ -107,6 +112,7 @@ export const option = {
             message: "请输入年龄",
             trigger: "blur",
           }],
+          disabled: true,
         },
         {
           label: "出生日期",
@@ -118,6 +124,7 @@ export const option = {
             message: "请选择出生日期",
             trigger: "blur",
           }],
+          disabled: true,
         },
 
         {
@@ -133,6 +140,7 @@ export const option = {
               trigger: 'blur'
             }
           ],
+          disabled: true,
         },
         {
           label: "出生地",
@@ -142,6 +150,7 @@ export const option = {
             message: "请输入出生地",
             trigger: "blur",
           }],
+          disabled: true,
         },
         {
           label: "籍贯",
@@ -171,7 +180,8 @@ export const option = {
                 resolve(nodes);
               }
             });
-          }
+          },
+          disabled: true,
         },
         {
           label: "民族",
@@ -184,7 +194,8 @@ export const option = {
           dicFormatter: (data) => {
             return data.data.items;
           },
-          dicUrl: `/admin/dict/type_with_dict_id/nation_type`
+          dicUrl: `/admin/dict/type_with_dict_id/nation_type`,
+          disabled: true,
         },
         {
           label: "政治面貌",
@@ -195,6 +206,7 @@ export const option = {
             value: 'value'
           },
           dicUrl: '/admin/dict/type/politics_type',
+          disabled: true,
         },
         {
           label: "家庭住址",

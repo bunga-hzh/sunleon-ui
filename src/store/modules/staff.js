@@ -7,6 +7,7 @@ const teacherInfo = {
     obj: {}, // 对象数据
     xm: undefined, //姓名
     sfzjh: undefined, //身份证号
+    staffObj: {},
   },
   getters: {
     // 获取教职工ID
@@ -36,6 +37,10 @@ const teacherInfo = {
     // 获取身份证号
     getSfzjh: state => {
       return state.sfzjh
+    },
+    // 获取教职工对象
+    getStaffObj: state => {
+      return state.staffObj
     },
   },
   mutations: {
@@ -86,6 +91,14 @@ const teacherInfo = {
     // 设置身份证号
     setSfzjh(state, value) {
       state.sfzjh = value
+    },
+    // 设置教职工对象
+    setStaffObj(state, value) {
+      state.staffObj = value
+    },
+    // 清空对象数据
+    emptyStaffObj(state) {
+      state.staffObj = {}
     },
   }
 }
