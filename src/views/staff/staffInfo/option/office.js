@@ -55,7 +55,6 @@ export const option = {
       props: {
         label: "name",
         value: "id",
-        children: "children"
       },
       addDisabled: true,
       editDisabled: true,
@@ -106,7 +105,7 @@ export const option = {
     },
     {
       label: "实际工作年限",
-      prop: "sjgzny",
+      prop: "cjgzny",
       type: 'number',
       width: 120,
     },

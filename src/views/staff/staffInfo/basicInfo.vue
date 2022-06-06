@@ -16,14 +16,25 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
+        <el-button class="filter-item"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入</el-button>
         <el-button type="primary"
-                   icon="el-icon-download">导出</el-button>
+                   icon="el-icon-download"
+                   @click="exportExcel">导出</el-button>
       </template>
       <template slot="jjzqssj"
                 slot-scope="scope">
         {{scope.row.jjzqssj}}-{{scope.row.jjzjzsj}}
       </template>
     </avue-crud>
+    <!--excel 模板导入 -->
+    <excel-upload ref="excelUpload"
+                  title="用户信息导入"
+                  url="/staff/zzjginfo/import"
+                  temp-url="/admin/sys-file/local/user.xlsx"
+                  @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>
 
@@ -33,6 +44,7 @@ import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
+import ExcelUpload from "@/components/upload/excel";
 
 export default {
   data() {
@@ -48,7 +60,18 @@ export default {
       showLoading: false,
     };
   },
+  components: {
+    ExcelUpload,
+  },
   methods: {
+    // 导出excel
+    exportExcel() {
+      this.downBlobFile(
+        "/staff/zzjginfo/export",
+        this.search,
+        "教职工人员基本信息表.xlsx"
+      );
+    },
     // 弹窗打开前
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {

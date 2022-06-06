@@ -4,6 +4,7 @@
                :data="data"
                :option="option"
                :page.sync="page"
+               :search.sync="search"
                :table-loading="showLoading"
                :before-open="beforeOpen"
                :upload-after="uploadAfter"
@@ -16,12 +17,13 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
+        <el-button class="filter-item"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入</el-button>
         <el-button type="primary"
-                   icon="el-icon-upload">导入</el-button>
-        <el-button type="primary"
-                   icon="el-icon-bottom">导出</el-button>
-        <el-button type="primary"
-                   icon="el-icon-download">下载模板</el-button>
+                   icon="el-icon-download"
+                   @click="exportExcel">导出</el-button>
       </template>
       <template slot="xmForm"
                 slot-scope="{ type }">
@@ -37,6 +39,12 @@
         {{scope.row.cfrq}}-{{scope.row.cfcxrq}}
       </template>
     </avue-crud>
+    <!--excel 模板导入 -->
+    <excel-upload ref="excelUpload"
+                  title="用户信息导入"
+                  url="/staff/zzjgpunish/import"
+                  temp-url="/admin/sys-file/local/user.xlsx"
+                  @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>
 
@@ -47,11 +55,13 @@ import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import ExcelUpload from "@/components/upload/excel";
 
 export default {
   data() {
     return {
       form: {},
+      search: {},
       data: [],
       option: option,
       page: {
@@ -65,7 +75,18 @@ export default {
       usersList: [],
     };
   },
+  components: {
+    ExcelUpload,
+  },
   methods: {
+    // 导出excel
+    exportExcel() {
+      this.downBlobFile(
+        "/staff/zzjgpunish/export",
+        this.search,
+        "教职工处分信息表.xlsx"
+      );
+    },
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
         this.form.cfrq =

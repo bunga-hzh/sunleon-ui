@@ -4,6 +4,7 @@
                :data="data"
                :option="option"
                :page.sync="page"
+               :search.sync="search"
                :table-loading="showLoading"
                :before-open="beforeOpen"
                :upload-after="uploadAfter"
@@ -13,8 +14,10 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
-        <el-button type="primary"
-                   icon="el-icon-download">导出</el-button>
+        <el-button class="filter-item"
+                   type="primary"
+                   icon="el-icon-download"
+                   @click="exportExcel">导出</el-button>
       </template>
       <template slot="menu"
                 slot-scope="scope">
@@ -32,7 +35,7 @@
 
 <script>
 import { option } from "@/views/staff/staffInfo/option/staffAllInfo";
-import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import { fetchList } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
@@ -41,17 +44,27 @@ export default {
   data() {
     return {
       form: {},
-      data: [{}],
+      search: {},
+      data: [],
       option: option,
       page: {
         total: 0,
         currentPage: 1,
         pageSize: 10,
       },
+      search: {},
       showLoading: false,
     };
   },
   methods: {
+    // 导出excel
+    exportExcel() {
+      this.downBlobFile(
+        "/staff/zzjginfo/all/export",
+        this.search,
+        "教职工基本信息表.xlsx"
+      );
+    },
     // 弹窗打开前
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
