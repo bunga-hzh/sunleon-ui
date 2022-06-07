@@ -123,7 +123,7 @@ export const option = {
           trigger: 'blur'
         }
       ],
-      width: 140,
+      width: 150,
       search: true,
     },
     {
@@ -237,7 +237,7 @@ export const option = {
     },
     {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       width: 120,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
