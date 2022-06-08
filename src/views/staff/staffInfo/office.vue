@@ -191,20 +191,20 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.deptId = item.orgId;
+      this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
-    // 验证数组中是否有重复的数据
-    checkRepeat(arr) {
-      const hash = {};
-      for (let i = 0; i < arr.length; i++) {
-        if (hash[arr[i]]) {
-          return true;
-        }
-        hash[arr[i]] = true;
-      }
-      return false;
-    },
+    // // 验证数组中是否有重复的数据
+    // checkRepeat(arr) {
+    //   const hash = {};
+    //   for (let i = 0; i < arr.length; i++) {
+    //     if (hash[arr[i]]) {
+    //       return true;
+    //     }
+    //     hash[arr[i]] = true;
+    //   }
+    //   return false;
+    // },
   },
   created() {
     loadAll();

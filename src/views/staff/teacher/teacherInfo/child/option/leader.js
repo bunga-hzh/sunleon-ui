@@ -6,7 +6,7 @@ export const option = {
   addBtn: true,
   column: [{
       label: "部门",
-      prop: 'bm',
+      prop: 'deptId',
       type: 'tree',
       dicUrl: 'admin/dept/tree',
       props: {
