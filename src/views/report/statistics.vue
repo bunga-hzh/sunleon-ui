@@ -4,11 +4,12 @@
       <div class="block" style="margin-bottom: 16px;">
         <el-date-picker
           v-model="searchDate"
-          type="year"
-          format="yyyy 年"
-          value-format="yyyy"
-          :clearable="false"
-          placeholder="请选择搜索年">
+          type="daterange"
+          range-separator="至"
+          format="yyyy年MM月dd日"
+          value-format="yyyy-MM-dd"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
         </el-date-picker>
         <el-button style="margin-left: 14px;" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
       </div>
@@ -22,16 +23,24 @@ export default {
   name: "finalReport",
   data(){
     return {
-      searchDate:new Date().getUTCFullYear().toString(),
+      searchDate:[],
       src:''
     }
   },
   created() {
-    this.src = "/act/jmreport/view/676423845679235072?yearTime="+this.searchDate;
+    // this.src = "/act/jmreport/view/676423845679235072?timeStart="+this.searchDate[0]+'&timeEnd='+this.searchDate[1];
   },
   methods:{
     handleSearch(){
-      this.src = "/act/jmreport/view/676423845679235072?yearTime="+this.searchDate;
+      if(this.searchDate.length==2){
+        this.src = "/act/jmreport/view/676423845679235072?timeStart="+this.searchDate[0]+'&timeEnd='+this.searchDate[1];
+      }else{
+        this.$message({
+          type:'warning',
+          message:'请选择对应时间!'
+        })
+      }
+
     }
   }
 }

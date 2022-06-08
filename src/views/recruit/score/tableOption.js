@@ -91,6 +91,7 @@ export const scoreFormOption = {
       prop: "name",
       span: 12,
       row: true,
+      labelWidth:120,
       disabled:true
     },
     {
@@ -99,6 +100,7 @@ export const scoreFormOption = {
       type:'radio',
       border:true,
       span: 24,
+      labelWidth:120,
       value:0,
       dicData:[
         {
@@ -114,6 +116,7 @@ export const scoreFormOption = {
     {
       label: '备注',
       prop: "pfbz",
+      labelWidth:120,
       span: 24,
       maxlength:200,
       showWordLimit:true,
@@ -123,6 +126,7 @@ export const scoreFormOption = {
       label: '评分填写',
       prop: 'peopleVO',
       type: 'dynamic',
+      labelWidth:120,
       span: 24,
       children: {
         align: 'center',
@@ -132,7 +136,41 @@ export const scoreFormOption = {
         column: [
           {
             label: '面试官',
-            prop: "userName",
+            prop: "realName",
+            disabled:true
+          },
+          {
+            label: '得分',
+            prop: "fraction",
+            type:'number',
+            precision:2,
+            minRows:0,
+            maxRows:100,
+            rules:[
+              {
+                required: true,
+                message: "请填写分数",
+                trigger: "blur"
+              }],
+          },
+        ]
+      }
+    },
+    {
+      label: '外部面试管评分',
+      prop: 'wbPeopleVO',
+      type: 'dynamic',
+      labelWidth:120,
+      span: 24,
+      children: {
+        align: 'center',
+        headerAlign: 'center',
+        addBtn:false,
+        delBtn:false,
+        column: [
+          {
+            label: '面试官',
+            prop: "realName",
             disabled:true
           },
           {

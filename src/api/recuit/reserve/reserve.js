@@ -33,11 +33,15 @@ export function postReserveData(data) {
  * @param deliveryId
  * @returns {AxiosPromise}
  */
-export function examState(deliveryId){
+export function examState(deliveryId,content,stage){
   return request({
-    url:'/act/resume/end?deliveryId='+deliveryId,
+    url:'/act/resume/end',
     method:'PUT',
-
+    data:{
+      deliveryId:deliveryId,
+      content:content,
+      endStageId:stage
+    }
   })
 }
 
@@ -51,5 +55,24 @@ export function confirmResume(data){
     url:'/act/resume/send_perfect',
     method:'put',
     data:data
+  })
+}
+
+/**
+ * 撤回
+ * @returns {AxiosPromise}
+ */
+export function setCallback(id,apiName){
+  return request({
+    url:'/act/resume/'+apiName+'/'+id,
+    method:'put'
+  })
+}
+
+
+export function setStopCallBack(id){
+  return request({
+    url:'/act/resume/return_over/'+id,
+    method:'put'
   })
 }

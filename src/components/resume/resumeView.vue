@@ -64,7 +64,7 @@
                   <el-card class="scope-view">
                     <h4>{{activity.number}}面得分{{activity.fraction}}</h4>
                     <div v-for="(item,indexs) in activity.scoreUserVOS" :key="indexs">
-                      <p>{{item.userName}}:{{item.score}}</p>
+                      <p>{{item.realName}}:{{item.score}}</p>
                     </div>
                   </el-card>
                 </el-timeline-item>
@@ -312,8 +312,7 @@ export default {
 
         if(index == 'current'){
           getCurrentRecord(row.deliveryId,row.interviewNumber).then((res)=>{
-            console.log(res.data.data)
-            this.currentData = res.data.data;
+            this.currentData = res.data.data.peopleVO.concat(res.data.data.wbPeopleVO);
           })
         }
       }

@@ -65,7 +65,7 @@ export const resumeOption = {
       search: true,
       width:180,
       cascader: ['postNameIds'],
-      dicUrl: "/admin/dict/type/POST_TYPE",
+      dicUrl: "/admin/dict/type/post_type",
       rules: [{
         required: true,
         message: '请选择岗位类型',

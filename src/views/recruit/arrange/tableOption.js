@@ -121,7 +121,6 @@ export const formOption = {
           ],
         }
       },
-
       {
         label: '面试官',
         prop:"MSG",
@@ -142,6 +141,20 @@ export const formOption = {
             trigger: 'blur'
           }
         ]
+      },
+      {
+        label: '外部面试官',
+        prop:"wbInterviewers",
+        multiple:true,
+        remote: true,
+        span:24,
+        type:'tree',
+        props:{
+          label:'xm',
+          value:'id'
+        },
+        dicMethod:'get',
+        dicUrl:`/act/jlMsgWb/get/list`
       },
       {
         label: "备注",

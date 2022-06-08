@@ -21,8 +21,10 @@
         </template>
          <template slot-scope="{type,size,row}" slot="menu">
           <el-button icon="el-icon-view" :size="size" :type="type" @click="$refs.resumeView.show(row)">查看简历</el-button>
+           <el-button icon="el-icon-view" :size="size" v-if="row.resumeStatus==7" :type="type" @click="handleCallBack(row)">撤回安排</el-button>
+           <el-button icon="el-icon-back" v-if="row.resumeStatus==-1 && row.jsmsId==1" :size="size" :type="type" @click="handleStopCallBack(row)">撤回结束</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.resumeStatus==6" :type="type" @click="handleAdopt(row,0)" >面试安排({{row.interviewNumber}}面)</el-button>
-          <el-button icon="el-icon-close" :size="size" style="color: #F56C6C;" @click="handleStop(row)" :type="type">结束面试</el-button>
+          <el-button icon="el-icon-close" :size="size" v-if="row.resumeStatus!=-1" style="color: #F56C6C;" @click="handleStop(row)" :type="type">结束面试</el-button>
         </template>
       </avue-crud>
       <resume-view
@@ -41,7 +43,7 @@ import {mapGetters} from "vuex";
 import {arrangeOption,formOption} from './tableOption'
 import {fetchArrangeList, postArrangeData} from "@/api/recuit/arrange/arrange";
 import resumeView from '@/components/resume/resumeView'
-import {examState} from "@/api/recuit/reserve/reserve";
+import {examState, setCallback, setStopCallBack} from "@/api/recuit/reserve/reserve";
 
 export default {
   name:'Arrange',
@@ -77,22 +79,62 @@ export default {
     ...mapGetters(['permissions'])
   },
   methods:{
+    handleStopCallBack(row){
+      setStopCallBack(row.deliveryId).then(res=>{
+        this.getList(this.page);
+      })
+    },
+    handleCallBack(row){
+      setCallback(row.reserveId,'return_ap').then(res=>{
+        this.getList(this.page);
+      })
+    },
     //面试结束
     handleStop(row){
-      this.$confirm('此操作将结束该应聘者面试, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        examState(row.deliveryId).then(res=>{
-          this.getList(this.page, this.form)
-          this.$message({
-            type: 'success',
-            message: '操作成功!'
-          });
-        }).catch(err=>{
-        })
-      }).catch(() => { });
+      this.$DialogForm.show({
+        title: '结束确认',
+        width: '50%',
+        menuPosition:'right',
+        option: {
+          submitText: '确认',
+          span:24,
+          column: [
+            {
+              label: "发送短信",
+              prop: "sms",
+              type: 'switch',
+              value:0,
+            },
+            {
+              label: "结束消息",
+              prop: "msg",
+              maxlength:50,
+              showWordLimit:true,
+              type:'textarea',
+              rules: [{
+                required: true,
+                message: "请输入结束面试消息",
+                trigger: "blur"
+              }],
+            }
+          ]
+        },
+        beforeClose: (done) => {
+          done()
+        },
+        callback:(res)=>{
+          examState(row.deliveryId,res.data.msg,1).then(resx=>{
+            res.done()
+            res.close()
+            this.getList(this.page, this.form)
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }).catch(err=>{
+          })
+        }
+      })
     },
     getList(page, params) {
       this.listLoading = false;
@@ -157,6 +199,7 @@ export default {
                   userId:item.userId, //应聘者ID
                   deliveryId:item.deliveryId, //中间表ID
                   interviewers: res.data.MSG.join(','), //面试官
+                  wbInterviewers:res.data.wbInterviewers ? res.data.wbInterviewers.join(','):'',
                   // interviewNumber:row.interviewNumber, //面试轮数
                   reserveId:item.reserveId,
                   remarks:res.data.remarks //备注
@@ -196,6 +239,7 @@ export default {
               userId:row.userId, //应聘者ID
               deliveryId:row.deliveryId, //中间表ID
               interviewers: res.data.MSG.join(','), //面试官
+              wbInterviewers:res.data.wbInterviewers ? res.data.wbInterviewers.join(','):'',
               // interviewNumber:row.interviewNumber, //面试轮数
               reserveId:row.reserveId,
               remarks:res.data.remarks //备注

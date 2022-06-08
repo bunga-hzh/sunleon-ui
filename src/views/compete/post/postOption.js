@@ -59,7 +59,7 @@ export const competePostOption = {
       search: true,
       span: 24,
       cascader: ['gwlbId'],
-      dicUrl: "/admin/dict/type/POST_TYPE",
+      dicUrl: "/admin/dict/type/post_type",
       rules: [{
         required: true,
         message: '请选择岗位类型',

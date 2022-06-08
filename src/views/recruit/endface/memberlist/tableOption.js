@@ -12,12 +12,14 @@ export const MemberListOption = {
   viewBtn: false,
   align: 'center',
   menuWidth: 360,
-  searchSpan:8,
+  searchSpan:6,
   menuHeaderAlign: 'center',
   labelWidth: 120,
+  searchLabelWidth:120,
   reserveSelection: true,
   gutter: 10,
   addBtn: false,
+  filterParams: ['yearTime'],
   column: [
     {
       fixed: true,
@@ -33,7 +35,7 @@ export const MemberListOption = {
     {
       // width: 180,
       label: '日期',
-      prop: 'createTime',
+      prop: 'yearTime',
       search: true,
       searchSpan:6,
       viewDisplay:false,
@@ -52,8 +54,35 @@ export const MemberListOption = {
     {
       label: '应聘者姓名',
       prop: 'candidateName',
-      searchLabelWidth:180,
+      searchLabelWidth:120,
       search: true,
+    },
+    {
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
+      search: true,
+      cascader: ['postNameIds'],
+      dicUrl: "/admin/dict/type/post_type",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
+    },
+    {
+      label: '应聘岗位',
+      prop:'postNameIds',
+      type: 'select',
+      multiple:true,
+      search: true,
+      showColumn: false,
+      hide: true,
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      dicUrl: "/act/gwFb/get_list/{{key}}"
     },
     {
       label: '应聘岗位',

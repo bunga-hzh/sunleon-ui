@@ -57,7 +57,7 @@ export const reserveOption = {
       type: 'select',
       search: true,
       cascader: ['postNameIds'],
-      dicUrl: "/admin/dict/type/POST_TYPE",
+      dicUrl: "/admin/dict/type/post_type",
       rules: [{
         required: true,
         message: '请选择岗位类型',
