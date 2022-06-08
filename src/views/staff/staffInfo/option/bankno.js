@@ -39,26 +39,6 @@ export const option = {
       }],
     },
     {
-      label: "所属部门",
-      prop: "deptId",
-      search: true,
-      type: 'tree',
-      dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
-      addDisabled: true,
-      editDisabled: true,
-      width: 120,
-      rules: [{
-        required: true,
-        message: "请选择 部门",
-        trigger: "change"
-      }],
-    },
-    {
       label: "中国建设银行卡号",
       prop: "zgjsyhkh",
       span: 24,

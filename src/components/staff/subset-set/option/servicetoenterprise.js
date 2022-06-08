@@ -4,9 +4,6 @@ export const option = {
   menuWidth: 100,
   labelWidth: 160,
   viewBtn: true,
-  addBtn: false,
-  editBtn: false,
-  delBtn: false,
   column: [
     // {
     //   label: "起始时间",

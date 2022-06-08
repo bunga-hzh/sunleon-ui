@@ -43,7 +43,7 @@ const is_type = [{
 export const option = {
   align: 'center',
   border: true,
-  menuWidth: 200,
+  menuWidth: 260,
   labelWidth: 160,
   searchLabelWidth: 120,
   viewBtn: true,
@@ -66,6 +66,38 @@ export const option = {
         message: "请填写姓名",
         trigger: "blur"
       }],
+      search: true,
+    },
+    {
+      label: "所属部门",
+      prop: "deptId",
+      width: 120,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      rules: [{
+        required: true,
+        message: "请选择 所属部门",
+        trigger: "change"
+      }],
+      // dicFormatter: (data) => {
+      //   const dic = undefined
+      //   data.forEach(item => {
+      //     if (item.id = 1) {
+      //       dic.push({
+      //         ...item,
+      //         disabled: true,
+      //       })
+      //     } else {
+      //       dic.push(item)
+      //     }
+      //   })
+      //   return dic
+      // },
       search: true,
     },
     {
@@ -234,38 +266,6 @@ export const option = {
         trigger: 'blur'
       }],
       width: 120,
-    },
-    {
-      label: "所属部门",
-      prop: "deptId",
-      width: 120,
-      type: 'tree',
-      dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
-      rules: [{
-        required: true,
-        message: "请选择 所属部门",
-        trigger: "change"
-      }],
-      // dicFormatter: (data) => {
-      //   const dic = undefined
-      //   data.forEach(item => {
-      //     if (item.id = 1) {
-      //       dic.push({
-      //         ...item,
-      //         disabled: true,
-      //       })
-      //     } else {
-      //       dic.push(item)
-      //     }
-      //   })
-      //   return dic
-      // },
-      search: true,
     },
     {
       label: "身份证正面上传",

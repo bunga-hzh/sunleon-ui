@@ -15,6 +15,12 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
+      <template slot="menu"
+                slot-scope="scope">
+        <el-button type="text"
+                   icon="el-icon-paperclip"
+                   @click="toSubset(scope.row)">子集</el-button>
+      </template>
       <template slot="menuLeft">
         <el-button class="filter-item"
                    type="primary"
@@ -220,6 +226,10 @@ export default {
     // 上传失败
     uploadError(error, column) {
       this.$message.success("上传失败" + error);
+    },
+    // 跳转子集页面
+    toSubset(row) {
+      this.$router.push(`/subset-set/index/${row.id}`);
     },
   },
 };
