@@ -1,44 +1,69 @@
 <template>
-  <avue-crud v-model="form"
-             :data="data"
-             :option="option"
-             :page.sync="page"
-             :before-open="beforeOpen"
-             :table-loading="showLoading"
-             @on-load="onload"
-             @row-save="rowSave"
-             @row-update="rowUpdate"
-             @row-del="rowDel"
-             @selection-change="selectionChange"
-             @refresh-change="refreshChange"
-             @search-change="searchChange">
-
-    <template slot="xmForm"
-              slot-scope="{ type }">
-      <el-autocomplete :disabled="type === 'edit' ? true : false"
-                       v-model="form.xm"
-                       :fetch-suggestions="querySearchAsync"
-                       placeholder="请输入姓名"
-                       @select="handleSelect"
-                       clearable></el-autocomplete>
-    </template>
-    <template slot="startDate"
-              slot-scope="scope">
-      {{ scope.row.startDate }} - {{ scope.row.endDate }}
-    </template>
-    <template slot="menuLeft">
-      <el-button type="primary"
-                 icon="el-icon-s-claim"
-                 @click="bulkRenewal">批量续签</el-button>
-    </template>
-
-  </avue-crud>
+  <div>
+    <avue-crud v-model="form"
+               :data="data"
+               :option="option"
+               :page.sync="page"
+               :before-open="beforeOpen"
+               :table-loading="showLoading"
+               @on-load="onload"
+               @row-save="rowSave"
+               @row-update="rowUpdate"
+               @row-del="rowDel"
+               @refresh-change="refreshChange"
+               @search-change="searchChange">
+      <template slot="xmForm"
+                slot-scope="{ type }">
+        <el-autocomplete :disabled="type === 'edit' ? true : false"
+                         v-model="form.xm"
+                         :fetch-suggestions="querySearchAsync"
+                         placeholder="请输入姓名"
+                         @select="handleSelect"
+                         clearable></el-autocomplete>
+      </template>
+      <template slot="startDate"
+                slot-scope="scope">
+        {{ scope.row.startDate }} - {{ scope.row.endDate }}
+      </template>
+      <template slot="menuLeft">
+        <el-button type="primary"
+                   icon="el-icon-s-claim"
+                   @click="bulkRenewal">批量续签</el-button>
+      </template>
+    </avue-crud>
+    <!-- <el-dialog title="批量续签"
+               :visible.sync="dialogVisible"
+               width="60%"
+               @open="loadAll">
+      <avue-form v-model="obj"
+                 :option="batchOption"
+                 @submit="submit">
+        <template slot="users">
+          <avue-select all
+                       multiple
+                       v-model="obj.users"
+                       type="tree"
+                       :props="{
+                             label: 'xm',
+                             desc: 'gh',
+                             value: 'id',
+                           }"
+                       :dic="usersList"></avue-select>
+        </template>
+      </avue-form>
+      <span slot="footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog> -->
+  </div>
 </template>
 
 <script>
-import { option } from "../option/Contract";
+import { option, batchOption } from "../option/Contract";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch } from "@/const/staff/getAllUser";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
@@ -54,6 +79,15 @@ export default {
       showLoading: false,
 
       timeout: undefined,
+      // dialogVisible: false,
+      innerVisible: false,
+
+      obj: {
+        users: [],
+      },
+      batchOption: batchOption,
+
+      usersList: [],
     };
   },
   methods: {
@@ -142,12 +176,11 @@ export default {
         })
         .catch(() => {});
     },
-    // 多选
-    selectionChange(row) {
-      row.forEach((item) => {});
-    },
     // 批量续签
-    bulkRenewal() {},
+    bulkRenewal() {
+      this.dialogVisible = true;
+    },
+    submit() {},
     // 刷新
     refreshChange() {
       this.fetchList();
@@ -171,6 +204,9 @@ export default {
       this.form.orgId = item.orgId;
       this.form.staffId = item.staffId;
     },
+  },
+  created() {
+    loadAll();
   },
 };
 </script>

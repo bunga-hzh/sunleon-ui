@@ -4,8 +4,8 @@ export const option = {
   searchMenuSpan: 4,
   searchSpan: 6,
   index: true,
-  labelWidth: 150,
   menuWidth: 200,
+  labelWidth: 120,
   viewBtn: true,
   column: [{
       label: "姓名",
@@ -13,6 +13,11 @@ export const option = {
       search: true,
       formslot: true,
       editDisabled: true,
+      rules: [{
+        required: true,
+        message: '请选择 用户',
+        trigger: 'blur',
+      }]
     },
     {
       label: "工号",
@@ -41,6 +46,20 @@ export const option = {
       type: "number",
       minRows: 0,
       valueDefault: 0,
+      rules: [{
+        required: true,
+        message: '请输入 试用期（月）',
+        trigger: 'blur',
+      }]
+    },
+    {
+      label: "岗位",
+      prop: "gw",
+      rules: [{
+        required: true,
+        message: '请输入 岗位',
+        trigger: 'blur',
+      }]
     },
     // {
     //   label: "开始时间",
@@ -57,7 +76,7 @@ export const option = {
     //   valueFormat: "yyyy-MM-dd",
     // },
     {
-      label: "开始时间-结束时间",
+      label: "起止时间",
       prop: "startDate",
       type: "daterange",
       format: 'yyyy-MM-dd',
@@ -65,7 +84,6 @@ export const option = {
       startPlaceholder: '开始时间',
       endPlaceholder: '结束时间',
       width: 180,
-      span: 24,
       rules: [{
         required: true,
         message: '请选择开始时间-结束时间'
@@ -76,6 +94,11 @@ export const option = {
       prop: "reason",
       type: "textarea",
       span: 24,
+      rules: [{
+        required: true,
+        message: '请输入 不合格原因',
+        trigger: 'blur',
+      }]
     },
     {
       label: "备注",

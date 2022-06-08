@@ -37,3 +37,10 @@ export function putObj(type, obj) {
     data: obj
   })
 }
+
+export function getAll() {
+  return request({
+    url: '/staff/zzjginfo/all',
+    method: 'get',
+  })
+}

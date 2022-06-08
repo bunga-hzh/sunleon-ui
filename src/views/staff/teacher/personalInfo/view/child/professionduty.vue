@@ -7,6 +7,7 @@
              :upload-after="uploadAfter"
              :upload-preview="uploadPreview"
              :upload-error="uploadError"
+             @on-load="onLoad"
              @refresh-change="refresh"
              @row-save="rowSave"
              @row-update="rowUpdate"
@@ -19,13 +20,14 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { option } from "@/views/staff/teacher/teacherInfo/child/option/professionduty";
+import { option } from "./option/professionduty";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 import {
   splitUploadData,
   isArray,
 } from "@/views/staff/teacher/teacherInfo/util/util";
+import { url } from "@/api/baseUrl";
 
 export default {
   data() {
@@ -38,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "getActiveItem"]),
+    ...mapGetters(["userInfo", "getStaffObj"]),
   },
   watch: {
     getActiveItem(newValue) {
@@ -55,15 +57,29 @@ export default {
       }
       done();
     },
+    async fetchList() {
+      this.showLoading = true;
+      const { data: res } = await fetchList("professionduty", {
+        current: 1,
+        size: 20,
+        staffId: this.userInfo.userId,
+      });
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.showLoading = false;
+      this.data = res.data.records;
+    },
+    onLoad() {
+      this.fetchList();
+    },
     // 添加
     rowSave(form, done, loading) {
       if (JSON.stringify(form) === "{}") {
         loading();
         return this.$message.warning("请输入信息!");
       }
-      let obj = {
-        ...obj,
-        staffId: this.userInfo.userId,
+      const obj = {
+        ...form,
+        ...this.getStaffObj,
         prqsrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[0],
         przzrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[1],
         scdzzj: validatenull(form.scdzzj) ? undefined : form.scdzzj[0].value,
@@ -90,7 +106,11 @@ export default {
           scdzzj: validatenull(form.scdzzj) ? undefined : form.scdzzj[0].value,
         };
       } else {
-        obj = form;
+        obj = {
+          ...form,
+          prqsrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[0],
+          prqsrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[1],
+        };
       }
       setTimeout(async () => {
         const { data: res } = await putObj("professionduty", obj);
@@ -120,15 +140,7 @@ export default {
     },
     // 刷新
     async refresh() {
-      this.showLoading = true;
-      const { data: res } = await fetchList("professionduty", {
-        current: 1,
-        size: 20,
-        staffId: this.userInfo.userId,
-      });
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.showLoading = false;
-      this.data = res.data.records;
+      this.fetchList();
     },
     // 上传后
     uploadAfter(res, done, loading, column) {
@@ -143,8 +155,8 @@ export default {
         this.$ImagePreview(
           [
             {
-              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
-              url: `http://sunleon-gateway:9999${file.url}`,
+              thumbUrl: `${url}${file.url}`,
+              url: `${url}${file.url}`,
             },
           ],
           0,
@@ -153,10 +165,7 @@ export default {
           }
         );
       } else {
-        this.downFile(
-          `http://sunleon-gateway:9999${file.url}`,
-          splitUploadData(file.name)
-        );
+        this.downFile(`${url}${file.url}`, splitUploadData(file.name));
       }
     },
     // 上传失败

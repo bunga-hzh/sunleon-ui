@@ -48,4 +48,13 @@ export default [{
       component: () => import('@/components/notice/index')
     }]
   },
+  {
+    path: '/subset',
+    component: Layout,
+    redirect: '/subset/index',
+    children: [{
+      path: 'index/:id',
+      component: () => import('@/components/staff/subset/index')
+    }]
+  },
 ]

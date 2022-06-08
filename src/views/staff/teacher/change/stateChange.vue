@@ -7,8 +7,11 @@
                  :page.sync="page"
                  :before-open="beforeOpen"
                  :table-loading="showLoading"
-                 @on-load="loadList"
-                 @row-save="add"
+                 :upload-after="uploadAfter"
+                 :upload-preview="uploadPreview"
+                 :upload-error="uploadError"
+                 @on-load="onLoad"
+                 @row-save="rowSave"
                  @row-update="rowUpdate"
                  @row-del="rowDel"
                  @refresh-change="refreshChange"
@@ -33,27 +36,23 @@
 
 <script>
 import { option } from "@/const/crud/staff/teacher/change/stateChange";
-import { getList, delData, searchData } from "@/const/staff/crud";
-import { fetchList, addObj, putObj } from "@/api/staff/crud";
-import { jzg_page } from "@/const/staff/page";
+import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
+import { validatenull } from "@/util/validate";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   name: "StateChange",
   data() {
     return {
-      // 表格配置对象
-      option: option,
-      // 表格数据源集合
+      form: {},
       data: undefined,
-      // 分页查询对象
+      option: option,
       page: {
         total: 0,
         currentPage: 1,
         pageSize: 10,
       },
       showLoading: false,
-      // 表单对象
-      form: {},
 
       restaurants: [],
       timeout: null,
@@ -70,105 +69,140 @@ export default {
       done();
     },
 
-    loadList() {
-      getList("change", this);
+    // 获取列表
+    async fetchList(query) {
+      this.showLoading = true;
+      const { data: res } = await fetchList(
+        "change",
+        Object.assign(
+          {
+            current: this.page.currentPage,
+            size: this.page.pageSize,
+          },
+          query
+        )
+      );
+      if (res.code !== 0) return this.$message.error(res.msg);
+      this.page.total = res.data.total;
+      this.data = res.data.records;
+      this.showLoading = false;
     },
-
+    // 初次加载
+    onLoad() {
+      this.fetchList();
+    },
     // 新增
-    async add(form, done, loading) {
+    async rowSave(form, done, loading) {
       const obj = {
-        staffId: form.staffId,
-        changeType: form.changeType,
-        changeDate: form.changeDate,
-        changeStartDate: form.changeStartDate[0],
-        changeEndDate: form.changeStartDate[1],
-        changeReason: form.changeReason,
-        memo: form.memo,
-        changeEvidence: form.changeEvidence,
+        ...form,
+        changeStartDate: validatenull(form.changeStartDate)
+          ? undefined
+          : form.changeStartDate[0],
+        changeEndDate: validatenull(form.changeStartDate)
+          ? undefined
+          : form.changeStartDate[1],
       };
       const { data: res } = await addObj("change", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
+      done({ ...obj, id: res.data });
       this.$message.success("添加成功！");
-      done({
-        ...obj,
-        id: res.data,
-        xm: form.xm,
-        gh: form.gh,
-        orgId: form.orgId,
-      });
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
       const obj = {
-        id: form.id,
-        staffId: form.staffId,
-        changeType: form.changeType,
-        changeDate: form.changeDate,
-        changeStartDate: form.changeStartDate[0],
-        changeEndDate: form.changeStartDate[1],
-        changeReason: form.changeReason,
-        memo: form.memo,
-        changeEvidence: form.changeEvidence,
+        ...form,
+        changeStartDate: validatenull(form.changeStartDate)
+          ? undefined
+          : form.changeStartDate[0],
+        changeEndDate: validatenull(form.changeStartDate)
+          ? undefined
+          : form.changeStartDate[1],
       };
       const { data: res } = await putObj("change", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
+      done(obj);
       this.$message.success("修改成功！");
-      this.refreshChange();
-      done();
     },
     // 删除
     rowDel(form, index) {
-      delData("change", this, form, index, () => {
-        getList("change", this);
-      });
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const { data: res } = await delObj("change", form.id);
+          if (res.code !== 0)
+            return this.$message.error("删除失败！" + res.msg);
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          this.refreshChange();
+        })
+        .catch(() => {});
     },
     // 刷新
     refreshChange() {
-      getList("change", this);
+      this.fetchList();
     },
     // 搜索
     searchChange(form, done) {
-      searchData("change", this, form, done);
+      this.page.currentPage = 1;
+      this.fetchList(form);
+      done();
     },
-
-    async loadAll() {
-      const { data: res } = await fetchList("info", jzg_page);
-      if (res.code !== 0) return true;
-      res.data.records.forEach((item) => {
-        this.restaurants.push({
-          value: item.xm,
-          gh: item.gh,
-          orgId: item.orgId,
-          staffId: item.id,
-        });
-      });
-    },
+    // 搜索姓名
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
-
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
-        cb(results);
+        cb(querySearch(queryString));
       }, 1000 * Math.random());
     },
-    createStateFilter(queryString) {
-      return (state) => {
-        return (
-          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
-    },
+    // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
       this.form.orgId = item.orgId;
       this.form.staffId = item.staffId;
     },
+
+    // 上传后
+    uploadAfter(res, done, loading, column) {
+      if (!validatenull(res.fileName)) {
+        this.$message.success("上传成功");
+      }
+      done();
+    },
+    // 预览
+    async uploadPreview(file, column, done) {
+      // 图片
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
+              url: `http://sunleon-gateway:9999${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        this.downFile(
+          `http://sunleon-gateway:9999${file.url}`,
+          splitUploadData(file.name)
+        );
+      }
+    },
+    // 上传失败
+    uploadError(error, column) {
+      this.$message.error("上传失败" + error);
+    },
   },
-  mounted() {
-    this.loadAll();
+  created() {
+    loadAll();
   },
 };
 </script>

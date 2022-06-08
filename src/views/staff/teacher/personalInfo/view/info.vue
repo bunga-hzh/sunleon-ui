@@ -1,17 +1,26 @@
 <template>
-  <avue-form ref="form"
-             v-model="obj"
-             :option="option"
-             @submit="submit"
-             :upload-after="uploadAfter"
-             :upload-preview="uploadPreview"
-             :upload-error="uploadError">
-  </avue-form>
+  <div>
+    <el-row type="flex"
+            justify="start"
+            style="padding: 10px 0">
+      <el-button type="primary"
+                 @click="editInfo"
+                 :icon="this.option.detail ? 'el-icon-edit' : 'el-icon-folder-checked' ">{{btnText}}</el-button>
+    </el-row>
+    <avue-form ref="form"
+               v-model="obj"
+               :option="option"
+               @submit="submit"
+               :upload-after="uploadAfter"
+               :upload-preview="uploadPreview"
+               :upload-error="uploadError">
+    </avue-form>
+  </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { option } from "@/views/staff/teacher/teacherInfo/option/info";
+import { mapGetters, mapMutations } from "vuex";
+import { option } from "./option/info";
 import { getObj, putObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
@@ -25,12 +34,22 @@ export default {
   },
   computed: {
     ...mapGetters(["userInfo"]),
+    ...mapMutations(["setStaffObj"]),
+    btnText() {
+      return this.option.detail ? "编 辑" : "保 存";
+    },
   },
   methods: {
     async getObj() {
       const { data: res } = await getObj("info", this.userInfo.userId);
       if (res.code !== 0) return this.$message.error(res.msg);
       if (validatenull(res.data)) return;
+      this.$store.commit("setStaffObj", {
+        staffId: res.data.id,
+        xm: res.data.xm,
+        gh: res.data.gh,
+        deptId: res.data.orgId,
+      });
       this.obj = {
         ...res.data,
         jjzqssj: validatenull(res.data.jjzqssj)
@@ -60,7 +79,6 @@ export default {
         return this.$message.warning("请输入信息!");
       }
       setTimeout(async () => {
-        loading();
         const obj = {
           ...form,
           id: this.userInfo.userId,
@@ -121,6 +139,10 @@ export default {
     // 上传失败
     uploadError(error, column) {
       this.$message.error("上传失败" + error);
+    },
+    // 切换编辑模式
+    editInfo() {
+      this.option.detail = !this.option.detail;
     },
   },
   mounted() {

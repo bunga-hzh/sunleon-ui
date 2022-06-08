@@ -5,20 +5,42 @@ export const option = {
   labelWidth: 180,
   addBtn: true,
   column: [{
-      label: "护照证件种类代码",
+      label: "护照证件种类",
       prop: 'hzzjzldm',
+      type: 'select',
+      dicUrl: "/admin/dict/type/passport_type",
+      rules: [{
+        required: true,
+        message: '请选择 护照证件种类',
+        trigger: "blur",
+      }]
     },
     {
       label: "护照号/通行证号",
       prop: 'hzhtxzh',
+      rules: [{
+        required: true,
+        message: '请输入 护照号/通行证号',
+        trigger: "blur",
+      }]
     },
     {
       label: "签发地点",
       prop: 'qfdd',
+      rules: [{
+        required: true,
+        message: '请输入 签发地点',
+        trigger: "blur",
+      }]
     },
     {
       label: "签发机关",
       prop: 'qfjg',
+      rules: [{
+        required: true,
+        message: '请输入 签发机关',
+        trigger: "blur",
+      }]
     },
     // {
     //   label: "签发日期",

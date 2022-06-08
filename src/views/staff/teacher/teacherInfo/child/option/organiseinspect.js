@@ -6,12 +6,22 @@ export const option = {
   column: [{
       label: "考察事由",
       prop: 'kcsy',
+      rules: [{
+        required: true,
+        message: '请输入 考察事由',
+        trigger: "blur",
+      }]
     },
     {
-      label: "考核日期",
+      label: "考察日期",
       prop: 'kcrq',
       type: 'date',
       valueFormat: 'yyyy-MM-dd',
+      rules: [{
+        required: true,
+        message: '请输入 考察日期',
+        trigger: "blur",
+      }]
     },
     {
       label: "备注",

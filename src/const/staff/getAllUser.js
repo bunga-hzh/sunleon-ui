@@ -1,9 +1,6 @@
 import {
-  fetchList
+  getAll
 } from "@/api/staff/crud";
-import {
-  jzg_page
-} from "@/const/staff/page";
 
 var users = [];
 
@@ -18,9 +15,10 @@ function createStateFilter(queryString) {
 export async function loadAll() {
   const {
     data: res
-  } = await fetchList("info", jzg_page);
+  } = await getAll();
   if (res.code !== 0) return true;
-  res.data.records.forEach((item) => {
+  users = [];
+  res.data.forEach((item) => {
     users.push({
       value: item.xm,
       gh: item.gh,
@@ -31,8 +29,8 @@ export async function loadAll() {
 }
 
 export function querySearch(queryString) {
-  var restaurants = users;
-  var results = queryString ?
+  const restaurants = users;
+  const results = queryString ?
     restaurants.filter(createStateFilter(queryString)) :
     restaurants;
   return results

@@ -5,6 +5,7 @@ export const option = {
   searchSpan: 7,
   searchMenuSpan: 4,
   menuWidth: 80,
+  menu: false,
   column: [{
       label: "姓名",
       prop: "xm",

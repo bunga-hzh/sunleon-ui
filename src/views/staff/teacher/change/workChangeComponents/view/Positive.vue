@@ -33,7 +33,7 @@
 <script>
 import { option } from "../option/Positive";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch } from "@/const/staff/getAllUser";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
@@ -160,6 +160,9 @@ export default {
       this.form.orgId = item.orgId;
       this.form.staffId = item.staffId;
     },
+  },
+  created() {
+    loadAll();
   },
 };
 </script>

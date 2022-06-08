@@ -1,7 +1,9 @@
 <template>
   <div class="engage_container">
     <basic-container>
-      <avue-crud :option="option" :data="data" :page.sync="page"> </avue-crud>
+      <avue-crud :option="option"
+                 :data="data"
+                 :page.sync="page"> </avue-crud>
     </basic-container>
   </div>
 </template>
@@ -24,10 +26,19 @@ export default {
           jslx: "外聘教师",
           rzrq: "2022-02-02",
         },
+        {
+          gh: "10087",
+          xm: "李四",
+          orgId: 33,
+          bzlx: "非事业编制",
+          rylx: "在职人员",
+          jslx: "非外聘教师",
+          rzrq: "2022-02-02",
+        },
       ],
       option: option,
       page: {
-        total: 1000,
+        total: 2,
         currentPage: 1,
         pageSize: 10,
       },
@@ -36,60 +47,3 @@ export default {
   methods: {},
 };
 </script>
-
-<style lang="scss" scoped>
-table {
-  width: 100%;
-  border: #eee solid 1px;
-  line-height: 40px;
-  th {
-    font-size: 16px;
-    font-family: Medium;
-    padding-left: 5px;
-    background-color: rgba(242, 242, 242, 1);
-  }
-  td {
-    padding-left: 5px;
-    font-size: 14px;
-    font-family: Base;
-  }
-}
-/*  dialog*/
-.el-dialog__header {
-  padding: 15px 20px 15px;
-}
-.el-dialog__headerbtn {
-  top: 15px;
-}
-::v-deep.avue-crud__dialog__header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-::v-deep.el-dialog__title {
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: 500;
-  word-wrap: break-word;
-}
-::v-deep.avue-crud__dialog__menu {
-  padding-right: 20px;
-  float: left;
-}
-::v-deep.avue-crud__dialog__menu i {
-  color: #909399;
-  font-size: 15px;
-}
-::v-deep.el-icon-full-screen {
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-::v-deep.el-icon-full-screen:before {
-  content: "\e719";
-}
-</style>
