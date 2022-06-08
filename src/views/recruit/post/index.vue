@@ -114,6 +114,8 @@ export default {
         "postNameId":this.searchForm.postNameId,
         "pageNo":this.page.currentPage,
         "pageSize":this.page.pageSize,
+        "postNameIdsStr":this.searchForm.hasOwnProperty("postNameId") ? this.searchForm.postNameId.toString():"",
+        "gwlxId":this.searchForm.hasOwnProperty("gwlxId") ? this.searchForm.gwlxId:"",
         "currentPageNo":"1",
         "currentPageSize":10
       };

@@ -13,15 +13,21 @@
         @refresh-change="refreshChange"
         @size-change="sizeChange"
         @current-change="currentChange">
+        <template slot-scope="scope" slot="resumeStatusName">
+          <el-tag :type=" (scope.row.resumeStatus==3 || scope.row.resumeStatus==-2) ? 'warning':'success'">{{scope.row.resumeStatusName}}</el-tag>
+        </template>
         <template slot="menuLeft" slot-scope="{size}">
           <el-button type="primary" @click="handleAdoptArray" :size="size">转入面试预约</el-button>
           <el-button type="danger" @click="handleRefuseArray" :size="size">结束面试</el-button>
         </template>
         <template slot-scope="{type,size,row}" slot="menu">
           <el-button icon="el-icon-edit" :size="size" v-if="row.resumeStatus==8" :type="type" @click="handleScore(row)">评分</el-button>
+          <el-button icon="el-icon-edit" :size="size" v-if="row.resumeStatus==9" :type="type" @click="handleScore(row)">修改评分</el-button>
           <el-button icon="el-icon-view" :size="size" @click="$refs.resumeView.show(row,'current')" :type="type">详情</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.resumeStatus==9 && !row.isFinalRound" :type="type" @click="handleAdopt(row)" >转入面试预约({{ row.isNextRoundFinal ? '终面':(Number.parseInt(row.interviewNumber)+1)+'面'}})</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.isFinalRound" :type="type" @click="handleFinalPass(row)" >终面通过</el-button>
+          <el-button icon="el-icon-back" :size="size" v-if="row.resumeStatus== 9" :type="type" @click="handleCallBack(row)">撤回评分</el-button>
+          <el-button icon="el-icon-back" v-if="row.resumeStatus==-1 && row.jsmsId==2" :size="size" :type="type" @click="handleStopCallBack(row)">撤回结束</el-button>
           <el-button icon="el-icon-close" v-if="row.resumeStatus ==-1 ? false:row.resumeStatus!=11" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
         </template>
       </avue-crud>
@@ -49,7 +55,7 @@ import {
 } from "@/api/recuit/score/score";
 import {scoreFormOption, scoreOption} from "@/views/recruit/score/tableOption";
 import resumeView from '@/components/resume/resumeView'
-import {examState} from "@/api/recuit/reserve/reserve";
+import {examState, setCallback, setStopCallBack} from "@/api/recuit/reserve/reserve";
 import {delObj} from "@/api/recuit/post/post";
 
 export default {
@@ -86,22 +92,62 @@ export default {
     ...mapGetters(['permissions'])
   },
   methods:{
+    handleStopCallBack(row){
+      setStopCallBack(row.deliveryId).then(res=>{
+        this.getList(this.page);
+      })
+    },
+    handleCallBack(row){
+      console.log(row)
+      setCallback(row.reserveId,'return_pf').then(res=>{
+        this.getList(this.page);
+      })
+    },
     handleRefuse(row){
-      this.$confirm('此操作将结束该应聘者面试, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        examState(row.deliveryId).then(res=>{
-          this.getList(this.page, this.form)
-          this.$message({
-            type: 'success',
-            message: '操作成功!'
-          });
-        }).catch(err=>{
-        })
-      }).catch(() => { });
-
+      this.$DialogForm.show({
+        title: '结束确认',
+        width: '50%',
+        menuPosition:'right',
+        option: {
+          submitText: '确认',
+          span:24,
+          column: [
+            {
+              label: "发送短信",
+              prop: "sms",
+              type: 'switch',
+              value:0,
+            },
+            {
+              label: "结束消息",
+              prop: "msg",
+              maxlength:50,
+              showWordLimit:true,
+              type:'textarea',
+              rules: [{
+                required: true,
+                message: "请输入结束面试消息",
+                trigger: "blur"
+              }],
+            }
+          ]
+        },
+        beforeClose: (done) => {
+          done()
+        },
+        callback:(res)=>{
+          examState(row.deliveryId,res.data.msg,2).then(resx=>{
+            res.done()
+            res.close()
+            this.getList(this.page, this.form)
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }).catch(err=>{
+          })
+        }
+      })
     },
     //终面通过
     handleFinalPass(row){
@@ -173,16 +219,65 @@ export default {
         this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
       }
 
-      this.$confirm('是否确认结束所选的应聘者?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(function () {
-        return batchEnd(array)
-      }).then(() => {
-        this.getList(this.page)
-        this.$message.success('操作成功!')
+      this.$DialogForm.show({
+        title: '结束确认',
+        width: '50%',
+        menuPosition:'right',
+        option: {
+          submitText: '确认',
+          span:24,
+          column: [
+            {
+              label: "发送短信",
+              prop: "sms",
+              type: 'switch',
+              value:0,
+            },
+            {
+              label: "结束消息",
+              prop: "msg",
+              maxlength:50,
+              showWordLimit:true,
+              type:'textarea',
+              rules: [{
+                required: true,
+                message: "请输入结束面试消息",
+                trigger: "blur"
+              }],
+            }
+          ]
+        },
+        beforeClose: (done) => {
+          done()
+        },
+        callback:(res)=>{
+          batchEnd({
+            deliveryIds:array,
+            content:res.data.msg,
+            endStageId:2
+          }).then(resx=>{
+            res.done()
+            res.close()
+            this.getList(this.page, this.form)
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }).catch(err=>{
+          })
+        }
       })
+
+      // this.$confirm('是否确认结束所选的应聘者?', '警告', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // }).then(function () {
+      //   return batchEnd(array)
+      // }).then(() => {
+      //   this.getList(this.page)
+      //   this.$message.success('操作成功!')
+      // })
     },
     //转入面试预约
     handleAdoptArray(){
@@ -243,7 +338,8 @@ export default {
           option: scoreFormOption,
           data:{
             name:row.candidateName,
-            peopleVO:teacherList.data.data
+            peopleVO:teacherList.data.data.peopleVO,
+            wbPeopleVO:teacherList.data.data.wbPeopleVO
           },
           beforeClose: (done) => {
             done()
@@ -254,8 +350,11 @@ export default {
               userId:row.userId,
               reserveId:row.reserveId,
               peopleVO:res.data.peopleVO,
+              wbPeopleVO:res.data.wbPeopleVO ? res.data.wbPeopleVO:[],
               pflx:res.data.pflx,
-              pfbz:res.data.pfbz
+              pfbz:res.data.pfbz,
+              resumeStatus:row.resumeStatus,
+              interviewNumber:row.interviewNumber
             };
             postScoreData(postData).then(resx => {
               res.close();
@@ -267,8 +366,6 @@ export default {
           }
         });
       })
-
-
     }
   }
 }

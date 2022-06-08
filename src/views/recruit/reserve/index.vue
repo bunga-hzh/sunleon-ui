@@ -21,11 +21,13 @@
          </template>
          <template slot-scope="{type,size,row}" slot="menu">
           <el-button icon="el-icon-view" :size="size" :type="type" @click="$refs.resumeView.show(row)">查看简历</el-button>
+           <el-button icon="el-icon-back" v-if="row.resumeStatus==4 || row.resumeStatus==5" :size="size" :type="type" @click="handleCallBack(row)">撤回预约</el-button>
+           <el-button icon="el-icon-back" v-if="row.resumeStatus==-1 && row.jsmsId==0" :size="size" :type="type" @click="handleStopCallBack(row)">撤回结束</el-button>
           <span v-if="row.resumeStatus!=-1">
-            <el-button v-if="row.resumeStatus== -3" icon="el-icon-view" :size="size" :type="type" @click="handleConfirm(row,true)">审核成功</el-button>
-            <el-button v-if="row.resumeStatus== -3" icon="el-icon-view" :size="size" :type="type" @click="handleConfirm(row,false)">审核错误</el-button>
-            <el-button v-if="row.resumeStatus==3 || row.resumeStatus==-2" :disabled="row.resumeStatus==-2" icon="el-icon-check" :size="size" :type="type" @click="handleAdopt(row,0)">预约</el-button>
-            <el-button v-if="row.resumeStatus==4" icon="el-icon-edit" :size="size" :type="type" @click="handleAdopt(row,1)">修改预约</el-button>
+            <el-button v-if="row.resumeStatus== -3" icon="el-icon-view" :size="size" :type="type" @click="handleConfirm(row,true)">通过</el-button>
+            <el-button v-if="row.resumeStatus== -3" icon="el-icon-view" :size="size" :type="type" @click="handleConfirm(row,false)">驳回</el-button>
+            <el-button v-if="row.resumeStatus==3 || row.resumeStatus==-2" :disabled="row.resumeStatus == -2 ? true:false" icon="el-icon-check" :size="size" :type="type" @click="handleAdopt(row,0)">预约</el-button>
+            <el-button v-if="row.resumeStatus==5" icon="el-icon-edit" :size="size" :type="type" @click="handleAdopt(row,1)">修改预约</el-button>
             <el-button icon="el-icon-close" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
           </span>
         </template>
@@ -46,7 +48,14 @@
 <script>
 import {mapGetters} from "vuex";
 import {reserveOption,formOption} from './tableOption'
-import {confirmResume, examState, fetchList, postReserveData} from "@/api/recuit/reserve/reserve";
+import {
+  confirmResume,
+  examState,
+  fetchList,
+  postReserveData,
+  setCallback,
+  setStopCallBack
+} from "@/api/recuit/reserve/reserve";
 import {getConstantByKey} from "@/api/recuit/common/commonApi";
 import resumeView from '@/components/resume/resumeView'
 import {examine} from "@/api/recuit/resume/resume";
@@ -79,16 +88,70 @@ export default {
     this.getFixedAddress();
   },
   methods:{
-    handleConfirm(row,type){
-      confirmResume({
-        reserveId:row.reserveId,
-        deliveryId:row.deliveryId,
-        userId:row.userId,
-        isAdopt: type,
-        content:'请填写所有信息!'
-      }).then((res=>{
+    handleStopCallBack(row){
+      setStopCallBack(row.deliveryId).then(res=>{
         this.getList(this.page);
-      }))
+      })
+    },
+    handleCallBack(row){
+      setCallback(row.reserveId,'return_yy').then(res=>{
+        this.getList(this.page);
+      })
+    },
+    handleConfirm(row,type){
+      if(type==false){
+        this.$DialogForm.show({
+          title: '审核确认',
+          width: '50%',
+          menuPosition: 'right',
+          option: {
+            submitText: '确认',
+            span: 24,
+            column: [
+              {
+                label: "反馈消息",
+                prop: "msg",
+                maxlength: 50,
+                showWordLimit: true,
+                type: 'textarea'
+              }
+            ]
+          },
+          beforeClose: (done) => {
+            done()
+          },
+          callback: (res) => {
+            confirmResume({
+              reserveId:row.reserveId,
+              deliveryId:row.deliveryId,
+              userId:row.userId,
+              isAdopt: type,
+              content:res.data.msg
+            }).then((resx=>{
+              this.$message({
+                type: 'success',
+                message: '操作成功!'
+              });
+              res.done()
+              res.close()
+              this.getList(this.page);
+            }))
+          }
+        });
+      }else{
+        confirmResume({
+          reserveId:row.reserveId,
+          deliveryId:row.deliveryId,
+          userId:row.userId,
+          isAdopt: type
+        }).then((res=>{
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          });
+          this.getList(this.page);
+        }))
+      }
     },
     //导出
     handleExportExcel(){
@@ -97,6 +160,8 @@ export default {
         "yearTime": this.searchForm.yearTime,
         "candidateName": this.searchForm.hasOwnProperty("candidateName")  ? this.searchForm.candidateName:"",
         "interviewTimeStr":this.searchForm.hasOwnProperty("interviewTime") ? this.searchForm.interviewTime.toString():"",
+        "postNameIdsStr":this.searchForm.hasOwnProperty("postNameIds") ? this.searchForm.postNameIds.toString():"",
+        "gwlxId":this.searchForm.hasOwnProperty("gwlxId") ? this.searchForm.gwlxId:"",
         "user_id":1,
         "pageNo":this.page.currentPage,
         "pageSize":this.page.pageSize,
@@ -119,20 +184,64 @@ export default {
       });
     },
     handleRefuse(row){
-      this.$confirm('此操作将结束该应聘者面试, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        examState(row.deliveryId).then(res=>{
-          this.getList(this.page, this.form)
-          this.$message({
-            type: 'success',
-            message: '操作成功!'
-          });
-        }).catch(err=>{
-        })
-      }).catch(() => { });
+      this.$DialogForm.show({
+        title: '结束确认',
+        width: '50%',
+        menuPosition:'right',
+        option: {
+          submitText: '确认',
+          span:24,
+          column: [
+            {
+              label: "发送短信",
+              prop: "sms",
+              type: 'switch',
+              value:0,
+            },
+            {
+              label: "结束消息",
+              prop: "msg",
+              maxlength:50,
+              showWordLimit:true,
+              type:'textarea',
+              rules: [{
+                required: true,
+                message: "请输入结束面试消息",
+                trigger: "blur"
+              }],
+            }
+          ]
+        },
+        beforeClose: (done) => {
+          done()
+        },
+        callback:(res)=>{
+          examState(row.deliveryId,res.data.msg,0).then(resx=>{
+            res.done()
+            res.close()
+            this.getList(this.page, this.form)
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }).catch(err=>{
+          })
+        }
+      })
+      // this.$confirm('此操作将结束该应聘者面试, 是否继续?', '提示', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // }).then(() => {
+      //   examState(row.deliveryId).then(res=>{
+      //     this.getList(this.page, this.form)
+      //     this.$message({
+      //       type: 'success',
+      //       message: '操作成功!'
+      //     });
+      //   }).catch(err=>{
+      //   })
+      // }).catch(() => { });
 
     },
     getFixedAddress(){
@@ -179,6 +288,7 @@ export default {
               deliveryId:row.deliveryId, //投递的岗位ID
               userId:row.userId, //用户ID
               zdyxx:res.data.zdyxx,
+              postName:row.postName
             };
             postReserveData(postData).then((resx)=>{
               res.close();

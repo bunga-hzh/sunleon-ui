@@ -78,7 +78,7 @@ export const tableOption = {
       type: 'select',
       search: true,
       cascader: ['postNameId'],
-      dicUrl: "/admin/dict/type/POST_TYPE",
+      dicUrl: "/admin/dict/type/post_type",
       rules: [{
         required: true,
         message: '请选择岗位类型',
