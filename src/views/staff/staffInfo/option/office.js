@@ -32,13 +32,13 @@ export const option = {
         trigger: "change"
       }],
       search: true,
+      editDisabled: true,
     },
     {
       label: "姓名",
       prop: "xm",
       search: true,
-      slotForm: true,
-      formslot: true,
+      editDisabled: true,
       rules: [{
         required: true,
         message: "请选择 用户",
@@ -49,7 +49,6 @@ export const option = {
       label: "工号",
       prop: "gh",
       search: true,
-      addDisabled: true,
       editDisabled: true,
       width: 120,
       rules: [{
@@ -81,6 +80,11 @@ export const option = {
     {
       label: "岗位名称",
       prop: "gwmc",
+      type: 'select'
+    },
+    {
+      label: "岗位等级",
+      prop: "gwdjm",
       type: 'select'
     },
     {

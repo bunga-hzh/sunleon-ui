@@ -213,10 +213,7 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicFormatter: (data) => {
-        return data.data.items;
-      },
-      dicUrl: `/admin/dict/type_with_dict_id/nation_type`
+      dicUrl: `/admin/dict/type/nation_type`
     },
     {
       label: "政治面貌",
@@ -475,10 +472,7 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicFormatter: (data) => {
-        return data.data.items;
-      },
-      dicUrl: `/admin/dict/type_with_dict_id/htlx`
+      dicUrl: `/admin/dict/type/htlx`
     },
     {
       label: "专技人员专业类别",
