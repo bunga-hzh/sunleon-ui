@@ -44,3 +44,16 @@ export function getAll() {
     method: 'get',
   })
 }
+
+export function getRegionTreeApi(id) {
+  let url = "";
+  if (id) {
+    url = `/admin/sysRegion/getRegionTree?id=${id}`;
+  } else {
+    url = `/admin/sysRegion/getRegionTree?id=-1`;
+  }
+  return request({
+    url: url,
+    method: 'get'
+  })
+}

@@ -51,29 +51,8 @@ export const option = {
   editBtn: false,
   delBtn: false,
   column: [{
-      label: "教职工编号",
-      prop: "gh",
-      rules: [{
-        required: true,
-        message: "请输入教职工编号",
-        trigger: "blur"
-      }],
-      width: 120,
-      search: true,
-    },
-    {
-      label: "姓名",
-      prop: "xm",
-      rules: [{
-        required: true,
-        message: "请填写姓名",
-        trigger: "blur"
-      }],
-      search: true,
-    },
-    {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       width: 120,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
@@ -103,6 +82,28 @@ export const option = {
       // },
       search: true,
     },
+    {
+      label: "教职工编号",
+      prop: "gh",
+      rules: [{
+        required: true,
+        message: "请输入教职工编号",
+        trigger: "blur"
+      }],
+      width: 120,
+      search: true,
+    },
+    {
+      label: "姓名",
+      prop: "xm",
+      rules: [{
+        required: true,
+        message: "请填写姓名",
+        trigger: "blur"
+      }],
+      search: true,
+    },
+
     {
       label: "曾用名",
       prop: "cym",

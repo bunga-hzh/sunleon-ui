@@ -5,7 +5,7 @@ import {
 } from "@/util/validate";
 import {
   getRegionTreeApi
-} from "@/api/recuit/common/commonApi";
+} from "@/api/staff/crud";
 
 
 var validateIdCard = (rule, value, callback) => {
@@ -48,32 +48,12 @@ export const option = {
   searchLabelWidth: 120,
   viewBtn: true,
   column: [{
-      label: "教职工编号",
-      prop: "gh",
-      rules: [{
-        required: true,
-        message: "请输入教职工编号",
-        trigger: "blur"
-      }],
-      width: 120,
-      search: true,
-    },
-    {
-      label: "姓名",
-      prop: "xm",
-      rules: [{
-        required: true,
-        message: "请填写姓名",
-        trigger: "blur"
-      }],
-      search: true,
-    },
-    {
       label: "所属部门",
       prop: "deptId",
       width: 120,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
+
       props: {
         label: "name",
         value: "id",
@@ -98,6 +78,27 @@ export const option = {
       //   })
       //   return dic
       // },
+      search: true,
+    },
+    {
+      label: "教职工编号",
+      prop: "gh",
+      rules: [{
+        required: true,
+        message: "请输入教职工编号",
+        trigger: "blur"
+      }],
+      width: 120,
+      search: true,
+    },
+    {
+      label: "姓名",
+      prop: "xm",
+      rules: [{
+        required: true,
+        message: "请填写姓名",
+        trigger: "blur"
+      }],
       search: true,
     },
     {
