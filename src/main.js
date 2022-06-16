@@ -22,6 +22,9 @@ import basicContainer from './components/basic-container/main'
 import AvueUeditor from 'avue-plugin-ueditor'
 import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/index.css';
+import 'bpmn-js/dist/assets/diagram-js.css';
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
+import {getPreViewUrlAll} from "@/api/contract/admin/admin";
 Vue.prototype.downBlobFile = downBlobFile;
 
 // 插件 json 展示
@@ -37,6 +40,14 @@ Vue.use(ElementUI, {
   size: 'small',
   menuType: 'text'
 })
+
+// Vue.filter('getUrl',function (value){
+//   let fileName = value.substring(value.lastIndexOf("/"),value.length)+1;
+//   getPreViewUrlAll(fileName).then(res=>{
+//     return 'http://baidu.com'
+//   });
+//   // return 'http://localhost:8082'
+// })
 
 Vue.use(Avue, {
   size: 'small',

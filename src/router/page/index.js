@@ -10,6 +10,16 @@ export default [{
     isTab: false,
     isAuth: false
   }
+},{
+  path: '/contract/edit/:id',
+  name: '合同起草',
+  component: () =>
+    import(/* webpackChunkName: "page" */ '@/views/contract/admin/draft/index'),
+  meta: {
+    keepAlive: true,
+    isTab: false,
+    isAuth: true
+  }
 }, {
   path: '/wel',
   component: Layout,

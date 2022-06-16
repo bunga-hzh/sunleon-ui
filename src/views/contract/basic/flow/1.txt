@@ -1,0 +1,9 @@
+mvn archetype:generate \
+       -DgroupId=com.dianvo \
+       -DartifactId=sunleon-study \
+       -Dversion=4.4.0 \
+       -Dpackage=com.dianvo.sunleon.study \
+       -DarchetypeGroupId=com.pig4cloud.archetype \
+       -DarchetypeArtifactId=pigx-gen \
+       -DarchetypeVersion=4.4.0 \
+       -DarchetypeCatalog=local

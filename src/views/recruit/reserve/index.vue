@@ -262,6 +262,7 @@ export default {
     },
     //弹出表单
     handleAdopt(row,type){
+      let date = new Date();
       this.$DialogForm.show({
           title: `面试预约 - ${row.resumeStatusName}`,
           width: '50%',
@@ -271,7 +272,7 @@ export default {
             name:row.candidateName,
             address:this.fixedAddress,
             detailAddress:row.address,
-            interviewTime:row.interviewTime,
+            interviewTime:row.interviewTime ? row.interviewTime:date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+" 08:00:00",
             remark:row.remarks,
             zdyxx:row.zdyxx,
           },type==1 ?{feedback:row.feedback}:null),
