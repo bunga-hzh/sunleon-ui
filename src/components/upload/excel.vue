@@ -6,11 +6,12 @@
       :visible.sync="upload.open"
       width="400px"
       append-to-body
+      :before-close="handleClose"
     >
       <el-upload
         ref="upload"
         :limit="1"
-        accept=".xlsx, .xls"
+        :accept="accept ? accept:'.xlsx, .xls'"
         :headers="headers"
         :action="url"
         :disabled="upload.isUploading"
@@ -26,14 +27,22 @@
           <em>点击上传</em>
         </div>
         <div class="el-upload__tip text-center" slot="tip">
-          <span>仅允许导入xls、xlsx格式文件。</span>
+          <span>{{desc ? desc:'仅允许导入xls、xlsx格式文件。'}}</span>
+          <el-link
+            type="primary"
+            :underline="false"
+            style="font-size:12px;vertical-align: baseline;margin-right: 10px;"
+            @click="downTemp(tempContractUrl,tempContractName)"
+            v-if="tempContractUrl"
+          >下载合同模板
+          </el-link>
           <el-link
             type="primary"
             :underline="false"
             style="font-size:12px;vertical-align: baseline;"
             @click="downExcelTemp"
             v-if="tempUrl"
-          >下载模板
+          >下载{{downLoadText ? downLoadText:''}}模板
           </el-link>
         </div>
       </el-upload>
@@ -87,6 +96,21 @@ export default {
     },
     tempName: {
       type: String
+    },
+    desc:{
+      type: String
+    },
+    accept:{
+      type: String
+    },
+    tempContractUrl:{
+      type:String
+    },
+    tempContractName:{
+      type:String
+    },
+    downLoadText:{
+      type: String
     }
   },
   data() {
@@ -102,11 +126,19 @@ export default {
   computed: {
     headers: function () {
       return {
-        Authorization: "Bearer " + store.getters.access_token
+        Authorization: "Bearer " + store.getters.access_token,
+        version:'hjy'
       };
     }
   },
   methods: {
+    handleClose(done){
+      this.$emit("onClose");
+      done()
+    },
+    downTemp(url,name) {
+      this.downBlobFile(url, {}, name);
+    },
     downExcelTemp() {
       this.downBlobFile(this.tempUrl, {}, this.tempName);
     },
@@ -131,10 +163,23 @@ export default {
         this.$message.success("导入成功");
         // 刷新表格
         this.$emit("refreshDataList");
+        this.$emit("onUploadSuccess",response.data)
       }
     },
     submitFileForm() {
-      this.$refs.upload.submit();
+      if(this.url=='action'){
+        if(this.$refs.upload.uploadFiles.length<1){
+          this.$message.error("请上传导入文件!");
+        }else{
+          // 刷新表格
+          this.$emit("onChange",this.$refs.upload.uploadFiles[0]);
+          this.upload.isUploading = false;
+          this.upload.open = false;
+          this.$refs.upload.clearFiles();
+        }
+      }else {
+        this.$refs.upload.submit();
+      }
     },
     show() {
       this.upload.isUploading = false;

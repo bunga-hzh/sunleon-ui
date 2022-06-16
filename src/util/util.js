@@ -280,6 +280,20 @@ export const findArray = (dic, value) => {
   }
   return -1
 }
+
+/**
+ * 根据字典的value查找对应的index
+ */
+export const findArrayLabel = (dic, label) => {
+  for (let i = 0; i < dic.length; i++) {
+    if (dic[i].label === label) {
+      return dic[i].value
+    }
+  }
+  return -1
+}
+
+
 /**
  * 生成随机len位数字
  */
