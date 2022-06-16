@@ -191,7 +191,7 @@ export const option = {
         },
         {
           label: "所属部门",
-          prop: "orgId",
+          prop: "deptId",
           type: 'tree',
           dicUrl: 'admin/dept/tree',
           props: {

@@ -40,7 +40,7 @@ export const option = {
     },
     {
       label: "所属部门",
-      prop: "bm",
+      prop: "deptId",
       search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',

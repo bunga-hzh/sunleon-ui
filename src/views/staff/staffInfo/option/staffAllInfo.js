@@ -51,6 +51,38 @@ export const option = {
   editBtn: false,
   delBtn: false,
   column: [{
+      label: "所属部门",
+      prop: "deptId",
+      width: 120,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      rules: [{
+        required: true,
+        message: "请选择 所属部门",
+        trigger: "change"
+      }],
+      // dicFormatter: (data) => {
+      //   const dic = undefined
+      //   data.forEach(item => {
+      //     if (item.id = 1) {
+      //       dic.push({
+      //         ...item,
+      //         disabled: true,
+      //       })
+      //     } else {
+      //       dic.push(item)
+      //     }
+      //   })
+      //   return dic
+      // },
+      search: true,
+    },
+    {
       label: "教职工编号",
       prop: "gh",
       rules: [{
@@ -71,6 +103,7 @@ export const option = {
       }],
       search: true,
     },
+
     {
       label: "曾用名",
       prop: "cym",
@@ -237,38 +270,6 @@ export const option = {
         trigger: 'blur'
       }],
       width: 120,
-    },
-    {
-      label: "所属部门",
-      prop: "orgId",
-      width: 120,
-      type: 'tree',
-      dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
-      rules: [{
-        required: true,
-        message: "请选择 所属部门",
-        trigger: "change"
-      }],
-      // dicFormatter: (data) => {
-      //   const dic = undefined
-      //   data.forEach(item => {
-      //     if (item.id = 1) {
-      //       dic.push({
-      //         ...item,
-      //         disabled: true,
-      //       })
-      //     } else {
-      //       dic.push(item)
-      //     }
-      //   })
-      //   return dic
-      // },
-      search: true,
     },
     {
       label: "身份证正面上传",

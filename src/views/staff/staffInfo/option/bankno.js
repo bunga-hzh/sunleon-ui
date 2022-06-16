@@ -3,9 +3,29 @@ export const option = {
   border: true,
   menuWidth: 200,
   labelWidth: 130,
+  searchSpan: 8,
   searchLabelWidth: 120,
   viewBtn: true,
+  addBtn: false,
   column: [{
+      label: "所属部门",
+      prop: "deptId",
+      width: 120,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      rules: [{
+        required: true,
+        message: "请选择 所属部门",
+        trigger: "change"
+      }],
+      search: true,
+    },
+    {
       label: "教职工ID",
       prop: "staffId",
       addDisplay: false,
@@ -35,26 +55,6 @@ export const option = {
       rules: [{
         required: true,
         message: "请输入 工号",
-        trigger: "change"
-      }],
-    },
-    {
-      label: "所属部门",
-      prop: "deptId",
-      search: true,
-      type: 'tree',
-      dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
-      addDisabled: true,
-      editDisabled: true,
-      width: 120,
-      rules: [{
-        required: true,
-        message: "请选择 部门",
         trigger: "change"
       }],
     },

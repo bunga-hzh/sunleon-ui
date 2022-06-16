@@ -3,8 +3,10 @@ export const option = {
   border: true,
   menuWidth: 200,
   labelWidth: 160,
+  searchSpan: 8,
   searchLabelWidth: 120,
   viewBtn: true,
+  addBtn: false,
   column: [{
       label: "教职工ID",
       prop: "staffId",

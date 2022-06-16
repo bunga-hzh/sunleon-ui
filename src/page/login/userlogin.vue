@@ -1,57 +1,46 @@
 <template>
-  <el-form
-    ref="loginForm"
-    :rules="loginRules"
-    :model="loginForm"
-    class="login-form"
-    status-icon
-    label-width="0"
-  >
+  <el-form ref="loginForm"
+           :rules="loginRules"
+           :model="loginForm"
+           class="login-form"
+           status-icon
+           label-width="0">
     <el-form-item prop="username">
-      <el-input
-        v-model="loginForm.username"
-        size="small"
-        auto-complete="off"
-        placeholder="请输入用户名"
-        @keyup.enter.native="handleLogin"
-      >
-        <i slot="prefix" class="icon-yonghuming" />
+      <el-input v-model="loginForm.username"
+                size="small"
+                auto-complete="off"
+                placeholder="请输入用户名"
+                @keyup.enter.native="handleLogin">
+        <i slot="prefix"
+           class="icon-yonghuming" />
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input
-        :type="passwordType"
-        v-model="loginForm.password"
-        size="small"
-        auto-complete="off"
-        placeholder="请输入密码"
-        @keyup.enter.native="handleLogin"
-      >
-        <i
-          slot="suffix"
-          class="el-icon-view el-input__icon"
-          @click="showPassword"
-        />
-        <i slot="prefix" class="icon-mima"></i>
+      <el-input :type="passwordType"
+                v-model="loginForm.password"
+                size="small"
+                auto-complete="off"
+                placeholder="请输入密码"
+                @keyup.enter.native="handleLogin">
+        <i slot="suffix"
+           class="el-icon-view el-input__icon"
+           @click="showPassword" />
+        <i slot="prefix"
+           class="icon-mima"></i>
       </el-input>
     </el-form-item>
     <el-form-item prop="code">
-      <Verify
-        @success="verifySuccess"
-        :mode="'pop'"
-        :captchaType="'blockPuzzle'"
-        :imgSize="{ width: '330px', height: '155px' }"
-        ref="verify"
-      />
+      <Verify @success="verifySuccess"
+              :mode="'pop'"
+              :captchaType="'blockPuzzle'"
+              :imgSize="{ width: '330px', height: '155px' }"
+              ref="verify" />
     </el-form-item>
     <el-form-item>
-      <el-button
-        type="primary"
-        size="small"
-        class="login-submit"
-        @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      <el-button type="primary"
+                 size="small"
+                 class="login-submit"
+                 @click.native.prevent="handleLogin">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -74,8 +63,8 @@ export default {
         state: "",
       },
       loginForm: {
-        username: "jzgtest",
-        password: "123456",
+        username: "",
+        password: "",
         code: "",
         randomStr: "blockPuzzle",
       },

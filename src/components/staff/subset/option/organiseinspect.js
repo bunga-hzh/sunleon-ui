@@ -8,25 +8,6 @@ export const option = {
   editBtn: false,
   delBtn: false,
   column: [{
-      label: "姓名",
-      prop: "xm",
-    },
-    {
-      label: "工号",
-      prop: "gh",
-    },
-    {
-      label: "所属部门",
-      prop: "deptId",
-      type: 'tree',
-      dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
-    },
-    {
       label: "考察事由",
       prop: 'kcsy',
     },

@@ -5,7 +5,7 @@ import {
 } from "@/util/validate";
 import {
   getRegionTreeApi
-} from "@/api/recuit/common/commonApi";
+} from "@/api/staff/crud";
 
 
 var validateIdCard = (rule, value, callback) => {
@@ -43,11 +43,44 @@ const is_type = [{
 export const option = {
   align: 'center',
   border: true,
-  menuWidth: 200,
+  menuWidth: 260,
   labelWidth: 160,
   searchLabelWidth: 120,
   viewBtn: true,
   column: [{
+      label: "所属部门",
+      prop: "deptId",
+      width: 120,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      rules: [{
+        required: true,
+        message: "请选择 所属部门",
+        trigger: "change"
+      }],
+      // dicFormatter: (data) => {
+      //   const dic = undefined
+      //   data.forEach(item => {
+      //     if (item.id = 1) {
+      //       dic.push({
+      //         ...item,
+      //         disabled: true,
+      //       })
+      //     } else {
+      //       dic.push(item)
+      //     }
+      //   })
+      //   return dic
+      // },
+      search: true,
+    },
+    {
       label: "教职工编号",
       prop: "gh",
       rules: [{
@@ -181,10 +214,7 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicFormatter: (data) => {
-        return data.data.items;
-      },
-      dicUrl: `/admin/dict/type_with_dict_id/nation_type`
+      dicUrl: `/admin/dict/type/nation_type`
     },
     {
       label: "政治面貌",
@@ -234,38 +264,6 @@ export const option = {
         trigger: 'blur'
       }],
       width: 120,
-    },
-    {
-      label: "所属部门",
-      prop: "deptId",
-      width: 120,
-      type: 'tree',
-      dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
-      rules: [{
-        required: true,
-        message: "请选择 所属部门",
-        trigger: "change"
-      }],
-      // dicFormatter: (data) => {
-      //   const dic = undefined
-      //   data.forEach(item => {
-      //     if (item.id = 1) {
-      //       dic.push({
-      //         ...item,
-      //         disabled: true,
-      //       })
-      //     } else {
-      //       dic.push(item)
-      //     }
-      //   })
-      //   return dic
-      // },
-      search: true,
     },
     {
       label: "身份证正面上传",
@@ -475,10 +473,7 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicFormatter: (data) => {
-        return data.data.items;
-      },
-      dicUrl: `/admin/dict/type_with_dict_id/htlx`
+      dicUrl: `/admin/dict/type/htlx`
     },
     {
       label: "专技人员专业类别",

@@ -22,7 +22,7 @@ export async function loadAll() {
     users.push({
       value: item.xm,
       gh: item.gh,
-      orgId: item.orgId,
+      deptId: item.deptId,
       staffId: item.id,
     });
   });

@@ -2,7 +2,8 @@
   <div class="login-container">
     <div class="login-weaper animated bounceInDown">
       <div class="login-logo">
-        <img src="/img/logo.png" alt="" />
+        <img src="/img/logo.png"
+             alt="" />
       </div>
       <p class="login-tip">{{ website.title }}</p>
       <div class="login-border">

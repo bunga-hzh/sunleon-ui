@@ -57,4 +57,22 @@ export default [{
       component: () => import('@/components/staff/subset/index')
     }]
   },
+  {
+    path: '/subset-set',
+    component: Layout,
+    redirect: '/subset-set/index',
+    children: [{
+      path: 'index/:id',
+      component: () => import('@/components/staff/subset-set/index')
+    }]
+  },
+  {
+    path: '/external-child',
+    component: Layout,
+    redirect: '/external-child/index',
+    children: [{
+      path: 'index/:id',
+      component: () => import('@/components/staff/external-child/index')
+    }]
+  },
 ]

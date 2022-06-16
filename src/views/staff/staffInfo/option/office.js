@@ -11,22 +11,34 @@ export const option = {
   border: true,
   menuWidth: 200,
   labelWidth: 160,
+  searchSpan: 8,
   searchLabelWidth: 120,
   viewBtn: true,
+  addBtn: false,
   column: [{
-      label: "教职工ID",
-      prop: "staffId",
-      addDisplay: false,
-      editDisplay: false,
-      viewDisplay: false,
-      hide: true,
+      label: "所属部门",
+      prop: "deptId",
+      width: 120,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      rules: [{
+        required: true,
+        message: "请选择 所属部门",
+        trigger: "change"
+      }],
+      search: true,
+      editDisabled: true,
     },
     {
       label: "姓名",
       prop: "xm",
       search: true,
-      slotForm: true,
-      formslot: true,
+      editDisabled: true,
       rules: [{
         required: true,
         message: "请选择 用户",
@@ -37,31 +49,11 @@ export const option = {
       label: "工号",
       prop: "gh",
       search: true,
-      addDisabled: true,
       editDisabled: true,
       width: 120,
       rules: [{
         required: true,
         message: "请输入 工号",
-        trigger: "change"
-      }],
-    },
-    {
-      label: "所属部门",
-      prop: "deptId",
-      search: true,
-      type: 'tree',
-      dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-      },
-      addDisabled: true,
-      editDisabled: true,
-      width: 120,
-      rules: [{
-        required: true,
-        message: "请选择 部门",
         trigger: "change"
       }],
     },
@@ -88,6 +80,11 @@ export const option = {
     {
       label: "岗位名称",
       prop: "gwmc",
+      type: 'select'
+    },
+    {
+      label: "岗位等级",
+      prop: "gwdjm",
       type: 'select'
     },
     {
