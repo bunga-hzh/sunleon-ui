@@ -56,6 +56,7 @@ export const option = {
       width: 120,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
+
       props: {
         label: "name",
         value: "id",
@@ -66,20 +67,6 @@ export const option = {
         message: "请选择 所属部门",
         trigger: "change"
       }],
-      // dicFormatter: (data) => {
-      //   const dic = undefined
-      //   data.forEach(item => {
-      //     if (item.id = 1) {
-      //       dic.push({
-      //         ...item,
-      //         disabled: true,
-      //       })
-      //     } else {
-      //       dic.push(item)
-      //     }
-      //   })
-      //   return dic
-      // },
       search: true,
     },
     {

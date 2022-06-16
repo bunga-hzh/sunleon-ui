@@ -4,6 +4,7 @@
                :data="data"
                :option="option"
                :page.sync="page"
+               :search.sync="search"
                :table-loading="showLoading"
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
@@ -55,6 +56,7 @@ export default {
   data() {
     return {
       form: {},
+      search: {},
       data: [],
       option: option,
       page: {
@@ -76,8 +78,8 @@ export default {
     exportExcel() {
       this.downBlobFile(
         "/staff/zzjgbankno/export",
-        null,
-        "教职工财务信息表.xlsx"
+        this.search,
+        "教职工财务信息.xlsx"
       );
     },
     // 获取数据
@@ -100,7 +102,7 @@ export default {
     },
     // 加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 添加
     async rowSave(form, done, loading) {

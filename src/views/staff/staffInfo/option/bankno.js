@@ -62,6 +62,8 @@ export const option = {
       label: "中国建设银行卡号",
       prop: "zgjsyhkh",
       span: 24,
+      // sortable: true,
+      // width: 200,
     },
     {
       label: "中国工商银行卡号",

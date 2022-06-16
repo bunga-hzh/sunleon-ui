@@ -4,6 +4,7 @@
                :data="data"
                :option="option"
                :page.sync="page"
+               :search.sync="search"
                :table-loading="showLoading"
                :before-open="beforeOpen"
                :upload-after="uploadAfter"
@@ -56,6 +57,7 @@ export default {
   data() {
     return {
       form: {},
+      search: {},
       data: [],
       option: option,
       page: {
@@ -75,7 +77,7 @@ export default {
       this.downBlobFile(
         "/staff/zzjginfo/export",
         this.search,
-        "教职工人员基本信息表.xlsx"
+        "教职工基本信息表.xlsx"
       );
     },
     // 弹窗打开前
@@ -85,13 +87,14 @@ export default {
           validatenull(this.form.jjzqssj) || validatenull(this.form.jjzjzsj)
             ? undefined
             : [this.form.jjzqssj, this.form.jjzjzsj];
-        this.form.jg = validatenull(this.form.jg)
+        this.form.jg = JSON.parse(this.form.jg)
           ? undefined
           : JSON.stringify(this.form.jg);
         this.form.hkszdm = validatenull(this.form.hkszdm)
           ? undefined
-          : JSON.stringify(this.form.hkszdm);
+          : JSON.parse(this.form.hkszdm);
       }
+      console.log(this.form);
       done();
     },
     // 获取数据
@@ -114,7 +117,7 @@ export default {
     },
     // 加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 添加
     async rowSave(form, done, loading) {

@@ -62,7 +62,7 @@ export default {
       this.downBlobFile(
         "/staff/zzjginfo/all/export",
         this.search,
-        "教职工基本信息表.xlsx"
+        "教职工信息表.xlsx"
       );
     },
     // 弹窗打开前
@@ -101,7 +101,7 @@ export default {
     },
     // 加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 刷新
     refreshChange() {
