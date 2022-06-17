@@ -113,9 +113,15 @@ export default {
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const { data: res } = await putObj("bankno", form);
+      const obj = {
+        ...form,
+        id: this.data[index].id,
+        staffId: this.data[index].staffId,
+      };
+      const { data: res } = await putObj("bankno", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(form);
+      done();
+      this.refreshChange();
       this.$message.success("修改成功！");
     },
     // 删除

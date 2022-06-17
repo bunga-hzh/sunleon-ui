@@ -9,13 +9,22 @@ const is_type = [{
 export const option = {
   align: 'center',
   border: true,
-  menuWidth: 200,
+  menuWidth: 140,
   labelWidth: 160,
   searchSpan: 8,
   searchLabelWidth: 120,
   viewBtn: true,
   addBtn: false,
+  delBtn: false,
   column: [{
+      label: "id",
+      prop: "id",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
+    },
+    {
       label: "所属部门",
       prop: "deptId",
       width: 120,
@@ -44,6 +53,14 @@ export const option = {
         message: "请选择 用户",
         trigger: "change"
       }],
+    },
+    {
+      label: "教职工ID",
+      prop: "staffId",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
     },
     {
       label: "工号",

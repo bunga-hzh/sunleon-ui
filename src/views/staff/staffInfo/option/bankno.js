@@ -1,12 +1,13 @@
 export const option = {
   align: 'center',
   border: true,
-  menuWidth: 200,
+  menuWidth: 140,
   labelWidth: 130,
   searchSpan: 8,
   searchLabelWidth: 120,
   viewBtn: true,
   addBtn: false,
+  delBtn: false,
   column: [{
       label: "所属部门",
       prop: "deptId",
@@ -24,6 +25,8 @@ export const option = {
         trigger: "change"
       }],
       search: true,
+      addDisabled: true,
+      editDisabled: true,
     },
     {
       label: "教职工ID",

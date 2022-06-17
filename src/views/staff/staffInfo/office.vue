@@ -1,6 +1,7 @@
 <template>
   <basic-container>
-    <avue-crud v-model="form"
+    <avue-crud ref="crud"
+               v-model="form"
                :data="data"
                :option="option"
                :page.sync="page"
@@ -55,9 +56,6 @@ export default {
         pageSize: 10,
       },
       showLoading: false,
-
-      timeout: undefined,
-      usersList: [],
     };
   },
   components: {
@@ -107,9 +105,17 @@ export default {
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const { data: res } = await putObj("office", form);
+      const obj = {
+        ...form,
+        id: this.data[index].id,
+        staffId: this.data[index].staffId,
+        jyclsc: validatenull(form.jyclsc) ? undefined : form.jyclsc[0].value,
+      };
+      console.log(form);
+      const { data: res } = await putObj("office", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(form);
+      done();
+      this.refreshChange();
       this.$message.success("修改成功！");
     },
     // 删除
