@@ -71,39 +71,16 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
-      const obj = {
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        zgsj: form.zgsj,
-        xz: form.xz,
-        ygwmc: form.ygwmc,
-        xgwmc: form.xgwmc,
-        bz: form.bz,
-      };
-      const { data: res } = await addObj("ywglzg", obj);
+      const { data: res } = await addObj("ywglzg", form);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done({ ...obj, id: res.data });
+      done({ ...form, id: res.data });
       this.$message.success("添加成功！");
     },
     // 编辑
     async rowUpdate(form, index, done, loading) {
-      const obj = {
-        id: form.id,
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        zgsj: form.zgsj,
-        xz: form.xz,
-        ygwmc: form.ygwmc,
-        xgwmc: form.xgwmc,
-        bz: form.bz,
-      };
-      const { data: res } = await putObj("ywglzg", obj);
+      const { data: res } = await putObj("ywglzg", form);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(obj);
+      done(form);
       this.$message.success("修改成功！");
     },
     // 删除
@@ -147,7 +124,7 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
   },

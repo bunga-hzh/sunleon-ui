@@ -4,6 +4,7 @@
                :data="data"
                :option="option"
                :page.sync="page"
+               :search-sync="search"
                :before-open="beforeOpen"
                :table-loading="showLoading"
                @on-load="onload"
@@ -12,9 +13,13 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
-      <template slot="startDate"
+      <template slot="qsr"
                 slot-scope="scope">
-        {{ scope.row.startDate }} - {{ scope.row.endDate }}
+        {{ scope.row.qsr }} - {{ scope.row.dqr }}
+      </template>
+      <template slot="qssj"
+                slot-scope="scope">
+        {{ scope.row.qssj }} - {{ scope.row.zzsj }}
       </template>
     </avue-crud>
   </div>
@@ -23,13 +28,13 @@
 <script>
 import { option } from "../option/Contract";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import { validatenull } from "@/util/validate";
 
 export default {
   data() {
     return {
       form: {},
+      search: {},
       data: undefined,
       option: option,
       page: {
@@ -46,7 +51,8 @@ export default {
     // 弹框打开前
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
-        this.form.startDate = [this.form.startDate, this.form.endDate];
+        this.form.qsr = [this.form.qsr, this.form.dqr];
+        this.form.qssj = [this.form.qssj, this.form.zzsj];
       }
       done();
     },
@@ -70,7 +76,7 @@ export default {
     },
     // 初次加载
     onload() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 添加
     async rowSave(form, done, loading) {
@@ -119,11 +125,6 @@ export default {
         })
         .catch(() => {});
     },
-    // 批量续签
-    bulkRenewal() {
-      this.dialogVisible = true;
-    },
-    submit() {},
     // 刷新
     refreshChange() {
       this.fetchList();
@@ -134,22 +135,6 @@ export default {
       this.fetchList(form);
       done();
     },
-    // 搜索姓名
-    querySearchAsync(queryString, cb) {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(querySearch(queryString));
-      }, 1000 * Math.random());
-    },
-    // 选择用户
-    handleSelect(item) {
-      this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
-      this.form.staffId = item.staffId;
-    },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

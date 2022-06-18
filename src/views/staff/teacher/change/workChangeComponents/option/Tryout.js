@@ -1,8 +1,7 @@
 export const option = {
   align: 'center',
   border: true,
-  searchMenuSpan: 4,
-  searchSpan: 6,
+  searchSpan: 8,
   index: true,
   menuWidth: 200,
   labelWidth: 120,
@@ -28,17 +27,18 @@ export const option = {
     },
     {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       addDisabled: true,
       editDisabled: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
+    },
+    {
+      label: "岗位",
+      prop: "gwmc",
+      addDisabled: true,
+      editDisabled: true,
     },
     {
       label: "试用期（月）",
@@ -49,15 +49,6 @@ export const option = {
       rules: [{
         required: true,
         message: '请输入 试用期（月）',
-        trigger: 'blur',
-      }]
-    },
-    {
-      label: "岗位",
-      prop: "gw",
-      rules: [{
-        required: true,
-        message: '请输入 岗位',
         trigger: 'blur',
       }]
     },
@@ -86,7 +77,8 @@ export const option = {
       width: 180,
       rules: [{
         required: true,
-        message: '请选择开始时间-结束时间'
+        message: '请选择开始时间-结束时间',
+        trigger: 'blur',
       }]
     },
     {

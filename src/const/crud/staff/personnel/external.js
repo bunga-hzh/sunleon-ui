@@ -32,7 +32,15 @@ export const option = {
       label: "性别",
       prop: "xbm",
       type: 'radio',
-      dicUrl: '/admin/dict/type/sex_type',
+      dicData: [{
+          label: "男",
+          value: 1,
+        },
+        {
+          label: "女",
+          value: 2,
+        }
+      ],
       props: {
         "label": "label",
         "value": "value",
@@ -88,6 +96,7 @@ export const option = {
     {
       label: "性质",
       prop: "xz",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_nature',
       props: {
         label: 'label',
@@ -120,7 +129,8 @@ export const option = {
     },
     {
       label: "户口",
-      prop: "hz",
+      prop: "hk",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_account',
       props: {
         label: 'label',
@@ -135,6 +145,7 @@ export const option = {
     {
       label: "四金缴纳",
       prop: "sjjn",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_four_gold_payments',
       props: {
         label: 'label',
@@ -149,6 +160,7 @@ export const option = {
     {
       label: "学历",
       prop: "xl",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_education',
       props: {
         label: 'label',
@@ -163,6 +175,7 @@ export const option = {
     {
       label: "学位",
       prop: "xw",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_degree',
       props: {
         label: 'label',
@@ -238,6 +251,8 @@ export const option = {
     },
     {
       label: "职称",
+      addDisplay: false,
+      editDisplay: false,
       children: [{
           label: "等级",
           prop: "dj",

@@ -34,6 +34,7 @@
 import { option } from "../option/Positive";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -84,14 +85,9 @@ export default {
     // 添加
     async rowSave(form, done, loading) {
       const obj = {
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        gw: form.gw,
-        lzrq: form.lzrq[0],
-        zzrq: form.lzrq[1],
-        bz: form.bz,
+        ...form,
+        lzrq: validatenull(form.lzrq) ? null : form.lzrq[0],
+        zzrq: validatenull(form.lzrq) ? null : form.lzrq[1],
       };
       const { data: res } = await addObj("ywglzz", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
@@ -101,15 +97,9 @@ export default {
     // 编辑
     async rowUpdate(form, index, done, loading) {
       const obj = {
-        id: form.id,
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        gw: form.gw,
-        lzrq: form.lzrq[0],
-        zzrq: form.lzrq[1],
-        bz: form.bz,
+        ...form,
+        lzrq: validatenull(form.lzrq) ? null : form.lzrq[0],
+        zzrq: validatenull(form.lzrq) ? null : form.lzrq[1],
       };
       const { data: res } = await putObj("ywglzz", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
@@ -157,7 +147,7 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
   },

@@ -1,7 +1,7 @@
 export const option = {
   align: 'center',
   border: true,
-  searchSpan: 7,
+  searchSpan: 8,
   index: true,
   labelWidth: 180,
   menuWidth: 200,
@@ -27,6 +27,7 @@ export const option = {
         message: '请输入 签约日',
         trigger: 'blur'
       }],
+      width: 120,
     },
     {
       label: "聘期（年）",
@@ -55,7 +56,8 @@ export const option = {
       rules: [{
         required: true,
         message: '请输入 起始日-到期日'
-      }]
+      }],
+      slot: true,
     },
     {
       label: "试用期（月）",
@@ -81,13 +83,15 @@ export const option = {
       startPlaceholder: '起始时间',
       endPlaceholder: '终止时间',
       width: 180,
+      slot: true,
     },
     {
       label: "内设部门",
       prop: "deptId",
       search: true,
       type: 'tree',
-      dicUrl: 'admin/dept/tree',
+      cascader: ['nsgw'],
+      dicUrl: '/admin/dept/tree',
       props: {
         label: "name",
         value: "id",
@@ -98,17 +102,27 @@ export const option = {
         required: true,
         message: '请选择 内设部门',
         trigger: 'blur'
-      }]
+      }],
     },
     {
       label: "内设岗位",
       prop: "nsgw",
+      type: 'select',
       search: true,
       rules: [{
         required: true,
         message: '请选择 内设岗位',
         trigger: 'blur'
-      }]
+      }],
+      searchMultiple: true,
+      searchFilterable: true,
+      filterable: true,
+      filter: true,
+      dicUrl: "/staff/zzjgcommon/postByDeptId/{{key}}",
+      props: {
+        label: "name",
+        value: "id",
+      },
     },
     {
       label: "人员分类",

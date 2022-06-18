@@ -1,10 +1,12 @@
-import {getDetails} from '@/api/admin/user'
+import {
+  getDetails
+} from '@/api/admin/user'
 
 
 var validateUsername = (rule, value, callback) => {
-  if(value>0){
+  if (value > 0) {
     callback()
-  }else{
+  } else {
     callback(new Error('招聘人数必须大于0'))
   }
 }
@@ -18,50 +20,50 @@ export const tableOption = {
   searchMenuSpan: 6,
   editBtn: true,
   delBtn: true,
-  viewBtn:true,
-  addTitle:'新增招聘岗位',
-  editTitle:'修改招聘岗位',
+  viewBtn: true,
+  addTitle: '新增招聘岗位',
+  editTitle: '修改招聘岗位',
   align: 'center',
-  menuWidth:280,
-  menuHeaderAlign:'center',
-  labelWidth:120,
-  gutter:60,
+  menuWidth: 280,
+  menuHeaderAlign: 'center',
+  labelWidth: 120,
+  gutter: 60,
   addBtn: true,
   filterParams: ['yearTime'],
   column: [{
-    fixed: true,
-    label: 'id',
-    prop: 'id',
-    span: 24,
-    viewDisplay:false,
-    hide: true,
-    editDisplay: false,
-    addDisplay: false,
-    showColumn: false
-  }, {
-    label: '岗位编号',
-    prop: 'postCode',
-    editDisabled: true,
-    rules: [{
-      required: true,
-      message: '请输入岗位编号'
+      fixed: true,
+      label: 'id',
+      prop: 'id',
+      span: 24,
+      viewDisplay: false,
+      hide: true,
+      editDisplay: false,
+      addDisplay: false,
+      showColumn: false
+    }, {
+      label: '岗位编号',
+      prop: 'postCode',
+      editDisabled: true,
+      rules: [{
+          required: true,
+          message: '请输入岗位编号'
+        },
+        {
+          min: 3,
+          max: 20,
+          message: '长度在 3 到 20 个字符',
+          trigger: 'blur'
+        }
+      ]
     },
-      {
-        min: 3,
-        max: 20,
-        message: '长度在 3 到 20 个字符',
-        trigger: 'blur'
-      }
-    ]
-  },
     {
       // width: 180,
       label: '日期',
       prop: 'createTime',
       search: true,
-      viewDisplay:false,
+      viewDisplay: false,
       searchTitle: '日期',
-      searchValue: new Date().getFullYear()+"",
+      searchValue: new Date().getFullYear() + "",
       type: 'year',
       format: 'yyyy年',
       valueFormat: 'yyyy',
@@ -69,7 +71,7 @@ export const tableOption = {
       addDisplay: false,
       editDisabled: true,
       showColumn: false,
-      hide:true,
+      hide: true,
       span: 24
     },
     {
@@ -87,7 +89,7 @@ export const tableOption = {
     },
     {
       label: '岗位名称',
-      prop:'postName',
+      prop: 'postName',
       addDisplay: false,
       editDisplay: false,
       viewDisplay: false,
@@ -102,29 +104,30 @@ export const tableOption = {
         message: '请选择岗位',
         trigger: 'change'
       }],
-      hide:true,
-      searchMultiple:true,
+      hide: true,
+      searchMultiple: true,
       // multiple:true,
       // filters:true,
-      searchFilterable:true,
-      filterable:true,
-      filter:true,
+      searchFilterable: true,
+      filterable: true,
+      filter: true,
       props: {
         label: 'name',
         value: 'id'
       },
       dicUrl: "/act/gwFb/get_list/{{key}}"
-    }, {
+    },
+    {
       label: '招聘负责人',
       prop: 'userName',
       editDisplay: false,
       addDisplay: false,
-      viewDisplay:false,
+      viewDisplay: false,
     },
     {
       label: '状态',
       prop: 'isRelease',
-      viewDisplay:false,
+      viewDisplay: false,
       type: 'select',
       editDisplay: false,
       addDisplay: false,
@@ -141,16 +144,19 @@ export const tableOption = {
       prop: 'recruitNumber',
       type: 'number',
       rules: [{
-        required: true,
-        message: '请输入招聘人数'
-      },
+          required: true,
+          message: '请输入招聘人数'
+        },
         // {
         //   min: 3,
         //   max: 20,
         //   message: '长度在 3 到 20 个字符',
         //   trigger: 'blur'
         // },
-        {validator: validateUsername, trigger: 'blur'}
+        {
+          validator: validateUsername,
+          trigger: 'blur'
+        }
       ]
     },
     {
@@ -159,8 +165,8 @@ export const tableOption = {
       format: 'yyyy-MM-dd',
       valueFormat: 'yyyy-MM-dd',
       type: "daterange",
-      slot:true,
-      span:24,
+      slot: true,
+      span: 24,
       startPlaceholder: '招聘开始日期',
       endPlaceholder: '招聘结束日期',
       rules: [{
@@ -203,9 +209,9 @@ export const tableOption = {
     },
     {
       label: '岗位要求',
-      prop:'postRequire',
-      showColumn:false,
-      hide:true,
+      prop: 'postRequire',
+      showColumn: false,
+      hide: true,
       type: 'ueditor',
       component: 'avueUeditor',
       span: 24,
@@ -219,9 +225,9 @@ export const tableOption = {
     },
     {
       label: '岗位职责',
-      prop:'postDuty',
-      showColumn:false,
-      hide:true,
+      prop: 'postDuty',
+      showColumn: false,
+      hide: true,
       type: 'ueditor',
       component: 'avueUeditor',
       span: 24,
@@ -245,11 +251,12 @@ export const tableOption = {
       // searchValue:'',
       type: 'datetime',
       searchRange: true,
-      viewDisplay:false,
+      viewDisplay: false,
       format: 'yyyy-MM-dd HH:mm',
       valueFormat: 'yyyy-MM-dd HH:mm',
       editDisplay: false,
       addDisplay: false,
       span: 24
-    }]
+    }
+  ]
 }

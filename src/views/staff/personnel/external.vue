@@ -4,6 +4,7 @@
                :option="option"
                :data="data"
                :page.sync="page"
+               :search-sync="search"
                :table-loading="showLoading"
                @on-load="onLoad"
                @row-save="rowSave"
@@ -17,15 +18,6 @@
                    icon="el-icon-paperclip"
                    @click="toSubset(scope.row)">子集</el-button>
       </template>
-      <template slot="xmForm"
-                slot-scope="{ type }">
-        <el-autocomplete :disabled="type === 'edit' ? true : false"
-                         v-model="form.xm"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入姓名"
-                         @select="handleSelect"
-                         clearable></el-autocomplete>
-      </template>
     </avue-crud>
   </basic-container>
 </template>
@@ -33,7 +25,6 @@
 <script>
 import { option } from "@/const/crud/staff/personnel/external";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   name: "TableEngage",
@@ -41,6 +32,7 @@ export default {
     return {
       // 表单对象
       form: {},
+      search: {},
       child_form: {},
       page: {
         total: 0,
@@ -50,9 +42,6 @@ export default {
       data: [],
       option: option,
       showLoading: false,
-
-      restaurants: [],
-      timeout: null,
     };
   },
   methods: {
@@ -76,7 +65,7 @@ export default {
     },
     // 初次加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 新增
     async rowSave(form, done, loading) {
@@ -121,27 +110,10 @@ export default {
       this.fetchList(form);
       done();
     },
-
-    // 搜索姓名
-    querySearchAsync(queryString, cb) {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(querySearch(queryString));
-      }, 1000 * Math.random());
-    },
-    // 选择用户
-    handleSelect(item) {
-      this.form.gh = item.gh;
-      this.form.orgId = item.deptId;
-      this.form.staffId = item.staffId;
-    },
     // 跳转子集页面
     toSubset(row) {
       this.$router.push(`/external-child/index/${row.id}`);
     },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

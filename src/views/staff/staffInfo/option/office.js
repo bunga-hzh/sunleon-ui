@@ -93,16 +93,21 @@ export const option = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/post_type',
+      cascader: ['gwmc'],
     },
     {
       label: "岗位名称",
       prop: "gwmc",
-      type: 'select'
-    },
-    {
-      label: "岗位等级",
-      prop: "gwdjm",
-      type: 'select'
+      type: "select",
+      searchMultiple: true,
+      searchFilterable: true,
+      filterable: true,
+      filter: true,
+      props: {
+        label: "name",
+        value: "id",
+      },
+      dicUrl: '/staff/zzjgcommon/postByType/{{key}}',
     },
     {
       label: "岗位聘任年月",
@@ -139,12 +144,6 @@ export const option = {
       prop: "cjgzsj",
       type: "date",
       valueFormat: 'yyyy-MM-dd',
-      width: 120,
-    },
-    {
-      label: "实际工作年限",
-      prop: "cjgzny",
-      type: "number",
       width: 120,
     },
     {
