@@ -1,32 +1,91 @@
 export const option = {
   align: 'center',
   border: true,
-  searchMenuSpan: 4,
   searchSpan: 7,
   index: true,
-  labelWidth: 150,
+  labelWidth: 180,
   menuWidth: 200,
   viewBtn: true,
   column: [{
       label: "姓名",
       prop: "xm",
       search: true,
-      formslot: true,
-      editDisabled: true,
+      rules: [{
+        required: true,
+        message: '请输入 姓名',
+        trigger: 'blur'
+      }]
     },
     {
-      label: "工号",
-      prop: "gh",
+      label: "签约日",
+      prop: "qyr",
+      type: "date",
+      valueFormat: "yyyy-MM-dd",
       search: true,
-      addDisabled: true,
-      editDisabled: true,
+      rules: [{
+        required: true,
+        message: '请输入 签约日',
+        trigger: 'blur'
+      }],
     },
     {
-      label: "所属部门",
-      prop: "orgId",
+      label: "聘期（年）",
+      prop: "pq",
+      type: "number",
       search: true,
-      addDisabled: true,
-      editDisabled: true,
+      rules: [{
+        required: true,
+        message: '请输入 聘期',
+        trigger: 'blur'
+      }],
+      searchLabelWidth: 110,
+      width: 100,
+    },
+    {
+      label: "起始日-到期日",
+      prop: "qsr",
+      search: true,
+      searchLabelWidth: 140,
+      type: "daterange",
+      format: 'yyyy-MM-dd',
+      valueFormat: 'yyyy-MM-dd',
+      startPlaceholder: '起始日',
+      endPlaceholder: '到期日',
+      width: 180,
+      rules: [{
+        required: true,
+        message: '请输入 起始日-到期日'
+      }]
+    },
+    {
+      label: "试用期（月）",
+      prop: "syq",
+      type: 'number',
+      search: true,
+      rules: [{
+        required: true,
+        message: '请输入 试用期',
+        trigger: 'blur'
+      }],
+      searchLabelWidth: 110,
+      width: 100,
+    },
+    {
+      label: "试用期(起止时间)",
+      prop: "qssj",
+      search: true,
+      searchLabelWidth: 140,
+      type: "daterange",
+      format: 'yyyy-MM-dd',
+      valueFormat: 'yyyy-MM-dd',
+      startPlaceholder: '起始时间',
+      endPlaceholder: '终止时间',
+      width: 180,
+    },
+    {
+      label: "内设部门",
+      prop: "deptId",
+      search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
       props: {
@@ -35,153 +94,121 @@ export const option = {
         children: "children"
       },
       width: 120,
-    },
-    {
-      label: "薪资",
-      prop: "xz",
-      type: "number",
-      minRows: 0,
-      value: 0,
-    },
-    {
-      label: "岗位名称",
-      prop: "gwmc",
-      addDisabled: true,
-      editDisabled: true,
-    },
-    // {
-    //   label: "开始时间",
-    //   prop: "startDate",
-    //   width: 170,
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    // {
-    //   label: "结束时间",
-    //   prop: "endDate",
-    //   width: 170,
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    {
-      label: "开始时间-结束时间",
-      prop: "startDate",
-      search: true,
-      searchLabelWidth: 140,
-      type: "daterange",
-      format: 'yyyy-MM-dd',
-      valueFormat: 'yyyy-MM-dd',
-      startPlaceholder: '开始时间',
-      endPlaceholder: '结束时间',
-      width: 180,
       rules: [{
         required: true,
-        message: '请选择开始时间-结束时间'
+        message: '请选择 内设部门',
+        trigger: 'blur'
       }]
     },
     {
-      label: "备注",
-      prop: "bz",
-      type: "textarea",
-      span: 24,
-    },
-  ],
-}
-
-
-export const batchOption = {
-  align: 'center',
-  border: true,
-  searchMenuSpan: 4,
-  searchSpan: 7,
-  index: true,
-  labelWidth: 150,
-  menuWidth: 200,
-  viewBtn: true,
-  column: [{
-      label: "续签人员",
-      span: 24,
-      prop: "users",
-      formslot: true,
-    },
-    // {
-    //   label: "姓名",
-    //   prop: "xm",
-    //   search: true,
-    //   formslot: true,
-    //   editDisabled: true,
-    // },
-    // {
-    //   label: "工号",
-    //   prop: "gh",
-    //   search: true,
-    //   addDisabled: true,
-    //   editDisabled: true,
-    // },
-    // {
-    //   label: "所属部门",
-    //   prop: "orgId",
-    //   search: true,
-    //   addDisabled: true,
-    //   editDisabled: true,
-    //   type: 'tree',
-    //   dicUrl: 'admin/dept/tree',
-    //   props: {
-    //     label: "name",
-    //     value: "id",
-    //     children: "children"
-    //   },
-    //   width: 120,
-    // },
-    {
-      label: "薪资",
-      prop: "xz",
-      type: "number",
-      minRows: 0,
-      value: 0,
-    },
-    {
-      label: "岗位名称",
-      prop: "gwmc",
-      addDisabled: true,
-      editDisabled: true,
-    },
-    // {
-    //   label: "开始时间",
-    //   prop: "startDate",
-    //   width: 170,
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    // {
-    //   label: "结束时间",
-    //   prop: "endDate",
-    //   width: 170,
-    //   type: "date",
-    //   valueFormat: "yyyy-MM-dd",
-    // },
-    {
-      label: "开始时间-结束时间",
-      prop: "startDate",
+      label: "内设岗位",
+      prop: "nsgw",
       search: true,
-      searchLabelWidth: 140,
-      type: "daterange",
-      format: 'yyyy-MM-dd',
-      valueFormat: 'yyyy-MM-dd',
-      startPlaceholder: '开始时间',
-      endPlaceholder: '结束时间',
-      width: 180,
       rules: [{
         required: true,
-        message: '请选择开始时间-结束时间'
-      }],
-      span: 24,
+        message: '请选择 内设岗位',
+        trigger: 'blur'
+      }]
     },
     {
-      label: "备注",
-      prop: "bz",
-      type: "textarea",
-      span: 24,
+      label: "人员分类",
+      prop: "ryfl",
+      search: true,
+      dicUrl: 'admin/dict/type/jzg_personnel_type',
+      type: "select",
+      props: {
+        label: "label",
+        value: "value"
+      },
+      width: 120,
+      rules: [{
+        required: true,
+        message: '请选择 人员分类',
+        trigger: 'blur'
+      }]
+    },
+    {
+      label: "专业技术职务、技能等级",
+      prop: "zyjszwjndj",
+      type: "select",
+      dicUrl: 'admin/dict/type/jzg_skill_level',
+      props: {
+        label: "label",
+        value: "value"
+      },
+      width: 160,
+      search: true,
+      searchLabelWidth: 180,
+      rules: [{
+        required: true,
+        message: '请选择 专业技术职务、技能等级',
+        trigger: 'blur'
+      }]
+    },
+    {
+      label: "岗位等级",
+      prop: "gwdj",
+      type: 'select',
+      dicUrl: 'admin/dict/type/jzg_wpjs_post_level',
+      props: {
+        label: "label",
+        value: "value"
+      },
+      search: true,
+      rules: [{
+        required: true,
+        message: '请选择 岗位等级',
+        trigger: 'blur'
+      }]
+    },
+    {
+      label: "薪级等级",
+      prop: "xjdj",
+      type: 'select',
+      dicUrl: 'admin/dict/type/jzg_wpjs_salary_level',
+      props: {
+        label: "label",
+        value: "value"
+      },
+      search: true,
+      rules: [{
+        required: true,
+        message: '请选择 薪级等级',
+        trigger: 'blur'
+      }]
+    },
+    {
+      label: "岗位工资",
+      prop: "gwgz",
+      type: "number",
+      minRows: 0,
+      rules: [{
+        required: true,
+        message: '请输入 岗位工资',
+        trigger: 'blur'
+      }]
+    },
+    {
+      label: "薪级工资",
+      prop: "xjgz",
+      type: "number",
+      minRows: 0,
+      rules: [{
+        required: true,
+        message: '请输入 薪级工资',
+        trigger: 'blur'
+      }]
+    },
+    {
+      label: "国家工资",
+      prop: "gjgz",
+      type: "number",
+      minRows: 0,
+      rules: [{
+        required: true,
+        message: '请输入 国家工资',
+        trigger: 'blur'
+      }]
     },
   ],
 }

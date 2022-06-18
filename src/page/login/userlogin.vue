@@ -63,8 +63,8 @@ export default {
         state: "",
       },
       loginForm: {
-        username: "",
-        password: "",
+        username: "jzgtest",
+        password: "123456",
         code: "",
         randomStr: "blockPuzzle",
       },

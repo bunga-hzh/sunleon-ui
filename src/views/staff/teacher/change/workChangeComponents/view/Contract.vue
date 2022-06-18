@@ -12,58 +12,19 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
-      <template slot="xmForm"
-                slot-scope="{ type }">
-        <el-autocomplete :disabled="type === 'edit' ? true : false"
-                         v-model="form.xm"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入姓名"
-                         @select="handleSelect"
-                         clearable></el-autocomplete>
-      </template>
       <template slot="startDate"
                 slot-scope="scope">
         {{ scope.row.startDate }} - {{ scope.row.endDate }}
       </template>
-      <template slot="menuLeft">
-        <el-button type="primary"
-                   icon="el-icon-s-claim"
-                   @click="bulkRenewal">批量续签</el-button>
-      </template>
     </avue-crud>
-    <!-- <el-dialog title="批量续签"
-               :visible.sync="dialogVisible"
-               width="60%"
-               @open="loadAll">
-      <avue-form v-model="obj"
-                 :option="batchOption"
-                 @submit="submit">
-        <template slot="users">
-          <avue-select all
-                       multiple
-                       v-model="obj.users"
-                       type="tree"
-                       :props="{
-                             label: 'xm',
-                             desc: 'gh',
-                             value: 'id',
-                           }"
-                       :dic="usersList"></avue-select>
-        </template>
-      </avue-form>
-      <span slot="footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog> -->
   </div>
 </template>
 
 <script>
-import { option, batchOption } from "../option/Contract";
+import { option } from "../option/Contract";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {
@@ -79,15 +40,6 @@ export default {
       showLoading: false,
 
       timeout: undefined,
-      // dialogVisible: false,
-      innerVisible: false,
-
-      obj: {
-        users: [],
-      },
-      batchOption: batchOption,
-
-      usersList: [],
     };
   },
   methods: {
@@ -102,7 +54,7 @@ export default {
     async fetchList(query) {
       this.showLoading = true;
       const { data: res } = await fetchList(
-        "ywglhtxq",
+        "ywglrshtgl",
         Object.assign(
           {
             current: this.page.currentPage,
@@ -123,17 +75,13 @@ export default {
     // 添加
     async rowSave(form, done, loading) {
       const obj = {
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        xz: form.xz,
-        gwmc: form.gwmc,
-        startDate: form.startDate[0],
-        endDate: form.startDate[1],
-        bz: form.bz,
+        ...form,
+        qsr: validatenull(form.qsr) ? undefined : form.qsr[0],
+        dqr: validatenull(form.qsr) ? undefined : form.qsr[1],
+        qssj: validatenull(form.qssj) ? undefined : form.qssj[0],
+        zzsj: validatenull(form.qssj) ? undefined : form.qssj[1],
       };
-      const { data: res } = await addObj("ywglhtxq", obj);
+      const { data: res } = await addObj("ywglrshtgl", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
       this.$message.success("添加成功！");
@@ -141,18 +89,13 @@ export default {
     // 编辑
     async rowUpdate(form, index, done, loading) {
       const obj = {
-        id: form.id,
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        xz: form.xz,
-        gwmc: form.gwmc,
-        startDate: form.startDate[0],
-        endDate: form.startDate[1],
-        bz: form.bz,
+        ...form,
+        qsr: validatenull(form.qsr) ? undefined : form.qsr[0],
+        dqr: validatenull(form.qsr) ? undefined : form.qsr[1],
+        qssj: validatenull(form.qssj) ? undefined : form.qssj[0],
+        zzsj: validatenull(form.qssj) ? undefined : form.qssj[1],
       };
-      const { data: res } = await putObj("ywglhtxq", obj);
+      const { data: res } = await putObj("ywglrshtgl", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
       this.$message.success("修改成功！");
@@ -165,7 +108,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("ywglhtxq", form.id);
+          const { data: res } = await delObj("ywglrshtgl", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
