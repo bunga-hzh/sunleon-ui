@@ -438,6 +438,12 @@ export const teachingTasksOption = {
     {
       label: "班级",
       prop: "bj",
+      type: 'select',
+      dicUrl: '/admin/dict/type/jzg_class',
+      props: {
+        label: 'label',
+        value: 'value'
+      },
       rules: [{
         required: true,
         message: "请输入 班级",
@@ -447,6 +453,8 @@ export const teachingTasksOption = {
     {
       label: "课时（节×周）",
       prop: "ks",
+      type: "number",
+      minRows: 0,
       rules: [{
         required: true,
         message: "请输入 课时（节×周）",
@@ -456,6 +464,8 @@ export const teachingTasksOption = {
     {
       label: "单价",
       prop: "dj",
+      type: "number",
+      minRows: 0,
       rules: [{
         required: true,
         message: "请输入 单价",

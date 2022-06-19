@@ -57,3 +57,17 @@ export function getRegionTreeApi(id) {
     method: 'get'
   })
 }
+
+export function getZzjgExternalCertificateByTeacherId(id) {
+  return request({
+    url: '/staff/zzjgexternalcertificate/list/' + id,
+    method: 'get'
+  })
+}
+
+export function getZzjgExternalTeachingtasksByTeacherId(id) {
+  return request({
+    url: '/staff/zzjgexternalteachingtasks/list/' + id,
+    method: 'get'
+  })
+}
