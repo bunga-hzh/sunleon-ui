@@ -16,6 +16,14 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
+      <template slot="jgCodes"
+                slot-scope="scope">
+        {{scope.row.jgName}}
+      </template>
+      <template slot="hkszdmCodes"
+                slot-scope="scope">
+        {{scope.row.hkszdmName}}
+      </template>
       <template slot="menu"
                 slot-scope="scope">
         <el-button type="text"
@@ -66,6 +74,8 @@ export default {
         pageSize: 10,
       },
       showLoading: false,
+
+      regionMap: null,
     };
   },
   components: {
@@ -123,23 +133,22 @@ export default {
     async rowSave(form, done, loading) {
       const obj = {
         ...form,
-        jjzqssj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[0],
-        jjzjzsj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[1],
-        jg: validatenull(form.jg) ? undefined : JSON.stringify(form.jg),
-        hkszdm: validatenull(form.hkszdm)
-          ? undefined
-          : JSON.stringify(form.hkszdm),
+        jjzqssj: validatenull(form.jjzqssj) ? null : form.jjzqssj[0],
+        jjzjzsj: validatenull(form.jjzqssj) ? null : form.jjzqssj[1],
+        jg: validatenull(form.jgCodes) ? null : form.jgCodes.slice(-1)[0],
+        hkszdm: validatenull(form.hkszdmCodes)
+          ? null
+          : form.hkszdmCodes.slice(-1)[0],
         sfzFrontImg: validatenull(form.sfzFrontImg)
-          ? undefined
+          ? null
           : form.sfzFrontImg[0].value,
         sfzBackImg: validatenull(form.sfzBackImg)
-          ? undefined
+          ? null
           : form.sfzBackImg[0].value,
-        zgxlzsc: validatenull(form.zgxlzsc) ? undefined : form.zgxlzsc[0].value,
-        qrzxlzsc: validatenull(form.qrzxlzsc)
-          ? undefined
-          : form.qrzxlzsc[0].value,
+        zgxlzsc: validatenull(form.zgxlzsc) ? null : form.zgxlzsc[0].value,
+        qrzxlzsc: validatenull(form.qrzxlzsc) ? null : form.qrzxlzsc[0].value,
       };
+      console.log(obj);
       const { data: res } = await addObj("info", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
@@ -151,10 +160,10 @@ export default {
         ...form,
         jjzqssj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[0],
         jjzjzsj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[1],
-        jg: validatenull(form.jg) ? undefined : JSON.stringify(form.jg),
-        hkszdm: validatenull(form.hkszdm)
-          ? undefined
-          : JSON.stringify(form.hkszdm),
+        jg: validatenull(form.jgCodes) ? null : form.jgCodes.slice(-1)[0],
+        hkszdm: validatenull(form.hkszdmCodes)
+          ? null
+          : form.hkszdmCodes.slice(-1)[0],
         sfzFrontImg: validatenull(form.sfzFrontImg)
           ? undefined
           : form.sfzFrontImg[0].value,
@@ -234,6 +243,9 @@ export default {
     toSubset(row) {
       this.$router.push(`/subset-set/index/${row.id}`);
     },
+  },
+  created() {
+    // this.getAllRegion();
   },
 };
 </script>

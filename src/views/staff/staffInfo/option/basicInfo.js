@@ -53,17 +53,16 @@ export const option = {
       width: 120,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
-
       props: {
         label: "name",
         value: "id",
         children: "children"
       },
-      rules: [{
-        required: true,
-        message: "请选择 所属部门",
-        trigger: "change"
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请选择 所属部门",
+      //   trigger: "change"
+      // }],
       // dicFormatter: (data) => {
       //   const dic = undefined
       //   data.forEach(item => {
@@ -83,22 +82,22 @@ export const option = {
     {
       label: "教职工编号",
       prop: "gh",
-      rules: [{
-        required: true,
-        message: "请输入教职工编号",
-        trigger: "blur"
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请输入教职工编号",
+      //   trigger: "blur"
+      // }],
       width: 120,
       search: true,
     },
     {
       label: "姓名",
       prop: "xm",
-      rules: [{
-        required: true,
-        message: "请填写姓名",
-        trigger: "blur"
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请填写姓名",
+      //   trigger: "blur"
+      // }],
       search: true,
     },
     {
@@ -114,10 +113,10 @@ export const option = {
         value: "value"
       },
       dicUrl: '/admin/dict/type/sex_type',
-      rules: [{
-        required: true,
-        message: "请选择性别",
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请选择性别",
+      // }],
     },
     {
       label: "年龄",
@@ -125,55 +124,60 @@ export const option = {
       type: "number",
       minRows: 0,
       maxRows: 120,
-      rules: [{
-        required: true,
-        message: "请输入年龄",
-        trigger: "blur",
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请输入年龄",
+      //   trigger: "blur",
+      // }],
     },
     {
       label: "出生日期",
       prop: "csrq",
       type: "date",
       valueFormat: "yyyy-MM-dd",
-      rules: [{
-        required: true,
-        message: "请选择出生日期",
-        trigger: "blur",
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请选择出生日期",
+      //   trigger: "blur",
+      // }],
       width: 120,
     },
     {
       label: "身份证号",
       prop: "sfzjh",
-      rules: [{
-          required: true,
-          message: "请填写",
-          trigger: "blur"
-        },
-        {
-          validator: validateIdCard,
-          trigger: 'blur'
-        }
-      ],
+      // rules: [{
+      //     required: true,
+      //     message: "请填写",
+      //     trigger: "blur"
+      //   },
+      //   {
+      //     validator: validateIdCard,
+      //     trigger: 'blur'
+      //   }
+      // ],
       width: 150,
       search: true,
     },
     {
       label: "出生地",
       prop: "csd",
-      rules: [{
-        required: true,
-        message: "请输入出生地",
-        trigger: "blur",
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请输入出生地",
+      //   trigger: "blur",
+      // }],
       width: 200,
     },
     {
       label: "籍贯",
-      prop: "jg",
+      prop: "jgCodes",
       width: 200,
       type: 'cascader',
+      slot: true,
+      props: {
+        label: 'regionName',
+        value: 'regionCode'
+      },
       lazy: true,
       lazyLoad: async (node, resolve) => {
         const {
@@ -187,24 +191,18 @@ export const option = {
         }
         await getRegionTreeApi(parent).then((res) => {
           if (res.data.code == 0) {
-            let nodes = res.data.data.map((item) => {
-              return {
-                value: item.regionCode,
-                label: item.regionName,
-                id: item.id,
-                leaf: item.leaf,
-              };
-            });
-            resolve(nodes);
+            // let nodes = res.data.data.map((item) => {
+            //   return {
+            //     value: item.regionCode,
+            //     label: item.regionName,
+            //     id: item.id,
+            //     leaf: item.leaf,
+            //   };
+            // });
+            resolve(res.data.data);
           }
         });
-      },
-      // formatter: (val, value, label) => {
-      //   console.log(val);
-      //   console.log(value);
-      //   console.log(label);
-      //   return label
-      // },
+      }
     },
     {
       label: "民族",
@@ -236,19 +234,19 @@ export const option = {
       label: "联系电话",
       prop: "lxdh",
       width: 120,
-      rules: [{
-        validator: vaildataPhone,
-        trigger: 'blur'
-      }]
+      // rules: [{
+      //   validator: vaildataPhone,
+      //   trigger: 'blur'
+      // }]
     },
     {
       label: "电子邮箱",
       prop: "dzyx",
       width: 200,
-      rules: [{
-        validator: vaildataEmail,
-        trigger: 'blur'
-      }]
+      // rules: [{
+      //   validator: vaildataEmail,
+      //   trigger: 'blur'
+      // }]
     },
     {
       label: "紧急联系人姓名",
@@ -259,10 +257,10 @@ export const option = {
       label: "紧急联系人电话",
       prop: "jjlxrdh",
       width: 120,
-      rules: [{
-        validator: vaildataPhone,
-        trigger: 'blur'
-      }],
+      // rules: [{
+      //   validator: vaildataPhone,
+      //   trigger: 'blur'
+      // }],
       width: 120,
     },
     {
@@ -376,9 +374,10 @@ export const option = {
     },
     {
       label: "户口所在地",
-      prop: "hkszdm",
+      prop: "hkszdmCodes",
       width: 200,
       type: 'cascader',
+      slot: true,
       lazy: true,
       lazyLoad: async (node, resolve) => {
         const {

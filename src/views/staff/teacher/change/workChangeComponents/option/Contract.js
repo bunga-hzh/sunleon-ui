@@ -45,7 +45,6 @@ export const option = {
     {
       label: "起始日-到期日",
       prop: "qsr",
-      search: true,
       searchLabelWidth: 140,
       type: "daterange",
       format: 'yyyy-MM-dd',
@@ -75,7 +74,6 @@ export const option = {
     {
       label: "试用期(起止时间)",
       prop: "qssj",
-      search: true,
       searchLabelWidth: 140,
       type: "daterange",
       format: 'yyyy-MM-dd',

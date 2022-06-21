@@ -14,10 +14,11 @@ export const option = {
   menuWidth: 160,
   align: 'center',
   border: true,
-  searchMenuSpan: 4,
+  searchLabelWidth: 100,
   labelWidth: 160,
   index: true,
   menuWidth: 200,
+  searchSpan: 8,
   column: [{
       label: "姓名",
       prop: "xm",
@@ -32,6 +33,7 @@ export const option = {
       label: "性别",
       prop: "xbm",
       type: 'radio',
+      search: true,
       dicData: [{
           label: "男",
           value: 1,
@@ -55,6 +57,7 @@ export const option = {
       label: "民族",
       prop: "mzm",
       type: "select",
+      search: true,
       props: {
         label: 'label',
         value: 'value'
@@ -81,6 +84,7 @@ export const option = {
     {
       label: "身份证号码",
       prop: "sfzjh",
+      search: true,
       width: 150,
       rules: [{
           required: true,
@@ -107,6 +111,7 @@ export const option = {
         message: "请选择 性质",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "家庭地址",
@@ -141,6 +146,7 @@ export const option = {
         message: "请选择 户口",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "四金缴纳",
@@ -156,6 +162,29 @@ export const option = {
         message: "请选择 四金缴纳",
         trigger: "blur"
       }],
+      search: true,
+    },
+    {
+      label: "是否已参加综合保险",
+      prop: "sfycjzhbx",
+      width: 150,
+      type: 'radio',
+      searchLabelWidth: 150,
+      dicData: [{
+          label: '是',
+          value: '1'
+        },
+        {
+          label: '否',
+          value: '0'
+        }
+      ],
+      rules: [{
+        required: true,
+        message: "请选择 教师资格证",
+        trigger: "blur"
+      }],
+      search: true,
     },
     {
       label: "学历",
@@ -171,6 +200,7 @@ export const option = {
         message: "请选择 学历",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "学位",
@@ -186,6 +216,7 @@ export const option = {
         message: "请选择 学位",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "参加工作（年月）",
@@ -218,6 +249,7 @@ export const option = {
         message: "请选择 教师资格证",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "双师型教师",
@@ -238,6 +270,7 @@ export const option = {
         message: "请选择 双师型教师",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "所学专业名称",
@@ -267,6 +300,7 @@ export const option = {
             message: "请选择 等级",
             trigger: "blur"
           }],
+          search: true,
         },
         {
           label: "名称（全称）",

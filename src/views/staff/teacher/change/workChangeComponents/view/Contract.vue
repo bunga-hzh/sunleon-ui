@@ -21,7 +21,22 @@
                 slot-scope="scope">
         {{ scope.row.qssj }} - {{ scope.row.zzsj }}
       </template>
+      <template slot="menuLeft">
+        <el-button class="filter-item"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入</el-button>
+        <el-button type="primary"
+                   icon="el-icon-download"
+                   @click="exportExcel">导出</el-button>
+      </template>
     </avue-crud>
+    <!--excel 模板导入 -->
+    <excel-upload ref="excelUpload"
+                  title="用户信息导入"
+                  url="/staff/zzjgywglrshtgl/import"
+                  temp-url="/admin/sys-file/local/user.xlsx"
+                  @refreshDataList="refreshChange"></excel-upload>
   </div>
 </template>
 
@@ -29,6 +44,7 @@
 import { option } from "../option/Contract";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
+import ExcelUpload from "@/components/upload/excel";
 
 export default {
   data() {
@@ -47,7 +63,18 @@ export default {
       timeout: undefined,
     };
   },
+  components: {
+    ExcelUpload,
+  },
   methods: {
+    // 导出excel
+    exportExcel() {
+      this.downBlobFile(
+        "/staff/zzjgywglrshtgl/export",
+        this.search,
+        "人事合同信息.xlsx"
+      );
+    },
     // 弹框打开前
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {

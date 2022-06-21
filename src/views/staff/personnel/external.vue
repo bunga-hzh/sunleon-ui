@@ -12,6 +12,15 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
+      <template slot="menuLeft">
+        <el-button class="filter-item"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入</el-button>
+        <el-button type="primary"
+                   icon="el-icon-download"
+                   @click="exportExcel">导出</el-button>
+      </template>
       <template slot="menu"
                 slot-scope="scope">
         <el-button type="text"
@@ -19,12 +28,19 @@
                    @click="toSubset(scope.row)">子集</el-button>
       </template>
     </avue-crud>
+    <!--excel 模板导入 -->
+    <excel-upload ref="excelUpload"
+                  title="用户信息导入"
+                  url="/staff/zzjgwpjs/import"
+                  temp-url="/admin/sys-file/local/user.xlsx"
+                  @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>
 
 <script>
 import { option } from "@/const/crud/staff/personnel/external";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
+import ExcelUpload from "@/components/upload/excel";
 
 export default {
   name: "TableEngage",
@@ -44,7 +60,18 @@ export default {
       showLoading: false,
     };
   },
+  components: {
+    ExcelUpload,
+  },
   methods: {
+    // 导出excel
+    exportExcel() {
+      this.downBlobFile(
+        "/staff/zzjgwpjs/export",
+        this.search,
+        "外聘人员信息.xlsx"
+      );
+    },
     // 获取列表
     async fetchList(query) {
       this.showLoading = true;

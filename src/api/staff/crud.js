@@ -71,3 +71,10 @@ export function getZzjgExternalTeachingtasksByTeacherId(id) {
     method: 'get'
   })
 }
+
+export function getRegion() {
+  return request({
+    url: '/staff/zzjginfo/all/region',
+    method: 'get'
+  })
+}
