@@ -81,6 +81,7 @@ export const option = {
       label: "是否取酬",
       prop: 'sfqc',
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'

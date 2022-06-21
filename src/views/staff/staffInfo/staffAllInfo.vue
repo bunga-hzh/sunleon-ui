@@ -14,6 +14,14 @@
                @on-load="onLoad"
                @refresh-change="refreshChange"
                @search-change="searchChange">
+      <template slot="jgCodes"
+                slot-scope="scope">
+        {{scope.row.jgName}}
+      </template>
+      <template slot="hkszdmCodes"
+                slot-scope="scope">
+        {{scope.row.hkszdmName}}
+      </template>
       <template slot="menuLeft">
         <el-button v-if="export_btn"
                    class="filter-item"

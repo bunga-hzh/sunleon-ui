@@ -5,7 +5,7 @@ import {
 } from "@/util/validate";
 import {
   getRegionTreeApi
-} from "@/api/recuit/common/commonApi";
+} from "@/api/staff/crud";
 
 
 var validateIdCard = (rule, value, callback) => {
@@ -161,7 +161,8 @@ export const option = {
     },
     {
       label: "籍贯",
-      prop: "jg",
+      prop: "jgCodes",
+      slot: true,
       width: 200,
       type: 'cascader',
       lazy: true,
@@ -369,7 +370,8 @@ export const option = {
     },
     {
       label: "户口所在地",
-      prop: "hkszdm",
+      prop: "hkszdmCodes",
+      slot: true,
       width: 200,
       type: 'cascader',
       lazy: true,

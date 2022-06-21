@@ -33,6 +33,7 @@ export const option = {
       label: "性别",
       prop: "xbm",
       type: 'radio',
+      border: true,
       search: true,
       dicData: [{
           label: "男",
@@ -131,6 +132,7 @@ export const option = {
         message: "请输入 联系电话",
         trigger: "blur"
       }],
+      width: 120,
     },
     {
       label: "户口",
@@ -169,6 +171,7 @@ export const option = {
       prop: "sfycjzhbx",
       width: 150,
       type: 'radio',
+      border: true,
       searchLabelWidth: 150,
       dicData: [{
           label: '是',
@@ -235,6 +238,7 @@ export const option = {
       prop: "jszgz",
       width: 150,
       type: 'radio',
+      border: true,
       dicData: [{
           label: '有',
           value: '1'
@@ -256,6 +260,7 @@ export const option = {
       prop: "xsxjs",
       width: 150,
       type: 'radio',
+      border: true,
       dicData: [{
           label: '是',
           value: '1'

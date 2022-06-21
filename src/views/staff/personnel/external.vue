@@ -125,6 +125,7 @@ export default {
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...form, id: res.data });
       this.$message.success("添加成功！");
+      this.fetchList(this.search);
     },
     // 修改
     async rowUpdate(form, index, done, loading) {

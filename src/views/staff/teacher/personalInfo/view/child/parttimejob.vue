@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo"]),
+    ...mapGetters(["userInfo", "getStaffId"]),
   },
   watch: {
     getActiveItem(newValue) {
@@ -55,7 +55,7 @@ export default {
       const { data: res } = await fetchList("parttimejob", {
         current: 1,
         size: 20,
-        staffId: this.userInfo.userId,
+        staffId: this.getStaffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       this.showLoading = false;
@@ -74,11 +74,10 @@ export default {
       setTimeout(async () => {
         const obj = {
           ...form,
-          ...this.getStaffObj,
+          staffId: this.getStaffId,
           shjzqsrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[0],
           shjzzzrq: validatenull(form.shjzqsrq) ? undefined : form.shjzqsrq[1],
         };
-        debugger;
         const { data: res } = await addObj("parttimejob", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
         done({ ...obj, id: res.data });

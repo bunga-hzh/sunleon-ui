@@ -22,7 +22,7 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { option } from "./option/info";
-import { getObj, putObj } from "@/api/staff/crud";
+import { getInfoByGh, putObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
@@ -37,14 +37,15 @@ export default {
   },
   computed: {
     ...mapGetters(["userInfo", "permissions"]),
-    ...mapMutations(["setStaffObj"]),
+    ...mapMutations(["setStaffId"]),
     btnText() {
       return this.option.detail ? "编 辑" : "保 存";
     },
   },
   methods: {
     async getObj() {
-      const { data: res } = await getObj("info", this.userInfo.userId);
+      console.log(this.userInfo.username);
+      const { data: res } = await getInfoByGh(this.userInfo.username);
       if (res.code !== 0) return this.$message.error(res.msg);
       if (validatenull(res.data)) return;
       this.obj = {
@@ -65,7 +66,7 @@ export default {
           ? undefined
           : splitUploadData(res.data.qrzxlzsc),
       };
-      console.log(this.obj);
+      this.$store.commit("setStaffId", this.obj.id);
     },
     submit(form, loading) {
       if (JSON.stringify(form) === "{}") {
@@ -75,7 +76,6 @@ export default {
       setTimeout(async () => {
         const obj = {
           ...form,
-          id: this.userInfo.userId,
           jjzqssj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[0],
           jjzjzsj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[1],
           jg: validatenull(form.jgCodes) ? null : form.jgCodes.slice(-1)[0],

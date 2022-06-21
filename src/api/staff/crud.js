@@ -78,3 +78,16 @@ export function getRegion() {
     method: 'get'
   })
 }
+
+/**
+ * 根据工号查询信息
+ * 
+ * @param {String} gh 
+ * @returns 
+ */
+export function getInfoByGh(gh) {
+  return request({
+    url: '/staff/zzjginfo/getInfoByGh/' + gh,
+    method: 'get',
+  })
+}
