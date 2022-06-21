@@ -11,14 +11,14 @@ var validateIdCard = (rule, value, callback) => {
 }
 
 export const option = {
-  menuWidth: 160,
   align: 'center',
   border: true,
   searchLabelWidth: 100,
   labelWidth: 160,
   index: true,
-  menuWidth: 200,
+  menuWidth: 260,
   searchSpan: 8,
+  viewBtn: true,
   column: [{
       label: "姓名",
       prop: "xm",

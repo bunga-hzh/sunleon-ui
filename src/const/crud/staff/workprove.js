@@ -3,9 +3,8 @@ export const option = {
   border: true,
   index: true,
   indexLabel: '序号',
-  searchMenuSpan: 4,
   menuWidth: 260,
-  searchSpan: 7,
+  searchSpan: 8,
   labelWidth: 120,
   viewBtn: true,
   column: [{

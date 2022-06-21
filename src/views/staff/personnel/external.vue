@@ -6,6 +6,7 @@
                :page.sync="page"
                :search-sync="search"
                :table-loading="showLoading"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
@@ -13,17 +14,20 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
-        <el-button class="filter-item"
+        <el-button v-if="import_btn"
+                   class="filter-item"
                    type="primary"
                    icon="el-icon-upload"
                    @click="$refs.excelUpload.show()">导入</el-button>
-        <el-button type="primary"
+        <el-button v-if="export_btn"
+                   type="primary"
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
       <template slot="menu"
                 slot-scope="scope">
-        <el-button type="text"
+        <el-button v-if="child_btn"
+                   type="text"
                    icon="el-icon-paperclip"
                    @click="toSubset(scope.row)">子集</el-button>
       </template>
@@ -41,6 +45,7 @@
 import { option } from "@/const/crud/staff/personnel/external";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
 
 export default {
   name: "TableEngage",
@@ -58,10 +63,30 @@ export default {
       data: [],
       option: option,
       showLoading: false,
+
+      export_btn: false,
+      import_btn: false,
+      child_btn: false,
     };
   },
   components: {
     ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjgwpjs_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjgwpjs_import"]; //导入
+    this.child_btn = this.permissions["staff_zzjgwpjs_child"]; //子集
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjgwpjs_view, false),
+        addBtn: this.vaildData(this.permissions.staff_zzjgwpjs_add, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjgwpjs_del, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgwpjs_edit, false),
+      };
+    },
   },
   methods: {
     // 导出excel
@@ -69,7 +94,7 @@ export default {
       this.downBlobFile(
         "/staff/zzjgwpjs/export",
         this.search,
-        "外聘人员信息.xlsx"
+        "外聘教师信息.xlsx"
       );
     },
     // 获取列表

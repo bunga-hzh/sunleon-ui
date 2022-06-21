@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getStaffObj"]),
+    ...mapGetters(["userInfo"]),
   },
   watch: {
     getActiveItem(newValue) {
@@ -55,7 +55,7 @@ export default {
       const { data: res } = await fetchList("parttimejob", {
         current: 1,
         size: 20,
-        staffId: this.getStaffObj.staffId,
+        staffId: this.userInfo.userId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       this.showLoading = false;

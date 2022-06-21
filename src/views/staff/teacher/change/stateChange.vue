@@ -10,6 +10,7 @@
                  :upload-after="uploadAfter"
                  :upload-preview="uploadPreview"
                  :upload-error="uploadError"
+                 :permission="permissionList"
                  @on-load="onLoad"
                  @row-save="rowSave"
                  @row-update="rowUpdate"
@@ -39,6 +40,7 @@ import { option } from "@/const/crud/staff/teacher/change/stateChange";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import { mapGetters } from "vuex";
 
 export default {
   name: "StateChange",
@@ -57,6 +59,17 @@ export default {
       restaurants: [],
       timeout: null,
     };
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjgchange_view, false),
+        addBtn: this.vaildData(this.permissions.staff_zzjgchange_add, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjginfo_del, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgchange_del, false),
+      };
+    },
   },
   methods: {
     beforeOpen(done, type) {
@@ -162,7 +175,7 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
 
@@ -206,5 +219,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

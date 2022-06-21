@@ -1,6 +1,7 @@
 <template>
   <basic-container>
-    <avue-crud v-model="form"
+    <avue-crud ref="crud"
+               v-model="form"
                :data="data"
                :option="option"
                :page.sync="page"
@@ -10,6 +11,7 @@
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
@@ -24,24 +26,28 @@
                 slot-scope="scope">
         {{scope.row.hkszdmName}}
       </template>
-      <template slot="menu"
-                slot-scope="scope">
-        <el-button type="text"
-                   icon="el-icon-paperclip"
-                   @click="toSubset(scope.row)">子集</el-button>
-      </template>
-      <template slot="menuLeft">
-        <el-button class="filter-item"
-                   type="primary"
-                   icon="el-icon-upload"
-                   @click="$refs.excelUpload.show()">导入</el-button>
-        <el-button type="primary"
-                   icon="el-icon-download"
-                   @click="exportExcel">导出</el-button>
-      </template>
       <template slot="jjzqssj"
                 slot-scope="scope">
         {{scope.row.jjzqssj}}-{{scope.row.jjzjzsj}}
+      </template>
+      <template slot="menuLeft">
+        <el-button v-if="import_btn"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入
+        </el-button>
+        <el-button v-if="export_btn"
+                   type="primary"
+                   icon="el-icon-download"
+                   @click="exportExcel">导出
+        </el-button>
+      </template>
+      <template slot="menu"
+                slot-scope="scope">
+        <el-button v-if="child_btn"
+                   type="text"
+                   icon="el-icon-paperclip"
+                   @click="toSubset(scope.row)">子集</el-button>
       </template>
     </avue-crud>
     <!--excel 模板导入 -->
@@ -60,6 +66,7 @@ import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -75,11 +82,29 @@ export default {
       },
       showLoading: false,
 
-      regionMap: null,
+      export_btn: false,
+      import_btn: false,
+      child_btn: false,
     };
   },
   components: {
     ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjginfo_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjginfo_import"]; //导入
+    this.child_btn = this.permissions["staff_zzjginfo_child"]; //子集
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjginfo_view, false),
+        addBtn: this.vaildData(this.permissions.staff_zzjginfo_add, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjginfo_del, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjginfo_edit, false),
+      };
+    },
   },
   methods: {
     // 导出excel
@@ -243,9 +268,6 @@ export default {
     toSubset(row) {
       this.$router.push(`/subset-set/index/${row.id}`);
     },
-  },
-  created() {
-    // this.getAllRegion();
   },
 };
 </script>

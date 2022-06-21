@@ -3,15 +3,13 @@ export const option = {
   align: 'center',
   border: true,
   index: true,
-  searchMenuSpan: 4,
   labelWidth: 120,
-  searchSpan: 7,
-  menuWidth: 140,
+  searchSpan: 6,
+  viewBtn: true,
   column: [{
       label: "姓名",
       prop: "xm",
       search: true,
-      searchSpan: 7,
       slotForm: true,
     },
     {
@@ -23,7 +21,7 @@ export const option = {
     },
     {
       label: "部门名称",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       addDisabled: true,
       editDisabled: true,

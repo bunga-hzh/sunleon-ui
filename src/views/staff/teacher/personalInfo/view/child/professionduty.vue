@@ -40,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "getStaffObj"]),
+    ...mapGetters(["userInfo"]),
   },
   watch: {
     getActiveItem(newValue) {

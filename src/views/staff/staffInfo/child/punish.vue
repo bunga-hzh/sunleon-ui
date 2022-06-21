@@ -10,6 +10,7 @@
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
@@ -17,11 +18,13 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
-        <el-button class="filter-item"
+        <el-button v-if="import_btn"
+                   class="filter-item"
                    type="primary"
                    icon="el-icon-upload"
                    @click="$refs.excelUpload.show()">导入</el-button>
-        <el-button type="primary"
+        <el-button v-if="export_btn"
+                   type="primary"
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
@@ -56,6 +59,7 @@ import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -73,10 +77,28 @@ export default {
 
       timeout: undefined,
       usersList: [],
+
+      export_btn: false,
+      import_btn: false,
     };
   },
   components: {
     ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjgpunish_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjgpunish_import"]; //导入
+    loadAll();
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjgpunish_view, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgpunish_edit, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjgpunish_del, false),
+      };
+    },
   },
   methods: {
     // 导出excel
@@ -214,9 +236,6 @@ export default {
       this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

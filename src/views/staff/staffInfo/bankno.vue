@@ -9,6 +9,7 @@
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
@@ -16,11 +17,13 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
-        <el-button class="filter-item"
+        <el-button v-if="import_btn"
+                   class="filter-item"
                    type="primary"
                    icon="el-icon-upload"
                    @click="$refs.excelUpload.show()">导入</el-button>
-        <el-button type="primary"
+        <el-button v-if="export_btn"
+                   type="primary"
                    icon="el-icon-bottom"
                    @click="exportExcel">导出</el-button>
       </template>
@@ -49,8 +52,8 @@ import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -66,12 +69,25 @@ export default {
       },
       showLoading: false,
 
-      timeout: undefined,
-      usersList: [],
+      export_btn: false,
+      import_btn: false,
     };
   },
   components: {
     ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjgbankno_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjgbankno_import"]; //导入
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjgbankno_view, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgbankno_edit, false),
+      };
+    },
   },
   methods: {
     // 导出excel
@@ -183,22 +199,6 @@ export default {
     uploadError(error, column) {
       this.$message.success("上传失败" + error);
     },
-    // 搜索姓名
-    querySearchAsync(queryString, cb) {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(querySearch(queryString));
-      }, 1000 * Math.random());
-    },
-    // 选择用户
-    handleSelect(item) {
-      this.form.gh = item.gh;
-      this.form.deptId = item.deptId;
-      this.form.staffId = item.staffId;
-    },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

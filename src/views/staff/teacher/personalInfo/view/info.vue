@@ -3,7 +3,8 @@
     <el-row type="flex"
             justify="start"
             style="padding: 10px 0">
-      <el-button type="primary"
+      <el-button v-if="edit_btn"
+                 type="primary"
                  @click="editInfo"
                  :icon="this.option.detail ? 'el-icon-edit' : 'el-icon-folder-checked' ">{{btnText}}</el-button>
     </el-row>
@@ -30,10 +31,12 @@ export default {
     return {
       obj: {},
       option: option,
+
+      edit_btn: false,
     };
   },
   computed: {
-    ...mapGetters(["userInfo"]),
+    ...mapGetters(["userInfo", "permissions"]),
     ...mapMutations(["setStaffObj"]),
     btnText() {
       return this.option.detail ? "编 辑" : "保 存";
@@ -44,21 +47,11 @@ export default {
       const { data: res } = await getObj("info", this.userInfo.userId);
       if (res.code !== 0) return this.$message.error(res.msg);
       if (validatenull(res.data)) return;
-      this.$store.commit("setStaffObj", {
-        staffId: res.data.id,
-        xm: res.data.xm,
-        gh: res.data.gh,
-        deptId: res.data.orgId,
-      });
       this.obj = {
         ...res.data,
         jjzqssj: validatenull(res.data.jjzqssj)
           ? undefined
           : [res.data.jjzqssj, res.data.jjzjzsj],
-        jg: validatenull(res.data.jg) ? undefined : JSON.parse(res.data.jg),
-        hkszdm: validatenull(res.data.hkszdm)
-          ? undefined
-          : JSON.parse(res.data.hkszdm),
         sfzFrontImg: validatenull(res.data.sfzFrontImg)
           ? undefined
           : splitUploadData(res.data.sfzFrontImg),
@@ -72,6 +65,7 @@ export default {
           ? undefined
           : splitUploadData(res.data.qrzxlzsc),
       };
+      console.log(this.obj);
     },
     submit(form, loading) {
       if (JSON.stringify(form) === "{}") {
@@ -84,10 +78,10 @@ export default {
           id: this.userInfo.userId,
           jjzqssj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[0],
           jjzjzsj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[1],
-          jg: validatenull(form.jg) ? undefined : JSON.stringify(form.jg),
-          hkszdm: validatenull(form.hkszdm)
-            ? undefined
-            : JSON.stringify(form.hkszdm),
+          jg: validatenull(form.jgCodes) ? null : form.jgCodes.slice(-1)[0],
+          hkszdm: validatenull(form.hkszdmCodes)
+            ? null
+            : form.hkszdmCodes.slice(-1)[0],
           sfzFrontImg: validatenull(form.sfzFrontImg)
             ? undefined
             : form.sfzFrontImg[0].value,
@@ -104,6 +98,7 @@ export default {
         const { data: res } = await putObj("info", obj);
         if (res.code !== 0) return this.$message.error(res.msg);
         this.$message.success("保存成功!");
+        loading();
       }, 1000);
     },
     // 上传后
@@ -146,6 +141,7 @@ export default {
     },
   },
   mounted() {
+    this.edit_btn = this.permissions["staff_myinfo_edit"]; //个人信息编辑权限
     this.option.submitText = "保存";
     this.getObj();
   },

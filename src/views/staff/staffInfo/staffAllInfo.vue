@@ -10,18 +10,21 @@
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
+               :permission="permissionList"
                @on-load="onLoad"
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
-        <el-button class="filter-item"
+        <el-button v-if="export_btn"
+                   class="filter-item"
                    type="primary"
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
       <template slot="menu"
                 slot-scope="scope">
-        <el-button type="text"
+        <el-button v-if="child_btn"
+                   type="text"
                    icon="el-icon-paperclip"
                    @click="toSubset(scope.row)">子集</el-button>
       </template>
@@ -39,6 +42,7 @@ import { fetchList } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -54,7 +58,22 @@ export default {
       },
       search: {},
       showLoading: false,
+
+      export_btn: false,
+      child_btn: false,
     };
+  },
+  created() {
+    this.export_btn = this.permissions["staff_all_info_export"]; //导出
+    this.child_btn = this.permissions["staff_all_info_child"]; //子集
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_all_info_view, false),
+      };
+    },
   },
   methods: {
     // 导出excel

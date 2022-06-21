@@ -205,6 +205,7 @@ export const option = {
       label: "是否为内设机构领导",
       prop: "sfwnsjgld",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
@@ -216,6 +217,7 @@ export const option = {
       label: "是否残疾人",
       prop: "sfcjr",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
@@ -227,6 +229,7 @@ export const option = {
       label: "是否留学回国",
       prop: "sflxhg",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
@@ -238,6 +241,7 @@ export const option = {
       label: "是否为应届毕业生",
       prop: "sfyjbys",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
