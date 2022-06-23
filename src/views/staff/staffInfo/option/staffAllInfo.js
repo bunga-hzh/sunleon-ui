@@ -569,7 +569,7 @@ export const option = {
     },
     {
       label: "实际工作年限",
-      prop: "sjgzny",
+      prop: "cjgzny",
       type: 'number',
       width: 120,
     },

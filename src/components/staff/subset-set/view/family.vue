@@ -19,7 +19,6 @@
 import { option } from "@/components/staff/subset-set/option/family";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
-import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
 export default {
@@ -82,7 +81,7 @@ export default {
       done({ ...obj, id: res.data });
     },
     // 修改
-    async rowUpdate(form, done, loading) {
+    async rowUpdate(form, index, done, loading) {
       const { data: res } = await putObj("family", form);
       if (res.code !== 0) return this.$message.error(res.msg);
       this.$message.success("修改成功");

@@ -112,7 +112,6 @@ export const option = {
         message: '请选择 内设岗位',
         trigger: 'blur'
       }],
-      searchMultiple: true,
       searchFilterable: true,
       filterable: true,
       filter: true,

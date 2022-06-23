@@ -1,6 +1,9 @@
 import {
   newVersionCardId,
 } from "@/util/validate";
+import {
+  sex_type
+} from "@/const/commonDict";
 
 var validateIdCard = (rule, value, callback) => {
   if (newVersionCardId(value)) {
@@ -35,15 +38,7 @@ export const option = {
       type: 'radio',
       border: true,
       search: true,
-      dicData: [{
-          label: "男",
-          value: 1,
-        },
-        {
-          label: "女",
-          value: 2,
-        }
-      ],
+      dicData: sex_type,
       props: {
         "label": "label",
         "value": "value",
@@ -404,6 +399,7 @@ export const certificateOption = {
     {
       label: "等级",
       prop: "dj",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_certificate_level',
       props: {
         label: 'label',

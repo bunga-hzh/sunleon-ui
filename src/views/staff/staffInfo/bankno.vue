@@ -27,15 +27,6 @@
                    icon="el-icon-bottom"
                    @click="exportExcel">导出</el-button>
       </template>
-      <template slot="xmForm"
-                slot-scope="{ type }">
-        <el-autocomplete :disabled="type === 'edit' ? true : false"
-                         v-model="form.xm"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入姓名"
-                         @select="handleSelect"
-                         clearable></el-autocomplete>
-      </template>
     </avue-crud>
     <!--excel 模板导入 -->
     <excel-upload ref="excelUpload"

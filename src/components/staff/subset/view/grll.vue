@@ -23,7 +23,6 @@ import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {

@@ -6,6 +6,11 @@ import {
 import {
   getRegionTreeApi
 } from "@/api/staff/crud";
+import {
+  sex_type,
+  is_type
+}
+from "@/const/commonDict"
 
 
 var validateIdCard = (rule, value, callback) => {
@@ -31,14 +36,6 @@ var vaildataEmail = (rule, value, callback) => {
     callback(new Error('邮箱格式有误，请检查!'));
   }
 }
-
-const is_type = [{
-  label: '是',
-  value: "1",
-}, {
-  label: '否',
-  value: "2",
-}]
 
 export const option = {
   align: 'center',
@@ -89,6 +86,11 @@ export const option = {
     {
       label: "曾用名",
       prop: "cym",
+      rules: [{
+        required: true,
+        message: "请输入 曾用名",
+        trigger: "blur",
+      }],
     },
     {
       label: "性别",
@@ -99,7 +101,7 @@ export const option = {
         label: "label",
         value: "value"
       },
-      dicUrl: '/admin/dict/type/sex_type',
+      dicData: sex_type,
       rules: [{
         required: true,
         message: "请选择性别",
@@ -133,15 +135,10 @@ export const option = {
       label: "身份证号",
       prop: "sfzjh",
       rules: [{
-          required: true,
-          message: "请填写",
-          trigger: "blur"
-        },
-        {
-          validator: validateIdCard,
-          trigger: 'blur'
-        }
-      ],
+        required: true,
+        validator: validateIdCard,
+        trigger: 'blur'
+      }],
       width: 150,
       search: true,
     },
@@ -189,7 +186,12 @@ export const option = {
             resolve(res.data.data);
           }
         });
-      }
+      },
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
     },
     {
       label: "民族",
@@ -199,7 +201,12 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicUrl: `/admin/dict/type/nation_type`
+      dicUrl: `/admin/dict/type/nation_type`,
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
     },
     {
       label: "政治面貌",
@@ -211,44 +218,61 @@ export const option = {
       },
       dicUrl: '/admin/dict/type/politics_type',
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
     },
     {
       label: "家庭住址",
       prop: "jtzz",
       width: 200,
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
     },
     {
       label: "联系电话",
       prop: "lxdh",
       width: 120,
       rules: [{
+        required: true,
         validator: vaildataPhone,
-        trigger: 'blur'
-      }]
+        trigger: "blur",
+      }],
     },
     {
       label: "电子邮箱",
       prop: "dzyx",
       width: 200,
       rules: [{
+        required: true,
         validator: vaildataEmail,
-        trigger: 'blur'
-      }]
+        trigger: "blur",
+      }],
     },
     {
       label: "紧急联系人姓名",
       prop: "jjlxrxm",
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 紧急联系人姓名",
+        trigger: "blur",
+      }],
     },
     {
       label: "紧急联系人电话",
       prop: "jjlxrdh",
       width: 120,
-      rules: [{
-        validator: vaildataPhone,
-        trigger: 'blur'
-      }],
       width: 120,
+      rules: [{
+        required: true,
+        validator: vaildataPhone,
+      }],
     },
     {
       label: "身份证正面上传",

@@ -1,7 +1,7 @@
 export const option = {
   align: 'center',
   border: true,
-  menuWidth: 100,
+  menuWidth: 200,
   labelWidth: 160,
   viewBtn: true,
   column: [
@@ -27,28 +27,58 @@ export const option = {
       endPlaceholder: '终止时间',
       slot: true,
       width: 160,
+      rules: [{
+        required: true,
+        message: "请输入 起止时间",
+        trigger: "blur"
+      }],
     },
     {
       label: "所在单位",
       prop: 'szdw',
+      rules: [{
+        required: true,
+        message: "请输入 所在单位",
+        trigger: "blur"
+      }],
     },
     {
       label: "职务",
       prop: 'zw',
+      rules: [{
+        required: true,
+        message: "请输入 职务",
+        trigger: "blur"
+      }],
     },
     {
       label: "聘任时限",
       prop: 'prsx',
       type: "number",
+      rules: [{
+        required: true,
+        message: "请输入 聘任时限",
+        trigger: "blur"
+      }],
     },
     {
       label: "单位所在省份",
       prop: 'dwszsf',
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 单位所在省份",
+        trigger: "blur"
+      }],
     },
     {
       label: "证明人",
       prop: 'zmr',
+      rules: [{
+        required: true,
+        message: "请输入 证明人",
+        trigger: "blur"
+      }],
     },
     {
       label: "上传电子证明",

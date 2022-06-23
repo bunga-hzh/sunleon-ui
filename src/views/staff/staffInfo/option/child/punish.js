@@ -6,25 +6,15 @@ export const option = {
   searchSpan: 8,
   searchLabelWidth: 120,
   viewBtn: true,
-  addBtn: false,
   column: [{
-      label: "教职工ID",
-      prop: "staffId",
-      addDisplay: false,
-      editDisplay: false,
-      viewDisplay: false,
-      hide: true,
-    },
-    {
       label: "姓名",
       prop: "xm",
       search: true,
-      slotForm: true,
       formslot: true,
       rules: [{
         required: true,
         message: "请选择 用户",
-        trigger: "change"
+        trigger: "blur"
       }],
     },
     {
@@ -37,7 +27,7 @@ export const option = {
       rules: [{
         required: true,
         message: "请输入 工号",
-        trigger: "change"
+        trigger: "blur"
       }],
     },
     {
@@ -57,24 +47,44 @@ export const option = {
       rules: [{
         required: true,
         message: "请选择 部门",
-        trigger: "change"
+        trigger: "blur"
       }],
     },
     {
       label: "处分类别",
       prop: "cflb",
+      rules: [{
+        required: true,
+        message: "请输入 处分类别",
+        trigger: "blur"
+      }],
     },
     {
       label: "处分原因",
       prop: "cfyy",
+      rules: [{
+        required: true,
+        message: "请输入 处分原因",
+        trigger: "blur"
+      }],
     },
     {
       label: "处分记录描述",
       prop: "cfjlms",
+      rules: [{
+        required: true,
+        message: "请输入 处分记录描述",
+        trigger: "blur"
+      }],
     },
     {
       label: "处分单位名称",
       prop: "cfdwmc",
+      rules: [{
+        required: true,
+        message: "请输入 处分单位名称",
+        trigger: "blur"
+      }],
     },
     // {
     //   label: "处分日期",
@@ -102,12 +112,22 @@ export const option = {
       }],
       slot: true,
       width: 160,
+      rules: [{
+        required: true,
+        message: "请输入 处分日期-撤销日期",
+        trigger: "blur"
+      }],
     },
     {
       label: "处分撤销原因",
       prop: "cfcxyy",
       type: "textarea",
       span: 24,
+      rules: [{
+        required: true,
+        message: "请输入 处分撤销原因",
+        trigger: "blur"
+      }],
     },
   ]
 }

@@ -24,6 +24,11 @@ export const option = {
       search: true,
       addDisabled: true,
       editDisabled: true,
+      rules: [{
+        required: true,
+        message: '请输入 工号',
+        trigger: 'blur',
+      }]
     },
     {
       label: "所属部门",
@@ -33,12 +38,34 @@ export const option = {
       editDisabled: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      rules: [{
+        required: true,
+        message: '请选择 所属部门',
+        trigger: 'blur',
+      }]
     },
     {
       label: "岗位",
       prop: "gwmc",
       addDisabled: true,
       editDisabled: true,
+      type: "select",
+      dicUrl: 'staff/zzjgcommon/all/post',
+      search: true,
+      props: {
+        label: "name",
+        value: "id",
+      },
+      rules: [{
+        required: true,
+        message: '请选择 岗位',
+        trigger: 'blur',
+      }]
     },
     {
       label: "试用期（月）",

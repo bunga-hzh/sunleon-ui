@@ -27,7 +27,7 @@ export const option = {
       editDisabled: true,
       rules: [{
         required: true,
-        message: '请输入 姓名',
+        message: '请输入 工号',
         trigger: 'blur'
       }],
     },
@@ -47,7 +47,7 @@ export const option = {
       cascader: ['ygwmc', 'xgwmc'],
       rules: [{
         required: true,
-        message: '请输入 姓名',
+        message: '请输入 部门',
         trigger: 'blur'
       }],
     },
@@ -58,7 +58,7 @@ export const option = {
       search: true,
       rules: [{
         required: true,
-        message: '请选择 内设岗位',
+        message: '请选择 原岗位',
         trigger: 'blur'
       }],
       searchMultiple: true,
@@ -78,7 +78,7 @@ export const option = {
       search: true,
       rules: [{
         required: true,
-        message: '请选择 内设岗位',
+        message: '请选择 新岗位',
         trigger: 'blur'
       }],
       searchMultiple: true,
@@ -145,6 +145,7 @@ export const option = {
       tip: '不超过5M',
       action: '/admin/sys-file/upload',
       span: 24,
+      hide: true,
     },
   ],
 }

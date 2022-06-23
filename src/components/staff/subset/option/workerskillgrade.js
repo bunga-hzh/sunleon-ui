@@ -17,10 +17,7 @@ export const option = {
       label: "职业技术职务名称",
       prop: 'zyjszwmc',
       type: 'select',
-      dicData: [{
-        value: 0,
-        label: '中级技术工人'
-      }],
+      dicUrl: '/admin/dict/type/jzg_specialty_job_name',
     },
     {
       label: "取得技术职务时间",

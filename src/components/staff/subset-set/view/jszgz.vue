@@ -19,7 +19,6 @@
 import { option } from "@/components/staff/subset-set/option/jszgz";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
-import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
 export default {

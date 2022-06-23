@@ -4,6 +4,9 @@
              :option="option"
              :page.sync="page"
              :table-loading="showLoading"
+             :upload-after="uploadAfter"
+             :upload-preview="uploadPreview"
+             :upload-error="uploadError"
              @on-load="onload"
              @row-save="rowSave"
              @row-update="rowUpdate"
@@ -29,6 +32,8 @@
 import { option } from "../option/Transfer";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import { url } from "@/api/baseUrl";
+import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
 export default {
   data() {
@@ -126,6 +131,37 @@ export default {
       this.form.gh = item.gh;
       this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
+    },
+    // 上传后
+    uploadAfter(res, done, loading, column) {
+      if (!validatenull(res.fileName)) {
+        this.$message.success("上传成功");
+      }
+      done();
+    },
+    // 预览
+    uploadPreview(file, column, done) {
+      if (column.accept === "image/png, image/jpg") {
+        this.$ImagePreview(
+          [
+            {
+              thumbUrl: `${url}${file.url}`,
+              url: `${url}${file.url}`,
+            },
+          ],
+          0,
+          {
+            closeOnClickModal: true,
+          }
+        );
+      } else {
+        console.log(splitUploadData(file.name));
+        this.downFile(`${url}${file.url}`, splitUploadData(file.name));
+      }
+    },
+    // 上传失败
+    uploadError(error, column) {
+      this.$message.error("上传失败" + error);
     },
   },
   created() {

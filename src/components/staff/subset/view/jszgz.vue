@@ -16,7 +16,6 @@
 import { option } from "@/components/staff/subset/option/jszgz";
 import { fetchList } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
-import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
 export default {

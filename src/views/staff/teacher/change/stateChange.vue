@@ -41,6 +41,8 @@ import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import { mapGetters } from "vuex";
+import { url } from "@/api/baseUrl";
+import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
 export default {
   name: "StateChange",
@@ -74,10 +76,11 @@ export default {
   methods: {
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
-        this.form.changeStartDate = [
-          this.form.changeStartDate,
-          this.form.changeEndDate,
-        ];
+        this.form.changeStartDate =
+          validatenull(this.form.changeStartDate) ||
+          validatenull(this.form.changeEndDate)
+            ? null
+            : [this.form.changeStartDate, this.form.changeEndDate];
       }
       done();
     },
@@ -114,6 +117,9 @@ export default {
         changeEndDate: validatenull(form.changeStartDate)
           ? undefined
           : form.changeStartDate[1],
+        changeEvidence: validatenull(form.changeEvidence)
+          ? null
+          : form.changeEvidence[0].value,
       };
       const { data: res } = await addObj("change", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
@@ -187,14 +193,13 @@ export default {
       done();
     },
     // 预览
-    async uploadPreview(file, column, done) {
-      // 图片
+    uploadPreview(file, column, done) {
       if (column.accept === "image/png, image/jpg") {
         this.$ImagePreview(
           [
             {
-              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
-              url: `http://sunleon-gateway:9999${file.url}`,
+              thumbUrl: `${url}${file.url}`,
+              url: `${url}${file.url}`,
             },
           ],
           0,
@@ -203,10 +208,8 @@ export default {
           }
         );
       } else {
-        this.downFile(
-          `http://sunleon-gateway:9999${file.url}`,
-          splitUploadData(file.name)
-        );
+        console.log(splitUploadData(file.name));
+        this.downFile(`${url}${file.url}`, splitUploadData(file.name));
       }
     },
     // 上传失败

@@ -7,9 +7,6 @@
                :search.sync="search"
                :table-loading="showLoading"
                :before-open="beforeOpen"
-               :upload-after="uploadAfter"
-               :upload-preview="uploadPreview"
-               :upload-error="uploadError"
                :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
@@ -28,6 +25,15 @@
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
+      <template slot="xmForm"
+                slot-scope="{ type }">
+        <el-autocomplete :disabled="type === 'edit' ? true : false"
+                         v-model="form.xm"
+                         :fetch-suggestions="querySearchAsync"
+                         placeholder="请输入姓名"
+                         @select="handleSelect"
+                         clearable></el-autocomplete>
+      </template>
       <template slot="cfrq"
                 slot-scope="scope">
         {{scope.row.cfrq}}-{{scope.row.cfcxrq}}
@@ -45,11 +51,10 @@
 <script>
 import { option } from "@/views/staff/staffInfo/option/child/punish";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
-import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
-import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 import ExcelUpload from "@/components/upload/excel";
 import { mapGetters } from "vuex";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
@@ -84,6 +89,7 @@ export default {
     ...mapGetters(["permissions"]),
     permissionList() {
       return {
+        addBtn: this.vaildData(this.permissions.staff_zzjgpunish_add, false),
         viewBtn: this.vaildData(this.permissions.staff_zzjgpunish_view, false),
         editBtn: this.vaildData(this.permissions.staff_zzjgpunish_edit, false),
         delBtn: this.vaildData(this.permissions.staff_zzjgpunish_del, false),
@@ -183,35 +189,17 @@ export default {
       this.fetchList(params);
       done();
     },
-    // 上传后
-    uploadAfter(res, done, loading, column) {
-      if (!validatenull(res.fileName)) {
-        this.$message.success("上传成功");
-      }
-      done();
+    // 搜索姓名
+    querySearchAsync(queryString, cb) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(querySearch(queryString));
+      }, 1000 * Math.random());
     },
-    // 预览
-    uploadPreview(file, column, done) {
-      if (column.accept === "image/png, image/jpg") {
-        this.$ImagePreview(
-          [
-            {
-              thumbUrl: `${url}${file.url}`,
-              url: `${url}${file.url}`,
-            },
-          ],
-          0,
-          {
-            closeOnClickModal: true,
-          }
-        );
-      } else {
-        this.downFile(`${url}${file.url}`, splitUploadData(file.name));
-      }
-    },
-    // 上传失败
-    uploadError(error, column) {
-      this.$message.success("上传失败" + error);
+    // 选择用户
+    handleSelect(item) {
+      this.form.gh = item.gh;
+      this.form.deptId = item.deptId;
     },
   },
 };

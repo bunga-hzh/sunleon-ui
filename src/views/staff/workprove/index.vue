@@ -46,14 +46,8 @@ export default {
         current: 1,
         size: 10,
       },
-      // 表单对象
       form: {},
-
       showLoading: false,
-      //证明类型
-      proveType: undefined,
-
-      dialogVisible: false,
 
       restaurants: [],
       timeout: null,
@@ -110,16 +104,15 @@ export default {
     async rowSave(form, done, loading) {
       const { data: res } = await addObj(form);
       if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
+      done({ ...form, id: res.data });
       this.$message.success("添加成功！");
-      this.refreshChange();
-      done();
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
       const { data: res } = await putObj(form);
       if (res.code !== 0) return this.$message.error("修改失败！" + res.msg);
-      this.$message.success("修改成功！");
       done(form);
+      this.$message.success("修改成功！");
     },
     // 删除
     rowDel(form, index) {
@@ -160,7 +153,7 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
   },
