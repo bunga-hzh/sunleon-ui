@@ -57,3 +57,37 @@ export function getRegionTreeApi(id) {
     method: 'get'
   })
 }
+
+export function getZzjgExternalCertificateByTeacherId(id) {
+  return request({
+    url: '/staff/zzjgexternalcertificate/list/' + id,
+    method: 'get'
+  })
+}
+
+export function getZzjgExternalTeachingtasksByTeacherId(id) {
+  return request({
+    url: '/staff/zzjgexternalteachingtasks/list/' + id,
+    method: 'get'
+  })
+}
+
+export function getRegion() {
+  return request({
+    url: '/staff/zzjginfo/all/region',
+    method: 'get'
+  })
+}
+
+/**
+ * 根据工号查询信息
+ * 
+ * @param {String} gh 
+ * @returns 
+ */
+export function getInfoByGh(gh) {
+  return request({
+    url: '/staff/zzjginfo/getInfoByGh/' + gh,
+    method: 'get',
+  })
+}

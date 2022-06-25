@@ -98,7 +98,7 @@ export default {
       done({ ...obj, id: res.data });
     },
     // 修改
-    async rowUpdate(form, done, loading) {
+    async rowUpdate(form, index, done, loading) {
       const obj = {
         ...form,
         qfrq: validatenull(form.qfrq) ? undefined : form.qfrq[0],

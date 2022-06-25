@@ -1,7 +1,6 @@
 export const optionList = [{
     align: 'center',
     border: true,
-    searchMenuSpan: 4,
     searchSpan: 6,
     index: true,
     labelWidth: 150,

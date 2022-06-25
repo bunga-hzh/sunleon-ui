@@ -1,6 +1,9 @@
 import {
   newVersionCardId,
 } from "@/util/validate";
+import {
+  sex_type
+} from "@/const/commonDict";
 
 var validateIdCard = (rule, value, callback) => {
   if (newVersionCardId(value)) {
@@ -11,13 +14,14 @@ var validateIdCard = (rule, value, callback) => {
 }
 
 export const option = {
-  menuWidth: 160,
   align: 'center',
   border: true,
-  searchMenuSpan: 4,
+  searchLabelWidth: 100,
   labelWidth: 160,
   index: true,
-  menuWidth: 200,
+  menuWidth: 260,
+  searchSpan: 8,
+  viewBtn: true,
   column: [{
       label: "姓名",
       prop: "xm",
@@ -32,7 +36,9 @@ export const option = {
       label: "性别",
       prop: "xbm",
       type: 'radio',
-      dicUrl: '/admin/dict/type/sex_type',
+      border: true,
+      search: true,
+      dicData: sex_type,
       props: {
         "label": "label",
         "value": "value",
@@ -47,6 +53,7 @@ export const option = {
       label: "民族",
       prop: "mzm",
       type: "select",
+      search: true,
       props: {
         label: 'label',
         value: 'value'
@@ -73,6 +80,7 @@ export const option = {
     {
       label: "身份证号码",
       prop: "sfzjh",
+      search: true,
       width: 150,
       rules: [{
           required: true,
@@ -88,6 +96,7 @@ export const option = {
     {
       label: "性质",
       prop: "xz",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_nature',
       props: {
         label: 'label',
@@ -98,6 +107,7 @@ export const option = {
         message: "请选择 性质",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "家庭地址",
@@ -117,10 +127,12 @@ export const option = {
         message: "请输入 联系电话",
         trigger: "blur"
       }],
+      width: 120,
     },
     {
       label: "户口",
-      prop: "hz",
+      prop: "hk",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_account',
       props: {
         label: 'label',
@@ -131,10 +143,12 @@ export const option = {
         message: "请选择 户口",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "四金缴纳",
       prop: "sjjn",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_four_gold_payments',
       props: {
         label: 'label',
@@ -145,10 +159,35 @@ export const option = {
         message: "请选择 四金缴纳",
         trigger: "blur"
       }],
+      search: true,
+    },
+    {
+      label: "是否已参加综合保险",
+      prop: "sfycjzhbx",
+      width: 150,
+      type: 'radio',
+      border: true,
+      searchLabelWidth: 150,
+      dicData: [{
+          label: '是',
+          value: '1'
+        },
+        {
+          label: '否',
+          value: '0'
+        }
+      ],
+      rules: [{
+        required: true,
+        message: "请选择 教师资格证",
+        trigger: "blur"
+      }],
+      search: true,
     },
     {
       label: "学历",
       prop: "xl",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_education',
       props: {
         label: 'label',
@@ -159,10 +198,12 @@ export const option = {
         message: "请选择 学历",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "学位",
       prop: "xw",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_degree',
       props: {
         label: 'label',
@@ -173,6 +214,7 @@ export const option = {
         message: "请选择 学位",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "参加工作（年月）",
@@ -191,6 +233,7 @@ export const option = {
       prop: "jszgz",
       width: 150,
       type: 'radio',
+      border: true,
       dicData: [{
           label: '有',
           value: '1'
@@ -205,12 +248,14 @@ export const option = {
         message: "请选择 教师资格证",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "双师型教师",
       prop: "xsxjs",
       width: 150,
       type: 'radio',
+      border: true,
       dicData: [{
           label: '是',
           value: '1'
@@ -225,6 +270,7 @@ export const option = {
         message: "请选择 双师型教师",
         trigger: "blur"
       }],
+      search: true,
     },
     {
       label: "所学专业名称",
@@ -238,6 +284,8 @@ export const option = {
     },
     {
       label: "职称",
+      addDisplay: false,
+      editDisplay: false,
       children: [{
           label: "等级",
           prop: "dj",
@@ -252,6 +300,7 @@ export const option = {
             message: "请选择 等级",
             trigger: "blur"
           }],
+          search: true,
         },
         {
           label: "名称（全称）",
@@ -350,6 +399,7 @@ export const certificateOption = {
     {
       label: "等级",
       prop: "dj",
+      type: 'select',
       dicUrl: '/admin/dict/type/jzg_certificate_level',
       props: {
         label: 'label',
@@ -423,6 +473,12 @@ export const teachingTasksOption = {
     {
       label: "班级",
       prop: "bj",
+      type: 'select',
+      dicUrl: '/admin/dict/type/jzg_class',
+      props: {
+        label: 'label',
+        value: 'value'
+      },
       rules: [{
         required: true,
         message: "请输入 班级",
@@ -432,6 +488,8 @@ export const teachingTasksOption = {
     {
       label: "课时（节×周）",
       prop: "ks",
+      type: "number",
+      minRows: 0,
       rules: [{
         required: true,
         message: "请输入 课时（节×周）",
@@ -441,6 +499,8 @@ export const teachingTasksOption = {
     {
       label: "单价",
       prop: "dj",
+      type: "number",
+      minRows: 0,
       rules: [{
         required: true,
         message: "请输入 单价",

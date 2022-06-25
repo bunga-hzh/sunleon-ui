@@ -4,6 +4,7 @@
                :data="data"
                :option="option"
                :page.sync="page"
+               :search-sync="search"
                :before-open="beforeOpen"
                :table-loading="showLoading"
                @on-load="onload"
@@ -12,63 +13,44 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
-      <template slot="xmForm"
-                slot-scope="{ type }">
-        <el-autocomplete :disabled="type === 'edit' ? true : false"
-                         v-model="form.xm"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入姓名"
-                         @select="handleSelect"
-                         clearable></el-autocomplete>
-      </template>
-      <template slot="startDate"
+      <template slot="qsr"
                 slot-scope="scope">
-        {{ scope.row.startDate }} - {{ scope.row.endDate }}
+        {{ scope.row.qsr }} - {{ scope.row.dqr }}
+      </template>
+      <template slot="qssj"
+                slot-scope="scope">
+        {{ scope.row.qssj }} - {{ scope.row.zzsj }}
       </template>
       <template slot="menuLeft">
+        <el-button class="filter-item"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入</el-button>
         <el-button type="primary"
-                   icon="el-icon-s-claim"
-                   @click="bulkRenewal">批量续签</el-button>
+                   icon="el-icon-download"
+                   @click="exportExcel">导出</el-button>
       </template>
     </avue-crud>
-    <!-- <el-dialog title="批量续签"
-               :visible.sync="dialogVisible"
-               width="60%"
-               @open="loadAll">
-      <avue-form v-model="obj"
-                 :option="batchOption"
-                 @submit="submit">
-        <template slot="users">
-          <avue-select all
-                       multiple
-                       v-model="obj.users"
-                       type="tree"
-                       :props="{
-                             label: 'xm',
-                             desc: 'gh',
-                             value: 'id',
-                           }"
-                       :dic="usersList"></avue-select>
-        </template>
-      </avue-form>
-      <span slot="footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog> -->
+    <!--excel 模板导入 -->
+    <excel-upload ref="excelUpload"
+                  title="用户信息导入"
+                  url="/staff/zzjgywglrshtgl/import"
+                  temp-url="/admin/sys-file/local/user.xlsx"
+                  @refreshDataList="refreshChange"></excel-upload>
   </div>
 </template>
 
 <script>
-import { option, batchOption } from "../option/Contract";
+import { option } from "../option/Contract";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import { validatenull } from "@/util/validate";
+import ExcelUpload from "@/components/upload/excel";
 
 export default {
   data() {
     return {
       form: {},
+      search: {},
       data: undefined,
       option: option,
       page: {
@@ -79,22 +61,25 @@ export default {
       showLoading: false,
 
       timeout: undefined,
-      // dialogVisible: false,
-      innerVisible: false,
-
-      obj: {
-        users: [],
-      },
-      batchOption: batchOption,
-
-      usersList: [],
     };
   },
+  components: {
+    ExcelUpload,
+  },
   methods: {
+    // 导出excel
+    exportExcel() {
+      this.downBlobFile(
+        "/staff/zzjgywglrshtgl/export",
+        this.search,
+        "人事合同信息.xlsx"
+      );
+    },
     // 弹框打开前
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
-        this.form.startDate = [this.form.startDate, this.form.endDate];
+        this.form.qsr = [this.form.qsr, this.form.dqr];
+        this.form.qssj = [this.form.qssj, this.form.zzsj];
       }
       done();
     },
@@ -102,7 +87,7 @@ export default {
     async fetchList(query) {
       this.showLoading = true;
       const { data: res } = await fetchList(
-        "ywglhtxq",
+        "ywglrshtgl",
         Object.assign(
           {
             current: this.page.currentPage,
@@ -118,22 +103,18 @@ export default {
     },
     // 初次加载
     onload() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 添加
     async rowSave(form, done, loading) {
       const obj = {
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        xz: form.xz,
-        gwmc: form.gwmc,
-        startDate: form.startDate[0],
-        endDate: form.startDate[1],
-        bz: form.bz,
+        ...form,
+        qsr: validatenull(form.qsr) ? undefined : form.qsr[0],
+        dqr: validatenull(form.qsr) ? undefined : form.qsr[1],
+        qssj: validatenull(form.qssj) ? undefined : form.qssj[0],
+        zzsj: validatenull(form.qssj) ? undefined : form.qssj[1],
       };
-      const { data: res } = await addObj("ywglhtxq", obj);
+      const { data: res } = await addObj("ywglrshtgl", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
       this.$message.success("添加成功！");
@@ -141,18 +122,13 @@ export default {
     // 编辑
     async rowUpdate(form, index, done, loading) {
       const obj = {
-        id: form.id,
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        xz: form.xz,
-        gwmc: form.gwmc,
-        startDate: form.startDate[0],
-        endDate: form.startDate[1],
-        bz: form.bz,
+        ...form,
+        qsr: validatenull(form.qsr) ? undefined : form.qsr[0],
+        dqr: validatenull(form.qsr) ? undefined : form.qsr[1],
+        qssj: validatenull(form.qssj) ? undefined : form.qssj[0],
+        zzsj: validatenull(form.qssj) ? undefined : form.qssj[1],
       };
-      const { data: res } = await putObj("ywglhtxq", obj);
+      const { data: res } = await putObj("ywglrshtgl", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
       this.$message.success("修改成功！");
@@ -165,7 +141,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("ywglhtxq", form.id);
+          const { data: res } = await delObj("ywglrshtgl", form.id);
           if (res.code !== 0)
             return this.$message.error("删除失败！" + res.msg);
           this.$message({
@@ -176,11 +152,6 @@ export default {
         })
         .catch(() => {});
     },
-    // 批量续签
-    bulkRenewal() {
-      this.dialogVisible = true;
-    },
-    submit() {},
     // 刷新
     refreshChange() {
       this.fetchList();
@@ -191,22 +162,6 @@ export default {
       this.fetchList(form);
       done();
     },
-    // 搜索姓名
-    querySearchAsync(queryString, cb) {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(querySearch(queryString));
-      }, 1000 * Math.random());
-    },
-    // 选择用户
-    handleSelect(item) {
-      this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
-      this.form.staffId = item.staffId;
-    },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

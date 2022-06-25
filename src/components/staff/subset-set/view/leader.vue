@@ -20,6 +20,7 @@ import { option } from "@/components/staff/subset-set/option/leader";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
+import { validatenull } from "@/util/validate";
 
 export default {
   data() {

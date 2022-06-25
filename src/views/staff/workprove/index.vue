@@ -5,6 +5,7 @@
                :option="option"
                :page.sync="page"
                :table-loading="showLoading"
+               :permission="permissionList"
                @on-load="get"
                @row-save="rowSave"
                @row-update="rowUpdate"
@@ -12,7 +13,8 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menu">
-        <el-button icon="el-icon-download"
+        <el-button v-if="download_btn"
+                   icon="el-icon-download"
                    type="text">下载</el-button>
       </template>
       <template slot="xmForm"
@@ -32,6 +34,7 @@
 import { option } from "@/const/crud/staff/workprove";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/zzjgworkprove";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -43,18 +46,38 @@ export default {
         current: 1,
         size: 10,
       },
-      // 表单对象
       form: {},
-
       showLoading: false,
-      //证明类型
-      proveType: undefined,
-
-      dialogVisible: false,
 
       restaurants: [],
       timeout: null,
+
+      download_btn: false,
     };
+  },
+  created() {
+    this.download_btn = this.permissions["staff_zzjgworkprove_download"]; //下载
+    loadAll();
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(
+          this.permissions.staff_zzjgworkprove_view,
+          false
+        ),
+        addBtn: this.vaildData(this.permissions.staff_zzjgworkprove_add, false),
+        delBtn: this.vaildData(
+          this.permissions.staff_zzjgworkprove_edit,
+          false
+        ),
+        editBtn: this.vaildData(
+          this.permissions.staff_zzjgworkprove_del,
+          false
+        ),
+      };
+    },
   },
   methods: {
     generateProof() {
@@ -81,16 +104,15 @@ export default {
     async rowSave(form, done, loading) {
       const { data: res } = await addObj(form);
       if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
+      done({ ...form, id: res.data });
       this.$message.success("添加成功！");
-      this.refreshChange();
-      done();
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
       const { data: res } = await putObj(form);
       if (res.code !== 0) return this.$message.error("修改失败！" + res.msg);
-      this.$message.success("修改成功！");
       done(form);
+      this.$message.success("修改成功！");
     },
     // 删除
     rowDel(form, index) {
@@ -131,12 +153,9 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

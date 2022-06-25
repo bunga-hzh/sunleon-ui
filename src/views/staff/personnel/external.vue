@@ -4,36 +4,48 @@
                :option="option"
                :data="data"
                :page.sync="page"
+               :search-sync="search"
                :table-loading="showLoading"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
+      <template slot="menuLeft">
+        <el-button v-if="import_btn"
+                   class="filter-item"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入</el-button>
+        <el-button v-if="export_btn"
+                   type="primary"
+                   icon="el-icon-download"
+                   @click="exportExcel">导出</el-button>
+      </template>
       <template slot="menu"
                 slot-scope="scope">
-        <el-button type="text"
+        <el-button v-if="child_btn"
+                   type="text"
                    icon="el-icon-paperclip"
                    @click="toSubset(scope.row)">子集</el-button>
       </template>
-      <template slot="xmForm"
-                slot-scope="{ type }">
-        <el-autocomplete :disabled="type === 'edit' ? true : false"
-                         v-model="form.xm"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入姓名"
-                         @select="handleSelect"
-                         clearable></el-autocomplete>
-      </template>
     </avue-crud>
+    <!--excel 模板导入 -->
+    <excel-upload ref="excelUpload"
+                  title="用户信息导入"
+                  url="/staff/zzjgwpjs/import"
+                  temp-url="/admin/sys-file/local/user.xlsx"
+                  @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>
 
 <script>
 import { option } from "@/const/crud/staff/personnel/external";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
 
 export default {
   name: "TableEngage",
@@ -41,6 +53,7 @@ export default {
     return {
       // 表单对象
       form: {},
+      search: {},
       child_form: {},
       page: {
         total: 0,
@@ -51,11 +64,39 @@ export default {
       option: option,
       showLoading: false,
 
-      restaurants: [],
-      timeout: null,
+      export_btn: false,
+      import_btn: false,
+      child_btn: false,
     };
   },
+  components: {
+    ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjgwpjs_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjgwpjs_import"]; //导入
+    this.child_btn = this.permissions["staff_zzjgwpjs_child"]; //子集
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjgwpjs_view, false),
+        addBtn: this.vaildData(this.permissions.staff_zzjgwpjs_add, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjgwpjs_del, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgwpjs_edit, false),
+      };
+    },
+  },
   methods: {
+    // 导出excel
+    exportExcel() {
+      this.downBlobFile(
+        "/staff/zzjgwpjs/export",
+        this.search,
+        "外聘教师信息.xlsx"
+      );
+    },
     // 获取列表
     async fetchList(query) {
       this.showLoading = true;
@@ -76,7 +117,7 @@ export default {
     },
     // 初次加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 新增
     async rowSave(form, done, loading) {
@@ -84,6 +125,7 @@ export default {
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...form, id: res.data });
       this.$message.success("添加成功！");
+      this.fetchList(this.search);
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
@@ -121,27 +163,10 @@ export default {
       this.fetchList(form);
       done();
     },
-
-    // 搜索姓名
-    querySearchAsync(queryString, cb) {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(querySearch(queryString));
-      }, 1000 * Math.random());
-    },
-    // 选择用户
-    handleSelect(item) {
-      this.form.gh = item.gh;
-      this.form.orgId = item.deptId;
-      this.form.staffId = item.staffId;
-    },
     // 跳转子集页面
     toSubset(row) {
       this.$router.push(`/external-child/index/${row.id}`);
     },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

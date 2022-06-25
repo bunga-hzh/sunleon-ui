@@ -26,15 +26,6 @@
         <el-button type="primary"
                    icon="el-icon-download">下载模板</el-button>
       </template>
-      <template slot="xmForm"
-                slot-scope="{ type }">
-        <el-autocomplete :disabled="type === 'edit' ? true : false"
-                         v-model="form.xm"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入姓名"
-                         @select="handleSelect"
-                         clearable></el-autocomplete>
-      </template>
     </avue-crud>
     <!--excel 模板导入 -->
     <excel-upload ref="excelUpload"
@@ -51,7 +42,6 @@ import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import ExcelUpload from "@/components/upload/excel";
 
 export default {
@@ -179,22 +169,6 @@ export default {
     uploadError(error, column) {
       this.$message.success("上传失败" + error);
     },
-    // 搜索姓名
-    querySearchAsync(queryString, cb) {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(querySearch(queryString));
-      }, 1000 * Math.random());
-    },
-    // 选择用户
-    handleSelect(item) {
-      this.form.gh = item.gh;
-      this.form.deptId = item.deptId;
-      this.form.staffId = item.staffId;
-    },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

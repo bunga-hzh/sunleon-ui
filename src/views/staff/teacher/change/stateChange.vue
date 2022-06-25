@@ -10,6 +10,7 @@
                  :upload-after="uploadAfter"
                  :upload-preview="uploadPreview"
                  :upload-error="uploadError"
+                 :permission="permissionList"
                  @on-load="onLoad"
                  @row-save="rowSave"
                  @row-update="rowUpdate"
@@ -39,6 +40,9 @@ import { option } from "@/const/crud/staff/teacher/change/stateChange";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
+import { mapGetters } from "vuex";
+import { url } from "@/api/baseUrl";
+import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
 export default {
   name: "StateChange",
@@ -58,13 +62,25 @@ export default {
       timeout: null,
     };
   },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjgchange_view, false),
+        addBtn: this.vaildData(this.permissions.staff_zzjgchange_add, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjginfo_del, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgchange_del, false),
+      };
+    },
+  },
   methods: {
     beforeOpen(done, type) {
       if (type === "edit" || type === "view") {
-        this.form.changeStartDate = [
-          this.form.changeStartDate,
-          this.form.changeEndDate,
-        ];
+        this.form.changeStartDate =
+          validatenull(this.form.changeStartDate) ||
+          validatenull(this.form.changeEndDate)
+            ? null
+            : [this.form.changeStartDate, this.form.changeEndDate];
       }
       done();
     },
@@ -101,6 +117,9 @@ export default {
         changeEndDate: validatenull(form.changeStartDate)
           ? undefined
           : form.changeStartDate[1],
+        changeEvidence: validatenull(form.changeEvidence)
+          ? null
+          : form.changeEvidence[0].value,
       };
       const { data: res } = await addObj("change", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
@@ -162,7 +181,7 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.orgId = item.orgId;
+      this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
     },
 
@@ -174,14 +193,13 @@ export default {
       done();
     },
     // 预览
-    async uploadPreview(file, column, done) {
-      // 图片
+    uploadPreview(file, column, done) {
       if (column.accept === "image/png, image/jpg") {
         this.$ImagePreview(
           [
             {
-              thumbUrl: `http://sunleon-gateway:9999${file.url}`,
-              url: `http://sunleon-gateway:9999${file.url}`,
+              thumbUrl: `${url}${file.url}`,
+              url: `${url}${file.url}`,
             },
           ],
           0,
@@ -190,10 +208,8 @@ export default {
           }
         );
       } else {
-        this.downFile(
-          `http://sunleon-gateway:9999${file.url}`,
-          splitUploadData(file.name)
-        );
+        console.log(splitUploadData(file.name));
+        this.downFile(`${url}${file.url}`, splitUploadData(file.name));
       }
     },
     // 上传失败
@@ -206,5 +222,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

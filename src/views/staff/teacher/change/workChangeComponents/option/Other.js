@@ -1,8 +1,7 @@
 export const option = {
   align: 'center',
   border: true,
-  searchMenuSpan: 4,
-  searchSpan: 6,
+  searchSpan: 8,
   index: true,
   labelWidth: 150,
   menuWidth: 200,
@@ -13,6 +12,11 @@ export const option = {
       search: true,
       formslot: true,
       editDisabled: true,
+      rules: [{
+        required: true,
+        message: '请输入 姓名',
+        trigger: 'blur'
+      }]
     },
     {
       label: "工号",
@@ -20,10 +24,15 @@ export const option = {
       search: true,
       addDisabled: true,
       editDisabled: true,
+      rules: [{
+        required: true,
+        message: '请输入 工号',
+        trigger: 'blur'
+      }]
     },
     {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       addDisabled: true,
       editDisabled: true,
@@ -34,12 +43,22 @@ export const option = {
         value: "id",
         children: "children"
       },
+      rules: [{
+        required: true,
+        message: '请选择 所属部门',
+        trigger: 'blur'
+      }]
     },
     {
       label: "异动时间",
       prop: "ydsj",
       type: 'date',
       valueFormat: "yyyy-MM-dd",
+      rules: [{
+        required: true,
+        message: '请输入 异动时间',
+        trigger: 'blur'
+      }]
     },
     {
       label: "备注",

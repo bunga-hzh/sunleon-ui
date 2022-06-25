@@ -1,8 +1,7 @@
 export const option = {
   align: 'center',
   border: true,
-  searchMenuSpan: 4,
-  searchSpan: 6,
+  searchSpan: 8,
   index: true,
   labelWidth: 150,
   menuWidth: 200,
@@ -23,7 +22,7 @@ export const option = {
     },
     {
       label: "所属部门",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       addDisabled: true,
       editDisabled: true,
@@ -37,7 +36,9 @@ export const option = {
     },
     {
       label: "岗位",
-      prop: "gw",
+      prop: "gwmc",
+      addDisabled: true,
+      editDisabled: true,
     },
     // {
     //   label: "入职日期",

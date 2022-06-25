@@ -40,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["userInfo", "getStaffObj"]),
+    ...mapGetters(["userInfo", "getStaffId"]),
   },
   watch: {
     getActiveItem(newValue) {
@@ -62,7 +62,7 @@ export default {
       const { data: res } = await fetchList("professionduty", {
         current: 1,
         size: 20,
-        staffId: this.userInfo.userId,
+        staffId: this.getStaffId,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
       this.showLoading = false;
@@ -79,7 +79,7 @@ export default {
       }
       const obj = {
         ...form,
-        ...this.getStaffObj,
+        staffId: this.getStaffId,
         prqsrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[0],
         przzrq: validatenull(form.prqsrq) ? undefined : form.prqsrq[1],
         scdzzj: validatenull(form.scdzzj) ? undefined : form.scdzzj[0].value,

@@ -3,9 +3,8 @@ export const option = {
   border: true,
   index: true,
   indexLabel: '序号',
-  searchMenuSpan: 4,
   menuWidth: 260,
-  searchSpan: 7,
+  searchSpan: 8,
   labelWidth: 120,
   viewBtn: true,
   column: [{
@@ -13,6 +12,11 @@ export const option = {
       prop: "xm",
       search: true,
       slotForm: true,
+      rules: [{
+        required: true,
+        message: "请输入 姓名",
+        trigger: "blur"
+      }],
     },
     {
       label: "工号",
@@ -21,10 +25,15 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 工号",
+        trigger: "blur"
+      }],
     },
     {
       label: "部门",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
@@ -36,6 +45,11 @@ export const option = {
       addDisabled: true,
       editDisabled: true,
       width: 120,
+      rules: [{
+        required: true,
+        message: "请选择 部门",
+        trigger: "blur"
+      }],
     },
     {
       label: '人员分类',
@@ -47,6 +61,11 @@ export const option = {
         "label": "label",
         "value": "value"
       },
+      rules: [{
+        required: true,
+        message: "请选择 人员分类",
+        trigger: "blur"
+      }],
     },
     {
       label: '证明类型',
@@ -58,6 +77,11 @@ export const option = {
         "label": "label",
         "value": "value"
       },
+      rules: [{
+        required: true,
+        message: "请选择 证明类型",
+        trigger: "blur"
+      }],
     },
     {
       label: '生成时间',
@@ -65,12 +89,22 @@ export const option = {
       addDisplay: false,
       editDisabled: true,
       width: 150,
+      rules: [{
+        required: true,
+        message: "请输入 生成时间",
+        trigger: "blur"
+      }],
     },
     {
       label: '事由',
       prop: 'sy',
       type: 'textarea',
       span: 24,
+      rules: [{
+        required: true,
+        message: "请输入 事由",
+        trigger: "blur"
+      }],
     }
   ]
 }

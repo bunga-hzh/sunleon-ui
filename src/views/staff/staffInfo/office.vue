@@ -1,6 +1,7 @@
 <template>
   <basic-container>
-    <avue-crud v-model="form"
+    <avue-crud ref="crud"
+               v-model="form"
                :data="data"
                :option="option"
                :page.sync="page"
@@ -9,6 +10,7 @@
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
@@ -16,11 +18,13 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
-        <el-button class="filter-item"
+        <el-button v-if="import_btn"
+                   class="filter-item"
                    type="primary"
                    icon="el-icon-upload"
                    @click="$refs.excelUpload.show()">导入</el-button>
-        <el-button type="primary"
+        <el-button v-if="export_btn"
+                   type="primary"
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
@@ -41,6 +45,7 @@ import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -56,12 +61,25 @@ export default {
       },
       showLoading: false,
 
-      timeout: undefined,
-      usersList: [],
+      export_btn: false,
+      import_btn: false,
     };
   },
   components: {
     ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjgoffice_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjgoffice_import"]; //导入
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjgoffice_view, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgoffice_edit, false),
+      };
+    },
   },
   methods: {
     // 导出excel
@@ -92,7 +110,7 @@ export default {
     },
     // 加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 添加
     async rowSave(form, done, loading) {
@@ -107,9 +125,17 @@ export default {
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
-      const { data: res } = await putObj("office", form);
+      const obj = {
+        ...form,
+        id: this.data[index].id,
+        staffId: this.data[index].staffId,
+        jyclsc: validatenull(form.jyclsc) ? undefined : form.jyclsc[0].value,
+      };
+      console.log(form);
+      const { data: res } = await putObj("office", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(form);
+      done();
+      this.refreshChange();
       this.$message.success("修改成功！");
     },
     // 删除

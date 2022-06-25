@@ -5,7 +5,7 @@ import {
 } from "@/util/validate";
 import {
   getRegionTreeApi
-} from "@/api/recuit/common/commonApi";
+} from "@/api/staff/crud";
 
 
 var validateIdCard = (rule, value, callback) => {
@@ -56,6 +56,7 @@ export const option = {
       width: 120,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
+
       props: {
         label: "name",
         value: "id",
@@ -66,20 +67,6 @@ export const option = {
         message: "请选择 所属部门",
         trigger: "change"
       }],
-      // dicFormatter: (data) => {
-      //   const dic = undefined
-      //   data.forEach(item => {
-      //     if (item.id = 1) {
-      //       dic.push({
-      //         ...item,
-      //         disabled: true,
-      //       })
-      //     } else {
-      //       dic.push(item)
-      //     }
-      //   })
-      //   return dic
-      // },
       search: true,
     },
     {
@@ -174,7 +161,8 @@ export const option = {
     },
     {
       label: "籍贯",
-      prop: "jg",
+      prop: "jgCodes",
+      slot: true,
       width: 200,
       type: 'cascader',
       lazy: true,
@@ -382,7 +370,8 @@ export const option = {
     },
     {
       label: "户口所在地",
-      prop: "hkszdm",
+      prop: "hkszdmCodes",
+      slot: true,
       width: 200,
       type: 'cascader',
       lazy: true,
@@ -580,7 +569,7 @@ export const option = {
     },
     {
       label: "实际工作年限",
-      prop: "sjgzny",
+      prop: "cjgzny",
       type: 'number',
       width: 120,
     },

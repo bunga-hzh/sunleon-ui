@@ -1,38 +1,53 @@
 <template>
   <basic-container>
-    <avue-crud v-model="form"
+    <avue-crud ref="crud"
+               v-model="form"
                :data="data"
                :option="option"
                :page.sync="page"
+               :search.sync="search"
                :table-loading="showLoading"
                :before-open="beforeOpen"
                :upload-after="uploadAfter"
                :upload-preview="uploadPreview"
                :upload-error="uploadError"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
-      <template slot="menu"
+      <template slot="jgCodes"
                 slot-scope="scope">
-        <el-button type="text"
-                   icon="el-icon-paperclip"
-                   @click="toSubset(scope.row)">子集</el-button>
+        {{scope.row.jgName}}
       </template>
-      <template slot="menuLeft">
-        <el-button class="filter-item"
-                   type="primary"
-                   icon="el-icon-upload"
-                   @click="$refs.excelUpload.show()">导入</el-button>
-        <el-button type="primary"
-                   icon="el-icon-download"
-                   @click="exportExcel">导出</el-button>
+      <template slot="hkszdmCodes"
+                slot-scope="scope">
+        {{scope.row.hkszdmName}}
       </template>
       <template slot="jjzqssj"
                 slot-scope="scope">
         {{scope.row.jjzqssj}}-{{scope.row.jjzjzsj}}
+      </template>
+      <template slot="menuLeft">
+        <el-button v-if="import_btn"
+                   type="primary"
+                   icon="el-icon-upload"
+                   @click="$refs.excelUpload.show()">导入
+        </el-button>
+        <el-button v-if="export_btn"
+                   type="primary"
+                   icon="el-icon-download"
+                   @click="exportExcel">导出
+        </el-button>
+      </template>
+      <template slot="menu"
+                slot-scope="scope">
+        <el-button v-if="child_btn"
+                   type="text"
+                   icon="el-icon-paperclip"
+                   @click="toSubset(scope.row)">子集</el-button>
       </template>
     </avue-crud>
     <!--excel 模板导入 -->
@@ -51,11 +66,13 @@ import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       form: {},
+      search: {},
       data: [],
       option: option,
       page: {
@@ -64,10 +81,30 @@ export default {
         pageSize: 10,
       },
       showLoading: false,
+
+      export_btn: false,
+      import_btn: false,
+      child_btn: false,
     };
   },
   components: {
     ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjginfo_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjginfo_import"]; //导入
+    this.child_btn = this.permissions["staff_zzjginfo_child"]; //子集
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        viewBtn: this.vaildData(this.permissions.staff_zzjginfo_view, false),
+        addBtn: this.vaildData(this.permissions.staff_zzjginfo_add, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjginfo_del, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjginfo_edit, false),
+      };
+    },
   },
   methods: {
     // 导出excel
@@ -75,7 +112,7 @@ export default {
       this.downBlobFile(
         "/staff/zzjginfo/export",
         this.search,
-        "教职工人员基本信息表.xlsx"
+        "教职工基本信息表.xlsx"
       );
     },
     // 弹窗打开前
@@ -85,13 +122,14 @@ export default {
           validatenull(this.form.jjzqssj) || validatenull(this.form.jjzjzsj)
             ? undefined
             : [this.form.jjzqssj, this.form.jjzjzsj];
-        this.form.jg = validatenull(this.form.jg)
+        this.form.jg = JSON.parse(this.form.jg)
           ? undefined
           : JSON.stringify(this.form.jg);
         this.form.hkszdm = validatenull(this.form.hkszdm)
           ? undefined
-          : JSON.stringify(this.form.hkszdm);
+          : JSON.parse(this.form.hkszdm);
       }
+      console.log(this.form);
       done();
     },
     // 获取数据
@@ -114,29 +152,28 @@ export default {
     },
     // 加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 添加
     async rowSave(form, done, loading) {
       const obj = {
         ...form,
-        jjzqssj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[0],
-        jjzjzsj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[1],
-        jg: validatenull(form.jg) ? undefined : JSON.stringify(form.jg),
-        hkszdm: validatenull(form.hkszdm)
-          ? undefined
-          : JSON.stringify(form.hkszdm),
+        jjzqssj: validatenull(form.jjzqssj) ? null : form.jjzqssj[0],
+        jjzjzsj: validatenull(form.jjzqssj) ? null : form.jjzqssj[1],
+        jg: validatenull(form.jgCodes) ? null : form.jgCodes.slice(-1)[0],
+        hkszdm: validatenull(form.hkszdmCodes)
+          ? null
+          : form.hkszdmCodes.slice(-1)[0],
         sfzFrontImg: validatenull(form.sfzFrontImg)
-          ? undefined
+          ? null
           : form.sfzFrontImg[0].value,
         sfzBackImg: validatenull(form.sfzBackImg)
-          ? undefined
+          ? null
           : form.sfzBackImg[0].value,
-        zgxlzsc: validatenull(form.zgxlzsc) ? undefined : form.zgxlzsc[0].value,
-        qrzxlzsc: validatenull(form.qrzxlzsc)
-          ? undefined
-          : form.qrzxlzsc[0].value,
+        zgxlzsc: validatenull(form.zgxlzsc) ? null : form.zgxlzsc[0].value,
+        qrzxlzsc: validatenull(form.qrzxlzsc) ? null : form.qrzxlzsc[0].value,
       };
+      console.log(obj);
       const { data: res } = await addObj("info", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
@@ -148,10 +185,10 @@ export default {
         ...form,
         jjzqssj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[0],
         jjzjzsj: validatenull(form.jjzqssj) ? undefined : form.jjzqssj[1],
-        jg: validatenull(form.jg) ? undefined : JSON.stringify(form.jg),
-        hkszdm: validatenull(form.hkszdm)
-          ? undefined
-          : JSON.stringify(form.hkszdm),
+        jg: validatenull(form.jgCodes) ? null : form.jgCodes.slice(-1)[0],
+        hkszdm: validatenull(form.hkszdmCodes)
+          ? null
+          : form.hkszdmCodes.slice(-1)[0],
         sfzFrontImg: validatenull(form.sfzFrontImg)
           ? undefined
           : form.sfzFrontImg[0].value,

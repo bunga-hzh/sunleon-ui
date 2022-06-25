@@ -3,16 +3,19 @@ export const option = {
   align: 'center',
   border: true,
   index: true,
-  searchMenuSpan: 4,
   labelWidth: 120,
-  searchSpan: 7,
-  menuWidth: 140,
+  searchSpan: 6,
+  viewBtn: true,
   column: [{
       label: "姓名",
       prop: "xm",
       search: true,
-      searchSpan: 7,
       slotForm: true,
+      rules: [{
+        required: true,
+        message: "请输入 姓名",
+        trigger: "blur"
+      }],
     },
     {
       label: "工号",
@@ -20,10 +23,15 @@ export const option = {
       search: true,
       addDisabled: true,
       editDisabled: true,
+      rules: [{
+        required: true,
+        message: "请输入 工号",
+        trigger: "blur"
+      }],
     },
     {
       label: "部门名称",
-      prop: "orgId",
+      prop: "deptId",
       search: true,
       addDisabled: true,
       editDisabled: true,
@@ -35,6 +43,11 @@ export const option = {
         children: "children"
       },
       width: 120,
+      rules: [{
+        required: true,
+        message: "请选择 部门名称",
+        trigger: "blur"
+      }],
     },
     {
       label: "异动类型",
@@ -46,17 +59,32 @@ export const option = {
         "label": "label",
         "value": "value"
       },
+      rules: [{
+        required: true,
+        message: "请输入 异动类型",
+        trigger: "blur"
+      }],
     },
     {
       label: "异动时间",
       prop: "changeDate",
       width: 100,
       type: 'date',
-      valueFormat: 'yyyy-MM-dd'
+      valueFormat: 'yyyy-MM-dd',
+      rules: [{
+        required: true,
+        message: "请输入 异动时间",
+        trigger: "blur"
+      }],
     },
     {
       label: "异动原因",
       prop: "changeReason",
+      rules: [{
+        required: true,
+        message: "请输入 异动原因",
+        trigger: "blur"
+      }],
     },
     // {
     //   label: "异动开始时间",
@@ -108,6 +136,7 @@ export const option = {
       tip: '不超过5M',
       action: '/admin/sys-file/upload',
       span: 24,
+      hide: true,
     },
   ],
 }

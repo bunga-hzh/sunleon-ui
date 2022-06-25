@@ -7,9 +7,7 @@
                :search.sync="search"
                :table-loading="showLoading"
                :before-open="beforeOpen"
-               :upload-after="uploadAfter"
-               :upload-preview="uploadPreview"
-               :upload-error="uploadError"
+               :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
                @row-update="rowUpdate"
@@ -17,11 +15,13 @@
                @refresh-change="refreshChange"
                @search-change="searchChange">
       <template slot="menuLeft">
-        <el-button class="filter-item"
+        <el-button v-if="import_btn"
+                   class="filter-item"
                    type="primary"
                    icon="el-icon-upload"
                    @click="$refs.excelUpload.show()">导入</el-button>
-        <el-button type="primary"
+        <el-button v-if="export_btn"
+                   type="primary"
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
@@ -51,11 +51,10 @@
 <script>
 import { option } from "@/views/staff/staffInfo/option/child/punish";
 import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
-import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
-import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
-import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import ExcelUpload from "@/components/upload/excel";
+import { mapGetters } from "vuex";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
@@ -73,10 +72,29 @@ export default {
 
       timeout: undefined,
       usersList: [],
+
+      export_btn: false,
+      import_btn: false,
     };
   },
   components: {
     ExcelUpload,
+  },
+  created() {
+    this.export_btn = this.permissions["staff_zzjgpunish_export"]; //导出
+    this.import_btn = this.permissions["staff_zzjgpunish_import"]; //导入
+    loadAll();
+  },
+  computed: {
+    ...mapGetters(["permissions"]),
+    permissionList() {
+      return {
+        addBtn: this.vaildData(this.permissions.staff_zzjgpunish_add, false),
+        viewBtn: this.vaildData(this.permissions.staff_zzjgpunish_view, false),
+        editBtn: this.vaildData(this.permissions.staff_zzjgpunish_edit, false),
+        delBtn: this.vaildData(this.permissions.staff_zzjgpunish_del, false),
+      };
+    },
   },
   methods: {
     // 导出excel
@@ -116,7 +134,7 @@ export default {
     },
     // 加载
     onLoad() {
-      this.fetchList();
+      this.fetchList(this.search);
     },
     // 添加
     async rowSave(form, done, loading) {
@@ -171,36 +189,6 @@ export default {
       this.fetchList(params);
       done();
     },
-    // 上传后
-    uploadAfter(res, done, loading, column) {
-      if (!validatenull(res.fileName)) {
-        this.$message.success("上传成功");
-      }
-      done();
-    },
-    // 预览
-    uploadPreview(file, column, done) {
-      if (column.accept === "image/png, image/jpg") {
-        this.$ImagePreview(
-          [
-            {
-              thumbUrl: `${url}${file.url}`,
-              url: `${url}${file.url}`,
-            },
-          ],
-          0,
-          {
-            closeOnClickModal: true,
-          }
-        );
-      } else {
-        this.downFile(`${url}${file.url}`, splitUploadData(file.name));
-      }
-    },
-    // 上传失败
-    uploadError(error, column) {
-      this.$message.success("上传失败" + error);
-    },
     // 搜索姓名
     querySearchAsync(queryString, cb) {
       clearTimeout(this.timeout);
@@ -212,11 +200,7 @@ export default {
     handleSelect(item) {
       this.form.gh = item.gh;
       this.form.deptId = item.deptId;
-      this.form.staffId = item.staffId;
     },
-  },
-  created() {
-    loadAll();
   },
 };
 </script>

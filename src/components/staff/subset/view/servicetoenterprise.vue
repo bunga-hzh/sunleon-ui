@@ -100,8 +100,5 @@ export default {
       }
     },
   },
-  created() {
-    loadAll();
-  },
 };
 </script>

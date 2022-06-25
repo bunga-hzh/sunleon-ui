@@ -9,13 +9,22 @@ const is_type = [{
 export const option = {
   align: 'center',
   border: true,
-  menuWidth: 200,
+  menuWidth: 140,
   labelWidth: 160,
   searchSpan: 8,
   searchLabelWidth: 120,
   viewBtn: true,
   addBtn: false,
+  delBtn: false,
   column: [{
+      label: "id",
+      prop: "id",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
+    },
+    {
       label: "所属部门",
       prop: "deptId",
       width: 120,
@@ -44,6 +53,14 @@ export const option = {
         message: "请选择 用户",
         trigger: "change"
       }],
+    },
+    {
+      label: "教职工ID",
+      prop: "staffId",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
     },
     {
       label: "工号",
@@ -76,16 +93,21 @@ export const option = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/post_type',
+      cascader: ['gwmc'],
     },
     {
       label: "岗位名称",
       prop: "gwmc",
-      type: 'select'
-    },
-    {
-      label: "岗位等级",
-      prop: "gwdjm",
-      type: 'select'
+      type: "select",
+      searchMultiple: true,
+      searchFilterable: true,
+      filterable: true,
+      filter: true,
+      props: {
+        label: "name",
+        value: "id",
+      },
+      dicUrl: '/staff/zzjgcommon/postByType/{{key}}',
     },
     {
       label: "岗位聘任年月",
@@ -122,12 +144,6 @@ export const option = {
       prop: "cjgzsj",
       type: "date",
       valueFormat: 'yyyy-MM-dd',
-      width: 120,
-    },
-    {
-      label: "实际工作年限",
-      prop: "cjgzny",
-      type: "number",
       width: 120,
     },
     {
@@ -189,6 +205,7 @@ export const option = {
       label: "是否为内设机构领导",
       prop: "sfwnsjgld",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
@@ -200,6 +217,7 @@ export const option = {
       label: "是否残疾人",
       prop: "sfcjr",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
@@ -211,6 +229,7 @@ export const option = {
       label: "是否留学回国",
       prop: "sflxhg",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
@@ -222,6 +241,7 @@ export const option = {
       label: "是否为应届毕业生",
       prop: "sfyjbys",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
