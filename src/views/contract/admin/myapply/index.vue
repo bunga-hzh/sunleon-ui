@@ -14,11 +14,11 @@
         @size-change="sizeChange"
         @current-change="currentChange">
         <template slot-scope="{type,size,row}" slot="menu">
-          <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.preView.show(row)" >预览</el-button>
-          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleEdit(row)">编辑</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.preView.show(row)"  >预览</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleEdit(row)" v-if="row.htzt==0 || row.gtzt==3">编辑</el-button>
 <!--          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleGeneratePdf(row)">生成合同</el-button>-->
-          <el-button :type="type" :size="size" icon="el-icon-s-check" @click="handleSubmit(row)">提交审批</el-button>
-          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)">归档</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-s-check" @click="handleSubmit(row)" v-if="(row.htzt==0 || row.gtzt==3)">提交审批</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)" v-if="row.htzt==2">归档</el-button>
           <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.auditRecords.show(row)">审核记录</el-button>
 <!--          <el-button :type="type" :size="size" @click="handlePrinter(row)" icon="el-icon-printer" style="margin-left: 8px;">打印</el-button>-->
         </template>
@@ -68,12 +68,19 @@ export default {
   methods:{
     //提交审核
     handleSubmit(row){
-      submitHT(row.id).then(res=>{
-        this.$notify({
-          type:'success',
-          message:'提交成功，请等待审核完成!'
+      if(row.isHtComplete){
+        submitHT(row.id).then(res=>{
+          this.$notify({
+            type:'success',
+            message:'提交成功，请等待审核完成!'
+          })
         })
-      })
+      }else{
+        this.$notify({
+          type:'warning',
+          message:'请完善合同信息后进行提交！'
+        })
+      }
     },
     //打印
     handlePrinter(row){

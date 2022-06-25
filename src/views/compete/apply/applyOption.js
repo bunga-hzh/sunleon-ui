@@ -305,11 +305,11 @@ export const applyFormOption = {
         //     url: "url"
         //   },
         // },
-        rules: [{
-          required: true,
-          message: "请输入",
-          trigger: "blur"
-        }],
+        // rules: [{
+        //   required: true,
+        //   message: "请输入",
+        //   trigger: "blur"
+        // }],
       },
     ]
 }

@@ -168,13 +168,7 @@ export const nameListFormOption = {
           {
             label: "岗位是否有变动",
             prop: "exactly",
-            type: "select",
-            rules: [{
-              required: true,
-              message: "请选择",
-              trigger: "blur"
-            }],
-            dicData: [
+           dicData:[
               {
                 label: '是',
                 value: 0
@@ -318,5 +312,27 @@ export const handOffExamOption = {
       name:'res_id',
       res: 'data'
     }
+  }]
+};
+
+
+export const postSelectOption = {
+  submitText: '确认',
+  column: [{
+    label: "选择岗位",
+    prop: "gwid",
+    labelWidth: 160,
+    span:24,
+    type: "select",
+    rules: [{
+      required: true,
+      message: "请选择",
+      trigger: "blur"
+    }],
+    props: {
+      label: 'gwmc',
+      value: 'id'
+    },
+    dicUrl:'/act/jpGwgl/satisfy'
   }]
 };

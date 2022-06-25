@@ -122,7 +122,7 @@ export function putObj(obj) {
 
 export function getPostinfo(id) {
   return request({
-    url: '/act/sysPostMaintain/get/'+id,
+    url: '/act/sysPostMaintain/getDuty/'+id,
     method:'get'
   })
 }

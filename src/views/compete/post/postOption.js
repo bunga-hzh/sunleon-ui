@@ -113,11 +113,15 @@ export const competePostOption = {
       type:'number',
       hide:true,
       span: 24,
-      minRows:0,
-      maxRows:100,
+    },
+    {
+      label: '人数',
+      prop:'jprs',
+      type:'number',
+      span: 24,
       rules: [{
         required: true,
-        message: '请输入岗位绩点'
+        message: '请输入竞聘人数'
       }]
     },
     {

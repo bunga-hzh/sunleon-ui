@@ -285,7 +285,8 @@ export default {
         gzrwyq:this.form.gzrwyq,// 工作条件
         rztj:this.form.rztj, //任职条件
         gwlxId:this.form.gwlxId, //岗位类型
-        id:this.form.id
+        id:this.form.id,
+        jprs:this.form.jprs, //竞聘人数
       };
       addCompeteObj(data).then(res=>{
         this.getList(this.page)
@@ -308,6 +309,7 @@ export default {
         gzrwyq:this.form.gzrwyq,// 工作条件
         gwlxId:this.form.gwlxId, //岗位类型
         rztj:this.form.rztj, //任职条件
+        jprs:this.form.jprs, //竞聘人数
       };
       addCompeteObj(data).then(res=>{
         this.getList(this.page)

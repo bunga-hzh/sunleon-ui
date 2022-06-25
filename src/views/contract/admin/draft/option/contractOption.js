@@ -79,6 +79,7 @@ export default {
     },
     {
       label: '首付款金额',
+      type:'number',
       prop:'sfkje',
       rules: [{
         required: true,

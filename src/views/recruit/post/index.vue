@@ -145,6 +145,7 @@ export default {
             endTime:this.form.startTime[1], // 结束时间
             recruitRequire:this.form.recruitRequire, //招聘要求
             postRequire:this.form.postRequire, //岗位要求
+            postDuty:this.form.postDuty,
             id:this.form.id,
             isRelease:1, //保存及发布
             gwlxId:this.form.gwlxId,
@@ -220,6 +221,7 @@ export default {
         endTime:this.form.startTime[1], // 结束时间
         recruitRequire:this.form.recruitRequire, //招聘要求
         postRequire:this.form.postRequire,//岗位要求
+        postDuty:this.form.postDuty,
         id:this.form.id,
         gwlxId:this.form.gwlxId,
       };
@@ -240,6 +242,7 @@ export default {
         endTime:this.form.startTime[1], // 结束时间
         recruitRequire:this.form.recruitRequire, //招聘要求
         postRequire:this.form.postRequire,//岗位要求
+        postDuty:this.form.postDuty,
         gwlxId:this.form.gwlxId,
       };
       addObj(data).then(res=>{

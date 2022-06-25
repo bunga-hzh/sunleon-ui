@@ -40,38 +40,38 @@ export const examineOption = {
     },
     {
       label: '审核状态',
-      prop:'spzt',
-      type:'select',
-      dicData:[
-        {
-          value: 0,
-          label:'未开始'
-        },
-        {
-          value:1,
-          label:'履约中'
-        },
-        {
-          value:2,
-          label:'合同完结'
-        },
-        {
-          value:3,
-          label:'审核被驳回'
-        },
-        {
-          value:4,
-          label:'审核中'
-        },
-        {
-          value:5,
-          label:'审核通过'
-        },
-        {
-          value:6,
-          label:'已归档'
-        }
-      ]
+      prop:'spztmc',
+      // type:'select',
+      // dicData:[
+      //   {
+      //     value: 0,
+      //     label:'未开始'
+      //   },
+      //   {
+      //     value:1,
+      //     label:'履约中'
+      //   },
+      //   {
+      //     value:2,
+      //     label:'合同完结'
+      //   },
+      //   {
+      //     value:3,
+      //     label:'审核被驳回'
+      //   },
+      //   {
+      //     value:4,
+      //     label:'审核中'
+      //   },
+      //   {
+      //     value:5,
+      //     label:'审核通过'
+      //   },
+      //   {
+      //     value:6,
+      //     label:'已归档'
+      //   }
+      // ]
     },
     {
       label: '签订部门',

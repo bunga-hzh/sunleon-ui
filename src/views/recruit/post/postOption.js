@@ -225,8 +225,6 @@ export const tableOption = {
       type: 'ueditor',
       component: 'avueUeditor',
       span: 24,
-      editDisabled: true,
-      addDisabled: true,
       options: {
         action: "/admin/sys-file/upload",
         props: {

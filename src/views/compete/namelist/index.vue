@@ -94,7 +94,7 @@ import {
   nameFormOption,
   nameListFormOption,
   nameListOption,
-  pinqiOption,
+  pinqiOption, postSelectOption,
   stopJinpin
 } from "@/views/compete/namelist/nameListOption";
 import {
@@ -393,6 +393,30 @@ export default {
         }
       });
     },
+    handleShowPost(id){
+      this.$DialogForm.show({
+        title: '岗位更换',
+        width: '30%',
+        menuPosition: 'center',
+        option:postSelectOption,
+        beforeClose: (done) => {
+          done()
+        },
+        callback: (res) => {
+          settingConfirm({
+            exactly:true,
+            id:id,
+            gwId:res.data.gwid
+          }).then(resx=>{
+            this.$message.success('操作成功!')
+            this.getList(this.page)
+            res.close();
+          })
+          //
+        }
+      });
+      this.$message.warning('该老师竞聘岗位以被占用，请选择其他岗位!')
+    },
     //设置成功确认工作变动
     handleConfirm(row,bool){
       this.$DialogForm.show({
@@ -408,13 +432,16 @@ export default {
             exactly:res.data.exactly==0 ? true:false,
             id:row.id
           }).then(resx=>{
-            this.$message.success('操作成功!')
-            this.getList(this.page)
+            if(resx.data.data){
+              this.$message.success('操作成功!')
+              this.getList(this.page)
+            }else{
+             this.handleShowPost(row.id)
+            }
             res.close();
           })
         }
       });
-
     },
     //设置分数
     handleSet(row){

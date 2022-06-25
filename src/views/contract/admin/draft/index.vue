@@ -136,10 +136,20 @@ export default {
   created() {
     if(this.$route.query.view=='1'){
       this.view = true;
+      this.basicOption['detail'] = true;
+      this.contractOption['detail'] = true;
+      this.partyOption['detail'] = true;
+      this.goodsOption['detail'] = true;
+      this.clauseOption['detail'] = true;
+      this.payMentOption['detail'] = true;
+      this.enclosureOption['detail'] = true;
+      this.contractFileOption['detail'] = true;
     }
     remote('contract_goods_type').then(res=>{
       this.goodsDataList = res.data.data;
     })
+
+
 
     this.getDartInfo()
 

@@ -17,7 +17,7 @@
           <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.examinRef.show(row)">审核</el-button>
         </template>
       </avue-crud>
-      <examine-view ref="examinRef" />
+      <examine-view ref="examinRef" @eventresh="handleReload" />
     </basic-container>
   </div>
 </template>
@@ -46,6 +46,9 @@ export default {
     }
   },
   methods:{
+    handleReload(){
+      this.getList(this.page,this.searchForm)
+    },
     getList(page, params) {
       this.listLoading = true;
       fetchList({

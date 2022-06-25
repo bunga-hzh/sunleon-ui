@@ -22,7 +22,7 @@
 <!--          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleEdit(row)">编辑</el-button>-->
 <!--          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleGeneratePdf(row)">生成合同</el-button>-->
 <!--          <el-button :type="type" :size="size" icon="el-icon-s-check">提交审批</el-button>-->
-          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)">归档</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)"  v-if="row.htzt==2">归档</el-button>
           <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.auditRecords.show(row)">审核记录</el-button>
 <!--          <el-button :type="type" :size="size" @click="handlePrinter(row)" icon="el-icon-printer" style="margin-left: 8px;">打印</el-button>-->
         </template>
