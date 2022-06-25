@@ -75,7 +75,7 @@ export default {
         ...form,
         staffId: this.staffId,
       };
-      const { data: res } = await addObj("reward", obj);
+      const { data: res } = await addObj("reward/child", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
       this.$message.success("添加成功！");

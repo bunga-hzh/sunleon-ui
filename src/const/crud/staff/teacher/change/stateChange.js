@@ -5,7 +5,10 @@ export const option = {
   index: true,
   labelWidth: 120,
   searchSpan: 6,
+  menuWidth: 100,
   viewBtn: true,
+  editBtn: false,
+  delBtn: false,
   column: [{
       label: "姓名",
       prop: "xm",

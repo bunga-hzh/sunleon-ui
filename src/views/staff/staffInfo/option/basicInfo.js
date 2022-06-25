@@ -40,10 +40,11 @@ var vaildataEmail = (rule, value, callback) => {
 export const option = {
   align: 'center',
   border: true,
-  menuWidth: 260,
+  menuWidth: 200,
   labelWidth: 160,
   searchLabelWidth: 120,
   viewBtn: true,
+  delBtn: false,
   column: [{
       label: "所属部门",
       prop: "deptId",
@@ -61,6 +62,17 @@ export const option = {
         trigger: "change"
       }],
       search: true,
+      editDisabled: true,
+    },
+    {
+      label: "姓名",
+      prop: "xm",
+      rules: [{
+        required: true,
+        message: "请填写姓名",
+        trigger: "blur"
+      }],
+      search: true,
     },
     {
       label: "教职工编号",
@@ -72,16 +84,7 @@ export const option = {
       }],
       width: 120,
       search: true,
-    },
-    {
-      label: "姓名",
-      prop: "xm",
-      rules: [{
-        required: true,
-        message: "请填写姓名",
-        trigger: "blur"
-      }],
-      search: true,
+      editDisabled: true,
     },
     {
       label: "曾用名",
@@ -435,6 +438,7 @@ export const option = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/dqztk_type',
+      editDisabled: true,
     },
     {
       label: "户口详细地址",

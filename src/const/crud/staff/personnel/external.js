@@ -2,7 +2,9 @@ import {
   newVersionCardId,
 } from "@/util/validate";
 import {
-  sex_type
+  sex_type,
+  is_type,
+  has_type,
 } from "@/const/commonDict";
 
 var validateIdCard = (rule, value, callback) => {
@@ -168,15 +170,7 @@ export const option = {
       type: 'radio',
       border: true,
       searchLabelWidth: 150,
-      dicData: [{
-          label: '是',
-          value: '1'
-        },
-        {
-          label: '否',
-          value: '0'
-        }
-      ],
+      dicData: is_type,
       rules: [{
         required: true,
         message: "请选择 教师资格证",
@@ -234,15 +228,7 @@ export const option = {
       width: 150,
       type: 'radio',
       border: true,
-      dicData: [{
-          label: '有',
-          value: '1'
-        },
-        {
-          label: '无',
-          value: '0'
-        }
-      ],
+      dicData: has_type,
       rules: [{
         required: true,
         message: "请选择 教师资格证",
@@ -256,15 +242,7 @@ export const option = {
       width: 150,
       type: 'radio',
       border: true,
-      dicData: [{
-          label: '是',
-          value: '1'
-        },
-        {
-          label: '否',
-          value: '0'
-        }
-      ],
+      dicData: is_type,
       rules: [{
         required: true,
         message: "请选择 双师型教师",

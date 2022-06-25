@@ -92,7 +92,7 @@ export default {
         cfrq: validatenull(form.cfrq) ? undefined : form.cfrq[0],
         cfcxrq: validatenull(form.cfrq) ? undefined : form.cfrq[1],
       };
-      const { data: res } = await addObj("punish", obj);
+      const { data: res } = await addObj("punish/child", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
       this.$message.success("添加成功！");

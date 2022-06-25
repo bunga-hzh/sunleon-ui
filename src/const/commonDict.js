@@ -1,9 +1,9 @@
 export const is_type = [{
   label: '是',
-  value: "0",
+  value: "1",
 }, {
   label: '否',
-  value: "1",
+  value: "2",
 }]
 
 export const sex_type = [{
@@ -18,10 +18,10 @@ export const sex_type = [{
 
 export const has_type = [{
     label: '有',
-    value: "0",
+    value: "1",
   },
   {
     label: '无',
-    value: "1",
+    value: "2",
   }
 ]

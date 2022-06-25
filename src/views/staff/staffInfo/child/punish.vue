@@ -43,7 +43,8 @@
     <excel-upload ref="excelUpload"
                   title="用户信息导入"
                   url="/staff/zzjgpunish/import"
-                  temp-url="/admin/sys-file/local/user.xlsx"
+                  temp-name="教职工处分信息模板.xlsx"
+                  temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/jzgcfxxmb.xlsx"
                   @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>

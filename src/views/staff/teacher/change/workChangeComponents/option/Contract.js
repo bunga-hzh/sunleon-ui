@@ -120,6 +120,7 @@ export const option = {
         label: "name",
         value: "id",
       },
+      slot: true,
     },
     {
       label: "人员分类",

@@ -47,6 +47,8 @@ export const option = {
         message: "请选择 用户",
         trigger: "change"
       }],
+      addDisabled: true,
+      editDisabled: true,
     },
     {
       label: "工号",

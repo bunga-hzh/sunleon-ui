@@ -30,12 +30,17 @@
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
+      <template slot="nsgw"
+                slot-scope="scope">
+        {{scope.row.postName}}
+      </template>
     </avue-crud>
     <!--excel 模板导入 -->
     <excel-upload ref="excelUpload"
                   title="用户信息导入"
                   url="/staff/zzjgywglrshtgl/import"
-                  temp-url="/admin/sys-file/local/user.xlsx"
+                  temp-name="人事合同信息模板.xlsx"
+                  temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/rshtxxmb.xlsx"
                   @refreshDataList="refreshChange"></excel-upload>
   </div>
 </template>

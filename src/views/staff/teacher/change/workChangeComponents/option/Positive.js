@@ -39,6 +39,18 @@ export const option = {
       prop: "gwmc",
       addDisabled: true,
       editDisabled: true,
+      type: "select",
+      dicUrl: 'staff/zzjgcommon/all/post',
+      search: true,
+      props: {
+        label: "postName",
+        value: "postId",
+      },
+      rules: [{
+        required: true,
+        message: '请选择 岗位',
+        trigger: 'blur',
+      }]
     },
     // {
     //   label: "入职日期",

@@ -58,8 +58,8 @@ export const option = {
       dicUrl: 'staff/zzjgcommon/all/post',
       search: true,
       props: {
-        label: "name",
-        value: "id",
+        label: "postName",
+        value: "postId",
       },
       rules: [{
         required: true,

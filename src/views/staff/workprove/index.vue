@@ -42,7 +42,7 @@ export default {
       data: undefined,
       option: option,
       page: {
-        total: 100,
+        total: 0,
         current: 1,
         size: 10,
       },
@@ -98,13 +98,14 @@ export default {
       if (res.code !== 0) return this.$message.error(res.msg);
       this.showLoading = false;
       this.data = res.data.records;
-      this.total = res.data.total;
+      this.page.total = res.data.total;
     },
     // 添加
     async rowSave(form, done, loading) {
       const { data: res } = await addObj(form);
       if (res.code !== 0) return this.$message.error("添加失败！" + res.msg);
       done({ ...form, id: res.data });
+      this.refreshChange();
       this.$message.success("添加成功！");
     },
     // 修改
@@ -112,6 +113,7 @@ export default {
       const { data: res } = await putObj(form);
       if (res.code !== 0) return this.$message.error("修改失败！" + res.msg);
       done(form);
+      this.refreshChange();
       this.$message.success("修改成功！");
     },
     // 删除

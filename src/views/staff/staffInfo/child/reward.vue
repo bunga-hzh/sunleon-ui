@@ -37,7 +37,8 @@
     <excel-upload ref="excelUpload"
                   title="用户信息导入"
                   url="/staff/zzjgreward/import"
-                  temp-url="/admin/sys-file/local/user.xlsx"
+                  temp-name="教职工奖励信息模板.xlsx"
+                  temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/jzgjlxxmb.xlsx"
                   @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>
