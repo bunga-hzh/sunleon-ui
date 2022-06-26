@@ -84,19 +84,14 @@ export const option = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/staff/zzjgcommon/getPostTypeByPost/{{key}}',
+      dicUrl: '/admin/dict/type/post_type',
       disabled: true,
       rules: [{
         required: true,
         message: "请选择 岗位类别",
         trigger: "blur"
       }],
-      props: {
-        label: "label",
-        value: "value",
-      },
-      cascaderIndex: 0,
-      slot: true,
+      dicFlag: false,
     },
     {
       label: "岗位名称",

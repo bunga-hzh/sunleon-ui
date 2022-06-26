@@ -57,7 +57,13 @@
 
 <script>
 import { option } from "@/views/staff/staffInfo/option/office";
-import { fetchList, addObj, delObj, putObj } from "@/api/staff/crud";
+import {
+  fetchList,
+  addObj,
+  delObj,
+  putObj,
+  getPostType,
+} from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { validatenull } from "@/util/validate";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
@@ -101,6 +107,17 @@ export default {
         viewBtn: this.vaildData(this.permissions.staff_zzjgoffice_view, false),
         editBtn: this.vaildData(this.permissions.staff_zzjgoffice_edit, false),
       };
+    },
+  },
+  watch: {
+    "form.gwmc": {
+      async handler(val) {
+        if (!validatenull(val)) {
+          const { data: res } = await getPostType(val);
+          if (res.code != 0) return this.$message.error(res.error);
+          this.form.gwlbm = res.data;
+        }
+      },
     },
   },
   methods: {
@@ -163,7 +180,6 @@ export default {
         staffId: this.data[index].staffId,
         jyclsc: validatenull(form.jyclsc) ? undefined : form.jyclsc[0].value,
       };
-      console.log(form);
       const { data: res } = await putObj("office", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done();

@@ -91,3 +91,16 @@ export function getInfoByGh(gh) {
     method: 'get',
   })
 }
+
+/**
+ * 通过岗位获取岗位类别
+ * 
+ * @param id 
+ * @returns 
+ */
+export function getPostType(id) {
+  return request({
+    url: '/staff/zzjgcommon/getPostTypeByPost/' + id,
+    method: 'get',
+  })
+}
