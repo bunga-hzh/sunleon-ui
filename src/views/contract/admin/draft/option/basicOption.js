@@ -18,7 +18,8 @@ export default {
     {
       label: '招标编号',
       prop:'zbbh',
-      span:12
+      span:12,
+      viewDisplay:false
     },
     {
       label: '采购方式',
@@ -89,6 +90,14 @@ export default {
       label: '签订日期',
       prop:'qdsj',
       type:'date',
+      span:12
+    },
+    {
+      label: '合同起止日期',
+      prop:'htqzrq',
+      type:'daterange',
+      format:'yyyy-MM-dd',
+      valueFormat:'yyyy-MM-dd',
       span:12
     },
     {

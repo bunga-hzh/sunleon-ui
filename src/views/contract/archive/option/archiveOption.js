@@ -23,6 +23,10 @@ export const archiveOption = {
       search:true
     },
     {
+      label:'签订部门',
+      prop:'bmmc',
+    },
+    {
       label:'归档编号',
       prop:'gdbh',
       search:true
@@ -55,6 +59,37 @@ export const archiveOption = {
           label:'已完整归档'
         }
       ]
+    },
+    {
+      label: '是否有质保金',
+      prop: 'sfzbj',
+      type:'select',
+      dicData:[
+        {
+          value: 0,
+          label: "否"
+        },
+        {
+          value: 1,
+          label: "是"
+        }
+      ]
+    },
+    {
+      label: '质保金',
+      prop: 'zbj',
+    },
+    {
+      label: '质保金状态',
+      prop: 'zbjZtName',
+    },
+    {
+      label: '验收时间',
+      prop: 'yssj',
+    },
+    {
+      label: '质保金退回时间',
+      prop: 'zbjthsj',
     },
     {
       label:'创建日期',

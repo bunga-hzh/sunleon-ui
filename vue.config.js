@@ -47,6 +47,13 @@ module.exports = {
     open: false,
     port: 8080,
     proxy: {
+      "/onlinePreview":{
+        target: "http://192.168.187.90:8012",
+        ws:false,
+        pathRewrite: {
+          "^/": "/",
+        },
+      },
       "/": {
         target: url,
         ws: false, // 需要websocket 开启
@@ -54,6 +61,7 @@ module.exports = {
           "^/": "/",
         },
       },
+
     },
   }
 };

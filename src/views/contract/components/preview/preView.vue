@@ -21,6 +21,7 @@
 
 <script>
 import {getPreViewUrl, getPreViewUrlAll} from "@/api/contract/admin/admin";
+import store from "@/store";
 let Base64 = require('js-base64').Base64;
 export default {
   name:'preView',
@@ -36,14 +37,18 @@ export default {
     show(row,index){
       const p = JSON.parse(row.htfjId);
       if(p){
+        const p = JSON.parse(row.htfjId);
+        const protocol = window.location.protocol;
+        const host = window.location.host;
+
         p.map(item=>{
-          let fileName = item.value.substring(item.value.lastIndexOf("/")+1,item.value.length);
-          getPreViewUrlAll(fileName).then(res=>{
+          // let fileName = item.value.substring(item.value.lastIndexOf("/")+1,item.value.length);
+          // getPreViewUrlAll(fileName).then(res=>{
             this.htfjId.push({
               label:item.label,
-              value: 'http://192.168.187.90:8012/onlinePreview?url='+encodeURIComponent(Base64.encode(res.data.data))
+              value: '/onlinePreview?url='+encodeURIComponent(Base64.encode(`${protocol}//${host}${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`))
             })
-          });
+          // });
         })
       }
 

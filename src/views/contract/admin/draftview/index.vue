@@ -58,10 +58,9 @@ export default {
         path:"/contract/edit/draft",
         query:{
           params:encodeURIComponent(JSON.stringify({
-            wjMc:item.wjMc,
-            WjDz:item.WjDz,
-            id:item.id,
-            type:item.xshwnr == 0 ? false:true
+            view:2,
+            lxId:item.id,
+            id:''
           }))
         }});
       window.open(href, "_blank");

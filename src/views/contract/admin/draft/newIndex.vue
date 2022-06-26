@@ -1,7 +1,7 @@
 <template>
   <div style="background-color: #F2F3F5;margin-top: 43px;margin-bottom: 46px;">
     <div class="header_tools">
-      <el-button type="primary" v-if="!view" @click="handleSave">保存合同</el-button>
+      <el-button type="primary" v-if="viewInitData.view>0" @click="handleSave">保存合同</el-button>
     </div>
     <div class="main_draft">
       <div class="draft_content">
@@ -11,7 +11,7 @@
     padding: 20px 20px 20px 50px;
     font-weight: bold;
     color: black;">
-          合同{{view ? '查看':'编辑'}}
+          合同{{viewInitData.view==0 ? '查看': viewInitData.view==1 ? '编辑':'录入'}}
         </div>
       </div>
       <div class="draft_content">
@@ -36,10 +36,10 @@
           <avue-form ref="formParty" v-model="htQyf" :option="partyOption"></avue-form>
         </el-card>
 
-        <el-card class="box_card_draft">
+        <el-card class="box_card_draft" v-if="viewInitData.biaodiwu==1">
           <div slot="header" class="clearfix">
             <span class="card_header_title">标的物信息</span>
-            <el-button style="float: right; padding: 3px 0" type="text" v-if="!view" @click="$refs.excelUpload.show()">导入标的物</el-button>
+            <el-button style="float: right; padding: 3px 0" type="text" v-if="viewInitData.view>1" @click="$refs.excelUpload.show()">导入标的物</el-button>
           </div>
           <avue-form ref="goodsForm" class="goodsForm" v-model="hwqdList" :option="goodsOption">
             <template slot-scope="{row}" slot="total">
@@ -57,14 +57,14 @@
           <avue-crud class="goodsForm" ref="formPayment" :data="htGlFkydList" :option="payMentOption"></avue-crud>
         </el-card>
 
-        <el-card class="box_card_draft" v-if="!view">
+        <el-card class="box_card_draft" v-if="viewInitData.view>1">
           <div slot="header" class="clearfix">
             <span class="card_header_title">合同附件</span>
           </div>
           <avue-form ref="htfjRef" v-model="formData" :option="contractFileOption"></avue-form>
         </el-card>
 
-        <el-card class="box_card_draft" v-if="!view">
+        <el-card class="box_card_draft"  v-if="viewInitData.view>1">
           <div slot="header" class="clearfix">
             <span class="card_header_title">其他附件</span>
           </div>
@@ -123,37 +123,54 @@ export default {
       enclosureOption:enclosureOption, //附件
       contractFileOption:contractFileOption, //合同附件
       goodsDataList:[], //类型数据
-      view:false,
-      addParams:null
+      viewInitData:{
+        view:0, //0:查看，1:修改,2=录入
+        lxId:'', //选择编辑的类型ID
+        biaodiwu:0, // 0:不显示，1：显示
+        id:'', //处理编辑时展示id
+      }, //初始化参数
+      templateData:{}, //合同模板信息
     }
   },
   created() {
-    // if(this.$route.params.id=='draft'){
-    //   const params = decodeURIComponent(this.$route.query.params);
-    //   this.getHTlxType(params.id);
-    //     // this.addParams = JSON.parse(decodeURIComponent(this.$route.query.params));
-    // }else{
-    //   this.getDartInfo()
-    // }
-    if(this.$route.query.view=='1'){
-      this.view = true;
-      this.basicOption['detail'] = true;
-      this.contractOption['detail'] = true;
-      this.partyOption['detail'] = true;
-      this.goodsOption['detail'] = true;
-      this.clauseOption['detail'] = true;
-      this.payMentOption['detail'] = true;
-      this.enclosureOption['detail'] = true;
-      this.contractFileOption['detail'] = true;
+    const params = JSON.parse(decodeURIComponent(this.$route.query.params));
+    if(this.$route.params.id=='draft'){
+      this.viewInitData = params;
+    }else {
+
+      this.viewInitData = params;
+      if(this.$route.params.id){
+        this.getDartInfo(this.$route.params.id);
+      }
     }
-    // remote('contract_goods_type').then(res=>{
-    //   this.goodsDataList = res.data.data;
-    // })
+
+    setTimeout(()=>{
+      this.getHTlxType(this.viewInitData.lxId);
+      if(params.view==0){
+        this.basicOption['detail'] = true;
+        this.contractOption['detail'] = true;
+        this.partyOption['detail'] = true;
+        this.goodsOption['detail'] = true;
+        this.clauseOption['detail'] = true;
+        this.payMentOption['detail'] = true;
+        this.enclosureOption['detail'] = true;
+        this.contractFileOption['detail'] = true;
+      }
+      remote('contract_goods_type').then(res=>{
+        this.goodsDataList = res.data.data;
+      })
+    },700)
   },
   methods:{
     getHTlxType(htlxId){
       getHtlxInfo(htlxId).then(res=>{
-        console.log(res);
+        const p = res.data.data;
+        this.templateData = p;
+        if(p.xshwnr==1){
+          this.viewInitData.biaodiwu = 1;
+        }else{
+          this.viewInitData.biaodiwu = 0;
+        }
       })
     },
     handleFileChange(response,file){
@@ -167,7 +184,7 @@ export default {
             if(formContract){
               this.$refs.formParty.validate((formParty)=>{
                 if(formParty){
-                  // if(this.formData.htfjId && this.formData.htfjId.length>0){
+                  if(this.formData.htfjId && this.formData.htfjId.length>0){
                     this.formData.htQyf = this.htQyf;
                     this.formData.htGlFkydList = this.htGlFkydList;
                     this.formData.hwqdList = this.hwqdList['hwqdList'];
@@ -175,24 +192,43 @@ export default {
                     if(this.formData.htqzrq){
                       this.formData.htqzrq = JSON.stringify(this.formData.htqzrq);
                     }
+                    if(this.viewInitData.biaodiwu==1){
+                      if(this.formData.hwqdList && this.formData.hwqdList.length>0){
+                        //当为新增时增加合同类型ID
+                        if(this.viewInitData.view==2){
+                          this.formData['htlx'] = this.viewInitData.lxId;
+                        }
 
-                    //当为新增时增加合同类型ID
-                    if(this.addParams){
-                      this.formData['htlx'] = this.addParams.id;
-                    }
-
-                    saveObj(this.formData).then(res=>{
-                      this.$notify({
-                        type:'success',
-                        message:'保存成功!'
+                        saveObj(this.formData).then(res=>{
+                          this.$notify({
+                            type:'success',
+                            message:'保存成功!'
+                          })
+                        })
+                      }else{
+                        this.$message({
+                          type:'warning',
+                          message:'请填写标的物信息!'
+                        })
+                      }
+                    }else{
+                      //当为新增时增加合同类型ID
+                      if(this.viewInitData.view==2){
+                        this.formData['htlx'] = this.viewInitData.lxId;
+                      }
+                      saveObj(this.formData).then(res=>{
+                        this.$notify({
+                          type:'success',
+                          message:'保存成功!'
+                        })
                       })
+                    }
+                  }else{
+                    this.$message({
+                      type:'warning',
+                      message:'请上传合同附件!'
                     })
-                  // }else{
-                  //   this.$message({
-                  //     type:'warning',
-                  //     message:'请上传合同附件!'
-                  //   })
-                  // }
+                  }
                 }else{
                   this.$message({
                     type:'warning',
@@ -215,8 +251,8 @@ export default {
         }
       })
     },
-    getDartInfo(){ // 获取合同信息
-      fetchContractInfo(this.$route.params.id).then(res=>{
+    getDartInfo(id){ // 获取合同信息
+      fetchContractInfo(id).then(res=>{
         let data = res.data.data;
         if(data.htQyf){
           this.htQyf = data.htQyf;

@@ -23,7 +23,7 @@ export default {
     },
     {
       label: '是否质保金',
-      prop: 'zbj',
+      prop: 'sfzbj',
       value:0,
       type: "radio",
       dicData:[{
@@ -32,7 +32,26 @@ export default {
       }, {
         label: '是',
         value: 1
-      }]
+      }],
+      control:(val,form)=>{
+        if(val===0){
+          return {
+            zbj:{
+              display:false
+            }
+          }
+        }else{
+          return {
+            zbj:{
+              display:true
+            }
+          }
+        }
+      },
+    },
+    {
+      label: '质保金金额(元)',
+      prop: 'zbj',
     },
     {
       label: '交付日期',

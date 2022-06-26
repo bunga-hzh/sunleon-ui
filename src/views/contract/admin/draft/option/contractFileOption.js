@@ -14,6 +14,7 @@ export default {
       dragFile: true,
       loadText: '附件上传中，请稍等',
       tip: '最大20MB/个',
+      accept:'image/png, image/jpeg, .doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xlsx,.xls, .pdf',
       action:'/admin/sys-file/upload',
       propsHttp: {
         url:'url',

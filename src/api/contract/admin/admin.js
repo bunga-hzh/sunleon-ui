@@ -148,3 +148,18 @@ export function getPreViewUrlAll(obsKey){
     }
   })
 }
+
+/**
+ * 验收
+ * @param id
+ * @param date
+ * @param status
+ * @returns {AxiosPromise}
+ */
+export function putCheckContract(params){
+  return request({
+    url:'/act/htGl/zbj/status',
+    method:'put',
+    params:params
+  })
+}

@@ -161,3 +161,54 @@ export function downloadResume(id){
     responseType: 'blob'
   })
 }
+
+/**
+ * 获取竞聘投递、未投递报表
+ * @returns {AxiosPromise}
+ */
+export function getJpTDReort(params){
+  return request({
+    url:'/act/reports/jp_gw_td/list',
+    method:'get',
+    params:params
+  })
+}
+
+/**
+ * 获取竞聘未投递报表
+ * @returns {AxiosPromise}
+ */
+export function getJpUndeliveredTDReort(params){
+  return request({
+    url:'/act/reports/jp_gw_not_td/list',
+    method:'get',
+    params:params
+  })
+}
+
+
+/**
+ * 获取竞聘超额
+ * @returns {AxiosPromise}
+ */
+export function getJpExcessTDReort(params){
+  return request({
+    url:'/act/reports/jp_gw_excess_td/list',
+    method:'get',
+    params:params
+  })
+}
+
+
+
+/**
+ * 获取候选人
+ * @returns {AxiosPromise}
+ */
+export function getJpHxrTDReort(params){
+  return request({
+    url:'/act/reports/jp_gw_adopt/list',
+    method:'get',
+    params:params
+  })
+}
