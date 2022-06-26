@@ -44,6 +44,18 @@ export function saveObj(data){
   })
 }
 
+/**
+ * 获取合同类型ID
+ * @param id
+ * @returns {AxiosPromise}
+ */
+export function getHtlxInfo(id){
+  return request({
+    url:'/act/htLx/get/'+id,
+    method:'get'
+  })
+}
+
 
 //提交审批
 export function SubmitForReview(){

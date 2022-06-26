@@ -13,7 +13,22 @@ export const typeManagerOption = {
       prop: 'htlxMc',
       labelWidth:300,
       align:'left',
+      span:24,
       headerAlign: 'left',
+    },
+    {
+      label: '显示货物内容',
+      prop: 'xshwnr',
+      labelWidth:300,
+      value:0,
+      type: "radio",
+      dicData:[{
+        label: '否',
+        value: 0
+      }, {
+        label: '是',
+        value: 1
+      }]
     },
     {
       label: '创建人',

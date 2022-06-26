@@ -15,18 +15,18 @@
                 </el-row>
             </el-collapse-item>
         </el-collapse>
-      <excel-upload
-        ref="excelUpload"
-        title="采购表导入"
-        :url="'/act/htGl/contractImport?htlxId='+id"
-        temp-name="采购表模板.xlsx"
-        temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/合同导入模版.xlsx"
-        :temp-contract-url="WjDz"
-        down-load-text="采购表"
-        :temp-contract-name="wjMc"
-        @refreshDataList="handleRefreshChange"
-        @onClose="id=''"
-      ></excel-upload>
+<!--      <excel-upload-->
+<!--        ref="excelUpload"-->
+<!--        title="采购表导入"-->
+<!--        :url="'/act/htGl/contractImport?htlxId='+id"-->
+<!--        temp-name="采购表模板.xlsx"-->
+<!--        temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/合同导入模版.xlsx"-->
+<!--        :temp-contract-url="WjDz"-->
+<!--        down-load-text="采购表"-->
+<!--        :temp-contract-name="wjMc"-->
+<!--        @refreshDataList="handleRefreshChange"-->
+<!--        @onClose="id=''"-->
+<!--      ></excel-upload>-->
     </basic-container>
   </div>
 </template>
@@ -54,10 +54,17 @@ export default {
 
     },
     handleOpen(item){
-      this.wjMc = item.wjMc;
-      this.WjDz = item.WjDz;
-      this.id = item.id;
-      this.$refs.excelUpload.show()
+      const{ href } = this.$router.resolve({
+        path:"/contract/edit/draft",
+        query:{
+          params:encodeURIComponent(JSON.stringify({
+            wjMc:item.wjMc,
+            WjDz:item.WjDz,
+            id:item.id,
+            type:item.xshwnr == 0 ? false:true
+          }))
+        }});
+      window.open(href, "_blank");
     },
     getList() {
       fetchList({

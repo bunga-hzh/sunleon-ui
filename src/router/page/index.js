@@ -14,7 +14,7 @@ export default [{
   path: '/contract/edit/:id',
   name: '合同起草',
   component: () =>
-    import(/* webpackChunkName: "page" */ '@/views/contract/admin/draft/index'),
+    import(/* webpackChunkName: "page" */ '@/views/contract/admin/draft/newIndex'),
   meta: {
     keepAlive: true,
     isTab: false,

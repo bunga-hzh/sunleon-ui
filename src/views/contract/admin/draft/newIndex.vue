@@ -36,13 +36,6 @@
           <avue-form ref="formParty" v-model="htQyf" :option="partyOption"></avue-form>
         </el-card>
 
-<!--        <el-card class="box_card_draft">-->
-<!--          <div slot="header" class="clearfix">-->
-<!--            <span class="card_header_title">条款信息</span>-->
-<!--          </div>-->
-<!--          <avue-form ref="formClause" class="goodsForm" v-model="htGlTkList" :option="clauseOption"></avue-form>-->
-<!--        </el-card>-->
-
         <el-card class="box_card_draft">
           <div slot="header" class="clearfix">
             <span class="card_header_title">标的物信息</span>

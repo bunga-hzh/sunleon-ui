@@ -18,12 +18,7 @@ export default {
     {
       label: '招标编号',
       prop:'zbbh',
-      span:12,
-      rules: [{
-        required: true,
-        message: "请输入",
-        trigger: "blur"
-      }],
+      span:12
     },
     {
       label: '采购方式',
@@ -94,11 +89,6 @@ export default {
       label: '签订日期',
       prop:'qdsj',
       type:'date',
-      rules: [{
-        required: true,
-        message: "请选择",
-        trigger: "change"
-      }],
       span:12
     },
     {

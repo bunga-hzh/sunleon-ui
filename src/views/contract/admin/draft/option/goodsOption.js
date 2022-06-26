@@ -25,7 +25,6 @@ export default {
       labelWidth:0,
       prop: 'hwqdList',
       type: 'dynamic',
-
       span:24,
       children: {
         align: 'center',
