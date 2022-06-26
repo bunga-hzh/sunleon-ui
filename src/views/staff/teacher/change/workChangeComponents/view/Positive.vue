@@ -149,6 +149,7 @@ export default {
       this.form.gh = item.gh;
       this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
+      this.form.gwmc = item.postId;
     },
   },
   created() {

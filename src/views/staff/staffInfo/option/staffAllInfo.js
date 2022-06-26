@@ -56,7 +56,6 @@ export const option = {
       width: 120,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
-
       props: {
         label: "name",
         value: "id",
@@ -66,6 +65,16 @@ export const option = {
         required: true,
         message: "请选择 所属部门",
         trigger: "change"
+      }],
+      search: true,
+    },
+    {
+      label: "姓名",
+      prop: "xm",
+      rules: [{
+        required: true,
+        message: "请填写姓名",
+        trigger: "blur"
       }],
       search: true,
     },
@@ -80,17 +89,6 @@ export const option = {
       width: 120,
       search: true,
     },
-    {
-      label: "姓名",
-      prop: "xm",
-      rules: [{
-        required: true,
-        message: "请填写姓名",
-        trigger: "blur"
-      }],
-      search: true,
-    },
-
     {
       label: "曾用名",
       prop: "cym",
@@ -552,7 +550,12 @@ export const option = {
     {
       label: "岗位名称",
       prop: "gwmc",
-      type: 'select'
+      type: 'select',
+      dicUrl: 'staff/zzjgcommon/all/post',
+      props: {
+        label: "postName",
+        value: "postId",
+      },
     },
     {
       label: "岗位聘任年月",

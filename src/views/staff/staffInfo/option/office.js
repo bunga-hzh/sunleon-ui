@@ -16,6 +16,7 @@ export const option = {
   viewBtn: true,
   addBtn: false,
   delBtn: false,
+  editBtn: false,
   column: [{
       label: "id",
       prop: "id",
@@ -38,10 +39,11 @@ export const option = {
       rules: [{
         required: true,
         message: "请选择 所属部门",
-        trigger: "change"
+        trigger: "blur"
       }],
       search: true,
       editDisabled: true,
+      cascader: ['gwmc'],
     },
     {
       label: "姓名",
@@ -51,7 +53,7 @@ export const option = {
       rules: [{
         required: true,
         message: "请选择 用户",
-        trigger: "change"
+        trigger: "blur"
       }],
     },
     {
@@ -71,18 +73,8 @@ export const option = {
       rules: [{
         required: true,
         message: "请输入 工号",
-        trigger: "change"
+        trigger: "blur"
       }],
-    },
-    {
-      label: "人员类别",
-      prop: "rylb",
-      type: "select",
-      props: {
-        label: "label",
-        value: 'value'
-      },
-      dicUrl: '/admin/dict/type/rylb_type',
     },
     {
       label: "岗位类别",
@@ -92,8 +84,19 @@ export const option = {
         label: "label",
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/post_type',
-      cascader: ['gwmc'],
+      dicUrl: '/staff/zzjgcommon/getPostTypeByPost/{{key}}',
+      disabled: true,
+      rules: [{
+        required: true,
+        message: "请选择 岗位类别",
+        trigger: "blur"
+      }],
+      props: {
+        label: "label",
+        value: "value",
+      },
+      cascaderIndex: 0,
+      slot: true,
     },
     {
       label: "岗位名称",
@@ -107,7 +110,29 @@ export const option = {
         label: "name",
         value: "id",
       },
-      dicUrl: '/staff/zzjgcommon/postByType/{{key}}',
+      dicUrl: '/staff/zzjgcommon/postByDeptId/{{key}}',
+      rules: [{
+        required: true,
+        message: "请选择 岗位名称",
+        trigger: "blur"
+      }],
+      disabled: false,
+      cascader: ['gwlbm'],
+      slot: true,
+    },
+    {
+      label: "人员类别",
+      prop: "rylb",
+      type: "select",
+      props: {
+        label: "label",
+        value: 'value'
+      },
+      dicUrl: '/admin/dict/type/rylb_type',
+    },
+    {
+      label: "岗位等级",
+      prop: "gwdjm",
     },
     {
       label: "岗位聘任年月",
@@ -123,6 +148,13 @@ export const option = {
       width: 120,
     },
     {
+      label: "参加工作时间",
+      prop: "cjgzsj",
+      type: "date",
+      valueFormat: 'yyyy-MM-dd',
+      width: 120,
+    },
+    {
       label: "实际工作年限",
       prop: "cjgzny",
       type: 'number',
@@ -134,17 +166,6 @@ export const option = {
       type: "date",
       valueFormat: 'yyyy-MM-dd',
       width: 130,
-    },
-    {
-      label: "岗位等级",
-      prop: "gwdjm",
-    },
-    {
-      label: "参加工作时间",
-      prop: "cjgzsj",
-      type: "date",
-      valueFormat: 'yyyy-MM-dd',
-      width: 120,
     },
     {
       label: "校内职务",
@@ -200,6 +221,7 @@ export const option = {
       label: "专业技术等级",
       prop: "zyjsdj",
       width: 120,
+      span: 24,
     },
     {
       label: "是否为内设机构领导",
@@ -265,5 +287,8 @@ export const option = {
       span: 24,
       hide: true,
     },
-  ]
+  ],
+  rowEdit: (row, index) => {
+    console.log(row, '调用了')
+  },
 }

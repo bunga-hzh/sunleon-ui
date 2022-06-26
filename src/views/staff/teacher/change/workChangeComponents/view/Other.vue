@@ -82,6 +82,7 @@ export default {
       const { data: res } = await addObj("ywglzdy", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
+      this.refreshChange();
       this.$message.success("添加成功！");
     },
     // 编辑
@@ -98,6 +99,7 @@ export default {
       const { data: res } = await putObj("ywglzdy", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
+      this.refreshChange();
       this.$message.success("修改成功！");
     },
     // 删除

@@ -13,6 +13,7 @@
                :permission="permissionList"
                @on-load="onLoad"
                @row-save="rowSave"
+               @rowEdit="rowEdit"
                @row-update="rowUpdate"
                @row-del="rowDel"
                @refresh-change="refreshChange"
@@ -28,12 +29,28 @@
                    icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
+      <template slot="menu"
+                slot-scope="scope">
+        <el-button v-if="edit_btn"
+                   type="text"
+                   icon="el-icon-edit"
+                   @click.stop="rowEdit(scope.row,scope.index)">编辑</el-button>
+      </template>
+      <template slot="gwmc"
+                slot-scope="scope">
+        {{scope.row.gwmcName}}
+      </template>
+      <template slot="gwlbm"
+                slot-scope="scope">
+        {{scope.row.gwlbmName}}
+      </template>
     </avue-crud>
     <!--excel 模板导入 -->
     <excel-upload ref="excelUpload"
                   title="用户信息导入"
                   url="/staff/zzjgoffice/import"
-                  temp-url="/admin/sys-file/local/user.xlsx"
+                  temp-name="教职工任职信息模板.xlsx"
+                  temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/jzgrzxxmb.xlsx"
                   @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>
@@ -69,9 +86,14 @@ export default {
     ExcelUpload,
   },
   created() {
+    this.edit_btn = this.permissions["staff_zzjgoffice_edit"]; //修改
     this.export_btn = this.permissions["staff_zzjgoffice_export"]; //导出
     this.import_btn = this.permissions["staff_zzjgoffice_import"]; //导入
   },
+  // mounted() {
+  //   //放在数据加载完后执行
+  //   this.$refs.crud.dicInit("cascader");
+  // },
   computed: {
     ...mapGetters(["permissions"]),
     permissionList() {
@@ -82,6 +104,16 @@ export default {
     },
   },
   methods: {
+    rowEdit(row, index) {
+      let gwmc = this.findObject(this.option.column, "gwmc");
+      // 判断是新增还是修改去动态禁用岗位名称字段
+      if (validatenull(row.id)) {
+        gwmc.disabled = false;
+      } else {
+        gwmc.disabled = true;
+      }
+      this.$refs.crud.rowEdit(row, index);
+    },
     // 导出excel
     exportExcel() {
       this.downBlobFile(

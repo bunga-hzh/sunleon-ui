@@ -9,9 +9,6 @@
              :upload-error="uploadError"
              @on-load="onload"
              @row-save="rowSave"
-             @row-update="rowUpdate"
-             @row-del="rowDel"
-             @selection-change="selectionChange"
              @refresh-change="refreshChange"
              @search-change="searchChange">
 
@@ -24,13 +21,17 @@
                        @select="handleSelect"
                        clearable></el-autocomplete>
     </template>
+    <template slot="ygwmc"
+              slot-scope="scope">
+      {{scope.row.ygwmcName}}
+    </template>
 
   </avue-crud>
 </template>
 
 <script>
 import { option } from "../option/Transfer";
-import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
+import { fetchList, addObj } from "@/api/staff/crud";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import { url } from "@/api/baseUrl";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
@@ -79,36 +80,9 @@ export default {
       const { data: res } = await addObj("ywglzg", form);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...form, id: res.data });
+      this.refreshChange();
       this.$message.success("添加成功！");
     },
-    // 编辑
-    async rowUpdate(form, index, done, loading) {
-      const { data: res } = await putObj("ywglzg", form);
-      if (res.code !== 0) return this.$message.error(res.msg);
-      done(form);
-      this.$message.success("修改成功！");
-    },
-    // 删除
-    rowDel(form, index) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(async () => {
-          const { data: res } = await delObj("ywglzg", form.id);
-          if (res.code !== 0)
-            return this.$message.error("删除失败！" + res.msg);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-          this.refreshChange();
-        })
-        .catch(() => {});
-    },
-    // 多选
-    selectionChange() {},
     // 刷新
     refreshChange() {
       this.fetchList();
@@ -131,6 +105,7 @@ export default {
       this.form.gh = item.gh;
       this.form.deptId = item.deptId;
       this.form.staffId = item.staffId;
+      this.form.gwmc = item.postId;
     },
     // 上传后
     uploadAfter(res, done, loading, column) {

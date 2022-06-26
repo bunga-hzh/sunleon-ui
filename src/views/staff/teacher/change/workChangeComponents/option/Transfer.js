@@ -1,12 +1,14 @@
 export const option = {
   align: 'center',
   border: true,
-  searchSpan: 8,
+  searchSpan: 6,
   index: true,
   labelWidth: 150,
   searchLabelWidth: 100,
-  menuWidth: 200,
+  menuWidth: 100,
   viewBtn: true,
+  editBtn: false,
+  delBtn: false,
   column: [{
       label: "姓名",
       prop: "xm",
@@ -44,7 +46,7 @@ export const option = {
         value: "id",
         children: "children"
       },
-      cascader: ['ygwmc', 'xgwmc'],
+      // cascader: ['gwmc'],
       rules: [{
         required: true,
         message: '请输入 部门',
@@ -52,10 +54,44 @@ export const option = {
       }],
     },
     {
-      label: "原岗位名称",
-      prop: "ygwmc",
+      label: "现岗位名称",
+      prop: "gwmc",
       type: 'select',
       search: true,
+      rules: [{
+        required: true,
+        message: '请选择 原岗位',
+        trigger: 'blur'
+      }],
+      dicUrl: "/staff/zzjgcommon/all/post",
+      props: {
+        label: "postName",
+        value: "postId",
+      },
+      disabled: true,
+    },
+    {
+      label: "转岗部门",
+      prop: "oldDeptId",
+      editDisabled: true,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      cascader: ['ygwmc'],
+      rules: [{
+        required: true,
+        message: '请输入 部门',
+        trigger: 'blur'
+      }],
+    },
+    {
+      label: "新岗位名称",
+      prop: "ygwmc",
+      type: 'select',
       rules: [{
         required: true,
         message: '请选择 原岗位',
@@ -70,60 +106,38 @@ export const option = {
         label: "name",
         value: "id",
       },
-    },
-    {
-      label: "新岗位名称",
-      prop: "xgwmc",
-      type: 'select',
-      search: true,
-      rules: [{
-        required: true,
-        message: '请选择 新岗位',
-        trigger: 'blur'
-      }],
-      searchMultiple: true,
-      searchFilterable: true,
-      filterable: true,
-      filter: true,
-      dicUrl: "/staff/zzjgcommon/postByDeptId/{{key}}",
-      props: {
-        label: "name",
-        value: "id",
-      },
+      slot: true,
     },
     {
       label: "原薪资",
       prop: "yxz",
       type: 'number',
       minRows: 0,
-      rules: [{
-        required: true,
-        message: '请输入 原薪资',
-        trigger: 'blur'
-      }],
+      disabled: true,
     },
     {
       label: "现薪资",
       prop: "xxz",
       type: 'number',
       minRows: 0,
-      rules: [{
-        required: true,
-        message: '请输入 现薪资',
-        trigger: 'blur'
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: '请输入 现薪资',
+      //   trigger: 'blur'
+      // }],
     },
     {
       label: "转岗时间",
       prop: "zgsj",
       type: 'date',
       valueFormat: "yyyy-MM-dd",
-      search: true,
+      // search: true,
       rules: [{
         required: true,
         message: '请输入 转岗时间',
         trigger: 'blur'
       }],
+      span: 24,
     },
     {
       label: "备注",

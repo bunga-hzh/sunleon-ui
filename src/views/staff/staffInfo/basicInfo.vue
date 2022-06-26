@@ -54,7 +54,8 @@
     <excel-upload ref="excelUpload"
                   title="用户信息导入"
                   url="/staff/zzjginfo/import"
-                  temp-url="/admin/sys-file/local/user.xlsx"
+                  temp-name="教职工基本信息模板.xlsx"
+                  temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/jzgjbxxmb.xlsx"
                   @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>
@@ -177,6 +178,7 @@ export default {
       const { data: res } = await addObj("info", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
+      this.refreshChange();
       this.$message.success("添加成功！");
     },
     // 修改
@@ -203,6 +205,7 @@ export default {
       const { data: res } = await putObj("info", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
+      this.refreshChange();
       this.$message.success("修改成功！");
     },
     // 删除

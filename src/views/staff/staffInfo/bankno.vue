@@ -24,7 +24,7 @@
                    @click="$refs.excelUpload.show()">导入</el-button>
         <el-button v-if="export_btn"
                    type="primary"
-                   icon="el-icon-bottom"
+                   icon="el-icon-download"
                    @click="exportExcel">导出</el-button>
       </template>
     </avue-crud>
@@ -32,7 +32,8 @@
     <excel-upload ref="excelUpload"
                   title="用户信息导入"
                   url="/staff/zzjgbankno/import"
-                  temp-url="/admin/sys-file/local/user.xlsx"
+                  temp-name="教职工财务信息模板.xlsx"
+                  temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/jzgcwxxmb.xlsx"
                   @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>

@@ -6,6 +6,11 @@ import {
 import {
   getRegionTreeApi
 } from "@/api/staff/crud";
+import {
+  sex_type,
+  is_type
+}
+from "@/const/commonDict"
 
 
 var validateIdCard = (rule, value, callback) => {
@@ -32,17 +37,14 @@ var vaildataEmail = (rule, value, callback) => {
   }
 }
 
-const is_type = [{
-  label: '是',
-  value: "1",
-}, {
-  label: '否',
-  value: "2",
-}]
-
 export const option = {
+  align: 'center',
+  border: true,
+  menuWidth: 200,
   labelWidth: 160,
-  detail: true,
+  searchLabelWidth: 120,
+  viewBtn: true,
+  delBtn: false,
   column: [{
       label: "所属部门",
       prop: "deptId",
@@ -59,6 +61,17 @@ export const option = {
         message: "请选择 所属部门",
         trigger: "change"
       }],
+      disabled: true,
+    },
+    {
+      label: "姓名",
+      prop: "xm",
+      rules: [{
+        required: true,
+        message: "请填写姓名",
+        trigger: "blur"
+      }],
+      disabled: true,
     },
     {
       label: "教职工编号",
@@ -69,33 +82,33 @@ export const option = {
         trigger: "blur"
       }],
       width: 120,
-    },
-    {
-      label: "姓名",
-      prop: "xm",
-      rules: [{
-        required: true,
-        message: "请填写姓名",
-        trigger: "blur"
-      }],
+      disabled: true,
     },
     {
       label: "曾用名",
       prop: "cym",
+      rules: [{
+        required: true,
+        message: "请输入 曾用名",
+        trigger: "blur",
+      }],
+      disabled: true,
     },
     {
       label: "性别",
       prop: "xbm",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: "value"
       },
-      dicUrl: '/admin/dict/type/sex_type',
+      dicData: sex_type,
       rules: [{
         required: true,
         message: "请选择性别",
       }],
+      disabled: true,
     },
     {
       label: "年龄",
@@ -108,6 +121,7 @@ export const option = {
         message: "请输入年龄",
         trigger: "blur",
       }],
+      disabled: true,
     },
     {
       label: "出生日期",
@@ -120,21 +134,18 @@ export const option = {
         trigger: "blur",
       }],
       width: 120,
+      disabled: true,
     },
     {
       label: "身份证号",
       prop: "sfzjh",
       rules: [{
-          required: true,
-          message: "请填写",
-          trigger: "blur"
-        },
-        {
-          validator: validateIdCard,
-          trigger: 'blur'
-        }
-      ],
+        required: true,
+        validator: validateIdCard,
+        trigger: 'blur'
+      }],
       width: 150,
+      disabled: true,
     },
     {
       label: "出生地",
@@ -145,6 +156,7 @@ export const option = {
         trigger: "blur",
       }],
       width: 200,
+      disabled: true,
     },
     {
       label: "籍贯",
@@ -180,7 +192,13 @@ export const option = {
             resolve(res.data.data);
           }
         });
-      }
+      },
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
+      disabled: true,
     },
     {
       label: "民族",
@@ -190,7 +208,13 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicUrl: `/admin/dict/type/nation_type`
+      dicUrl: `/admin/dict/type/nation_type`,
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
+      disabled: true,
     },
     {
       label: "政治面貌",
@@ -202,44 +226,62 @@ export const option = {
       },
       dicUrl: '/admin/dict/type/politics_type',
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
+      disabled: true,
     },
     {
       label: "家庭住址",
       prop: "jtzz",
       width: 200,
+      rules: [{
+        required: true,
+        message: "请输入 请输入出生地",
+        trigger: "blur",
+      }],
     },
     {
       label: "联系电话",
       prop: "lxdh",
       width: 120,
       rules: [{
+        required: true,
         validator: vaildataPhone,
-        trigger: 'blur'
-      }]
+        trigger: "blur",
+      }],
     },
     {
       label: "电子邮箱",
       prop: "dzyx",
       width: 200,
       rules: [{
+        required: true,
         validator: vaildataEmail,
-        trigger: 'blur'
-      }]
+        trigger: "blur",
+      }],
     },
     {
       label: "紧急联系人姓名",
       prop: "jjlxrxm",
       width: 120,
+      rules: [{
+        required: true,
+        message: "请输入 紧急联系人姓名",
+        trigger: "blur",
+      }],
     },
     {
       label: "紧急联系人电话",
       prop: "jjlxrdh",
       width: 120,
-      rules: [{
-        validator: vaildataPhone,
-        trigger: 'blur'
-      }],
       width: 120,
+      rules: [{
+        required: true,
+        validator: vaildataPhone,
+      }],
     },
     {
       label: "身份证正面上传",
@@ -402,6 +444,7 @@ export const option = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/dqztk_type',
+      editDisabled: true,
     },
     {
       label: "户口详细地址",
@@ -485,6 +528,7 @@ export const option = {
       label: "是否落户",
       prop: "sflh",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'
@@ -495,6 +539,7 @@ export const option = {
       label: "是否具有职业资格",
       prop: "sfjyzyzg",
       type: "radio",
+      border: true,
       props: {
         label: "label",
         value: 'value'

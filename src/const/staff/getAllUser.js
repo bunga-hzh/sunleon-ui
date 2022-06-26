@@ -24,6 +24,8 @@ export async function loadAll() {
       gh: item.gh,
       deptId: item.deptId,
       staffId: item.id,
+      postId: item.gwmc,
+      postType: item.gwlbm,
     });
   });
 }

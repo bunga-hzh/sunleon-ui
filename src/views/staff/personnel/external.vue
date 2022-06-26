@@ -36,7 +36,8 @@
     <excel-upload ref="excelUpload"
                   title="用户信息导入"
                   url="/staff/zzjgwpjs/import"
-                  temp-url="/admin/sys-file/local/user.xlsx"
+                  temp-name="外聘人员信息模板.xlsx"
+                  temp-url="/admin/sys-file/get_file?bucket=res&fileName=template/wpryxxmb.xlsx"
                   @refreshDataList="refreshChange"></excel-upload>
   </basic-container>
 </template>

@@ -44,10 +44,12 @@ export default {
   },
   methods: {
     async getObj() {
-      console.log(this.userInfo.username);
       const { data: res } = await getInfoByGh(this.userInfo.username);
       if (res.code !== 0) return this.$message.error(res.msg);
-      if (validatenull(res.data)) return;
+      if (validatenull(res.data))
+        return this.$message.error(
+          "该账号未在教职工基本信息添加信息，请联系管理员！"
+        );
       this.obj = {
         ...res.data,
         jjzqssj: validatenull(res.data.jjzqssj)
