@@ -30,11 +30,11 @@
                      icon="edit"
                      @click="handlerEdit">编辑
           </el-button>
-          <el-button v-if="deptManager_btn_del"
+          <!-- <el-button v-if="deptManager_btn_del"
                      type="primary"
                      icon="delete"
                      @click="handleDelete">删除
-          </el-button>
+          </el-button> -->
         </el-button-group>
       </div>
 
@@ -59,6 +59,7 @@
                      :model="form"
                      label-width="80px">
               <el-form-item label="父级节点"
+                            v-show="false"
                             prop="parentId">
                 <el-input v-model="form.parentId"
                           disabled
@@ -136,9 +137,9 @@ export default {
         name: [
           { required: true, message: "请输入部门名称", trigger: "blur" },
           {
-            min: 3,
+            min: 2,
             max: 32,
-            message: "长度在 3 到 32 个字符",
+            message: "长度在 2 到 32 个字符",
             trigger: "blur",
           },
         ],

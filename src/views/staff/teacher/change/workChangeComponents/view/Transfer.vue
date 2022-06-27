@@ -77,6 +77,8 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
+      if ((form.gwmc = form.ygwmc))
+        return this.$message.error("新岗位不能与原岗位相同！");
       const { data: res } = await addObj("ywglzg", form);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...form, id: res.data });
