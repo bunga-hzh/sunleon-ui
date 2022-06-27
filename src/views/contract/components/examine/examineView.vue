@@ -50,6 +50,7 @@ import {getMyZJLY, getPreViewUrl, getPreViewUrlAll} from "@/api/contract/admin/a
 import FileViewCom from "@/views/contract/components/archive/fileViewCom";
 import {Base64} from 'js-base64';
 import {checkExam, examLcs} from "@/api/contract/examine/examine";
+import store from '@/store';
 
 export default {
   name:'examineView',
@@ -113,15 +114,18 @@ export default {
 
       if(row.htfjId){
         const p = JSON.parse(row.htfjId);
+        const protocol = window.location.protocol;
+        const host = window.location.host;
 
         p.map(item=>{
-          let fileName = item.value.substring(item.value.lastIndexOf("/")+1,item.value.length);
-          getPreViewUrlAll(fileName).then(res=>{
+          console.log(`${protocol}//${host}${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`)
+          // let fileName = item.value.substring(item.value.lastIndexOf("/")+1,item.value.length);
+          // getPreViewUrlAll(fileName).then(res=>{
             this.htfjId.push({
               label:item.label,
-              value: 'http://192.168.187.90:8012/onlinePreview?url='+encodeURIComponent(Base64.encode(res.data.data))
+              value: '/onlinePreview?url='+encodeURIComponent(Base64.encode(`http://192.168.187.90:9999${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`))
             })
-          });
+          // });
         })
       }
 
@@ -130,7 +134,13 @@ export default {
         this.iszjfzrBtn = res.data.data;
       })
 
-      this.basicUrl =  process.env.NODE_ENV === "development" ? '/#/contract/edit/'+row.id+"?view=1": '/#/contract/edit/'+row.id+"?view=1";
+      const queryParams = {
+        view: 0,
+        lxId: row.htlx,
+        id: row.id
+      };
+
+      this.basicUrl =  process.env.NODE_ENV === "development" ? '/#/contract/edit/'+row.id+"?params="+encodeURIComponent(JSON.stringify(queryParams)): '/#/contract/edit/'+row.id+"?params="+encodeURIComponent(JSON.stringify(queryParams));
 
       getMyZJLY(this.$store.getters.userInfo.userId).then(res=>{
         this.options = res.data.data;

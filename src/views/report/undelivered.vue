@@ -7,26 +7,25 @@
         :table-loading="listLoading"
         :data="data"
         :option="option"
-        :span-method="arraySpanMethod"
         @search-change="searchChange"
         @refresh-change="refreshChange"
-        @size-change="sizeChange"
-        @current-change="currentChange"
         @on-load="getList"
+        :span-method="cellMerge"
       ></avue-crud>
     </basic-container>
   </div>
 </template>
 
 <script>
-import {getFinalScore} from "@/api/recuit/common/commonApi";
+import {getJpUndeliveredTDReort} from "@/api/recuit/common/commonApi";
 
 export default {
-  name: "finalScore",
+  name: "undelivered",
   data(){
     return {
       data:[],
       searchForm: {
+        yearTime:new Date().getFullYear(),
       }, //搜索条件
       page: {
         total: 0, // 总页数
@@ -34,30 +33,32 @@ export default {
         pageSize: 1, // 每页显示多少条,
         isAsc: false// 是否倒序
       },
-      listLoading: false,
       spanArr:[],
-      key:['bm','me'],
-      needMergeArr: ['bm', 'me'], // 有合并项的列
+      key:['bm'],
+      needMergeArr: ['bm'], // 有合并项的列
       rowMergeArrs: {}, // 包含需要一个或多个合并项信息的对象
+      listLoading: false,
       option: {
+        filterParams: ['yearTime'],
         menu:false,
-        index:true,
+        index:false,
         indexLabel:'序号',
         align:'center',
         addBtn:false,
         border: true,
+        excelBtn:true,
         column: [
           {
             label: '部门',
             prop: 'bm'
           },
           {
-            label: '名额',
-            prop: 'me'
+            label: '岗位',
+            prop: 'gw'
           },
           {
-            label: '姓名',
-            prop: 'name'
+            label: '绩点',
+            prop: 'jd'
           },
           {
             label: '日期',
@@ -65,10 +66,10 @@ export default {
             search: true,
             viewDisplay:false,
             searchTitle: '日期',
-            type: 'date',
-            format: 'yyyy年MM月dd日',
-            valueFormat: 'yyyy-MM-dd',
-            searchValue: new Date()+"",
+            searchValue: new Date().getFullYear()+"",
+            type: 'year',
+            format: 'yyyy年',
+            valueFormat: 'yyyy',
             editDisplay: false,
             addDisplay: false,
             editDisabled: true,
@@ -82,70 +83,83 @@ export default {
     }
   },
   methods:{
-    getList(page, params) {
+    getList(params) {
       this.listLoading = true;
-      getFinalScore(Object.assign({
-        current: page.currentPage,
-        size: page.pageSize}
-        , params, this.searchForm)).then(response => {
-          // console.log(response.data.data.total)
-        this.list = response.data.data.records
-        this.page.total = response.data.data.total
+      getJpUndeliveredTDReort(Object.assign(this.searchForm)).then(response=>{
         this.listLoading = false;
-
-        let option = [];
-
-        this.data = response.data.data.records;
-
-        if(response.data.data.records.length>0){
-          const cacheOption = response.data.data.records[0].hrRealNames;
-          for (var val in cacheOption) {
-            option.push({
-              label: cacheOption[val],
-              prop: val
-            });
-          }
-        }
-        option.push({
-          label: '最终得分',
-          prop: 'fs'
-        });
-        this.option.column = this.option.column.concat(option);
-        this.rowMergeArrs = this.rowMergeHandle(this.needMergeArr, this.data); // 处理数据
+        this.data = response.data.data;
+        this.getSpanArr(this.data, 'bm')
+        // this.rowMergeArrs = this.rowMergeHandle(this.needMergeArr, response.data.data); // 处理数据
       })
     },
     searchChange(form, done) {
-      this.page.currentPage = 1
-      this.getList(this.page, form)
+      this.getList(form)
       done()
     },
     refreshChange() {
-      this.getList(this.page)
+      this.getList(this.searchForm)
     },
-    sizeChange(pageSize) {
-      this.page.pageSize = pageSize
+    // groupBy 数组
+    groupBy (data, params) {
+      const groups = {}
+      data.forEach(v => {
+        const group = JSON.stringify(v[params])
+        groups[group] = groups[group] || []
+        groups[group].push(v)
+      })
+      return Object.values(groups)
     },
-    currentChange(current) {
-      this.page.currentPage = current
-    },
-    rowspan() {
-      this.spanArr=[];
-      this.position=0;
-      this.data.forEach((item,index)=>{
-        if(index===0){
+    // 计算 数据合并 索引
+    getSpanArr (data, params) {
+      // 接收重构数组
+      let arr = []
+
+      // 设置索引
+      let pos = 0
+
+      // 控制合并的数组
+      this.spanArr = []
+
+      // arr 处理
+      this.groupBy(data, params).map(v => (arr = arr.concat(v)))
+
+      // this.tableData = arr
+      arr.map(res => {
+        data.shift()
+        data.push(res)
+      })
+
+      // spanArr 处理
+      const redata = arr.map(v => v[params])
+      redata.reduce((old, cur, i) => {
+        if (i === 0) {
           this.spanArr.push(1)
-          this.position=0;
-        }else{
-          if(this.data[index][this.key[0]]===this.data[index-1][this.key[0]]){
-            this.spanArr[this.position] +=1;
+          pos = 0
+        } else {
+          if (cur === old) {
+            this.spanArr[pos] += 1
             this.spanArr.push(0)
-          }else{
+          } else {
             this.spanArr.push(1)
-            this.position=index
+            pos = i
           }
         }
-      })
+        return cur
+      }, {})
     },
+
+    // 合并 tableData 数据
+    cellMerge ({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        const _row = this.spanArr[rowIndex]
+        const _col = _row > 0 ? 1 : 0
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
+
     spanMethod({ row, column, rowIndex, columnIndex }) {
       if (column.property == [this.key[0]]) {
         const _row = this.spanArr[rowIndex];
@@ -167,8 +181,9 @@ export default {
      * 参考地址：https://element.eleme.cn/#/zh-CN/component/table#table-biao-ge
      */
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-      // 没办法循环判断具体是那一列 所以就只好写了多个if
+      // // 没办法循环判断具体是那一列 所以就只好写了多个if
       if (column.property === 'bm') return this.mergeAction('bm', rowIndex, column);
+      // if (column.property === 'gw') return this.mergeAction('gw', rowIndex, column);
     },
     /**
      * @description 根据数组来确定单元格是否需要合并
@@ -230,7 +245,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

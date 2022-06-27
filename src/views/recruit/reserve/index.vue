@@ -262,6 +262,13 @@ export default {
     },
     //弹出表单
     handleAdopt(row,type){
+      var nowDate = new Date();
+      var year = nowDate.getFullYear();
+      var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1)
+        : nowDate.getMonth() + 1;
+      var day = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate
+        .getDate();
+      var dateStr = year + "-" + month + "-" + day;
       let date = new Date();
       this.$DialogForm.show({
           title: `面试预约 - ${row.resumeStatusName}`,
@@ -272,7 +279,7 @@ export default {
             name:row.candidateName,
             address:this.fixedAddress,
             detailAddress:row.address,
-            interviewTime:row.interviewTime ? row.interviewTime:date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+" 08:00:00",
+            interviewTime:row.interviewTime ? row.interviewTime:dateStr+" 08:00:00",
             remark:row.remarks,
             zdyxx:row.zdyxx,
           },type==1 ?{feedback:row.feedback}:null),

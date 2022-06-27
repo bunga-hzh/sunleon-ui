@@ -16,11 +16,9 @@
         <template slot-scope="{type,size,row}" slot="menu">
           <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.preView.show(row)"  >预览</el-button>
           <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleEdit(row)" v-if="row.htzt==0 || row.gtzt==3">编辑</el-button>
-<!--          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleGeneratePdf(row)">生成合同</el-button>-->
           <el-button :type="type" :size="size" icon="el-icon-s-check" @click="handleSubmit(row)" v-if="(row.htzt==0 || row.gtzt==3)">提交审批</el-button>
-          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)" v-if="row.htzt==2">归档</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)" v-if="(row.htzt==0 || row.htzt==1 || row.htzt==3 || row.htzt==4) ? false:true">归档</el-button>
           <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.auditRecords.show(row)">审核记录</el-button>
-<!--          <el-button :type="type" :size="size" @click="handlePrinter(row)" icon="el-icon-printer" style="margin-left: 8px;">打印</el-button>-->
         </template>
       </avue-crud>
       <!--excel 模板导入 -->
@@ -101,7 +99,17 @@ export default {
       })
     },
     handleEdit(row){
-      const{ href } = this.$router.resolve({path:"/contract/edit/"+row.id});
+      const params = {
+        view: 1,
+        lxId: row.htlx,
+        id: row.id
+      };
+      const{ href } = this.$router.resolve({
+        path:"/contract/edit/"+row.id,
+        query: {
+          params: encodeURIComponent(JSON.stringify(params))
+        }
+      });
       window.open(href, "_blank");
     },
     handleOpenDraft(){

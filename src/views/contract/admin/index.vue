@@ -13,18 +13,12 @@
         @refresh-change="refreshChange"
         @size-change="sizeChange"
         @current-change="currentChange">
-
-<!--        <template slot="menuLeft" slot-scope="{size}">-->
-<!--          <el-button type="primary" :size="size" icon="el-icon-download" @click="$refs.excelUpload.show()">导出</el-button>-->
-<!--        </template>-->
         <template slot-scope="{type,size,row}" slot="menu">
           <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.preView.show(row)" >预览</el-button>
-<!--          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleEdit(row)">编辑</el-button>-->
-<!--          <el-button :type="type" :size="size" icon="el-icon-edit" @click="handleGeneratePdf(row)">生成合同</el-button>-->
-<!--          <el-button :type="type" :size="size" icon="el-icon-s-check">提交审批</el-button>-->
-          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)"  v-if="row.htzt==2">归档</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-view" v-if="(row.htzt==0 || row.htzt==1 || row.htzt==3 || row.htzt==4) ? false: row.zbjZt==0 ?  row.sfzbj==0 ?false:true:false"  @click="handleCheck(row,false)" >验收</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-view" v-if="(row.htzt==0 || row.htzt==1 || row.htzt==3 || row.htzt==4) ? false: row.zbjZt==1 ? row.sfzbj==0 ?false:true:false" @click="handleCheck(row,true)" >退回质保金</el-button>
+          <el-button :type="type" :size="size" icon="el-icon-files" @click="$refs.archiveView.show(row)"  v-if="(row.htzt==0 || row.htzt==1 || row.htzt==3 || row.htzt==4) ? false:true">归档</el-button>
           <el-button :type="type" :size="size" icon="el-icon-view" @click="$refs.auditRecords.show(row)">审核记录</el-button>
-<!--          <el-button :type="type" :size="size" @click="handlePrinter(row)" icon="el-icon-printer" style="margin-left: 8px;">打印</el-button>-->
         </template>
       </avue-crud>
       <!--excel 模板导入 -->
@@ -49,7 +43,7 @@ import ExcelUpload from "@/components/upload/excel";
 import AuditRecords from "@/views/contract/components/auditRecords/auditRecords";
 import ArchiveView from "@/views/contract/components/archive/archiveComponent";
 import PreView from "@/views/contract/components/preview/preView";
-import {fetchList, genContractFile, getPreViewUrl} from "@/api/contract/admin/admin";
+import {fetchList, genContractFile, getPreViewUrl, putCheckContract} from "@/api/contract/admin/admin";
 import { openWindow } from '@/util/util';
 
 export default {
@@ -70,13 +64,53 @@ export default {
     }
   },
   methods:{
+    //验收
+    handleCheck(row,callback){
+      this.$DialogForm.show({
+        title: callback ? '退回质保金':`合同验收`,
+        option: {
+          submitText: '确认',
+          span:24,
+          column: [
+            {
+              label: callback ? '退回质保金时间':"验收时间",
+              prop: "yssj",
+              type:'date',
+              labelWidth:180,
+              format:'yyyy年MM月dd日',
+              valueFormat:'yyyy-MM-dd',
+              rules: [{
+                required: true,
+                message: callback ? '请输入退回质保金时间':"请输入验收时间",
+                trigger: "blur"
+              }],
+            }]
+        },
+        beforeClose: (done) => {
+          done()
+        },
+        callback: (res) => {
+          const putData = {
+            htId:row.id,
+            status: callback ? 2:1,
+            time:res.data.yssj
+          };
+          putCheckContract(putData).then(success=>{
+            this.$message.success(callback ? "退回成功！":"验收成功！");
+            this.getList(this.page);
+            res.close()
+          }).catch((err)=>{
+            this.$message.error(JSON.stringify(err))
+            res.done();
+          })
+        }
+      })
+    },
     //打印
     handlePrinter(row){
       getPreViewUrl(row.id).then(res=>{
         const view_url = 'http://172.16.1.8:8012/onlinePreview?url='+encodeURIComponent(Base64.encode(res.data.data));
         openWindow(view_url, row.fileName, 1024, 768)
-        // this.preViewUrl =
-        // res.data.data;
       })
     },
     //申请合同
