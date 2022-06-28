@@ -439,6 +439,11 @@ export const option = {
       },
       dicUrl: '/admin/dict/type/dqztk_type',
       editDisabled: true,
+      rules: [{
+        required: true,
+        message: "请选择 当前状态",
+        trigger: "blur",
+      }],
     },
     {
       label: "户口详细地址",
