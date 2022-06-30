@@ -27,6 +27,7 @@ specifiers:
   crypto-js: ^3.1.9-1
   echarts: ^4.2.1
   element-ui: 2.15.7
+  file-saver: ^2.0.5
   js-base64: ^3.7.2
   js-cookie: ^2.2.0
   less-loader: ^6.0.0
@@ -68,6 +69,7 @@ dependencies:
   crypto-js: 3.3.0
   echarts: 4.9.0
   element-ui: 2.15.7_vue@2.6.11
+  file-saver: 2.0.5
   js-base64: 3.7.2
   js-cookie: 2.2.1
   less-loader: 6.2.0
@@ -5340,6 +5342,10 @@ packages:
       schema-utils: 2.7.1
       webpack: 4.46.0
     dev: true
+
+  /file-saver/2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
+    dev: false
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}

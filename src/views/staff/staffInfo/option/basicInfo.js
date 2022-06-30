@@ -63,6 +63,7 @@ export const option = {
       }],
       search: true,
       editDisabled: true,
+      fixed: true,
     },
     {
       label: "姓名",
@@ -73,6 +74,7 @@ export const option = {
         trigger: "blur"
       }],
       search: true,
+      fixed: true,
     },
     {
       label: "教职工编号",
@@ -85,6 +87,7 @@ export const option = {
       width: 120,
       search: true,
       editDisabled: true,
+      fixed: true,
     },
     {
       label: "曾用名",
@@ -439,6 +442,11 @@ export const option = {
       },
       dicUrl: '/admin/dict/type/dqztk_type',
       editDisabled: true,
+      rules: [{
+        required: true,
+        message: "请选择 当前状态",
+        trigger: "blur",
+      }],
     },
     {
       label: "户口详细地址",

@@ -109,22 +109,30 @@ export default {
     },
     // 新增
     async rowSave(form, done, loading) {
-      const obj = {
-        ...form,
-        changeStartDate: validatenull(form.changeStartDate)
-          ? undefined
-          : form.changeStartDate[0],
-        changeEndDate: validatenull(form.changeStartDate)
-          ? undefined
-          : form.changeStartDate[1],
-        changeEvidence: validatenull(form.changeEvidence)
-          ? null
-          : form.changeEvidence[0].value,
-      };
-      const { data: res } = await addObj("change", obj);
-      if (res.code !== 0) return this.$message.error(res.msg);
-      done({ ...obj, id: res.data });
-      this.$message.success("添加成功！");
+      this.$confirm("添加后将不可修改，请确认信息无误！", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const obj = {
+            ...form,
+            changeStartDate: validatenull(form.changeStartDate)
+              ? undefined
+              : form.changeStartDate[0],
+            changeEndDate: validatenull(form.changeStartDate)
+              ? undefined
+              : form.changeStartDate[1],
+            changeEvidence: validatenull(form.changeEvidence)
+              ? null
+              : form.changeEvidence[0].value,
+          };
+          const { data: res } = await addObj("change", obj);
+          if (res.code !== 0) return this.$message.error(res.msg);
+          done({ ...obj, id: res.data });
+          this.$message.success("添加成功！");
+        })
+        .catch(() => {});
     },
     // 修改
     async rowUpdate(form, index, done, loading) {

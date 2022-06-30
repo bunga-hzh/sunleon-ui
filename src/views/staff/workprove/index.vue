@@ -27,10 +27,14 @@
                          clearable></el-autocomplete>
       </template>
     </avue-crud>
+    <el-button @click="downloadWord">
+      下载
+    </el-button>
   </basic-container>
 </template>
 
 <script>
+import FileSaver from "file-saver";
 import { option } from "@/const/crud/staff/workprove";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/zzjgworkprove";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
@@ -80,6 +84,31 @@ export default {
     },
   },
   methods: {
+    getModelHtml(mhtml, style = "") {
+      return `
+        Content-Type: text/html; charset="utf-8"
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <style>
+        ${style}
+      </style>
+      </head>
+      <body>
+        ${mhtml}
+      </body>
+      </html>
+        `;
+    },
+
+    downloadWord() {
+      let node = "<div class='a'>你好你好</div>";
+      let style = ".a{font-size:80px;color:'red'}";
+      let html = this.getModelHtml(node, style);
+      let blob = new Blob([html], { type: "application/msword;charset=utf8" });
+      FileSaver.saveAs(blob, "导出word的名字.doc");
+    },
+
     generateProof() {
       this.dialogVisible = true;
     },

@@ -96,10 +96,6 @@ export default {
     this.export_btn = this.permissions["staff_zzjgoffice_export"]; //导出
     this.import_btn = this.permissions["staff_zzjgoffice_import"]; //导入
   },
-  // mounted() {
-  //   //放在数据加载完后执行
-  //   this.$refs.crud.dicInit("cascader");
-  // },
   computed: {
     ...mapGetters(["permissions"]),
     permissionList() {

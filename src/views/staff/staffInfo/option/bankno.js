@@ -29,14 +29,6 @@ export const option = {
       editDisabled: true,
     },
     {
-      label: "教职工ID",
-      prop: "staffId",
-      addDisplay: false,
-      editDisplay: false,
-      viewDisplay: false,
-      hide: true,
-    },
-    {
       label: "姓名",
       prop: "xm",
       search: true,
@@ -67,8 +59,6 @@ export const option = {
       label: "中国建设银行卡号",
       prop: "zgjsyhkh",
       span: 24,
-      // sortable: true,
-      // width: 200,
     },
     {
       label: "中国工商银行卡号",
@@ -89,6 +79,14 @@ export const option = {
       label: "补充公积金账号",
       prop: "bcgjjzh",
       span: 24,
+    },
+    {
+      label: "教职工ID",
+      prop: "staffId",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
     },
   ]
 }

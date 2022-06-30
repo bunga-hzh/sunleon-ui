@@ -46,8 +46,8 @@ export const tableOption = {
     }, {
       "prop": "personNum",
       "span": 12,
-      "type": "input",
-      "label": "标配人数"
+      "type": "number",
+      "label": "标配人数",
     },
     {
       label: '所属部门',

@@ -33,6 +33,7 @@ export const option = {
         message: "请输入 姓名",
         trigger: "blur"
       }],
+      fixed: true,
     },
     {
       label: "性别",
@@ -264,6 +265,8 @@ export const option = {
       label: "职称",
       addDisplay: false,
       editDisplay: false,
+      viewDisplay: false,
+      hide: true,
       children: [{
           label: "等级",
           prop: "dj",
@@ -315,6 +318,10 @@ export const option = {
     },
     {
       label: "当前专职工作背景",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
       children: [{
           label: "单位名称",
           prop: 'dwmc',
