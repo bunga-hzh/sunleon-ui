@@ -326,6 +326,11 @@ export default {
     },
     searchChange(form, done) {
       this.page.currentPage = 1
+      if(form.hasOwnProperty("ageTime")){
+        if(form.ageTime<1){
+          delete form['ageTime']
+        }
+      }
       this.getList(this.page, form)
       done()
     },

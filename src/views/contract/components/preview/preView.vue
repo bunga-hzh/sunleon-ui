@@ -42,11 +42,12 @@ export default {
         const host = window.location.host;
 
         p.map(item=>{
+          console.log(`${protocol}//${host}${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`)
           // let fileName = item.value.substring(item.value.lastIndexOf("/")+1,item.value.length);
           // getPreViewUrlAll(fileName).then(res=>{
             this.htfjId.push({
               label:item.label,
-              value: '/onlinePreview?url='+encodeURIComponent(Base64.encode(`${protocol}//${host}${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`))
+              value: '/preview/onlinePreview?url='+encodeURIComponent(Base64.encode(`${protocol}//${host}${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`))
             })
           // });
         })

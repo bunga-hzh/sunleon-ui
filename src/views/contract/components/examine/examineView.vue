@@ -123,7 +123,7 @@ export default {
           // getPreViewUrlAll(fileName).then(res=>{
             this.htfjId.push({
               label:item.label,
-              value: '/onlinePreview?url='+encodeURIComponent(Base64.encode(`http://192.168.187.90:9999${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`))
+              value: '/preview/onlinePreview?url='+encodeURIComponent(Base64.encode(`http://192.168.187.90:9999${item.value}?TENANT-ID=${store.getters.userInfo.tenantId}&access_token=${store.getters.access_token}`))
             })
           // });
         })
