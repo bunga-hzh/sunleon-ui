@@ -67,6 +67,7 @@ export const option = {
         trigger: "change"
       }],
       search: true,
+      fixed: true,
     },
     {
       label: "姓名",
@@ -77,6 +78,7 @@ export const option = {
         trigger: "blur"
       }],
       search: true,
+      fixed: true,
     },
     {
       label: "教职工编号",
@@ -88,6 +90,7 @@ export const option = {
       }],
       width: 120,
       search: true,
+      fixed: true,
     },
     {
       label: "曾用名",

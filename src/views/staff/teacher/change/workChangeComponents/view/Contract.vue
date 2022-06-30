@@ -34,6 +34,15 @@
                 slot-scope="scope">
         {{scope.row.postName}}
       </template>
+      <template slot="xmForm"
+                slot-scope="{ type }">
+        <el-autocomplete :disabled="type === 'edit' ? true : false"
+                         v-model="form.xm"
+                         :fetch-suggestions="querySearchAsync"
+                         placeholder="请输入姓名"
+                         @select="handleSelect"
+                         clearable></el-autocomplete>
+      </template>
     </avue-crud>
     <!--excel 模板导入 -->
     <excel-upload ref="excelUpload"
@@ -50,6 +59,7 @@ import { option } from "../option/Contract";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
 import { validatenull } from "@/util/validate";
 import ExcelUpload from "@/components/upload/excel";
+import { querySearch, loadAll } from "@/const/staff/getAllUser";
 
 export default {
   data() {
@@ -133,6 +143,7 @@ export default {
         qssj: validatenull(form.qssj) ? undefined : form.qssj[0],
         zzsj: validatenull(form.qssj) ? undefined : form.qssj[1],
       };
+      debugger;
       const { data: res } = await putObj("ywglrshtgl", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done(obj);
@@ -166,6 +177,20 @@ export default {
       this.page.currentPage = 1;
       this.fetchList(form);
       done();
+    },
+    // 搜索姓名
+    querySearchAsync(queryString, cb) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(querySearch(queryString));
+      }, 1000 * Math.random());
+    },
+    // 选择用户
+    handleSelect(item) {
+      this.form.gh = item.gh;
+      this.form.deptId = item.deptId;
+      this.form.staffId = item.staffId;
+      this.form.postId = item.postId;
     },
   },
 };

@@ -6,7 +6,11 @@
       <el-button v-if="edit_btn"
                  type="primary"
                  @click="editInfo"
-                 :icon="this.option.detail ? 'el-icon-edit' : 'el-icon-folder-checked' ">{{btnText}}</el-button>
+                 :icon="this.option.detail ?
+                  'el-icon-edit' :
+                  'el-icon-folder-checked' ">
+        {{option.detail ? "编 辑" : "保 存"}}
+      </el-button>
     </el-row>
     <avue-form ref="form"
                v-model="obj"
@@ -31,25 +35,19 @@ export default {
     return {
       obj: {},
       option: option,
-
       edit_btn: false,
     };
   },
   computed: {
     ...mapGetters(["userInfo", "permissions"]),
     ...mapMutations(["setStaffId"]),
-    btnText() {
-      return this.option.detail ? "编 辑" : "保 存";
-    },
   },
   methods: {
     async getObj() {
       const { data: res } = await getInfoByGh(this.userInfo.username);
       if (res.code !== 0) return this.$message.error(res.msg);
       if (validatenull(res.data))
-        return this.$message.error(
-          "该账号未在教职工基本信息添加信息，请联系管理员！"
-        );
+        return this.$message.error("该账号未在教职工基本信息添加信息！");
       this.obj = {
         ...res.data,
         jjzqssj: validatenull(res.data.jjzqssj)
@@ -144,8 +142,8 @@ export default {
   },
   mounted() {
     this.edit_btn = this.permissions["staff_myinfo_edit"]; //个人信息编辑权限
-    this.option.submitText = "保存";
     this.getObj();
+    console.log(this.$refs.form.$refs.jgCodes[0].column.lazyLoad());
   },
 };
 </script>

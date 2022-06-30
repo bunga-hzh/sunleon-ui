@@ -18,14 +18,6 @@ export const option = {
   delBtn: false,
   editBtn: false,
   column: [{
-      label: "id",
-      prop: "id",
-      addDisplay: false,
-      editDisplay: false,
-      viewDisplay: false,
-      hide: true,
-    },
-    {
       label: "所属部门",
       prop: "deptId",
       width: 120,
@@ -44,6 +36,7 @@ export const option = {
       search: true,
       editDisabled: true,
       cascader: ['gwmc'],
+      fixed: true,
     },
     {
       label: "姓名",
@@ -55,14 +48,7 @@ export const option = {
         message: "请选择 用户",
         trigger: "blur"
       }],
-    },
-    {
-      label: "教职工ID",
-      prop: "staffId",
-      addDisplay: false,
-      editDisplay: false,
-      viewDisplay: false,
-      hide: true,
+      fixed: true,
     },
     {
       label: "工号",
@@ -75,6 +61,7 @@ export const option = {
         message: "请输入 工号",
         trigger: "blur"
       }],
+      fixed: true,
     },
     {
       label: "岗位类别",
@@ -282,8 +269,21 @@ export const option = {
       span: 24,
       hide: true,
     },
+    {
+      label: "id",
+      prop: "id",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
+    },
+    {
+      label: "教职工ID",
+      prop: "staffId",
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
+      hide: true,
+    },
   ],
-  rowEdit: (row, index) => {
-    console.log(row, '调用了')
-  },
 }

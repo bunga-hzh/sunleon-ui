@@ -10,11 +10,51 @@ export const option = {
       label: "姓名",
       prop: "xm",
       search: true,
+      formslot: true,
+      editDisabled: true,
+      fixed: true,
+    },
+    {
+      label: "工号",
+      prop: "gh",
+      search: true,
+      addDisabled: true,
+      editDisabled: true,
+      fixed: true,
+    },
+    {
+      label: "所属部门",
+      prop: "deptId",
+      search: true,
+      addDisabled: true,
+      editDisabled: true,
+      type: 'tree',
+      dicUrl: 'admin/dept/tree',
+      props: {
+        label: "name",
+        value: "id",
+        children: "children"
+      },
+      fixed: true,
+    },
+    {
+      label: "岗位",
+      prop: "postId",
+      addDisabled: true,
+      editDisabled: true,
+      type: "select",
+      dicUrl: 'staff/zzjgcommon/all/post',
+      search: true,
+      props: {
+        label: "postName",
+        value: "postId",
+      },
       rules: [{
         required: true,
-        message: '请输入 姓名',
-        trigger: 'blur'
-      }]
+        message: '请选择 岗位',
+        trigger: 'blur',
+      }],
+      fixed: true,
     },
     {
       label: "签约日",
@@ -81,45 +121,6 @@ export const option = {
       startPlaceholder: '起始时间',
       endPlaceholder: '终止时间',
       width: 180,
-      slot: true,
-    },
-    {
-      label: "内设部门",
-      prop: "deptId",
-      search: true,
-      type: 'tree',
-      cascader: ['nsgw'],
-      dicUrl: '/admin/dept/tree',
-      props: {
-        label: "name",
-        value: "id",
-        children: "children"
-      },
-      width: 120,
-      rules: [{
-        required: true,
-        message: '请选择 内设部门',
-        trigger: 'blur'
-      }],
-    },
-    {
-      label: "内设岗位",
-      prop: "nsgw",
-      type: 'select',
-      search: true,
-      rules: [{
-        required: true,
-        message: '请选择 内设岗位',
-        trigger: 'blur'
-      }],
-      searchFilterable: true,
-      filterable: true,
-      filter: true,
-      dicUrl: "/staff/zzjgcommon/postByDeptId/{{key}}",
-      props: {
-        label: "name",
-        value: "id",
-      },
       slot: true,
     },
     {
@@ -221,6 +222,14 @@ export const option = {
         message: '请输入 国家工资',
         trigger: 'blur'
       }]
+    },
+    {
+      label: "教职工ID",
+      prop: "staffId",
+      hide: true,
+      addDisplay: false,
+      editDisplay: false,
+      viewDisplay: false,
     },
   ],
 }

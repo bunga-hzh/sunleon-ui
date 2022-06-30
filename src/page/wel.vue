@@ -12,7 +12,10 @@
           <li v-for="(item, index) in sysNotifyList"
               v-show="sysNotifyList.length > 0"
               :key="item.id">
-            <router-link :to="`/notice/index/${item.mid}`">{{ index + 1 }}. {{ item.title }}</router-link>
+            <router-link v-if="item.moduleUrl === null"
+                         :to="`/notice/index/${item.mid}`">{{ index + 1 }}. {{ item.title }}</router-link>
+            <router-link v-if="item.moduleUrl !== null"
+                         :to="item.moduleUrl">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
           <li class="viewMore"
               v-show="sysNotifyList.length === 6"
@@ -35,7 +38,10 @@
           <li v-for="(item, index) in notifyList"
               v-show="notifyList.length > 0"
               :key="item.id">
-            <router-link :to="`/notice/index/${item.mid}`">{{ index + 1 }}. {{ item.title }}</router-link>
+            <router-link v-if="item.moduleUrl === null"
+                         :to="`/notice/index/${item.mid}`">{{ index + 1 }}. {{ item.title }}</router-link>
+            <router-link v-if="item.moduleUrl !== null"
+                         :to="item.moduleUrl">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
           <li class="viewMore"
               v-show="notifyList.length === 6"
