@@ -28,7 +28,15 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/notice_type',
+      dicData: [{
+          label: "通知公告",
+          value: "1",
+        },
+        {
+          label: "待办事项",
+          value: "2",
+        }
+      ],
       value: '1',
       span: 24,
       rules: [{

@@ -12,10 +12,13 @@
                @row-del="rowDel"
                @refresh-change="refreshChange"
                @search-change="searchChange">
-      <template slot="menu">
-        <el-button v-if="download_btn"
+      <template slot="menu"
+                slot-scope="scope">
+        <el-button ref="download"
+                   v-if="download_btn"
                    icon="el-icon-download"
-                   type="text">下载</el-button>
+                   type="text"
+                   @click="download(scope.row)">下载</el-button>
       </template>
       <template slot="xmForm"
                 slot-scope="{ type }">
@@ -27,18 +30,15 @@
                          clearable></el-autocomplete>
       </template>
     </avue-crud>
-    <el-button @click="downloadWord">
-      下载
-    </el-button>
   </basic-container>
 </template>
 
 <script>
-import FileSaver from "file-saver";
 import { option } from "@/const/crud/staff/workprove";
 import { fetchList, addObj, putObj, delObj } from "@/api/staff/zzjgworkprove";
 import { querySearch, loadAll } from "@/const/staff/getAllUser";
 import { mapGetters } from "vuex";
+import { downloadProveDoc } from "@/api/staff/crud";
 
 export default {
   data() {
@@ -84,31 +84,6 @@ export default {
     },
   },
   methods: {
-    getModelHtml(mhtml, style = "") {
-      return `
-        Content-Type: text/html; charset="utf-8"
-      <!DOCTYPE html>
-      <html>
-      <head>
-      <style>
-        ${style}
-      </style>
-      </head>
-      <body>
-        ${mhtml}
-      </body>
-      </html>
-        `;
-    },
-
-    downloadWord() {
-      let node = "<div class='a'>你好你好</div>";
-      let style = ".a{font-size:80px;color:'red'}";
-      let html = this.getModelHtml(node, style);
-      let blob = new Blob([html], { type: "application/msword;charset=utf8" });
-      FileSaver.saveAs(blob, "导出word的名字.doc");
-    },
-
     generateProof() {
       this.dialogVisible = true;
     },
@@ -173,6 +148,22 @@ export default {
       this.page.currentPage = 1;
       this.get(this.page, params);
       done();
+    },
+    //下载
+    download(row) {
+      downloadProveDoc(row.staffId).then((res) => {
+        if (!res) return;
+        let blob = new Blob([res.data], {
+          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        });
+        let url = window.URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        link.setAttribute("download", "在职证明");
+        document.body.appendChild(link);
+        link.click();
+      });
     },
     // 搜索姓名
     querySearchAsync(queryString, cb) {
