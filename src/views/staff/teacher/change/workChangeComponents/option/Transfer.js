@@ -87,6 +87,7 @@ export const option = {
         message: '请输入 部门',
         trigger: 'blur'
       }],
+      headerslot: true,
     },
     {
       label: "新岗位名称",
@@ -107,6 +108,7 @@ export const option = {
         value: "id",
       },
       slot: true,
+      headerslot: true,
     },
     {
       label: "原薪资",

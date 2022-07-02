@@ -25,7 +25,8 @@
               slot-scope="scope">
       {{scope.row.ygwmcName}}
     </template>
-
+    <template slot="oldDeptIdHeader">原部门</template>
+    <template slot="ygwmcHeader">原岗位</template>
   </avue-crud>
 </template>
 
