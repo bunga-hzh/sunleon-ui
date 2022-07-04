@@ -249,18 +249,34 @@ export default {
     },
     //转为待定状态
     handleUndetermined(row){
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       examine("12",[row.id]).then(res=>{
         this.getList(this.page, this.form)
       }).catch(err=>{
 
+      }).finally(()=>{
+        loading.close();
       })
     },
     //通过
     handleAdopt(row){
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       examine("1",[row.id]).then(res=>{
         this.getList(this.page, this.form)
       }).catch(err=>{
 
+      }).finally(()=>{
+        loading.close();
       })
     },
     handleRefuse(row){
@@ -316,11 +332,19 @@ export default {
           this.$message.success('操作成功!')
         })
       }else{
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
         examine(type,array).then(res=>{
           this.$message.success("筛选成功!")
           this.getList(this.page, this.form)
         }).catch(err=>{
 
+        }).finally(()=>{
+          loading.close();
         })
       }
     },

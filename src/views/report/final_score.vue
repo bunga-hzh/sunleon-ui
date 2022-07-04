@@ -46,6 +46,7 @@ export default {
         align:'center',
         addBtn:false,
         border: true,
+        filterParams: ['yearTime'],
         column: [
           {
             label: '部门',
@@ -65,10 +66,10 @@ export default {
             search: true,
             viewDisplay:false,
             searchTitle: '日期',
+            searchValue: new Date(),
             type: 'date',
             format: 'yyyy年MM月dd日',
             valueFormat: 'yyyy-MM-dd',
-            searchValue: new Date()+"",
             editDisplay: false,
             addDisplay: false,
             editDisabled: true,

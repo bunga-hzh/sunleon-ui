@@ -42,11 +42,11 @@ export default [{
     ]
   },
   {
-    path: '/im',
+    path: '/mail',
     component: Layout,
-    redirect: '/im/detail',
+    redirect: '/mail/resume',
     children: [{
-      path: 'detail/:id',
+      path: 'resume/:id',
       component:()=> import('@/views/recruit/communicate/communicate')
     }]
   },

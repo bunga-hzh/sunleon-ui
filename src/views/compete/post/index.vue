@@ -16,6 +16,9 @@
         @row-save="create"
         @row-update="update"
         @row-del="handleDel">
+        <template slot-scope="scope" slot="startTime">
+          <span>{{scope.row.startTime | datePipe('yyyy-MM-dd')}} ~ {{scope.row.endTime | datePipe('yyyy-MM-dd')}}</span>
+        </template>
         <template slot="menuLeft" slot-scope="{size}">
           <el-button
             class="filter-item"
@@ -276,8 +279,8 @@ export default {
     update(row, index, done, loading) {
       const data = {
         gwmc:this.form.postName, //岗位名称
-        jpksny:this.form.startTime,//竞聘开始时间
-        jpjsny:this.form.endTime, //竞聘结束时间
+        jpksny:this.form.startTime[0],//竞聘开始时间
+        jpjsny:this.form.startTime[1], //竞聘结束时间
         gzbmId:this.form.gzbmId, //工作部门
         gwlbId:this.form.gwlbId, //岗位类别
         gwjd:this.form.gwjd, //岗位绩点
@@ -300,8 +303,8 @@ export default {
     create(row, done, loading) {
       const data = {
         gwmc:this.form.postName, //岗位名称
-        jpksny:this.form.startTime,//竞聘开始时间
-        jpjsny:this.form.endTime, //竞聘结束时间
+        jpksny:this.form.startTime[0],//竞聘开始时间
+        jpjsny:this.form.startTime[1], //竞聘结束时间
         gzbmId:this.form.gzbmId, //工作部门
         gwlbId:this.form.gwlbId, //岗位类别
         gwjd:this.form.gwjd, //岗位绩点
@@ -316,7 +319,8 @@ export default {
         done()
         this.$notify.success('新建岗位成功!')
       }).catch(err=>{
-        this.$notify.success('新增岗位失败!')
+        this.$notify.warning('新增岗位失败!')
+        loading();
       })
     }
   },

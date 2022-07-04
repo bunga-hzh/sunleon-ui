@@ -7,7 +7,7 @@
         <span>领导，您好，您有一份新的简历查阅，请查收！</span>
       </div>
       <el-link type="primary" @click="handleDownload">下载简历</el-link>
-      <comment></comment>
+      <comment :commentNum="0" :label="''" :authorId="999999" :commentList="commentList"></comment>
     </basic-container>
   </div>
 </template>
@@ -27,7 +27,20 @@ export default {
   },
   data(){
     return{
-
+      commentList:[
+        {
+          id: 1,
+          commentUser: {
+            id: 1,
+            nickName: "花非花",
+            avatar:
+              "http://qzapp.qlogo.cn/qzapp/101483738/6637A2B6611592A44A7699D14E13F7F7/50",
+          },
+          content:
+            "<a style='text-decoration:none;color: #409eff ' href='https://blog.csdn.net/qq_40942490?spm=1000.2115.3001.5113'>我的CSDN博客地址</a>[害羞][害羞][害羞]<br/>",
+          createDate: "2019-9-23 17:36:02"
+        },
+      ],
     }
   },
   methods:{

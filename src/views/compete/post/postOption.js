@@ -125,29 +125,44 @@ export const competePostOption = {
       }]
     },
     {
-      label: '竞聘开始时间',
-      prop:'startTime',
-      type:'datetime',
-      format: 'yyyy年MM月dd日',
-      valueFormat: 'yyyy-MM-dd 00:00:00',
+      label: '竞聘起止时间',
+      prop: 'startTime',
+      format: 'yyyy-MM-dd',
+      valueFormat: 'yyyy-MM-dd',
+      type: "daterange",
+      slot: true,
       span: 24,
+      startPlaceholder: '竞聘开始日期',
+      endPlaceholder: '竞聘结束日期',
       rules: [{
         required: true,
-        message: '请选择开始时间'
+        message: '请选择竞聘起止时间'
       }]
     },
-    {
-      label: '竞聘结束时间',
-      prop:'endTime',
-      type:'datetime',
-      format: 'yyyy年MM月dd日',
-      valueFormat: 'yyyy-MM-dd 00:00:00',
-      span: 24,
-      rules: [{
-        required: true,
-        message: '请选择结束时间'
-      }]
-    },
+    // {
+    //   label: '竞聘开始时间',
+    //   prop:'startTime',
+    //   type:'datetime',
+    //   format: 'yyyy年MM月dd日',
+    //   valueFormat: 'yyyy-MM-dd 00:00:00',
+    //   span: 24,
+    //   rules: [{
+    //     required: true,
+    //     message: '请选择开始时间'
+    //   }]
+    // },
+    // {
+    //   label: '竞聘结束时间',
+    //   prop:'endTime',
+    //   type:'datetime',
+    //   format: 'yyyy年MM月dd日',
+    //   valueFormat: 'yyyy-MM-dd 00:00:00',
+    //   span: 24,
+    //   rules: [{
+    //     required: true,
+    //     message: '请选择结束时间'
+    //   }]
+    // },
     {
       label: '创建时间',
       prop:'createTime',
