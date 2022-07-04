@@ -22,6 +22,7 @@
     "axios": "^0.27.2",
     "babel-polyfill": "^6.26.0",
     "bpmn-js": "^9.0.3",
+    "bright-comment": "^1.5.7",
     "classlist-polyfill": "^1.2.0",
     "clipboard": "^2.0.4",
     "codemirror": "^5.53.2",

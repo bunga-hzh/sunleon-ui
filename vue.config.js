@@ -1,4 +1,4 @@
-const url = "http://sunleon-gateway:9999";
+const url = "http://192.168.187.8:9999";
 
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = ["js", "css"];
@@ -61,7 +61,6 @@ module.exports = {
           "^/": "/",
         },
       },
-
     },
   }
 };

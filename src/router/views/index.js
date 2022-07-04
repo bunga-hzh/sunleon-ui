@@ -34,9 +34,20 @@ export default [{
     path: '/mail',
     component: Layout,
     redirect: '/mail/handoff',
+    children: [
+      {
+        path: 'handoff/:id',
+        component: () => import('@/views/recruit/common/handoff')
+      }
+    ]
+  },
+  {
+    path: '/im',
+    component: Layout,
+    redirect: '/im/detail',
     children: [{
-      path: 'handoff/:id',
-      component: () => import('@/views/recruit/common/handoff')
+      path: 'detail/:id',
+      component:()=> import('@/views/recruit/communicate/communicate')
     }]
   },
   {
