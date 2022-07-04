@@ -25,7 +25,8 @@
               slot-scope="scope">
       {{scope.row.ygwmcName}}
     </template>
-
+    <template slot="oldDeptIdHeader">原部门</template>
+    <template slot="ygwmcHeader">原岗位</template>
   </avue-crud>
 </template>
 
@@ -77,11 +78,21 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
-      const { data: res } = await addObj("ywglzg", form);
-      if (res.code !== 0) return this.$message.error(res.msg);
-      done({ ...form, id: res.data });
-      this.refreshChange();
-      this.$message.success("添加成功！");
+      this.$confirm("添加后将不可修改，请确认信息无误！", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          if (form.gwmc === form.ygwmc)
+            return this.$message.error("新岗位不能与原岗位相同！");
+          const { data: res } = await addObj("ywglzg", form);
+          if (res.code !== 0) return this.$message.error(res.msg);
+          done({ ...form, id: res.data });
+          this.refreshChange();
+          this.$message.success("添加成功！");
+        })
+        .catch(() => {});
     },
     // 刷新
     refreshChange() {

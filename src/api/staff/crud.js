@@ -104,3 +104,14 @@ export function getPostType(id) {
     method: 'get',
   })
 }
+
+/**
+ * 在职证明下载
+ */
+export function downloadProveDoc(staffId) {
+  return request({
+    url: '/staff/zzjgworkprove/downJobProveDoc/' + staffId,
+    method: 'get',
+    responseType: 'blob'
+  })
+}

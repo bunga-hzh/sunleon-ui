@@ -45,6 +45,7 @@ export const option = {
   searchLabelWidth: 120,
   viewBtn: true,
   delBtn: false,
+  detail: true,
   column: [{
       label: "所属部门",
       prop: "deptId",
@@ -163,7 +164,6 @@ export const option = {
       prop: "jgCodes",
       width: 200,
       type: 'cascader',
-      slot: true,
       props: {
         label: 'regionName',
         value: 'regionCode'

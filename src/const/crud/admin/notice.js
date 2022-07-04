@@ -28,9 +28,22 @@ export const option = {
         label: 'label',
         value: 'value'
       },
-      dicUrl: '/admin/dict/type/notice_type',
+      dicData: [{
+          label: "通知公告",
+          value: "1",
+        },
+        {
+          label: "待办事项",
+          value: "2",
+        }
+      ],
       value: '1',
       span: 24,
+      rules: [{
+        required: true,
+        message: '请填写消息类型',
+        trigger: 'blur'
+      }],
     },
     {
       label: "发布人",
@@ -59,6 +72,11 @@ export const option = {
       value: '1',
       span: 24,
       search: true,
+      rules: [{
+        required: true,
+        message: '请填写优先级',
+        trigger: 'blur'
+      }],
     },
     {
       label: "通告对象",
@@ -74,6 +92,11 @@ export const option = {
       value: '1',
       span: 24,
       search: true,
+      rules: [{
+        required: true,
+        message: '请填写通告对象',
+        trigger: 'blur'
+      }],
     },
     {
       label: "发布状态",

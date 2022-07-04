@@ -137,7 +137,6 @@ export default {
     if(this.$route.params.id=='draft'){
       this.viewInitData = params;
     }else {
-
       this.viewInitData = params;
       if(this.$route.params.id){
         this.getDartInfo(this.$route.params.id);
