@@ -34,8 +34,8 @@ export const option = {
       }],
     },
     {
-      label: "现属部门",
-      prop: "deptId",
+      label: "原部门",
+      prop: "oldDeptId",
       search: true,
       addDisabled: true,
       editDisabled: true,
@@ -46,16 +46,16 @@ export const option = {
         value: "id",
         children: "children"
       },
-      // cascader: ['gwmc'],
       rules: [{
         required: true,
         message: '请输入 部门',
         trigger: 'blur'
       }],
+      labelslot: true,
     },
     {
-      label: "现岗位名称",
-      prop: "gwmc",
+      label: "原岗位",
+      prop: "oldPostId",
       type: 'select',
       search: true,
       rules: [{
@@ -69,10 +69,12 @@ export const option = {
         value: "postId",
       },
       disabled: true,
+      labelslot: true,
+      slot: true,
     },
     {
       label: "转岗部门",
-      prop: "oldDeptId",
+      prop: "newDeptId",
       editDisabled: true,
       type: 'tree',
       dicUrl: 'admin/dept/tree',
@@ -81,17 +83,16 @@ export const option = {
         value: "id",
         children: "children"
       },
-      cascader: ['ygwmc'],
+      cascader: ['newPostId'],
       rules: [{
         required: true,
         message: '请输入 部门',
         trigger: 'blur'
       }],
-      headerslot: true,
     },
     {
-      label: "新岗位名称",
-      prop: "ygwmc",
+      label: "转岗名称",
+      prop: "newPostId",
       type: 'select',
       rules: [{
         required: true,
@@ -108,18 +109,17 @@ export const option = {
         value: "id",
       },
       slot: true,
-      headerslot: true,
     },
     {
       label: "原薪资",
-      prop: "yxz",
+      prop: "oldSalary",
       type: 'number',
       minRows: 0,
       disabled: true,
     },
     {
       label: "现薪资",
-      prop: "xxz",
+      prop: "newSalary",
       type: 'number',
       minRows: 0,
       // rules: [{

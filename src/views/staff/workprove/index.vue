@@ -160,7 +160,7 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", "在职证明");
+        link.setAttribute("download", `在职证明-${row.xm}`);
         document.body.appendChild(link);
         link.click();
       });

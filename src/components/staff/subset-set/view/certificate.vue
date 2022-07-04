@@ -3,7 +3,6 @@
     <avue-crud v-model="form"
                :data="data"
                :option="option"
-               :page.sync="page"
                :table-loading="showLoading"
                :upload-preview="uploadPreview"
                @on-load="onLoad"
@@ -17,7 +16,7 @@
 
 <script>
 import { option } from "@/components/staff/subset-set/option/certificate";
-import { fetchList, addObj, putObj, delObj } from "@/api/staff/crud";
+import { getAllListByStaffId, addObj, putObj, delObj } from "@/api/staff/crud";
 import { url } from "@/api/baseUrl";
 import { splitUploadData } from "@/views/staff/teacher/teacherInfo/util/util";
 
@@ -27,11 +26,6 @@ export default {
       form: {},
       data: [],
       option: option,
-      page: {
-        total: 0,
-        currentPage: 1,
-        pageSize: 10,
-      },
       showLoading: false,
 
       staffId: this.$route.params.id,
@@ -39,34 +33,23 @@ export default {
   },
   methods: {
     // 获取数据
-    async fetchList(query) {
+    async fetchList() {
       this.showLoading = true;
-      const { data: res } = await fetchList(
-        "certificate",
-        Object.assign(
-          {
-            current: this.page.currentPage,
-            size: this.page.pageSize,
-          },
-          query
-        )
+      const { data: res } = await getAllListByStaffId(
+        "zzjgcertificate",
+        this.staffId
       );
       if (res.code !== 0) return this.$message.error(res.msg);
-      this.page.total = res.data.total;
-      this.data = res.data.records;
+      this.data = res.data;
       this.showLoading = false;
     },
     // 加载
     onLoad() {
-      this.fetchList({
-        staffId: this.staffId,
-      });
+      this.fetchList();
     },
     // 刷新
     refreshChange() {
-      this.fetchList({
-        staffId: this.staffId,
-      });
+      this.fetchList();
     },
 
     // 新增

@@ -115,3 +115,11 @@ export function downloadProveDoc(staffId) {
     responseType: 'blob'
   })
 }
+
+
+export function getAllListByStaffId(type, staffId) {
+  return request({
+    url: `/staff/${type}/all/list/` + staffId,
+    method: 'get',
+  })
+}

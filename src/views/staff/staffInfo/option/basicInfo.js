@@ -92,11 +92,6 @@ export const option = {
     {
       label: "曾用名",
       prop: "cym",
-      rules: [{
-        required: true,
-        message: "请输入 曾用名",
-        trigger: "blur",
-      }],
     },
     {
       label: "性别",

@@ -21,12 +21,16 @@
                        @select="handleSelect"
                        clearable></el-autocomplete>
     </template>
-    <template slot="ygwmc"
+    <template slot="oldPostId"
               slot-scope="scope">
-      {{scope.row.ygwmcName}}
+      {{scope.row.oldPostName}}
     </template>
-    <template slot="oldDeptIdHeader">原部门</template>
-    <template slot="ygwmcHeader">原岗位</template>
+    <template slot="newPostId"
+              slot-scope="scope">
+      {{scope.row.newPostName}}
+    </template>
+    <template slot="oldDeptIdLabel">现属部门</template>
+    <template slot="oldPostIdLabel">现岗位名称</template>
   </avue-crud>
 </template>
 
@@ -84,7 +88,7 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          if (form.gwmc === form.ygwmc)
+          if (form.oldPostId === form.newPostId)
             return this.$message.error("新岗位不能与原岗位相同！");
           const { data: res } = await addObj("ywglzg", form);
           if (res.code !== 0) return this.$message.error(res.msg);
@@ -114,9 +118,9 @@ export default {
     // 选择用户
     handleSelect(item) {
       this.form.gh = item.gh;
-      this.form.deptId = item.deptId;
+      this.form.oldDeptId = item.deptId;
       this.form.staffId = item.staffId;
-      this.form.gwmc = item.postId;
+      this.form.oldPostId = item.postId;
     },
     // 上传后
     uploadAfter(res, done, loading, column) {
