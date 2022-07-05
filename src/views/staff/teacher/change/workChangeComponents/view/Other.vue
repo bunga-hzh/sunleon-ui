@@ -71,34 +71,17 @@ export default {
     },
     // 添加
     async rowSave(form, done, loading) {
-      const obj = {
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        ydsj: form.ydsj,
-        bz: form.bz,
-      };
-      const { data: res } = await addObj("ywglzdy", obj);
+      const { data: res } = await addObj("ywglzdy", form);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done({ ...obj, id: res.data });
+      done({ ...form, id: res.data });
       this.refreshChange();
       this.$message.success("添加成功！");
     },
     // 编辑
     async rowUpdate(form, index, done, loading) {
-      const obj = {
-        id: form.id,
-        xm: form.xm,
-        orgId: form.orgId,
-        gh: form.gh,
-        staffId: form.staffId,
-        ydsj: form.ydsj,
-        bz: form.bz,
-      };
-      const { data: res } = await putObj("ywglzdy", obj);
+      const { data: res } = await putObj("ywglzdy", form);
       if (res.code !== 0) return this.$message.error(res.msg);
-      done(obj);
+      done(form);
       this.refreshChange();
       this.$message.success("修改成功！");
     },

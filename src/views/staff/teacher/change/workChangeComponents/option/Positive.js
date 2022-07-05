@@ -1,7 +1,7 @@
 export const option = {
   align: 'center',
   border: true,
-  searchSpan: 8,
+  searchSpan: 6,
   index: true,
   labelWidth: 150,
   menuWidth: 200,

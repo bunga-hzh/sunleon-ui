@@ -3,6 +3,7 @@ export const tableOption = {
   "index": true,
   "border": true,
   "searchLabelWidth": 90,
+  "delBtn": false,
   "column": [{
       "prop": "postType",
       "span": 12,
@@ -19,7 +20,8 @@ export const tableOption = {
       "dicUrl": "/admin/dict/type/post_type",
       "display": true,
       "required": true,
-    }, {
+    },
+    {
       "prop": "code",
       "span": 12,
       "type": "input",
