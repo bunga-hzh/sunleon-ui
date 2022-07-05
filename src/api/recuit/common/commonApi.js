@@ -212,3 +212,36 @@ export function getJpHxrTDReort(params){
     params:params
   })
 }
+
+
+/**
+ * 获取简历评论列表
+ */
+export function getCommunicateList(params){
+  return request({
+    url:'/act/jlNoticeReply/page',
+    method:'get',
+    params:params
+  })
+}
+
+/**
+ * 发表评论
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export function sendCommunicate(data){
+  return request({
+    url:'/act/jlNoticeReply/add',
+    method:'post',
+    data:data
+  })
+}
+
+export function downloadCommunicateResume(id){
+  return request({
+    url:'/act/resume/do_zip/'+id,
+    method:'get',
+    responseType: 'blob'
+  })
+}

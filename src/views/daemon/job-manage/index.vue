@@ -1,6 +1,6 @@
 <template>
   <div class="jobIndex">
-    <basic-container>
+    <div style="margin: 0px 10px;">
       <avue-crud
         ref="crud"
         :page.sync="page"
@@ -107,7 +107,7 @@
           </el-button>
         </template>
       </avue-crud>
-    </basic-container>
+    </div>
     <jobLog v-if="dialogFormVisible" ref="logRef"></jobLog>
   </div>
 

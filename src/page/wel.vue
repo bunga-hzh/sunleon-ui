@@ -15,7 +15,7 @@
             <router-link v-if="item.moduleUrl === null"
                          :to="`/notice/index/${item.mid}`">{{ index + 1 }}. {{ item.title }}</router-link>
             <router-link v-if="item.moduleUrl !== null"
-                         :to="item.moduleUrl">{{ index + 1 }}. {{ item.title }}</router-link>
+                         :to="item.moduleUrl+'_'+item.msgId">{{ index + 1 }}. {{ item.title }}</router-link>
           </li>
           <li class="viewMore"
               v-show="sysNotifyList.length === 6"

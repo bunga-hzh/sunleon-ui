@@ -182,8 +182,8 @@ export default {
       })
 
       let putData = {
-        frontUserIds:frontUserIds,
-        receiverIds:receiverIds,
+        receiverIds:frontUserIds,
+        frontUserIds:receiverIds,
         routePath:"/mail/resume/"
       };
 
