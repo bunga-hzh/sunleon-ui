@@ -284,6 +284,18 @@ export const option = {
       }],
     },
     {
+      label: "当前状态",
+      prop: "dqztm",
+      width: 120,
+      type: "select",
+      props: {
+        label: "label",
+        value: 'value'
+      },
+      dicUrl: '/admin/dict/type/dqztk_type',
+      editDisabled: true,
+    },
+    {
       label: "身份证正面上传",
       prop: "sfzFrontImg",
       type: 'upload',
@@ -433,18 +445,6 @@ export const option = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/census_type',
-    },
-    {
-      label: "当前状态",
-      prop: "dqztm",
-      width: 120,
-      type: "select",
-      props: {
-        label: "label",
-        value: 'value'
-      },
-      dicUrl: '/admin/dict/type/dqztk_type',
-      editDisabled: true,
     },
     {
       label: "户口详细地址",

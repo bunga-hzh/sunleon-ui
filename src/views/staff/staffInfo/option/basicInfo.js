@@ -59,7 +59,7 @@ export const option = {
       rules: [{
         required: true,
         message: "请选择 所属部门",
-        trigger: "change"
+        trigger: "blur"
       }],
       search: true,
       editDisabled: true,
@@ -276,6 +276,23 @@ export const option = {
       }],
     },
     {
+      label: "当前状态",
+      prop: "dqztm",
+      width: 120,
+      type: "select",
+      props: {
+        label: "label",
+        value: 'value'
+      },
+      dicUrl: '/admin/dict/type/dqztk_type',
+      editDisabled: true,
+      rules: [{
+        required: true,
+        message: "请选择 当前状态",
+        trigger: "blur",
+      }],
+    },
+    {
       label: "身份证正面上传",
       prop: "sfzFrontImg",
       type: 'upload',
@@ -425,23 +442,6 @@ export const option = {
         value: 'value'
       },
       dicUrl: '/admin/dict/type/census_type',
-    },
-    {
-      label: "当前状态",
-      prop: "dqztm",
-      width: 120,
-      type: "select",
-      props: {
-        label: "label",
-        value: 'value'
-      },
-      dicUrl: '/admin/dict/type/dqztk_type',
-      editDisabled: true,
-      rules: [{
-        required: true,
-        message: "请选择 当前状态",
-        trigger: "blur",
-      }],
     },
     {
       label: "户口详细地址",

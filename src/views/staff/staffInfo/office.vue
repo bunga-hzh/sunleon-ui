@@ -166,6 +166,7 @@ export default {
       const { data: res } = await addObj("office", obj);
       if (res.code !== 0) return this.$message.error(res.msg);
       done({ ...obj, id: res.data });
+      this.refreshChange();
       this.$message.success("添加成功！");
     },
     // 修改

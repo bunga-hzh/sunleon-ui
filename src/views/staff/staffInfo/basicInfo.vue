@@ -123,12 +123,6 @@ export default {
           validatenull(this.form.jjzqssj) || validatenull(this.form.jjzjzsj)
             ? undefined
             : [this.form.jjzqssj, this.form.jjzjzsj];
-        this.form.jg = JSON.parse(this.form.jg)
-          ? undefined
-          : JSON.stringify(this.form.jg);
-        this.form.hkszdm = validatenull(this.form.hkszdm)
-          ? undefined
-          : JSON.parse(this.form.hkszdm);
       }
       console.log(this.form);
       done();

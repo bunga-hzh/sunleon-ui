@@ -7,12 +7,18 @@ import VueAxios from 'vue-axios'
 import App from './App'
 import './permission' // 权限
 import './error' // 日志
-import './cache'//页面缓冲
+import './cache' //页面缓冲
 import router from './router/router'
 import store from './store'
-import { loadStyle,downBlobFile } from './util/util'
+import {
+  loadStyle,
+  downBlobFile
+} from './util/util'
 import * as urls from '@/config/env'
-import { iconfontUrl, iconfontVersion } from '@/config/env'
+import {
+  iconfontUrl,
+  iconfontVersion
+} from '@/config/env'
 import * as filters from './filters' // 全局filter
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -24,7 +30,9 @@ import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/index.css';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-import {getPreViewUrlAll} from "@/api/contract/admin/admin";
+import {
+  getPreViewUrlAll
+} from "@/api/contract/admin/admin";
 Vue.prototype.downBlobFile = downBlobFile;
 
 // 插件 json 展示
