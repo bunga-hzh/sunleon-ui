@@ -8,6 +8,7 @@
         :page.sync="page"
         :table-loading="listLoading"
         :data="list"
+        :search.sync="searchForm"
         @on-load="getList"
         @search-change="searchChange"
         @refresh-change="refreshChange"
@@ -46,7 +47,6 @@ export default {
     return{
       searchForm: {
         yearTime:new Date().getFullYear(),
-        postNameId:'',
       }, //搜索条件
       form: {}, //表单
       page: {
@@ -71,6 +71,9 @@ export default {
     this.post_add = this.permissions['post_add'] //添加
     this.getList(this.page)
   },
+  mounted() {
+    this.$nextTick(()=>this.$refs.crud.dicInit('cascader'))
+  },
   watch: {
     'form.postNameId'(val) {
       if(JSON.stringify(this.form)!="{}" && val!=null && val!=undefined && val!=''){
@@ -78,7 +81,7 @@ export default {
           this.form.postDuty = res.data.data;
         })
       }
-    },
+    }
   },
   methods:{ //相关函数方法
     getList(page, params) {

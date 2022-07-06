@@ -98,19 +98,14 @@ export const tableOption = {
       label: '岗位名称',
       prop: 'postNameId',
       search: true,
-      type: 'select',
       rules: [{
         required: true,
         message: '请选择岗位',
         trigger: 'change'
       }],
       hide: true,
-      searchMultiple: true,
-      // multiple:true,
-      // filters:true,
-      searchFilterable: true,
-      filterable: true,
-      filter: true,
+      multiple:true,
+      searchType:'select',
       props: {
         label: 'name',
         value: 'id'

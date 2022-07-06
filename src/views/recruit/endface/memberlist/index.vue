@@ -18,7 +18,7 @@
         </template>
         <template slot-scope="{type,size,row}" slot="menu">
           <!-- <el-button icon="el-icon-view" :size="size" :type="type" @click="">查看简历</el-button> -->
-          <el-button icon="el-icon-view" :size="size" :type="type" @click="handlePrint(row)">导出登记表</el-button>
+          <el-button icon="el-icon-view" :size="size" :type="type"  v-if="row.isPerfect" @click="handlePrint(row)">导出登记表</el-button>
         </template>
       </avue-crud>
     </basic-container>

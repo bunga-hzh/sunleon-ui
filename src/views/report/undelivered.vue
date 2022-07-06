@@ -93,6 +93,7 @@ export default {
       })
     },
     searchChange(form, done) {
+      this.searchForm = form;
       this.getList(form)
       done()
     },
