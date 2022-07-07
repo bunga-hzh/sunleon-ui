@@ -5,7 +5,7 @@ export const MemberListOption = {
   indexLabel: '序号',
   stripe: true,
   menuAlign: 'center',
-  selection: true,
+  // selection: true,
   // searchMenuSpan: 8,
   editBtn: false,
   delBtn: false,

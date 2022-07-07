@@ -18,6 +18,26 @@
         @row-update="update"
         @row-del="handleDel"
         @row-save="create">
+        <template slot-scope="{disabled,size}" slot="gwlxIdSearch">
+          <el-select v-model="searchForm.gwlxId" clearable placeholder="请选择" @change="GetCurId1">
+            <el-option
+              v-for="item in gwlxDict"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+        <template slot-scope="{disabled,size}" slot="postNameIdSearch">
+          <el-select ref="postRef" v-model="searchForm.postNameId" multiple clearable placeholder="请选择">
+            <el-option
+              v-for="item in postDict"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </template>
         <template slot="menuLeft" slot-scope="{size}">
           <el-button type="primary" icon="el-icon-download" @click="handleExportExcel" :size="size">导出</el-button>
         </template>
@@ -40,6 +60,7 @@
 import {mapGetters} from 'vuex'
 import {tableOption} from "@/views/recruit/post/postOption";
 import {fetchList, addObj, delObj, release, putObj, getPostinfo, exportExcel} from "@/api/recuit/post/post";
+import {getDictByType, getPostNameById} from "@/api/recuit/common/commonApi";
 
 export default {
   name: 'Post',
@@ -58,6 +79,8 @@ export default {
       list: [],
       tableOption:tableOption,
       listLoading: true,
+      gwlxDict:[],//岗位类型
+      postDict:[],//岗位名称
     }
   },
   computed: {
@@ -70,6 +93,11 @@ export default {
     this.post_export = this.permissions['post_export'] //导出
     this.post_add = this.permissions['post_add'] //添加
     this.getList(this.page)
+
+    getDictByType('post_type').then(res=>{
+      this.gwlxDict = res.data.data.items;
+    })
+
   },
   mounted() {
     this.$nextTick(()=>this.$refs.crud.dicInit('cascader'))
@@ -84,6 +112,14 @@ export default {
     }
   },
   methods:{ //相关函数方法
+    GetCurId1(val){
+      this.searchForm.postNameId = [];
+      if(val){
+        getPostNameById(val).then(res=>{
+          this.postDict = res.data.data;
+        })
+      }
+    },
     getList(page, params) {
       this.listLoading = true
       fetchList(Object.assign({},params, this.searchForm),
@@ -117,7 +153,7 @@ export default {
         "postNameId":this.searchForm.postNameId,
         "pageNo":this.page.currentPage,
         "pageSize":this.page.pageSize,
-        "postNameIdsStr":this.searchForm.hasOwnProperty("postNameId") ? this.searchForm.postNameId.toString():"",
+        "postNameIdsStr":this.searchForm.postNameId.length>0 ? this.searchForm.postNameId.toString():"",
         "gwlxId":this.searchForm.hasOwnProperty("gwlxId") ? this.searchForm.gwlxId:"",
         "currentPageNo":"1",
         "currentPageSize":10

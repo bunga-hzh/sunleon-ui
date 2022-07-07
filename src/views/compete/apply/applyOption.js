@@ -59,6 +59,7 @@ export const applyOption = {
       label: '所属岗位',
       prop:'gwlbId',
       search: true,
+      viewDisplay:false,
       type: "select",
       hide:true,
       rules: [{

@@ -4,6 +4,7 @@
       ref="crud"
       :option="tableOption"
       v-model="form"
+      :search.sync="searchForm"
       :page.sync="page"
       :table-loading="listLoading"
       :data="list"

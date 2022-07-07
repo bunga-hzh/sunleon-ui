@@ -14,6 +14,26 @@
         @size-change="sizeChange"
         @current-change="currentChange"
         >
+        <template slot-scope="{disabled,size}" slot="gwlxIdSearch">
+          <el-select v-model="searchForm.gwlxId" clearable placeholder="请选择" @change="GetCurId1">
+            <el-option
+              v-for="item in gwlxDict"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+        <template slot-scope="{disabled,size}" slot="postNameIdsSearch">
+          <el-select ref="postRef" v-model="searchForm.postNameIds" multiple clearable placeholder="请选择">
+            <el-option
+              v-for="item in postDict"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </template>
         <template slot-scope="scope" slot="statusName">
           <el-tag :type=" scope.row.status==0 ? 'warning':'success'">{{scope.row.statusName}}</el-tag>
         </template>
@@ -75,6 +95,7 @@ import resumeView from '@/components/resume/resumeView'
 import {exportExcel, sendPlatFormNotice} from "@/api/recuit/post/post";
 import {fetchList as fetchUserList} from '@/api/admin/user'
 import {batchEnd} from "@/api/recuit/score/score";
+import {getDictByType, getPostNameById} from "@/api/recuit/common/commonApi";
 
 /**
  * 简历筛选
@@ -106,12 +127,27 @@ export default {
       list: [],
       tableOption:resumeOption,
       listLoading: false,
+      gwlxDict:[],//岗位类型
+      postDict:[],//岗位名称
     }
   },
   computed: {
     ...mapGetters(['permissions'])
   },
+  created() {
+    getDictByType('post_type').then(res=>{
+      this.gwlxDict = res.data.data.items;
+    })
+  },
   methods:{
+    GetCurId1(val){
+      this.searchForm.postNameIds = [];
+      if(val){
+        getPostNameById(val).then(res=>{
+          this.postDict = res.data.data;
+        })
+      }
+    },
     handlecallBack(row){
       callBack(row.id).then(res=>{
         this.$message.success("撤回成功！");
@@ -208,7 +244,7 @@ export default {
         "isShHousehold":this.searchForm.hasOwnProperty("isShHousehold") ? this.searchForm.isShHousehold:"",
         "residencePermitSh":this.searchForm.hasOwnProperty("residencePermitSh") ? this.searchForm.residencePermitSh:"",
         "interviewNumber":"",
-        "postNameIdsStr":this.searchForm.hasOwnProperty("postNameIds") ? this.searchForm.postNameIds.toString():"",
+        "postNameIdsStr": this.searchForm.postNameIds.length>0 ? this.searchForm.postNameIds.toString():"",
         "gwlxId":this.searchForm.hasOwnProperty("gwlxId") ? this.searchForm.gwlxId:"",
         "pageNo":this.page.currentPage,
         "pageSize":this.page.pageSize,

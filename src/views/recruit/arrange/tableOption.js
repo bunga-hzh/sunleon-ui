@@ -15,6 +15,7 @@ export const arrangeOption = {
   reserveSelection: true,
   gutter: 60,
   addBtn: false,
+  filterParams: ['yearTime'],
   column: [
     {
       fixed: true,

@@ -16,7 +16,7 @@ export const tableOption = {
   indexLabel: '序号',
   stripe: true,
   menuAlign: 'center',
-  selection: true,
+  // selection: true,
   searchMenuSpan: 6,
   editBtn: true,
   delBtn: true,
@@ -104,8 +104,8 @@ export const tableOption = {
         trigger: 'change'
       }],
       hide: true,
-      multiple:true,
-      searchType:'select',
+      // multiple:true,
+      type:'select',
       props: {
         label: 'name',
         value: 'id'

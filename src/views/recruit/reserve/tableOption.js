@@ -4,7 +4,7 @@ export const reserveOption = {
   indexLabel: '序号',
   stripe: true,
   menuAlign: 'center',
-  selection: true,
+  // selection: true,
   editBtn: false,
   delBtn: false,
   viewBtn: false,
@@ -15,6 +15,7 @@ export const reserveOption = {
   reserveSelection: true,
   gutter: 60,
   addBtn: false,
+  filterParams: ['yearTime'],
   column: [
     {
       fixed: true,

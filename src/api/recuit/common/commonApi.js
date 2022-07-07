@@ -245,3 +245,22 @@ export function downloadCommunicateResume(id){
     responseType: 'blob'
   })
 }
+
+/**
+ * 根据类型查询
+ * @param type
+ */
+export function getDictByType(type) {
+  return request({
+    url: `/admin/dict/type_with_dict_id/${type}`,
+    method: "get",
+  });
+}
+
+
+export function getPostNameById(type) {
+  return request({
+    url: `/act/gwFb/get_list/${type}`,
+    method: "get",
+  });
+}

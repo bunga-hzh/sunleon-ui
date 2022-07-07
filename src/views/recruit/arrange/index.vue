@@ -5,6 +5,7 @@
         ref="crud"
         :option="tableOption"
         v-model="form"
+        :search.sync="searchForm"
         :page.sync="page"
         :table-loading="listLoading"
         :data="list"
@@ -13,6 +14,26 @@
         @refresh-change="refreshChange"
         @size-change="sizeChange"
         @current-change="currentChange">
+        <template slot-scope="{disabled,size}" slot="gwlxIdSearch">
+          <el-select v-model="searchForm.gwlxId" clearable placeholder="请选择" @change="GetCurId1">
+            <el-option
+              v-for="item in gwlxDict"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+        <template slot-scope="{disabled,size}" slot="postNameIdsSearch">
+          <el-select ref="postRef" v-model="searchForm.postNameIds" multiple clearable placeholder="请选择">
+            <el-option
+              v-for="item in postDict"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </template>
         <template slot-scope="scope" slot="resumeStatusName">
           <el-tag :type=" scope.row.resumeStatus==6 ? 'warning':'success'">{{scope.row.resumeStatusName}}</el-tag>
         </template>
@@ -44,6 +65,7 @@ import {arrangeOption,formOption} from './tableOption'
 import {fetchArrangeList, postArrangeData} from "@/api/recuit/arrange/arrange";
 import resumeView from '@/components/resume/resumeView'
 import {examState, setCallback, setStopCallBack} from "@/api/recuit/reserve/reserve";
+import {getDictByType, getPostNameById} from "@/api/recuit/common/commonApi";
 
 export default {
   name:'Arrange',
@@ -61,6 +83,8 @@ export default {
         pageSize: 20, // 每页显示多少条,
         isAsc: false// 是否倒序
       },
+      gwlxDict:[],//岗位类型
+      postDict:[],//岗位名称
       list: [],
       listLoading: false,
       ruleForm: {
@@ -78,7 +102,21 @@ export default {
   computed: {
     ...mapGetters(['permissions'])
   },
+  created() {
+    getDictByType('post_type').then(res=>{
+      this.gwlxDict = res.data.data.items;
+    })
+  },
   methods:{
+    GetCurId1(val){
+      this.searchForm.postNameIds = [];
+      if(val){
+        getPostNameById(val).then(res=>{
+          this.postDict = res.data.data;
+        })
+      }
+
+    },
     handleStopCallBack(row){
       setStopCallBack(row.deliveryId).then(res=>{
         this.getList(this.page);

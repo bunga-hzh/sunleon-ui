@@ -4,6 +4,7 @@
       <avue-crud
         ref="crud"
         :option="tableOption"
+        :search.sync="searchForm"
         v-model="form"
         :page.sync="page"
         :table-loading="listLoading"
@@ -13,6 +14,26 @@
         @refresh-change="refreshChange"
         @size-change="sizeChange"
         @current-change="currentChange">
+        <template slot-scope="{disabled,size}" slot="gwlxIdSearch">
+          <el-select v-model="searchForm.gwlxId" clearable placeholder="请选择" @change="GetCurId1">
+            <el-option
+              v-for="item in gwlxDict"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+        <template slot-scope="{disabled,size}" slot="postNameIdsSearch">
+          <el-select ref="postRef" v-model="searchForm.postNameIds" multiple clearable placeholder="请选择">
+            <el-option
+              v-for="item in postDict"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </template>
         <template slot="menuLeft" slot-scope="{size}">
           <el-button type="primary" :size="size" @click="handleExport()">导出登记表</el-button>
         </template>
@@ -32,6 +53,7 @@ import {mapGetters} from "vuex";
 import {MemberListOption} from "@/views/recruit/endface/memberlist/tableOption";
 import {exportPersonal, exportZip, fetchMemberList} from "@/api/recuit/endFace/memberList/memberList";
 import {exportExcel, exportPdf} from "@/api/recuit/post/post";
+import {getDictByType, getPostNameById} from "@/api/recuit/common/commonApi";
 
 export default {
   name:'MemberList',
@@ -51,12 +73,27 @@ export default {
       },
       list: [],
       listLoading: false,
+      gwlxDict:[],//岗位类型
+      postDict:[],//岗位名称
     }
   },
   computed: {
     ...mapGetters(['permissions'])
   },
+  created() {
+    getDictByType('post_type').then(res=>{
+      this.gwlxDict = res.data.data.items;
+    })
+  },
   methods:{
+    GetCurId1(val){
+      this.searchForm.postNameIds = [];
+      if(val){
+        getPostNameById(val).then(res=>{
+          this.postDict = res.data.data;
+        })
+      }
+    },
     //导出登记表
     handleExport(){
       const loading = this.$loading({

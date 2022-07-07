@@ -33,14 +33,15 @@ export function postReserveData(data) {
  * @param deliveryId
  * @returns {AxiosPromise}
  */
-export function examState(deliveryId,content,stage){
+export function examState(deliveryId,content,stage,sms){
   return request({
     url:'/act/resume/end',
     method:'PUT',
     data:{
       deliveryId:deliveryId,
       content:content,
-      endStageId:stage
+      endStageId:stage,
+      sendSms:sms
     }
   })
 }

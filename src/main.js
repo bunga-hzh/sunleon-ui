@@ -30,9 +30,6 @@ import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/index.css';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-import {
-  getPreViewUrlAll
-} from "@/api/contract/admin/admin";
 Vue.prototype.downBlobFile = downBlobFile;
 
 // 插件 json 展示

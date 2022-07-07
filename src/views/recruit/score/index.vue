@@ -98,7 +98,6 @@ export default {
       })
     },
     handleCallBack(row){
-      console.log(row)
       setCallback(row.reserveId,'return_pf').then(res=>{
         this.getList(this.page);
       })
@@ -136,7 +135,7 @@ export default {
           done()
         },
         callback:(res)=>{
-          examState(row.deliveryId,res.data.msg,2).then(resx=>{
+          examState(row.deliveryId,res.data.msg,2,res.data.sms==0 ? false:true).then(resx=>{
             res.done()
             res.close()
             this.getList(this.page, this.form)
@@ -215,7 +214,7 @@ export default {
       if(array.length<1){
         this.$message.warning("所选择的应聘者已处理，无法再次处理!")
         return;
-      }else{
+      }else if(array.length!=tempList.length){
         this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
       }
 
@@ -254,7 +253,8 @@ export default {
           batchEnd({
             deliveryIds:array,
             content:res.data.msg,
-            endStageId:2
+            endStageId:2,
+            sendSms:res.data.sms==0 ? false:true
           }).then(resx=>{
             res.done()
             res.close()
@@ -300,7 +300,7 @@ export default {
       if(array.length<1){
         this.$message.warning("所选择的应聘者已处理，无法再次处理!")
         return;
-      }else{
+      }else if(array.length !=tempList.length){
         this.$message.warning("所选择的应聘者存在已处理的数据，系统将忽略对应的应聘者!")
       }
 
