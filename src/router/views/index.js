@@ -1,89 +1,118 @@
-import Layout from '@/page/index/'
+import Layout from "@/page/index/";
 
-export default [{
-    path: '/info',
-    component: Layout,
-    redirect: '/info/index',
-    children: [{
-      path: 'index',
-      name: '个人信息',
-      component: () =>
-        import( /* webpackChunkName: "page" */ '@/views/admin/user/info')
-    }]
-  },
+export default [
   {
-    path: '/activti',
+    path: "/info",
     component: Layout,
-    redirect: '/activti/detail',
-    children: [{
-      path: 'detail/:id',
-      component: () =>
-        import( /* webpackChunkName: "views" */ '@/views/activiti/detail')
-    }]
-  },
-  {
-    path: '/induction',
-    component: Layout,
-    redirect: '/induction/induction-info',
-    children: [{
-      path: 'induction-info/:id',
-      component: () => import('@/components/induction-components/inductionView')
-    }]
-  },
-  {
-    path: '/mail',
-    component: Layout,
-    redirect: '/mail/handoff',
+    redirect: "/info/index",
     children: [
       {
-        path: 'handoff/:id',
-        component: () => import('@/views/recruit/common/handoff')
-      }
-    ]
+        path: "index",
+        name: "个人信息",
+        component: () =>
+          import(/* webpackChunkName: "page" */ "@/views/admin/user/info"),
+      },
+    ],
   },
   {
-    path: '/mail',
+    path: "/activti",
     component: Layout,
-    redirect: '/mail/resume',
-    children: [{
-      path: 'resume/:id',
-      component:()=> import('@/views/recruit/communicate/communicate')
-    }]
+    redirect: "/activti/detail",
+    children: [
+      {
+        path: "detail/:id",
+        component: () =>
+          import(/* webpackChunkName: "views" */ "@/views/activiti/detail"),
+      },
+    ],
   },
   {
-    path: '/notice',
+    path: "/induction",
     component: Layout,
-    redirect: '/notice/index',
-    children: [{
-      path: 'index/:id',
-      component: () => import('@/components/notice/index')
-    }]
+    redirect: "/induction/induction-info",
+    children: [
+      {
+        path: "induction-info/:id",
+        component: () =>
+          import("@/components/induction-components/inductionView"),
+      },
+    ],
   },
   {
-    path: '/subset',
+    path: "/mail",
     component: Layout,
-    redirect: '/subset/index',
-    children: [{
-      path: 'index/:id',
-      component: () => import('@/components/staff/subset/index')
-    }]
+    redirect: "/mail/handoff",
+    children: [
+      {
+        path: "handoff/:id",
+        component: () => import("@/views/recruit/common/handoff"),
+      },
+    ],
   },
   {
-    path: '/subset-set',
+    path: "/mail",
     component: Layout,
-    redirect: '/subset-set/index',
-    children: [{
-      path: 'index/:id',
-      component: () => import('@/components/staff/subset-set/index')
-    }]
+    redirect: "/mail/resume",
+    children: [
+      {
+        path: "resume/:id",
+        component: () => import("@/views/recruit/communicate/communicate"),
+      },
+    ],
   },
   {
-    path: '/external-child',
+    path: "/notice",
     component: Layout,
-    redirect: '/external-child/index',
-    children: [{
-      path: 'index/:id',
-      component: () => import('@/components/staff/external-child/index')
-    }]
+    redirect: "/notice/index",
+    children: [
+      {
+        path: "index/:id",
+        component: () => import("@/components/notice/index"),
+      },
+    ],
   },
-]
+  {
+    path: "/subset",
+    component: Layout,
+    redirect: "/subset/index",
+    children: [
+      {
+        path: "index/:id",
+        component: () => import("@/components/staff/subset/index"),
+      },
+    ],
+  },
+  {
+    path: "/subset-set",
+    component: Layout,
+    redirect: "/subset-set/index",
+    children: [
+      {
+        path: "index/:id",
+        component: () => import("@/components/staff/subset-set/index"),
+      },
+    ],
+  },
+  {
+    path: "/external-child",
+    component: Layout,
+    redirect: "/external-child/index",
+    children: [
+      {
+        path: "index/:id",
+        component: () => import("@/components/staff/external-child/index"),
+      },
+    ],
+  },
+  {
+    path: "/train-summary",
+    component: Layout,
+    redirect: "/train-summary/index",
+    children: [
+      {
+        path: "index/:id",
+        component: () => import("@/components/training/train-summary/index"),
+      },
+    ],
+  },
+];

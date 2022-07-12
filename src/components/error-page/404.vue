@@ -3,11 +3,13 @@
     <div class="error404-body-con">
       <el-card class="box-card">
         <div class="error404-body-con-title">4
-        <span>0</span>4</div>
+          <span>0</span>4
+        </div>
         <p class="error404-body-con-message">YOU&nbsp;&nbsp;LOOK&nbsp;&nbsp;LOST</p>
         <div class="error404-btn-con">
           <el-button size="large" style="width: 200px;" type="text" @click="goHome">返回首页</el-button>
-          <el-button size="large" style="width: 200px;margin-left: 40px;" type="primary" @click="backPage">返回上一页</el-button>
+          <el-button size="large" style="width: 200px;margin-left: 40px;" type="primary" @click="backPage">返回上一页
+          </el-button>
         </div>
       </el-card>
     </div>
@@ -34,22 +36,28 @@ export default {
   0% {
     transform: rotateZ(0deg);
   }
+
   20% {
     transform: rotateZ(-60deg);
   }
+
   40% {
     transform: rotateZ(-10deg);
   }
+
   60% {
     transform: rotateZ(50deg);
   }
+
   80% {
     transform: rotateZ(-20deg);
   }
+
   100% {
     transform: rotateZ(0deg);
   }
 }
+
 .error404 {
   &-body-con {
     width: 700px;
@@ -58,6 +66,7 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+
     &-title {
       text-align: center;
       font-size: 240px;
@@ -66,6 +75,7 @@ export default {
       height: 260px;
       line-height: 260px;
       margin-top: 40px;
+
       span {
         display: inline-block;
         color: #19be6b;
@@ -73,6 +83,7 @@ export default {
         animation: error404animation 3s ease 0s infinite alternate;
       }
     }
+
     &-message {
       display: block;
       text-align: center;
@@ -82,6 +93,7 @@ export default {
       color: #dddde2;
     }
   }
+
   &-btn-con {
     text-align: center;
     padding: 20px 0;

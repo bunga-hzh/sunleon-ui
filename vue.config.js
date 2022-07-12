@@ -1,4 +1,4 @@
-const url = "http://192.168.187.90:9999";
+const url = "http://sunleon-gateway:9999";
 
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = ["js", "css"];
@@ -47,9 +47,9 @@ module.exports = {
     open: false,
     port: 8080,
     proxy: {
-      "/onlinePreview":{
+      "/onlinePreview": {
         target: "http://192.168.187.90:8012",
-        ws:false,
+        ws: false,
         pathRewrite: {
           "^/": "/",
         },
