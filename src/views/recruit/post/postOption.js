@@ -59,7 +59,7 @@ export const tableOption = {
     {
       // width: 180,
       label: '日期',
-      prop: 'createTime',
+      prop: 'yearTime',
       search: true,
       viewDisplay: false,
       searchTitle: '日期',
@@ -97,6 +97,7 @@ export const tableOption = {
     {
       label: '岗位名称',
       prop: 'postNameId',
+      dataType:'array',
       search: true,
       rules: [{
         required: true,

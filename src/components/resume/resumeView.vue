@@ -252,7 +252,7 @@ export default {
 
     },
     handleExport(){
-      downloadResume(this.userId).then(response=>{
+      downloadResume(this.userId,this.row.postName).then(response=>{
         // 前提是服务端要在header设置Access-Control-Expose-Headers: Content-Disposition
         // 前端才能正常获取到Content-Disposition内容
         const disposition = response.headers['content-disposition'];

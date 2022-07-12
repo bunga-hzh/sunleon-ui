@@ -48,6 +48,8 @@ export default {
         this.getList(this.page)
         done()
         this.$notify.success('创建成功!')
+      }).catch(err=>{
+        loading();
       })
     },
     update(row, index, done, loading) {

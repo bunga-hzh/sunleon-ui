@@ -49,7 +49,7 @@
           <el-button icon="el-icon-check" v-if="row.status==0 || row.status==12" :size="size" :type="type" @click="handleAdopt(row)">通过筛选</el-button>
           <el-button icon="el-icon-check" v-if="row.status==0" :size="size" :type="type" @click="handleUndetermined(row)">转为待定</el-button>
           <el-button icon="el-icon-close"  v-if="row.status==0 || row.status==12" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束筛选</el-button>
-          <el-button icon="el-icon-sort"  v-if="row.status== 2" :size="size" style="color: #F56C6C;" @click="handlecallBack(row)" :type="type">撤回</el-button>
+          <el-button icon="el-icon-sort"  v-if="row.status== 2 || row.status==19" :size="size" style="color: #F56C6C;" @click="handlecallBack(row)" :type="type">撤回</el-button>
         </template>
       </avue-crud>
       <resume-view

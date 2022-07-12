@@ -154,10 +154,13 @@ export function postHandOff(data,gwtdId){
   })
 }
 
-export function downloadResume(id){
+export function downloadResume(id,postName){
   return request({
     url:'/act/resume/do_zip_by_user_id/'+id,
     method:'get',
+    params:{
+      gwName:postName,
+    },
     responseType: 'blob'
   })
 }

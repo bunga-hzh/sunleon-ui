@@ -36,7 +36,7 @@
           <avue-form ref="formParty" v-model="htQyf" :option="partyOption"></avue-form>
         </el-card>
 
-        <el-card class="box_card_draft" v-if="viewInitData.biaodiwu==1">
+        <el-card class="box_card_draft"  v-if="viewInitData.biaodiwu == 1 ? true:false">
           <div slot="header" class="clearfix">
             <span class="card_header_title">标的物信息</span>
             <el-button style="float: right; padding: 3px 0" type="text" v-if="viewInitData.view>1" @click="$refs.excelUpload.show()">导入标的物</el-button>
@@ -45,6 +45,9 @@
             <template slot-scope="{row}" slot="total">
               <span>{{row.sl * row.je}}</span>
             </template>
+<!--            <template slot="gdzc" slot-scope="scope">-->
+<!--              <avue-radio v-model="scope.row.gdzc" :dic="scope.dic"></avue-radio>-->
+<!--            </template>-->
           </avue-form>
         </el-card>
 
@@ -53,6 +56,7 @@
         <el-card class="box_card_draft">
           <div slot="header" class="clearfix">
             <span class="card_header_title">付款约定</span>
+            <el-button style="float: right; padding: 3px 0" type="text" v-if="viewInitData.view>1" @click="$refs.excelFkUpload.show()">导入付款约定</el-button>
           </div>
           <avue-crud class="goodsForm" ref="formPayment" :data="htGlFkydList" :option="payMentOption"></avue-crud>
         </el-card>
@@ -74,6 +78,15 @@
 
       </div>
     </div>
+    <excel-upload
+      ref="excelFkUpload"
+      title="导入付款约定"
+      :auto-upload="false"
+      url="action"
+      temp-name="付款约定导入.xls"
+      temp-url="/admin/sys-file/res/template/jpgwmb.xls"
+      @onChange="handleFkChange"
+    ></excel-upload>
     <excel-upload
       ref="excelUpload"
       title="标的物导入"
@@ -97,7 +110,7 @@ import paymentOption from "@/views/contract/admin/draft/option/paymentOption";
 import contractOption from "@/views/contract/admin/draft/option/contractOption";
 import clauseOption from "@/views/contract/admin/draft/option/clauseOption";
 import enclosureOption from "@/views/contract/admin/draft/option/enclosureOption";
-import {fetchContractInfo, getHtlxInfo, saveObj} from "@/api/contract/admin/admin";
+import {fetchContractInfo, getGdzc, getHtlxInfo, saveObj} from "@/api/contract/admin/admin";
 import store from "@/store";
 import contractFileOption from "@/views/contract/admin/draft/option/contractFileOption";
 
@@ -109,6 +122,7 @@ export default {
       headers: {
         Authorization: "Bearer " + store.getters.access_token,
       },
+      userId:store.getters.userInfo.userId,
       formData:{},
       htQyf:{},//合同签约方
       htGlTkList:{}, //合同条款
@@ -143,6 +157,10 @@ export default {
       }
     }
 
+    getGdzc("HT_GDZC").then(res=>{
+      localStorage.setItem("HT_GDZC",res.data.data)
+    })
+
     setTimeout(()=>{
       this.getHTlxType(this.viewInitData.lxId);
       if(params.view==0){
@@ -166,9 +184,13 @@ export default {
         const p = res.data.data;
         this.templateData = p;
         if(p.xshwnr==1){
-          this.viewInitData.biaodiwu = 1;
+          const temp = JSON.parse(JSON.stringify(this.viewInitData))
+          temp.biaodiwu = 1;
+          this.viewInitData = temp;
         }else{
-          this.viewInitData.biaodiwu = 0;
+          const temp = JSON.parse(JSON.stringify(this.viewInitData))
+          temp.biaodiwu = 0;
+          this.viewInitData = temp;
         }
       })
     },
@@ -177,6 +199,16 @@ export default {
     },
     //保存合同
     handleSave(){
+      if(this.formData.xfxmfzr == this.userId){
+        if(this.formData.zjly){
+
+        }else{
+          this.$message.warning("经办人与资金负责人一致，请选择资金来源！")
+          return;
+        }
+
+      }
+      return;
       this.$refs.formBasic.validate(formBasic=>{
         if(formBasic){
           this.$refs.formContract.validate((formContract)=>{
@@ -197,12 +229,25 @@ export default {
                         if(this.viewInitData.view==2){
                           this.formData['htlx'] = this.viewInitData.lxId;
                         }
-
+                        const loading = this.$loading({
+                          lock: true,
+                          text: '数据提交中...',
+                          spinner: 'el-icon-loading',
+                          background: 'rgba(0, 0, 0, 0.7)'
+                        });
                         saveObj(this.formData).then(res=>{
-                          this.$notify({
-                            type:'success',
-                            message:'保存成功!'
-                          })
+                          // this.$notify({
+                          //   type:'success',
+                          //   message:'保存成功!'
+                          // })
+                          this.$alert('合同保存成功;', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                              this.$router.push({path:'/contract/admin/myapply/index'});
+                            }
+                          });
+                        }).finally(()=>{
+                          loading.close();
                         })
                       }else{
                         this.$message({
@@ -215,11 +260,21 @@ export default {
                       if(this.viewInitData.view==2){
                         this.formData['htlx'] = this.viewInitData.lxId;
                       }
+                      const loading = this.$loading({
+                        lock: true,
+                        text: '数据提交中...',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                      });
                       saveObj(this.formData).then(res=>{
-                        this.$notify({
-                          type:'success',
-                          message:'保存成功!'
-                        })
+                        this.$alert('合同保存成功;', '提示', {
+                          confirmButtonText: '确定',
+                          callback: action => {
+                            this.$router.push({path:'/contract/admin/myapply/index'});
+                          }
+                        });
+                      }).finally(()=>{
+                        loading.close();
                       })
                     }
                   }else{
@@ -271,6 +326,34 @@ export default {
         this.formData = data;
       })
     },
+    formatDate(numb, format) {
+      let time = new Date((numb - 1) * 24 * 3600000 + 1)
+      time.setYear(time.getFullYear() - 70)
+      let year = time.getFullYear() + ''
+      let month = time.getMonth() + 1 + ''
+      let date = time.getDate() + ''
+      if(format && format.length === 1) {
+        return year + format + (month < 10 ? '0' + month : month) + format + (date < 10 ? '0' + date : date)
+      }
+      return year+(month < 10 ? '0' + month : month)+(date < 10 ? '0' + date : date)
+    },
+    handleFkChange(file, fileLis){
+      this.$Export.xlsx(file.raw,{ type:'binary', cellDates: true })
+        .then(data => {
+          const array = data.results;
+          let goodsList = [];
+          array.map(item=>{
+            goodsList.push({
+              kxmc:item['款项名称(*)'],
+              kxtj:item['款项条件(*)'],
+              kxbl: item['款项比例(%)(*)'],
+              kxje:item['款项金额(*)'],
+              yjsj:this.formatDate(item['预计时间(*)'],'-')
+            });
+          })
+          this.htGlFkydList = goodsList;
+        })
+    },
     handleChange(file, fileLis){
       this.$Export.xlsx(file.raw)
         .then(data => {
@@ -283,7 +366,7 @@ export default {
               hwdw: findArrayLabel(this.goodsDataList,item['单位(*)']),
               hwsl:item['数量(*)'],
               hwdj:item['单价(*)'],
-              gdzc:item['固定资产(*)']=='是' ? 0:1
+              // gdzc:item['固定资产(*)']=='是' ? 0:1
             });
           })
           this.$refs.goodsForm.form.bdwList = this.$refs.goodsForm.form.bdwList.concat(goodsList);

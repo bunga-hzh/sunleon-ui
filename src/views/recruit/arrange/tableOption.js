@@ -69,6 +69,7 @@ export const arrangeOption = {
       label: '应聘岗位',
       prop:'postNameIds',
       type: 'select',
+      dataType:'array',
       multiple:true,
       search: true,
       showColumn: false,

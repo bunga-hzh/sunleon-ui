@@ -1,13 +1,15 @@
 import {fetchList} from "@/api/contract/basic/sensitive";
+import { Message } from 'element-ui';
 
-var validateSensitive = (rule, value, callback) => {
+var validateSensitive = (rule, value, callback,source,options) => {
   fetchList({
     current: 1,
     size: 20,
     mgcMc:value
   }).then(response=>{
     if(response.data.data.total>0){
-      callback(new Error('标的物名称不合规!'))
+      Message.warning("您所输入的标的物名称:"+value+" ,  不合规!")
+      callback()
     }else{
       callback()
     }
@@ -43,7 +45,12 @@ export default {
           },
           {
             label: '型号规格',
-            prop: "xh"
+            prop: "xh",
+            rules: [{
+              required: true,
+              message: '请输入型号',
+              trigger: 'blur'
+            }],
           },
           {
             label: '单位',
@@ -58,11 +65,41 @@ export default {
           },
           {
             label: '数量',
-            prop: "sl"
+            prop: "sl",
+            rules: [{
+              required: true,
+              message: '请输入数量',
+              trigger: 'blur'
+            }],
+            change: (val) => {
+              if(val.row.je && val.row.sl){
+                var cache = localStorage.getItem("HT_GDZC");
+                if(val.row.je*val.row.sl>=cache){
+                  val.row.gdzc = 0;
+                }else{
+                  val.row.gdzc = 1;
+                }
+              }
+            },
           },
           {
             label: '单价(元)',
-            prop: "je"
+            prop: "je",
+            rules: [{
+              required: true,
+              message: '请输入单价',
+              trigger: 'blur'
+            }],
+            change: (val) => {
+              if(val.row.je && val.row.sl){
+                var cache = localStorage.getItem("HT_GDZC");
+                if(val.row.je*val.row.sl>=cache){
+                  val.row.gdzc = 0;
+                }else{
+                  val.row.gdzc = 1;
+                }
+              }
+            },
           },
           {
             label: '固定资产',
@@ -74,7 +111,12 @@ export default {
             },{
               label:'否',
               value:1
-            }]
+            }],
+            rules: [{
+              required: true,
+              message: '请选择是否为固定资产',
+              trigger: 'blur'
+            }],
           },
           {
             label: '金额(元)',

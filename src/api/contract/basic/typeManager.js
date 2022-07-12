@@ -61,3 +61,4 @@ export function delObj(id){
     method:'delete'
   })
 }
+

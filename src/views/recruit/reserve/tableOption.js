@@ -13,7 +13,7 @@ export const reserveOption = {
   menuHeaderAlign: 'center',
   labelWidth: 120,
   reserveSelection: true,
-  gutter: 60,
+  gutter: 20,
   addBtn: false,
   filterParams: ['yearTime'],
   column: [
@@ -71,6 +71,7 @@ export const reserveOption = {
       type: 'select',
       multiple:true,
       search: true,
+      dataType:'array',
       showColumn: false,
       hide: true,
       props: {
@@ -88,7 +89,7 @@ export const reserveOption = {
       prop: 'interviewTime',
       search: true,
       type:'datetime',
-      searchSpan:8,
+      searchSpan:6,
       searchType: "daterange",
       searchFormat:'yyyy年MM月dd日',
       searchValueFormat:'yyyy-MM-dd',

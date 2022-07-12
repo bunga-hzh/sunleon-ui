@@ -169,7 +169,7 @@ export const adminOption = {
       startPlaceholder: '合同生效日期',
       endPlaceholder: '合同结束日期',
       formatter:(val,value,label)=>{
-        if(value){
+        if(value && value!='[]'){
           return JSON.parse(value)[0]+" ~ "+JSON.parse(value)[1];
         }else{
          return ''

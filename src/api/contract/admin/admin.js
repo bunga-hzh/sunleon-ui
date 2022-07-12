@@ -163,3 +163,15 @@ export function putCheckContract(params){
     params:params
   })
 }
+
+
+/**
+ * 获取固定资产
+ * @returns {AxiosPromise}
+ */
+export function getGdzc(key){
+  return request({
+    url:'/admin/param/publicValue/'+key,
+    method:'get'
+  })
+}

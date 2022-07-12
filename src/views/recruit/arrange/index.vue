@@ -45,7 +45,7 @@
            <el-button icon="el-icon-view" :size="size" v-if="row.resumeStatus==7" :type="type" @click="handleCallBack(row)">撤回安排</el-button>
            <el-button icon="el-icon-back" v-if="row.resumeStatus==-1 && row.jsmsId==1" :size="size" :type="type" @click="handleStopCallBack(row)">撤回结束</el-button>
           <el-button icon="el-icon-check" :size="size" v-if="row.resumeStatus==6" :type="type" @click="handleAdopt(row,0)" >面试安排({{row.interviewNumber}}面)</el-button>
-          <el-button icon="el-icon-close" :size="size" v-if="row.resumeStatus!=-1" style="color: #F56C6C;" @click="handleStop(row)" :type="type">结束面试</el-button>
+          <el-button icon="el-icon-close" :size="size" v-if="row.resumeStatus!=-1 && row.resumeStatus!=11" style="color: #F56C6C;" @click="handleStop(row)" :type="type">结束面试</el-button>
         </template>
       </avue-crud>
       <resume-view

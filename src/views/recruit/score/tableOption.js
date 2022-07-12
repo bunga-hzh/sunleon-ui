@@ -55,6 +55,36 @@ export const scoreOption = {
       search: true,
     },
     {
+      label: '岗位类型',
+      prop: 'gwlxId',
+      type: 'select',
+      search: true,
+      width:180,
+      cascader: ['postNameIds'],
+      dicUrl: "/admin/dict/type/post_type",
+      rules: [{
+        required: true,
+        message: '请选择岗位类型',
+        trigger: 'change'
+      }]
+    },
+    {
+      label: '应聘岗位',
+      prop:'postNameIds',
+      type: 'select',
+      width:180,
+      multiple:true,
+      search: true,
+      dataType:'array',
+      showColumn: false,
+      hide: true,
+      props: {
+        label: 'name',
+        value: 'id'
+      },
+      dicUrl: "/act/gwFb/get_list/{{key}}"
+    },
+    {
       label: '应聘岗位',
       prop:'postName',
     },

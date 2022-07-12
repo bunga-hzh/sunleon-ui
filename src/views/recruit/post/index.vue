@@ -67,7 +67,7 @@ export default {
   data() {
     return{
       searchForm: {
-        yearTime:new Date().getFullYear(),
+        // yearTime:new Date().getFullYear(),
       }, //搜索条件
       form: {}, //表单
       page: {
@@ -122,7 +122,7 @@ export default {
     },
     getList(page, params) {
       this.listLoading = true
-      fetchList(Object.assign({},params, this.searchForm),
+      fetchList(Object.assign({}, this.searchForm),
         {
           current: page.currentPage,
           size: page.pageSize
@@ -223,7 +223,7 @@ export default {
     handleRekease(row){
       if(row.isRelease=='1'){ //撤销发布
         release([row.id],'0').then(res=>{
-          this.getList(this.page)
+          this.getList(this.page,this.searchForm)
           this.$message.success('撤销成功')
         })
       }else{ //发布岗位
@@ -234,10 +234,10 @@ export default {
       }
     },
     searchChange(form, done) {
-      this.searchForm = {
-        postNameId:form.postNameId,
-        yearTime:form.createTime
-      }
+      // this.searchForm = {
+      //   postNameId:form.postNameId ? form.postNameId:[],
+      //   yearTime:form.createTime
+      // }
       this.page.currentPage = 1
       this.getList(this.page, form)
       done()

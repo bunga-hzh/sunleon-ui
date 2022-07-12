@@ -77,6 +77,7 @@ export const MemberListOption = {
       multiple:true,
       search: true,
       showColumn: false,
+      dataType:'array',
       hide: true,
       props: {
         label: 'name',

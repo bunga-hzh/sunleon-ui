@@ -49,7 +49,7 @@
             <el-button v-if="row.resumeStatus== -3" icon="el-icon-view" :size="size" :type="type" @click="handleConfirm(row,false)">驳回</el-button>
             <el-button v-if="row.resumeStatus==3 || row.resumeStatus==-2" :disabled="row.resumeStatus == -2 ? true:false" icon="el-icon-check" :size="size" :type="type" @click="handleAdopt(row,0)">预约</el-button>
             <el-button v-if="row.resumeStatus==5" icon="el-icon-edit" :size="size" :type="type" @click="handleAdopt(row,1)">修改预约</el-button>
-            <el-button icon="el-icon-close" :size="size" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
+            <el-button icon="el-icon-close" :size="size" v-if="row.resumeStatus!=11" style="color: #F56C6C;" @click="handleRefuse(row)" :type="type">结束面试</el-button>
           </span>
         </template>
        </avue-crud>

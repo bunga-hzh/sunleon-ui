@@ -143,7 +143,7 @@ export default {
         postName:row.postName
       }).then(res=>{
           const blob = new Blob([res.data]);
-          const fileName = row.candidateName+'-登记表.docx';
+          const fileName = row.postName+"_"+row.candidateName+'_应聘人员情况登记表.docx';
           const linkNode = document.createElement('a');
 
           linkNode.download = fileName; //a标签的download属性规定下载文件的名称

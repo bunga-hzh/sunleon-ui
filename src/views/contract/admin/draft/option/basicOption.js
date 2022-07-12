@@ -72,11 +72,11 @@ export default {
     {
       label: '资金来源',
       prop:'zjly',
-      rules: [{
-        required: true,
-        message: "请选择",
-        trigger: "change"
-      }],
+      // rules: [{
+      //   required: true,
+      //   message: "请选择",
+      //   trigger: "change"
+      // }],
       props:{
         label:'zjfzrName',
         value:'id'

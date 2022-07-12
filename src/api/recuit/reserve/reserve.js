@@ -60,8 +60,11 @@ export function confirmResume(data){
 }
 
 /**
- * 撤回
- * @returns {AxiosPromise}
+ * request setting Interview revoke status
+ * It sends a PUT request to the server, which will update the status of the resume to "callback"
+ * @param id - The id of the resume
+ * @param apiName - the name of the API to be called
+ * @returns A function that returns a promise.
  */
 export function setCallback(id,apiName){
   return request({

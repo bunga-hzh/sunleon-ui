@@ -76,6 +76,7 @@ export const resumeOption = {
       label: '应聘岗位',
       prop:'postNameIds',
       type: 'select',
+      dataType:'array',
       width:180,
       multiple:true,
       search: true,
