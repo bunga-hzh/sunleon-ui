@@ -206,9 +206,7 @@ export default {
           this.$message.warning("经办人与资金负责人一致，请选择资金来源！")
           return;
         }
-
       }
-      return;
       this.$refs.formBasic.validate(formBasic=>{
         if(formBasic){
           this.$refs.formContract.validate((formContract)=>{

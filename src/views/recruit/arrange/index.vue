@@ -161,7 +161,7 @@ export default {
           done()
         },
         callback:(res)=>{
-          examState(row.deliveryId,res.data.msg,1).then(resx=>{
+          examState(row.deliveryId,res.data.msg,1,res.data.sms==0 ? false:true).then(resx=>{
             res.done()
             res.close()
             this.getList(this.page, this.form)
