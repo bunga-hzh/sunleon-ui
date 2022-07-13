@@ -111,8 +111,8 @@ export default {
 
     &-msg-container {
       width: 100%;
-      font-size: 16px;
-      font-family: Medium;
+      font-size: 14px;
+      font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
       display: flex;
       justify-content: space-between;
 

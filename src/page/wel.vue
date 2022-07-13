@@ -22,7 +22,6 @@
 <script>
 import Todone from "@/components/wel/to-done"
 import SysMsg from "@/components/wel/sys-msg"
-import { getNoticeMsg, getSysNoticeMsg } from "@/api/admin/notice";
 
 export default {
   name: "Wel",
@@ -32,15 +31,6 @@ export default {
   },
   data() {
     return {
-      // 待办事项
-      sysNotifyList: [],
-      // 通知公告
-      notifyList: [],
-
-      page: {
-        current: 1,
-        size: 6,
-      },
       iconList: [
         {
           id: 1,
@@ -83,49 +73,7 @@ export default {
           icon: "https://s1.ax1x.com/2022/03/12/b7ZmC9.png",
         },
       ],
-      sysNotityMore: "......",
-      notifyMore: "......",
-    };
-  },
-  methods: {
-    // 获取通知公告
-    async getNoticeMsg(page) {
-      const { data: res } = await getNoticeMsg(page);
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.notifyList = res.data.records;
-    },
-    // 获取系统消息
-    async getSysNoticeMsg(page) {
-      const { data: res } = await getSysNoticeMsg(page);
-      if (res.code !== 0) return this.$message.error(res.msg);
-      this.sysNotifyList = res.data.records;
-    },
-    // 显示 更多
-    showMore(type) {
-      if (type === "sysnotify") {
-        this.sysNotityMore = "点击查看更多  ·····";
-      }
-      if (type === "notify") {
-        this.notifyMore = "点击查看更多  ·····";
-      }
-    },
-    // 隐藏 更多
-    hideMore(type) {
-      if (type === "sysnotity") {
-        this.sysNotityMore = "......";
-      }
-      if (type === "notify") {
-        this.notifyMore = "......";
-      }
-    },
-    // 查看更多
-    viewMore() {
-      this.$router.push("/admin/notice/myMassage");
-    },
-  },
-  mounted() {
-    this.getNoticeMsg(this.page);
-    this.getSysNoticeMsg(this.page);
+    }
   },
 };
 </script>
@@ -134,38 +82,6 @@ export default {
 .home_container {
   .el-row {
     padding: 20px;
-
-    .el-card {
-      padding: 0;
-      height: 350px;
-
-      .title {
-        text-align: center;
-        font-size: 16px;
-        font-family: Medium;
-        font-weight: bold;
-
-        span {
-          color: rgb(255, 102, 102);
-        }
-      }
-
-      li {
-        font-size: 14px;
-        font-family: Base;
-        list-style: none;
-        margin: 20px 0;
-        color: rgba(0, 0, 0, 0.44);
-
-        a {
-          color: rgba(0, 0, 0, 0.44);
-        }
-
-        a:hover {
-          color: #409eff;
-        }
-      }
-    }
   }
 
   .fast_icon {
