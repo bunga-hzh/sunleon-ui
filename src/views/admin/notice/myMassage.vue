@@ -1,6 +1,6 @@
 <template>
   <basic-container>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
       <el-tab-pane label="待办事项" name="1">
         <SysNotifyMsg />
       </el-tab-pane>

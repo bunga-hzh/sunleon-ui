@@ -12,7 +12,7 @@ export const option = {
       label: "标题",
       prop: "title",
       // search: true,
-      width: 300,
+      width: 500,
       span: 24,
       rules: [
         {
