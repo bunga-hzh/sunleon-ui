@@ -2,64 +2,15 @@
   <div class="home_container">
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-card shadow="hover">
-          <p class="title">
-            待办事项
-            <!-- &nbsp;&nbsp;(<span>{{ sysNotifyList.length }}</span>) -->
-          </p>
-          <el-empty v-show="sysNotifyList.length<= 0"
-                    description="这里空空如也"></el-empty>
-          <li v-for="(item, index) in sysNotifyList"
-              v-show="sysNotifyList.length > 0"
-              :key="item.id">
-            <router-link v-if="item.moduleUrl === null"
-                         :to="`/notice/index/${item.mid}`">{{ index + 1 }}. {{ item.title }}</router-link>
-            <router-link v-if="item.moduleUrl !== null"
-                         :to="item.moduleUrl+'_'+item.msgId">{{ index + 1 }}. {{ item.title }}</router-link>
-          </li>
-          <li class="viewMore"
-              v-show="sysNotifyList.length === 6"
-              @mouseenter="showMore('sysnotify')"
-              @mouseleave="hideMore('sysnotify')"
-              @click="viewMore">
-            {{ sysNotityMore }}
-          </li>
-        </el-card>
+        <Todone />
       </el-col>
       <el-col :span="12">
-        <el-card shadow="hover">
-
-          <p class="title">
-            通知公告
-            <!-- &nbsp;&nbsp;(<span>{{ notifyList.length }}</span>) -->
-          </p>
-          <el-empty v-show="notifyList.length<= 0"
-                    description="这里空空如也"></el-empty>
-          <li v-for="(item, index) in notifyList"
-              v-show="notifyList.length > 0"
-              :key="item.id">
-            <router-link v-if="item.moduleUrl === null"
-                         :to="`/notice/index/${item.mid}`">{{ index + 1 }}. {{ item.title }}</router-link>
-            <router-link v-if="item.moduleUrl !== null"
-                         :to="item.moduleUrl">{{ index + 1 }}. {{ item.title }}</router-link>
-          </li>
-          <li class="viewMore"
-              v-show="notifyList.length === 6"
-              @mouseenter="showMore('notify')"
-              @mouseleave="hideMore('notify')"
-              @click="viewMore">
-            {{ notifyMore }}
-          </li>
-        </el-card>
+        <SysMsg />
       </el-col>
     </el-row>
-    <el-card shadow="hover"
-             class="fast_icon">
+    <el-card shadow="hover" class="fast_icon">
       <div class="icon_box">
-        <a href="#"
-           class="icon"
-           v-for="item in iconList"
-           :key="item.id">
+        <a href="#" class="icon" v-for="item in iconList" :key="item.id">
           <img :src="item.icon" />
           <span>{{ item.title }}</span>
         </a>
@@ -69,10 +20,16 @@
 </template>
 
 <script>
+import Todone from "@/components/wel/to-done"
+import SysMsg from "@/components/wel/sys-msg"
 import { getNoticeMsg, getSysNoticeMsg } from "@/api/admin/notice";
 
 export default {
   name: "Wel",
+  components: {
+    Todone,
+    SysMsg
+  },
   data() {
     return {
       // 待办事项
@@ -181,36 +138,43 @@ export default {
     .el-card {
       padding: 0;
       height: 350px;
+
       .title {
         text-align: center;
         font-size: 16px;
         font-family: Medium;
         font-weight: bold;
+
         span {
           color: rgb(255, 102, 102);
         }
       }
+
       li {
         font-size: 14px;
         font-family: Base;
         list-style: none;
         margin: 20px 0;
         color: rgba(0, 0, 0, 0.44);
+
         a {
           color: rgba(0, 0, 0, 0.44);
         }
+
         a:hover {
           color: #409eff;
         }
       }
     }
   }
+
   .fast_icon {
     margin: 0 20px;
 
     .icon_box {
       width: 800px;
       margin: 0 auto;
+
       .icon {
         display: inline-block;
         width: 100px;
@@ -223,6 +187,7 @@ export default {
           height: 50px;
           margin: 0 auto;
         }
+
         span {
           display: inline-block;
           width: 100%;
@@ -232,6 +197,7 @@ export default {
           font-family: Extra Small;
         }
       }
+
       .icon:hover {
         color: #409eff;
       }

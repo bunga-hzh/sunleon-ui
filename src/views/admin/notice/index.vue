@@ -1,63 +1,34 @@
 <template>
   <div class="notice_container">
     <basic-container>
-      <avue-crud ref="crud"
-                 v-model="form"
-                 :data="data"
-                 :option="option"
-                 :page.sync="page"
-                 :table-loading="showLoading"
-                 :before-open="beforeOpen"
-                 @on-load="onLoad"
-                 @row-save="rowSave"
-                 @row-update="rowUpdate"
-                 @row-del="rowDel"
-                 @refresh-change="refreshChange"
-                 @search-change="searchChange">
-        <template slot="noticeObjForm"
-                  slot-scope="{ type }">
+      <avue-crud ref="crud" v-model="form" :data="data" :option="option" :page.sync="page" :table-loading="showLoading"
+        :before-open="beforeOpen" @on-load="onLoad" @row-save="rowSave" @row-update="rowUpdate" @row-del="rowDel"
+        @refresh-change="refreshChange" @search-change="searchChange">
+        <template slot="noticeObjForm" slot-scope="{ type }">
           <el-row>
             <el-col :span="24">
-              <el-radio v-model="form.noticeObj"
-                        label="1"
-                        :disabled="type === 'edit' || type === 'view'">全体用户</el-radio>
-              <el-radio v-model="form.noticeObj"
-                        label="2"
-                        :disabled="type === 'edit' || type === 'view'">指定用户</el-radio>
+              <el-radio v-model="form.noticeObj" label="1" :disabled="type === 'edit' || type === 'view'">全体用户
+              </el-radio>
+              <el-radio v-model="form.noticeObj" label="2" :disabled="type === 'edit' || type === 'view'">指定用户
+              </el-radio>
             </el-col>
-            <el-col :span="24"
-                    v-show="form.noticeObj === '2' && type === 'add'">
-              <avue-select all
-                           multiple
-                           v-model="ids"
-                           placeholder="请选择用户"
-                           type="tree"
-                           :dic="dicUser"
-                           :props="props"></avue-select>
+            <el-col :span="24" v-show="form.noticeObj === '2' && type === 'add'">
+              <avue-select all multiple v-model="ids" placeholder="请选择用户" type="tree" :dic="dicUser" :props="props">
+              </avue-select>
             </el-col>
           </el-row>
         </template>
 
-        <template slot="menuForm"
-                  slot-scope="{ type, disabled }">
-          <el-button :disabled="disabled"
-                     v-show="type === 'add'"
-                     icon="el-icon-s-promotion"
-                     @click="saveRelease"
-                     type="info"
-                     plain>保存并发布</el-button>
+        <template slot="menuForm" slot-scope="{ type, disabled }">
+          <el-button :disabled="disabled" v-show="type === 'add'" icon="el-icon-s-promotion" @click="saveRelease"
+            type="info" plain>保存并发布</el-button>
         </template>
 
-        <template slot="menu"
-                  slot-scope="scope">
-          <el-button :disabled="scope.row.status === '1'"
-                     type="text"
-                     icon="el-icon-s-promotion"
-                     @click="release(scope.row)">发布</el-button>
-          <el-button :disabled="scope.row.status === '0' || scope.row.status === '2'"
-                     type="text"
-                     icon="el-icon-circle-close"
-                     @click="withdraw(scope.row)">撤回</el-button>
+        <template slot="menu" slot-scope="scope">
+          <el-button :disabled="scope.row.status === '1'" type="text" icon="el-icon-s-promotion"
+            @click="release(scope.row)">发布</el-button>
+          <el-button :disabled="scope.row.status === '0' || scope.row.status === '2'" type="text"
+            icon="el-icon-circle-close" @click="withdraw(scope.row)">撤回</el-button>
         </template>
       </avue-crud>
     </basic-container>
@@ -136,6 +107,7 @@ export default {
     },
     // 修改
     async rowUpdate(form, index, done, loading) {
+      if (form.status === '1') return this.$message.warning('请先撤回消息！')
       const { data: res } = await putObj(form);
       if (res.code !== 0) return this.$message.error("修改失败！" + res.msg);
       this.$message.success("修改成功！");
@@ -158,7 +130,7 @@ export default {
           });
           this.get(this.page);
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     // 刷新
     refreshChange() {
