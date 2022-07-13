@@ -1,13 +1,10 @@
 <template>
   <basic-container>
-    <el-tabs v-model="activeName"
-             @tab-click="handleClick">
-      <el-tab-pane label="待办事项"
-                   name="1">
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="待办事项" name="1">
         <SysNotifyMsg />
       </el-tab-pane>
-      <el-tab-pane label="通知公告"
-                   name="2">
+      <el-tab-pane label="通知公告" name="2">
         <NotifyMsg />
       </el-tab-pane>
     </el-tabs>
@@ -31,7 +28,7 @@ export default {
     NotifyMsg,
   },
   methods: {
-    handleClick(tab) {},
+    handleClick(tab) { },
     // 加载更多
     pageChange(page, done) {
       setTimeout(() => {

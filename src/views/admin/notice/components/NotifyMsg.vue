@@ -1,98 +1,77 @@
 <template>
-  <avue-notice @click="handleClick"
-               :data="data"
-               :option="option"
-               @page-change="pageChange"></avue-notice>
+  <avue-crud :data='data' :option='option' :page.sync="page" @on-load="onLoad" @refresh-change="refreshChange">
+    <template slot='menu' slot-scope="scope">
+      <el-button type="text" icon="el-icon-info" @click="toDetailsPage(scope.row)">详情</el-button>
+      <el-button type="text" icon="el-icon-message-solid" :disabled="scope.row.status !== '0'"
+        @click="markRead(scope.row)">是否标记为已读</el-button>
+    </template>
+    <template slot='status' slot-scope="scope">
+      <el-tag type="warning" v-if="scope === '0'">未读</el-tag>
+      <el-tag type="success" v-else-if="scope === '1'">已读</el-tag>
+      <el-tag type="danger" v-else>错误，请联系管理员</el-tag>
+    </template>
+  </avue-crud>
 </template>
 
 <script>
-import { getNoticeMsg, setReadStatus } from "@/api/admin/notice";
-import { validatenull } from "@/util/validate";
+import { option } from "./option"
+import { getNoticeMsg, markRead } from "@/api/admin/notice";
 
 export default {
   data() {
     return {
-      option: {
-        props: {
-          title: "title",
-          subtitle: "createTime",
-          tag: "tag",
-          status: "status",
-        },
-      },
+      option: option,
       data: [],
       page: {
         total: 0,
-        current: 1,
-        size: 7,
+        currentPage: 1,
+        pageSize: 10
       },
-      flag: false,
     };
   },
   methods: {
     // 获取系统消息
     async getMsg() {
       const { data: res } = await getNoticeMsg({
-        current: this.page.current,
-        size: this.page.size,
+        current: this.page.currentPage,
+        size: this.page.pageSize,
       });
       if (res.code !== 0) return this.$message.error(res.msg);
-      this.page = res.data.total;
-      res.data.records.forEach((item) => {
-        if (validatenull(item.status)) {
-          this.data.push(item);
-        } else {
-          this.data.push({
-            ...item,
-            tag: item.status === "0" ? "未读" : "已读",
-          });
-        }
+      this.page.total = res.data.total;
+      this.data = res.data.records
+    },
+    onLoad() {
+      this.getMsg()
+    },
+    refreshChange() {
+      this.getMsg()
+    },
+    async toDetailsPage(item) {
+      if (item.moduleUrl !== null) {
+        this.$router.push(item.moduleUrl)
+      } else {
+        this.$router.push(`/notice/index/${item.mid}`)
+      }
+    },
+    markRead(item) {
+      if (item.status !== "0") return this.$notify.warning('消息已读')
+      this.$confirm('是否标记为已读?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        // 修改状态为已读
+        const { data: res } = await markRead(item.mid)
+        if (res.code != 0) return this.message.error("出现错误，请联系管理员！")
+        item.status = "1"
+        this.$notify.success('消息状态已读')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        });
       });
     },
-    // 加载更多
-    pageChange(page, done) {
-      if (this.flag) {
-        this.$message.warning("没有更多了！");
-        done();
-        return;
-      }
-      setTimeout(async () => {
-        if (this.flag) {
-          done();
-          return this.$message.warning("没有更多数据了");
-        }
-        const { data: res } = await getNoticeMsg({
-          current: page,
-          size: 7,
-        });
-        if (res.code !== 0) return this.$message.error(res.msg);
-        if (res.data.records.length === 0) {
-          this.flag = true;
-          done();
-          return this.$message.warning("没有更多了！");
-        }
-        this.data = [...this.data, ...res.data.records];
-        done();
-      }, 1000);
-    },
-    handleClick(item) {
-      if (!validatenull(item.id) && item.status === "0") {
-        setReadStatus(item.id).then((res) => {
-          if (res.data.code !== 0)
-            return this.$message.error(res.data.data.msg);
-          this.data.forEach((val, index) => {
-            if (val.mid === item.mid) {
-              this.data[index].status = "1";
-              this.data[index].tag = "已读";
-            }
-          });
-        });
-      }
-      this.$router.push(`/notice/index/${item.mid}`);
-    },
-  },
-  created() {
-    this.getMsg();
   },
 };
 </script>
