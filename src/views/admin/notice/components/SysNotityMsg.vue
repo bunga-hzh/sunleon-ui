@@ -6,8 +6,8 @@
         @click="markRead(scope.row)">{{ scope.row.status === '0' ? '是否标记为已处理' : "消息已处理" }}</el-button>
     </template>
     <template slot='status' slot-scope="scope">
-      <el-tag type="warning" v-if="scope.row.status === '0'">未读</el-tag>
-      <el-tag type="success" v-else-if="scope.row.status === '1'">已读</el-tag>
+      <el-tag type="warning" v-if="scope.row.status === '0'">未处理</el-tag>
+      <el-tag type="success" v-else-if="scope.row.status === '1'">已处理</el-tag>
       <!-- <el-tag type="danger" v-else>错误，请联系管理员</el-tag> -->
     </template>
   </avue-crud>
