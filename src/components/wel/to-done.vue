@@ -1,5 +1,5 @@
 <template>
-  <msgCard :data="data" />
+  <msgCard :data="data" :type="1" :title="title" />
 </template>
 
 <script>
@@ -12,7 +12,8 @@ export default {
   },
   data() {
     return {
-      data: []
+      data: [],
+      title: "待办事项"
     }
   },
   methods: {
