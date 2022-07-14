@@ -54,8 +54,8 @@ export default {
       }
     },
     markRead(item) {
-      if (item.status !== "0") return this.$notify.warning('消息已读')
-      this.$confirm('是否标记为已读?', '提示', {
+      if (item.status !== "0") return this.$notify.warning('消息已处理')
+      this.$confirm('是否标记为已处理?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -64,7 +64,7 @@ export default {
         const { data: res } = await markRead(item.mid)
         if (res.code != 0) return this.message.error("出现错误，请联系管理员！")
         item.status = "1"
-        this.$notify.success('消息状态已读')
+        this.$notify.success('消息状态已处理')
       }).catch(() => {
         this.$message({
           type: 'info',
