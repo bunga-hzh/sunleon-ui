@@ -12,7 +12,7 @@
             {{ item.title }}
           </div>
           <div class="list-item-msg-container-time">{{ item.createTime }}</div>
-          <el-tooltip class="item" effect="dark" content="标记为已处理" placement="top">
+          <el-tooltip class="item" effect="dark" :content="item.status === '0' ? '标记为已处理' : '消息已处理'" placement="top">
             <div class="list-item-msg-container-icon"><i
                 :class="item.status === '0' ? 'el-icon-message-solid no-read' : 'el-icon-message-solid read'"
                 @click="markRead(item)" />
@@ -52,7 +52,7 @@ export default {
         const { data: res } = await markRead(item.mid)
         if (res.code != 0) return this.message.error("出现错误，请联系管理员！")
         item.status = "1"
-        this.$notify.success('消息状态已处理')
+        this.$notify.success('消息已处理')
       }).catch(() => {
         this.$message({
           type: 'info',

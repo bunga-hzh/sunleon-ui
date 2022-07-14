@@ -3,12 +3,12 @@
     <template slot='menu' slot-scope="scope">
       <el-button type="text" icon="el-icon-info" @click="toDetailsPage(scope.row)">详情</el-button>
       <el-button type="text" icon="el-icon-message-solid" :disabled="scope.row.status !== '0'"
-        @click="markRead(scope.row)">是否标记为已读</el-button>
+        @click="markRead(scope.row)">{{ scope.row.status === '0' ? '是否标记为已处理' : "消息已处理" }}</el-button>
     </template>
     <template slot='status' slot-scope="scope">
       <el-tag type="warning" v-if="scope === '0'">未读</el-tag>
       <el-tag type="success" v-else-if="scope === '1'">已读</el-tag>
-      <el-tag type="danger" v-else>错误，请联系管理员</el-tag>
+      <!-- <el-tag type="danger" v-else>错误，请联系管理员</el-tag> -->
     </template>
   </avue-crud>
 </template>
