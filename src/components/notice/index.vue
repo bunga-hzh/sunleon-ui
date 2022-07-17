@@ -1,18 +1,15 @@
 <template>
   <div>
-    <el-page-header style="padding: 8px 10px;"
-                    @back="goBack"
-                    content="详情">
+    <el-page-header style="padding: 8px 10px;" @back="goBack" content="详情">
     </el-page-header>
     <basic-container>
-      <avue-article :props="props"
-                    :data="data"></avue-article>
+      <avue-article :props="props" :data="data"></avue-article>
     </basic-container>
   </div>
 </template>
 
 <script>
-import { getNoticeMsg, getSysNoticeMsg, getObj } from "@/api/admin/notice";
+import { getObj } from "@/api/admin/notice";
 
 export default {
   data() {

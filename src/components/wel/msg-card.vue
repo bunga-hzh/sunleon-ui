@@ -2,7 +2,7 @@
   <el-card shadow="hover">
     <div class="title-container">
       {{ title }}
-      <el-button type="text" icon="el-icon-more" class="more-btn" @click="toMorePage">更多</el-button>
+      <el-button type="text" icon="el-icon-more" class="more-btn" @click="toMorePage(type)">更多</el-button>
     </div>
     <div class="list">
       <div class="list-item" v-for="(item, index) in data" :key="index">
@@ -12,7 +12,7 @@
             {{ item.title }}
           </div>
           <div class="list-item-msg-container-time">{{ item.createTime }}</div>
-          <el-tooltip class="item" effect="dark" content="标记为已读" placement="top">
+          <el-tooltip class="item" effect="dark" :content="item.status === '0' ? '标记为已处理' : '消息已处理'" placement="top">
             <div class="list-item-msg-container-icon"><i
                 :class="item.status === '0' ? 'el-icon-message-solid no-read' : 'el-icon-message-solid read'"
                 @click="markRead(item)" />
@@ -31,17 +31,19 @@ export default {
   props: {
     data: {
       type: Array,
-    }
-  },
-  data() {
-    return {
-      title: "待办事项"
+    },
+    type: {
+      type: Number,
+    },
+    title: {
+      type: String,
+      required: true
     }
   },
   methods: {
     markRead(item) {
-      if (item.status !== "0") return this.$notify.warning('消息已读')
-      this.$confirm('是否标记为已读?', '提示', {
+      if (item.status !== "0") return this.$notify.warning('消息已处理')
+      this.$confirm('是否标记为已处理?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -50,7 +52,7 @@ export default {
         const { data: res } = await markRead(item.mid)
         if (res.code != 0) return this.message.error("出现错误，请联系管理员！")
         item.status = "1"
-        this.$notify.success('消息状态已读')
+        this.$notify.success('消息已处理')
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -65,8 +67,8 @@ export default {
         this.$router.push(`/notice/index/${item.mid}`)
       }
     },
-    toMorePage() {
-      this.$router.push("/admin/notice/myMassage");
+    toMorePage(type) {
+      this.$router.push({ path: "/admin/notice/myMassage", query: { type: type } });
     }
   }
 }
@@ -133,6 +135,11 @@ export default {
         font-family: Base;
         color: rgb(176, 176, 176);
         line-height: 25px;
+
+        //超出一行省略号
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       &-icon {
