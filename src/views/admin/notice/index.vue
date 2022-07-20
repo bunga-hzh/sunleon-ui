@@ -24,11 +24,19 @@
             type="info" plain>保存并发布</el-button>
         </template>
 
-        <template slot="menu" slot-scope="scope">
-          <el-button :disabled="scope.row.status === '1'" type="text" icon="el-icon-s-promotion"
-            @click="release(scope.row)">发布</el-button>
-          <el-button :disabled="scope.row.status === '0' || scope.row.status === '2'" type="text"
-            icon="el-icon-circle-close" @click="withdraw(scope.row)">撤回</el-button>
+        <template slot="menu" slot-scope="{ row, index }">
+          <el-button icon="el-icon-edit" type="text" :disabled="row.status === '1'"
+            @click="$refs.crud.rowEdit(row, index)">
+            编辑
+          </el-button>
+          <el-button icon="el-icon-delete" type="text" :disabled="row.status === '1'"
+            @click="$refs.crud.rowDel(row, index)">
+            删除
+          </el-button>
+          <el-button :disabled="row.status === '1'" type="text" icon="el-icon-s-promotion" @click="release(row)">发布
+          </el-button>
+          <el-button :disabled="row.status === '0' || row.status === '2'" type="text" icon="el-icon-circle-close"
+            @click="withdraw(row)">撤回</el-button>
         </template>
       </avue-crud>
     </basic-container>

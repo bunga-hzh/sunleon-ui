@@ -5,45 +5,53 @@ export const option = {
   menuWidth: 320,
   searchSpan: 7,
   viewBtn: true,
-  column: [{
+  editBtn: false,
+  delBtn: false,
+  column: [
+    {
       label: "标题",
       prop: "title",
       search: true,
       width: 300,
       span: 24,
-      rules: [{
-        required: true,
-        message: '请填写标题',
-        trigger: 'blur'
-      }],
+      rules: [
+        {
+          required: true,
+          message: "请填写标题",
+          trigger: "blur",
+        },
+      ],
       maxlength: 30,
-      showWordLimit: true
+      showWordLimit: true,
     },
     {
       label: "消息类型",
       prop: "msgType",
       search: true,
-      type: 'radio',
+      type: "radio",
       props: {
-        label: 'label',
-        value: 'value'
+        label: "label",
+        value: "value",
       },
-      dicData: [{
+      dicData: [
+        {
           label: "通知公告",
           value: "1",
         },
         {
           label: "待办事项",
           value: "2",
-        }
+        },
       ],
-      value: '1',
+      value: "1",
       span: 24,
-      rules: [{
-        required: true,
-        message: '请填写消息类型',
-        trigger: 'blur'
-      }],
+      rules: [
+        {
+          required: true,
+          message: "请填写消息类型",
+          trigger: "blur",
+        },
+      ],
     },
     {
       label: "发布人",
@@ -63,54 +71,58 @@ export const option = {
     {
       label: "优先级",
       prop: "priority",
-      type: 'radio',
+      type: "radio",
       props: {
-        label: 'label',
-        value: 'value'
+        label: "label",
+        value: "value",
       },
-      dicUrl: '/admin/dict/type/priority_type',
-      value: '1',
+      dicUrl: "/admin/dict/type/priority_type",
+      value: "1",
       span: 24,
       search: true,
-      rules: [{
-        required: true,
-        message: '请填写优先级',
-        trigger: 'blur'
-      }],
+      rules: [
+        {
+          required: true,
+          message: "请填写优先级",
+          trigger: "blur",
+        },
+      ],
     },
     {
       label: "通告对象",
       prop: "noticeObj",
-      type: 'radio',
+      type: "radio",
       formslot: true,
       editDisabled: true,
       props: {
-        label: 'label',
-        value: 'value'
+        label: "label",
+        value: "value",
       },
-      dicUrl: '/admin/dict/type/notice_obj',
-      value: '1',
+      dicUrl: "/admin/dict/type/notice_obj",
+      value: "1",
       span: 24,
       search: true,
-      rules: [{
-        required: true,
-        message: '请填写通告对象',
-        trigger: 'blur'
-      }],
+      rules: [
+        {
+          required: true,
+          message: "请填写通告对象",
+          trigger: "blur",
+        },
+      ],
     },
     {
       label: "发布状态",
       prop: "status",
       addDisplay: false,
       editDisplay: false,
-      type: 'select',
+      type: "select",
       props: {
-        label: 'label',
-        value: 'value'
+        label: "label",
+        value: "value",
       },
-      dicUrl: '/admin/dict/type/release_status',
+      dicUrl: "/admin/dict/type/release_status",
       search: true,
-      value: '0',
+      value: "0",
       span: 24,
     },
     {
@@ -124,14 +136,14 @@ export const option = {
       label: "内容",
       prop: "content",
       hide: true,
-      component: 'avueUeditor',
+      component: "avueUeditor",
       options: {
         maxlength: 30,
         showWordLimit: true,
         action: "/admin/sys-file/upload",
         props: {
           res: "data",
-          url: "url"
+          url: "url",
         },
       },
       span: 24,
@@ -145,4 +157,4 @@ export const option = {
       hide: true,
     },
   ],
-}
+};

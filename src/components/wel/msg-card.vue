@@ -4,7 +4,8 @@
       {{ title }}
       <el-button type="text" icon="el-icon-more" class="more-btn" @click="toMorePage(type)">更多</el-button>
     </div>
-    <div class="list">
+    <el-empty v-if="data.length === 0" />
+    <div v-else class="list">
       <div class="list-item" v-for="(item, index) in data" :key="index">
         <div class="list-item-index">{{ index + 1 }}.</div>
         <div class="list-item-msg-container">
@@ -12,10 +13,11 @@
             {{ item.title }}
           </div>
           <div class="list-item-msg-container-time">{{ item.createTime }}</div>
-          <el-tooltip class="item" effect="dark" :content="item.status === '0' ? '标记为已处理' : '消息已处理'" placement="top">
+          <el-tooltip v-if="item.noticeObj === '2'" class="item" effect="dark"
+            :content="item.status === '0' ? '标记为已处理' : '消息已处理'" placement="top">
             <div class="list-item-msg-container-icon"><i
                 :class="item.status === '0' ? 'el-icon-message-solid no-read' : 'el-icon-message-solid read'"
-                @click="markRead(item)" />
+                @click="markRead(item)" />n
             </div>
           </el-tooltip>
         </div>
