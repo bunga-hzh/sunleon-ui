@@ -7,6 +7,7 @@
         v-model="form"
         :page.sync="page"
         :table-loading="listLoading"
+        :before-open="beforeOpen"
         :data="list"
         @on-load="getList"
         @search-change="searchChange"
@@ -42,7 +43,7 @@
         </template>
         <template slot-scope="{type,size,row,index}" slot="menu">
           <el-button icon="el-icon-s-promotion" :size="size" @click="handleRelease(row)" :type="type">{{row.isRelease =='1' ? '撤销发布':'发布'}}</el-button>
-          <el-button icon="el-icon-edit" :size="size" @click="$refs.crud.rowEdit(row,index)" :type="type">编辑</el-button>
+          <el-button icon="el-icon-edit" :size="size" @click="$refs.crud.rowEdit(row,index)" :disabled="row.isRelease =='1'" :type="type">编辑</el-button>
           <el-button icon="el-icon-delete" :size="size  " @click="handleDel(row)" :disabled="row.isRelease =='1'" :type="type">删除</el-button>
         </template>
       </avue-crud>
@@ -276,11 +277,42 @@ export default {
     currentChange(current) {
       this.page.currentPage = current
     },
+    //弹出表单前
+    beforeOpen(done,type){
+      if(type=='edit'){
+        this.form.startTime = [this.form.startTime,this.form.endTime];
+        done();
+      }else if(type=='view'){
+        this.form.startTime = [this.form.startTime,this.form.endTime];
+        done();
+      }else{
+        done()
+      }
+    },
+    dateFormat(fmt, date) {
+      let ret;
+      const opt = {
+        "Y+": date.getFullYear().toString(),        // 年
+        "m+": (date.getMonth() + 1).toString(),     // 月
+        "d+": date.getDate().toString(),            // 日
+        "H+": date.getHours().toString(),           // 时
+        "M+": date.getMinutes().toString(),         // 分
+        "S+": date.getSeconds().toString()          // 秒
+        // 有其他格式化字符需求可以继续添加，必须转化成字符串
+      };
+      for (let k in opt) {
+        ret = new RegExp("(" + k + ")").exec(fmt);
+        if (ret) {
+          fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+        };
+      };
+      return fmt;
+    },
     update(row, index, done, loading) {
       const data = {
         gwmc:this.form.postName, //岗位名称
-        jpksny:this.form.startTime[0],//竞聘开始时间
-        jpjsny:this.form.startTime[1], //竞聘结束时间
+        jpksny: this.dateFormat('YYYY-mm-dd',new Date(this.form.startTime[0])),//竞聘开始时间
+        jpjsny:this.dateFormat('YYYY-mm-dd',new Date(this.form.startTime[1])), //竞聘结束时间
         gzbmId:this.form.gzbmId, //工作部门
         gwlbId:this.form.gwlbId, //岗位类别
         gwjd:this.form.gwjd, //岗位绩点
