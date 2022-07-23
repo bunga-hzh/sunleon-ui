@@ -115,4 +115,27 @@ export default [
       },
     ],
   },
+  {
+    path: "/salary/system",
+    component: Layout,
+    redirect: "/salary/system/system-set",
+    children: [
+      {
+        path: "system-set/:id",
+        component: () =>
+          import("@/views/salary/set/system/components/system-set"),
+      },
+    ],
+  },
+  {
+    path: "/salary/type",
+    component: Layout,
+    redirect: "/salary/type/type-set",
+    children: [
+      {
+        path: "type-set/:id",
+        component: () => import("@/views/salary/set/type/components/type-set"),
+      },
+    ],
+  },
 ];

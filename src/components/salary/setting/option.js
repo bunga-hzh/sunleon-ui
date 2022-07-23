@@ -1,0 +1,95 @@
+import constants from "@/const/crud/salary/constants";
+
+export const option = {
+  align: "center",
+  border: true,
+  dialogWidth: "40%",
+  columnBtn: false,
+  menuWidth: 360,
+  searchSpan: 7,
+  searchMenuSpan: 4,
+  column: [
+    {
+      type: "input",
+      label: "名称",
+      span: 24,
+      display: true,
+      prop: "name",
+      maxlength: 100,
+      search: true,
+      required: true,
+      rules: [
+        {
+          required: true,
+          message: "名称必须填写",
+        },
+      ],
+    },
+    {
+      type: "daterange",
+      label: "起止时间",
+      span: 24,
+      display: true,
+      format: "yyyy-MM-dd",
+      valueFormat: "yyyy-MM-dd",
+      startPlaceholder: "开始时间",
+      endPlaceholder: "结束时间",
+      prop: "startTime",
+      required: true,
+      slot: true,
+      rules: [
+        {
+          required: true,
+          message: "起止时间必须填写",
+        },
+      ],
+    },
+    // {
+    //   type: "date",
+    //   label: "开始时间",
+    //   display: false,
+    //   format: "yyyy-MM-dd",
+    //   valueFormat: "yyyy-MM-dd",
+    //   prop: "startTime",
+    //   disabled: true,
+    // },
+    // {
+    //   type: "date",
+    //   label: "结束时间",
+    //   display: false,
+    //   format: "yyyy-MM-dd",
+    //   valueFormat: "yyyy-MM-dd",
+    //   prop: "endTime",
+    //   disabled: true,
+    // },
+    {
+      type: "select",
+      label: "使用状态",
+      span: 24,
+      display: true,
+      prop: "status",
+      display: false,
+      slot: true,
+      search: true,
+      dicData: [
+        {
+          label: "启用",
+          value: constants.OPEN_STATUS,
+        },
+        {
+          label: "停用",
+          value: constants.OFF_STATUS,
+        },
+      ],
+    },
+    {
+      type: "date",
+      label: "创建时间",
+      display: false,
+      format: "yyyy-MM-dd HH:mm:ss",
+      valueFormat: "yyyy-MM-dd HH:mm:ss",
+      prop: "createTime",
+      disabled: true,
+    },
+  ],
+};

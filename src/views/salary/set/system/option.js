@@ -1,0 +1,66 @@
+export const option = {
+  align: "center",
+  border: true,
+  searchMenuSpan: 4,
+  searchSpan: 7,
+  viewBtn: true,
+  menuWidth: 300,
+  column: [
+    {
+      type: "input",
+      label: "体系名称",
+      span: 12,
+      display: true,
+      prop: "structName",
+      maxlength: 100,
+      required: true,
+      rules: [
+        {
+          required: true,
+          message: "体系名称必须填写",
+        },
+      ],
+      search: true,
+    },
+    {
+      type: "select",
+      label: "适用岗位",
+      span: 12,
+      display: true,
+      prop: "sygw",
+      rules: [
+        {
+          required: true,
+          message: "请选择适用岗位",
+        },
+      ],
+      cascaderItem: [],
+      props: {
+        label: "label",
+        value: "value",
+      },
+      dicUrl: "/admin/dict/type/sal_person_type",
+      required: true,
+      search: true,
+    },
+    {
+      type: "textarea",
+      label: "描述",
+      span: 24,
+      display: true,
+      prop: "detail",
+      maxlength: 200,
+      showWordLimit: true,
+    },
+    {
+      type: "datetime",
+      label: "创建时间",
+      span: 24,
+      display: false,
+      format: "yyyy-MM-dd HH:mm:ss",
+      valueFormat: "yyyy-MM-dd HH:mm:ss",
+      prop: "createTime",
+      disabled: true,
+    },
+  ],
+};
