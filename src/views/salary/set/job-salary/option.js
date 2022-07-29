@@ -1,3 +1,6 @@
+import { rule } from "@/util/validateRules"
+import constants from "@/const/crud/salary/constants"
+
 export const option = {
   align: "center",
   border: true,
@@ -21,21 +24,22 @@ export const option = {
       ],
     },
     {
-      type: "number",
       label: "薪资标准",
-      controls: true,
-      span: 24,
-      display: true,
       prop: "standard",
-      minRows: 0,
-      maxRows: 999999999999999,
+      type: "number",
+      span: 24,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "薪资标准必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -46,8 +50,8 @@ export const option = {
       span: 24,
       display: true,
       prop: "sort",
-      minRows: 0,
-      maxRows: 999999999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 1,
       controlsPosition: "right",
       required: true,
@@ -59,4 +63,4 @@ export const option = {
       ],
     },
   ],
-};
+}

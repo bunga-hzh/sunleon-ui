@@ -2,22 +2,42 @@
   <el-card shadow="hover">
     <div class="title-container">
       {{ title }}
-      <el-button type="text" icon="el-icon-more" class="more-btn" @click="toMorePage(type)">更多</el-button>
+      <el-button
+        type="text"
+        icon="el-icon-more"
+        class="more-btn"
+        @click="toMorePage(type)"
+        >更多</el-button
+      >
     </div>
     <el-empty v-if="data.length === 0" />
     <div v-else class="list">
       <div class="list-item" v-for="(item, index) in data" :key="index">
         <div class="list-item-index">{{ index + 1 }}.</div>
         <div class="list-item-msg-container">
-          <div class="list-item-msg-container-title" @click="toDetailsPage(item)">
+          <div
+            class="list-item-msg-container-title"
+            @click="toDetailsPage(item)"
+          >
             {{ item.title }}
           </div>
           <div class="list-item-msg-container-time">{{ item.createTime }}</div>
-          <el-tooltip v-if="item.noticeObj === '2'" class="item" effect="dark"
-            :content="item.status === '0' ? '标记为已处理' : '消息已处理'" placement="top">
-            <div class="list-item-msg-container-icon"><i
-                :class="item.status === '0' ? 'el-icon-message-solid no-read' : 'el-icon-message-solid read'"
-                @click="markRead(item)" />n
+          <el-tooltip
+            v-if="item.noticeObj === '2'"
+            class="item"
+            effect="dark"
+            :content="item.status === '0' ? '标记为已处理' : '消息已处理'"
+            placement="top"
+          >
+            <div class="list-item-msg-container-icon">
+              <i
+                :class="
+                  item.status === '0'
+                    ? 'el-icon-message-solid no-read'
+                    : 'el-icon-message-solid read'
+                "
+                @click="markRead(item)"
+              />
             </div>
           </el-tooltip>
         </div>
@@ -43,7 +63,7 @@ export default {
     }
   },
   methods: {
-    markRead(item) {
+    markRead (item) {
       if (item.status !== "0") return this.$notify.warning('消息已处理')
       this.$confirm('是否标记为已处理?', '提示', {
         confirmButtonText: '确定',
@@ -59,18 +79,18 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消操作'
-        });
-      });
+        })
+      })
     },
-    async toDetailsPage(item) {
+    async toDetailsPage (item) {
       if (item.moduleUrl !== null) {
         this.$router.push(item.moduleUrl)
       } else {
         this.$router.push(`/notice/index/${item.mid}`)
       }
     },
-    toMorePage(type) {
-      this.$router.push({ path: "/admin/notice/myMassage", query: { type: type } });
+    toMorePage (type) {
+      this.$router.push({ path: "/admin/notice/myMassage", query: { type: type } })
     }
   }
 }
@@ -116,7 +136,8 @@ export default {
     &-msg-container {
       width: 100%;
       font-size: 14px;
-      font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+      font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
       display: flex;
       justify-content: space-between;
 
@@ -146,6 +167,7 @@ export default {
 
       &-icon {
         flex: 1;
+        margin-top: 4px;
       }
     }
   }
@@ -162,7 +184,7 @@ export default {
 
   /* 滚动条上的滚动滑块 */
   &::-webkit-scrollbar-thumb {
-    background-color: #56BF99;
+    background-color: #56bf99;
     border-radius: 32px;
     width: 20px;
   }
@@ -175,15 +197,15 @@ export default {
 }
 
 .read {
-  color: #56BF99;
+  color: #56bf99;
 }
 
 .no-read {
-  color: #F56C6C,
+  color: #f56c6c;
 }
 
 .list-item-msg-container-title:hover {
   cursor: pointer;
-  color: #56BF99;
+  color: #56bf99;
 }
 </style>

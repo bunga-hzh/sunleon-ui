@@ -31,20 +31,20 @@
 </template>
 
 <script>
-import Setting from "@/components/salary/setting/index";
-import constants from "@/const/crud/salary/constants";
-import { option } from "./option";
-import { mapGetters } from "vuex";
+import Setting from "@/components/salary/setting/index"
+import constants from "@/const/crud/salary/constants"
+import { option } from "./option"
+import { mapGetters } from "vuex"
 import {
   fetchList,
   addObj,
   putObj,
   delObj,
   getDict,
-} from "@/api/salary/commonApi";
+} from "@/api/salary/commonApi"
 
 export default {
-  data() {
+  data () {
     return {
       activeName: null,
       type: constants.SUBSIDY,
@@ -58,11 +58,11 @@ export default {
       showLoading: false,
       personTypeArr: [],
       rowId: null,
-    };
+    }
   },
   computed: {
     ...mapGetters(["permissions"]),
-    permissionList() {
+    permissionList () {
       return {
         addBtn: this.vaildData(this.permissions.sal_salsettingitem_add, false),
         delBtn: this.vaildData(this.permissions.sal_salsettingitem_del, false),
@@ -70,15 +70,15 @@ export default {
           this.permissions.sal_salsettingitem_edit,
           false
         ),
-      };
+      }
     },
   },
   components: {
     Setting,
   },
   methods: {
-    async getList() {
-      this.showLoading = true;
+    async getList () {
+      this.showLoading = true
       const { data: res } = await fetchList(
         "settingsubsidy",
         Object.assign(
@@ -91,75 +91,80 @@ export default {
             personTypeId: this.activeName,
           }
         )
-      );
-      if (res.code != 0) return this.$message.error(res.msg);
-      this.page.total = res.data.total;
-      this.data = res.data.records;
-      this.showLoading = false;
+      )
+      if (res.code != 0) return this.$message.error(res.msg)
+      this.page.total = res.data.total
+      this.data = res.data.records
+      this.showLoading = false
     },
-    handleClick(tab, event) {
-      this.getList();
+    handleClick (tab, event) {
+      this.getList()
     },
-    getRowId(id) {
-      this.rowId = id;
-      // this.getList();
+    getRowId (id) {
+      this.rowId = id
+      this.getList()
+      this.activeName = this.personTypeArr[0].value
     },
-    onLoad() {
-      this.getList();
+    onLoad () {
+      this.getList()
     },
-    refreshChange() {
-      this.getList();
+    refreshChange () {
+      this.getList()
     },
-    async rowSave(form, done, loading, id) {
+    async rowSave (form, done, loading, id) {
       const obj = {
         ...form,
         settingId: this.rowId,
         personTypeId: this.activeName,
-      };
-      const { data: res } = await addObj("settingsubsidy", obj);
-      if (res.code != 0) return this.$message.error(res.msg);
-      this.$message.success("添加成功！");
-      this.getList();
-      done();
+      }
+      const { data: res } = await addObj("settingsubsidy", obj)
+      if (res.code != 0) return this.$message.error(res.msg)
+      this.$message.success("添加成功！")
+      this.getList()
+      done()
     },
-    async rowUpdate(form, index, done, loading) {
-      const obj = {
-        ...form,
-        settingId: this.rowId,
-        personTypeId: this.activeName,
-      };
-      const { data: res } = await putObj("settingsubsidy", obj);
-      if (res.code != 0) return this.$message.error(res.msg);
-      this.$message.success("修改成功！");
-      done(obj);
+    rowUpdate (form, index, done, loading) {
+      this.$confirm('修改后原本使用该数据的不受影响！是否修改？')
+        .then(async _ => {
+          const obj = {
+            ...form,
+            settingId: this.rowId,
+            personTypeId: this.activeName,
+          }
+          const { data: res } = await putObj("settingsubsidy", obj)
+          if (res.code != 0) return this.$message.error(res.msg)
+          this.$message.success("修改成功！")
+          done(obj)
+        })
+        .catch(_ => { })
     },
-    async rowDel(form, index) {
+    async rowDel (form, index) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(async () => {
-          const { data: res } = await delObj("settingsubsidy", form.id);
+          const { data: res } = await delObj("settingsubsidy", form.id)
           if (res.code !== 0)
-            return this.$message.error("删除失败！" + res.msg);
+            return this.$message.error("删除失败！" + res.msg)
           this.$message({
             type: "success",
             message: "删除成功!",
-          });
-          this.refreshChange();
+          })
+          this.refreshChange()
         })
-        .catch(() => {});
+        .catch(() => { })
     },
-    async getPersonType() {
-      const { data: res } = await getDict("sal_person_type");
-      if (res.code != 0) return this.$message.error(res.msg);
-      this.personTypeArr = res.data;
-      this.activeName = res.data[0].value;
+    async getPersonType () {
+      const { data: res } = await getDict("sal_person_type")
+      if (res.code != 0) return this.$message.error(res.msg)
+      this.personTypeArr = res.data
+      this.activeName = res.data[0].value
     },
   },
-  created() {
-    this.getPersonType();
+  created () {
+    this.getPersonType()
   },
 };
 </script>

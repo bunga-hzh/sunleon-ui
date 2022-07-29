@@ -1,10 +1,10 @@
 <template>
   <div class="home_container">
     <el-row :gutter="20">
-      <el-col :span="12">
+      <el-col :md="12" :sm="12" :xs="24">
         <Todone />
       </el-col>
-      <el-col :span="12">
+      <el-col :md="12" :sm="12" :xs="24">
         <SysMsg />
       </el-col>
     </el-row>
@@ -29,7 +29,7 @@ export default {
     Todone,
     SysMsg
   },
-  data() {
+  data () {
     return {
       iconList: [
         {

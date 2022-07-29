@@ -1,3 +1,6 @@
+import { rule } from "@/util/validateRules"
+import constants from "@/const/crud/salary/constants"
+
 export const option = {
   align: "center",
   border: true,
@@ -28,15 +31,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "fourAndFollowing",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "4年以下必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -47,15 +53,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "fiveToNine",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "5-9年必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -66,15 +75,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "tenToFourteen",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "10-14年必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -85,15 +97,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "fifteenToNineteen",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "15-19年必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -104,15 +119,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "twentyToTwentyFour",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "20-24年必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -123,15 +141,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "twentyFiveToTwentyNine",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "25-29年必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -142,15 +163,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "thirtyToThirtyFour",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "30-34年必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -161,15 +185,18 @@ export const option = {
       span: 12,
       display: true,
       prop: "thirtyFiveAndAbove",
-      minRows: 0,
-      maxRows: 9999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 0.01,
-      controlsPosition: "right",
-      required: true,
       rules: [
         {
           required: true,
           message: "35年及以上必须填写",
+          trigger: 'blur'
+        },
+        {
+          validator: rule.validMoney,
+          trigger: 'blur'
         },
       ],
     },
@@ -180,8 +207,8 @@ export const option = {
       span: 24,
       display: true,
       prop: "sort",
-      minRows: 0,
-      maxRows: 999999999999999,
+      min: 0,
+      max: constants.MAX_VALUE,
       step: 1,
       controlsPosition: "right",
       required: true,
@@ -193,4 +220,4 @@ export const option = {
       ],
     },
   ],
-};
+}
